@@ -1,0 +1,426 @@
+AppleCare+ for iPhone
+How Consumer Rights Affect this Plan
+FOR CONSUMERS IN JURISDICTIONS WHO HAVE THE BENEFIT OF CONSUMER PROTECTION LAWS OR
+REGULATIONS, THE BENEFITS CONFERRED BY THE ABOVE MENTIONED PLAN ARE IN ADDITION TO ALL
+RIGHTS AND REMEDIES PROVIDED UNDER SUCH LAWS AND REGULATIONS. NOTHING IN THIS PLAN
+SHALL PREJUDICE CONSUMER RIGHTS GRANTED BY APPLICABLE MANDATORY LAWS, INCLUDING
+CONSUMER’S RIGHT TO THE REMEDIES UNDER STATUTORY WARRANTY LAW AND TO SEEK DAMAGES IN
+THE EVENT OF TOTAL OR PARTIAL NON-PERFORMANCE OR INADEQUATE PERFORMANCE BY APPLE OF
+ANY OF ITS CONTRACTUAL OBLIGATIONS.
+1. The Plan. This service contract governs the hardware service and technical support provided to you
+by Apple under the above-mentioned plan (the “Plan”) for an iPhone and the accessories contained in its
+original packaging (“Covered iPhone”) listed on your proof of coverage document (“Plan Confirmation”).
+2. When Coverage Begins and Ends.
+Coverage begins when you purchase the Plan. Coverage ends twenty-four (24) months from the date of
+retail purchase of your original iPhone (“Plan Term”). Your Plan Confirmation will be provided to you at
+or about the time of purchase or sent to you automatically thereafter. The terms of this Plan, the original
+sales receipt for your Plan and the Plan Confirmation are each part of your service contract. To obtain a
+copy of your Plan Confirmation, follow the instructions and enter your iPhone's serial number at
+www.apple.com/support/applecare/view. You can find the price of the Plan on the original sales receipt.
+The hardware service, accidental damage from handling coverage and technical support coverage which
+the Plan provides is additional to the coverage which the manufacturer’s hardware warranty and
+complimentary technical support provide.
+3. What is Covered?
+3.1 Hardware Service
+If during the Plan Term, you submit a valid claim by notifying Apple that (i) a defect in materials and
+workmanship has arisen in the Covered iPhone or, (ii) the capacity of the Covered iPhone’s battery to
+hold an electrical charge has depleted fifty (50%) percent or more from its original specifications, Apple
+will either (a) repair the defect at no charge, using new or refurbished parts that are equivalent to new in
+performance and reliability, or (b) exchange the Covered iPhone with a replacement product that is new
+or equivalent to new in performance and reliability, and is at least functionally equivalent to the original
+product. If Apple exchanges the Covered iPhone, the original product becomes Apple’s property and
+the replacement product is your property, with coverage for the remaining period of the Plan.
+3.2 Accidental Damage from Handling
+If during the Plan Term you submit a valid claim notifying Apple that the Covered iPhone has failed due
+to accidental damage from handling (“ADH”), Apple will subject to the service fee described below either
+(i) repair the defect using new or refurbished parts that are equivalent to new in performance and
+reliability, or (ii) exchange the Covered iPhone with a replacement product that is new or equivalent to
+new in performance and reliability, and is at least functionally equivalent to the original product (both
+individually known as a “Service Event”). ADH coverage will expire and all of Apple’s obligations to
+you under this section 3.2 will be fulfilled in its entirety before the end of the Plan Term when
+Apple, as a result of ADH claims, has provided to you two (2) Service Events. ADH coverage only
+applies to an operational or mechanical failure caused by an accident from handling that is the result of
+an unexpected and unintentional external event (e.g., drops and liquid contact) that arises from your
+normal daily usage of the Covered iPhone as intended for such Covered iPhone. ADH coverage does not
+include (a) protection against normal wear and tear, theft, misplacement, reckless, abusive, willful or
+intentional conduct associated with handling and use of the Covered iPhone, (b) protection against any
+other act or result not covered by the Plan, as described in Section 4.2 below, or (c) any resultant
+damage to the Covered iPhone that arises from one or more conditions described in Section 3.2(a) or (b).
+You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim, and may be asked
+to provide an explanation of where and when the accident occurred with a detailed description of the
+actual event. A claim will be denied if you fail to pay the service fee or fail to provide information relating
+to the accident when asked.
+3.3 Technical Support
+During the Plan Term, Apple will provide you with access to telephone and web-based technical support
+resources. Your complimentary technical support ends ninety (90) days after the Covered iPhone’s date
+of original purchase. Technical support may include assistance with installation, launch, configuration,
+troubleshooting, and recovery (except for data recovery), including storing, retrieving, and managing
+files; interpreting system error messages; and determining when hardware service is required or ADH
+coverage may be applicable. Apple will provide support for the then-current version of the supported
+software, and the prior Major Release. For purposes of this section, the term "Major Release" means a
+significant version of software that is commercially released by Apple in a release number format such as
+"1.0" or "2.0" and which is not in beta or pre-release form. The scope of technical support which will be
+provided to you will vary based on your Plan.
+3.4 Scope of Technical Support
+Under the Plan, Apple will provide technical support for the Covered iPhone, operating system (“iOS”)
+and software applications that are pre-installed with the Covered iPhone (both referred to as "Consumer
+Software") and connectivity issues between the Covered iPhone and a Supported Computer. For
+purposes of this section, the term “Supported Computer” means a computer that meets the Covered
+iPhone’s connectivity specifications and runs an operating system that is supported by the Covered
+iPhone.
+4. What is not Covered?
+4.1 Hardware Service and ADH Coverage Area. Apple may restrict hardware service and ADH coverage
+to the Covered iPhone’s original Country of Purchase.
+4.2 Hardware Coverage and ADH Coverage.
+(i) The Plan does not apply to installation, removal or disposal of the Covered iPhone, or provision of
+equipment while the Covered iPhone is being serviced.
+(ii) The Plan does not apply to damage caused by (a) a product that is not the Covered iPhone, (b)
+abuse, misuse, fire, earthquake or other external causes except as described in section 3.2 above, (c)
+operating the Covered iPhone outside the permitted or intended uses described by the
+manufacturer, or (d) service (including upgrades and expansions) if such was performed by anyone
+who is not a representative of Apple or an Apple Authorized Service Provider (“AASP”).
+(iii) The Plan does not apply to an iPhone with a serial number that has been altered, defaced or
+removed, or has been modified to alter its functionality or capability without the written permission
+of the manufacturer.
+(iv) The Plan does not apply to a Covered iPhone that has been lost or stolen. This Plan only covers a
+Covered iPhone that is returned to Apple in its entirety.
+(v) The Plan does not apply to cosmetic damage to the Covered iPhone, including but not limited to
+scratches and dents, that do not otherwise affect the functionality of the Covered iPhone.
+(vi) The Plan does not apply to preventative maintenance on the Covered iPhone;
+(vii) The Plan does not apply to defects caused by normal wear and tear or which is otherwise due to
+normal aging of the product.
+(viii) The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased
+the Plan after you purchased the Covered iPhone.
+Important: Do not open the Covered iPhone. Opening the Covered iPhone may cause damage
+that is not covered by this Plan. Only Apple or an authorized service provider should perform
+service on the Covered iPhone.
+4.3 Technical Support. The Plan does not include Technical Support in respect to:
+(i) Your use of the iOS and Consumer Software as server-based applications;
+(ii) Issues that could be resolved by upgrading software to the then current version;
+(iii) Third-party products or their effects on or interactions with the Covered iPhone, the iOS or Consumer
+Software;
+(iv) Your use of a computer or operating system that is not related to Consumer Software or to
+connectivity issues with the Covered iPhone;
+(v) Apple software other than the iOS or Consumer Software, as covered under the Plan;
+(vi) iOS software or any Apple-branded software designated as “beta”, “prerelease,” or “preview” or
+similarly labeled software; or
+(vii) Damage to, or loss of any software or data that was residing or recorded on the Covered iPhone.
+The Plan does not cover the recovery or reinstallation of software programs and user data.
+5. How to Obtain Service and Support?
+You may obtain hardware services, which include those relating to ADH coverage, and technical support.
+To obtain such services or support, you can access the Apple website
+(www.apple.com/support/country/) or call the telephone number listed below. If you call, you will need
+to give the Apple technical support representative who answers your call the Plan Agreement Number
+or Covered iPhone serial number for your iPhone before you can receive assistance. You need to keep
+your Plan Confirmation document and the original sales receipt for your Covered iPhone and your Plan,
+as it will be required if there is any question as to your Covered iPhone’s eligibility for coverage.
+6. Service Options.
+6.1 Apple will provide hardware services to you through one or more of these options:
+(i) Carry-in service. Carry-in service is available for most Covered iPhone products. Return the Covered
+iPhone to an Apple-owned retail store location or to an AASP that offers carry-in service. Service will be
+performed for you at the store, or the store may send the Covered iPhone to an Apple repair service
+(“ARS”) site to be repaired. Once you are notified that service is complete, you will promptly retrieve the
+Covered iPhone.
+(ii) Mail-in service. Direct mail-in service is available for most Covered iPhone products. If Apple
+determines that your Covered iPhone is eligible for mail-in service, Apple will send you prepaid way bills
+(and if you no longer have the original packaging, packaging material) and you will ship the Covered
+iPhone to an ARS site in accordance with Apple’s instructions. Once service is complete, the ARS site will
+return the Covered iPhone to you. Apple will pay for shipping to and from your location if you follow all
+instructions.
+(iii) Express replacement or do-it-yourself (“DIY”) parts service. Express replacement is available for
+certain Covered iPhone products. DIY parts service is available for many Covered iPhone parts or
+accessories, and this will allow you to service your own Covered iPhone. If express replacement or DIY
+parts service is available in the circumstances, the following process will apply.
+(a) Service where Apple requires return of the replaced Covered iPhone or part. Apple may require a
+credit card authorization to serve as security for the retail price of the replacement Covered iPhone or
+part and applicable shipping costs. If you are not able to provide credit card authorization, service may
+not be available to you and Apple will offer an alternative arrangement for service. Apple will ship a
+replacement iPhone or part to you with installation instructions, if such are applicable, and any
+requirements for the return of the replaced Covered iPhone or part. If you follow the instructions, Apple
+will cancel the credit card authorization, so you will not be charged for the Covered iPhone or part and
+shipping to and from your location. If you fail to return the replaced Covered iPhone or part as
+instructed or return a replaced Covered iPhone or part that is ineligible for service, Apple will charge the
+credit card for the authorized amount.
+(b) Service where Apple does not require return of the replaced product or part. Apple will ship you free
+of charge a replacement product or part accompanied by instructions on installation, if applicable, and
+any requirements for the disposal of the replaced product or part.
+(c) Apple is not responsible for any labor costs you incur in respect to express replacement or DIY parts
+service. Should you require further assistance, you should contact Apple at the telephone number listed
+below.
+6.2 Apple reserves the right to change the method by which Apple may provide repair or replacement
+service to you, and your Covered iPhone’s eligibility to receive a particular method of service. Service will
+be limited to the options available in the country where you request service. Service options, parts
+availability and response times may vary according to country. You may be responsible for shipping and
+handling charges if the Covered iPhone cannot be serviced in the country it is in. If you seek service in a
+country that is not the country of purchase, you will comply with all applicable import and export laws
+and regulations and be responsible for all custom duties, V.A.T. and other associated taxes and charges.
+For international service, Apple may repair or exchange products and parts with comparable products
+and parts that comply with local standards.
+7. Your Responsibilities
+To receive service or support under the Plan, you agree to comply with each of the terms listed below.
+(i) You will provide your Plan Agreement Number and a copy of your Plan’s original proof of purchase, if
+requested.
+(ii) You will provide information about the symptoms and causes of the issues with the Covered iPhone.
+(iii) You will respond to requests for information, including but not limited to the Covered iPhone serial
+number, model, version of the operating system and software installed, any peripherals devices
+connected or installed on the Covered iPhone, any error messages displayed, the actions which were
+taken before the Covered iPhone experienced the issue and the steps taken to resolve the issue.
+(iv) You will follow instructions Apple gives you, including but not limited to refraining from sending
+Apple products and accessories that are not subject to repair or replacement service and packing the
+Covered iPhone in accordance with shipping instructions.
+(v) You will update software to currently published releases prior to seeking service.
+(vi) You will make sure to backup software and data residing on the Covered iPhone. DURING
+HARDWARE SERVICE, APPLE WILL DELETE THE CONTENTS OF THE COVERED iPHONE AND REFORMAT THE
+STORAGE MEDIA. Apple will return your Covered iPhone or provide a replacement as the Covered
+iPhone was originally configured, subject to applicable updates. Apple may install iOS updates as part of
+hardware service that will prevent the Covered iPhone from reverting to an earlier version of the iOS.
+Third party applications installed on the Covered iPhone may not be compatible or work with the iPhone
+as a result of the iOS update. You will be responsible for reinstalling all other software programs, data
+and passwords.
+8. Limitation of Liability
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, APPLE AND ITS EMPLOYEES AND AGENTS
+WILL UNDER NO CIRCUMSTANCES BE LIABLE TO YOU OR ANY SUBSEQUENT OWNER OF THE COVERED
+iPHONE FOR ANY INDIRECT OR CONSEQUENTIAL DAMAGES, INCLUDING BUT NOT LIMITED TO COSTS OF
+RECOVERING, REPROGRAMMING, OR REPRODUCING ANY PROGRAM OR DATA OR THE FAILURE TO
+MAINTAIN THE CONFIDENTIALITY OF DATA, ANY LOSS OF BUSINESS, PROFITS, REVENUE OR ANTICIPATED
+SAVINGS, RESULTING FROM APPLE’S OBLIGATIONS UNDER THIS PLAN. TO THE MAXIMUM EXTENT
+PERMITTED BY APPLICABLE LAW, THE LIMIT OF APPLE AND ITS EMPLOYEES AND AGENT’S LIABILITY TO
+YOU AND ANY SUBSEQUENT OWNER ARISING UNDER THE PLAN SHALL NOT EXCEED THE ORIGINAL
+PRICE PAID FOR THE PLAN. APPLE SPECIFICALLY DOES NOT WARRANT THAT (i) IT WILL BE ABLE TO
+REPAIR OR REPLACE COVERED iPHONE WITHOUT RISK TO OR LOSS OF PROGRAMS OR DATA, (ii) IT WILL
+MAINTAIN THE CONFIDENTIALITY OF DATA, OR (iii) THAT THE OPERATION OF THE PRODUCT WILL BE
+UNINTERRUPTED OR ERROR-FREE.
+FOR CONSUMERS IN JURISDICTIONS WHO HAVE THE BENEFIT OF CONSUMER PROTECTION LAWS OR
+REGULATIONS, THE BENEFITS CONFERRED BY THIS PLAN ARE IN ADDITION TO ALL RIGHTS AND
+REMEDIES PROVIDED UNDER SUCH LAWS AND REGULATIONS. TO THE EXTENT THAT LIABILITY UNDER
+SUCH LAWS AND REGULATIONS MAY BE LIMITED, APPLE’S LIABILITY IS LIMITED, AT ITS SOLE OPTION, TO
+REPLACE OR REPAIR OF THE COVERED iPHONE OR SUPPLY OF THE SERVICE. SOME STATES OR
+PROVINCES DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL
+DAMAGES, SO SOME OR ALL OF THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU.
+9. Cancellation
+You may cancel this Plan at any time for any reason. If you decide to cancel this Plan, you may call Apple
+at the telephone number below to do so, or you may send or fax written notice with your Plan
+Agreement Number to AppleCare Administration, P.O. Box 149125, Austin, TX 78714-9125, U.S. (fax
+number 916-405-3973). You must send a copy of the Plan’s original proof of purchase with your notice.
+Unless local law provides otherwise, if you cancel within thirty (30) days of your Plan’s purchase, or
+receipt of this Plan, whichever occurs later, you will receive a full refund less the value of any service
+provided under the Plan. If you cancel more than thirty (30) days after your receipt of this Plan, you will
+receive a pro rata refund of the original purchase price, based on the percentage of unexpired Plan Term
+from the Plan’s date of purchase, less (a) a cancellation fee of twenty-five ($25) dollars or ten percent
+(10%) of the pro-rata amount, whichever is less, and (b) the value of any service provided to you under
+the Plan. Unless applicable local law provides otherwise, Apple may cancel this Plan for fraud or material
+misrepresentation. Unless applicable local law provides otherwise, Apple may also cancel this Plan if
+service parts for the Covered iPhone are not available, upon thirty (30) days prior written notice. If Apple
+cancels this Plan for the unavailability of service parts, you will receive a pro-rata refund for the Plan’s
+unexpired term.
+10. Transfer of Plan
+Subject to the restrictions set forth below, you may make a one-time permanent transfer of all of your
+rights under the Plan to another party, provided that: (a) the transfer includes the original proof of
+purchase, the Plan's Confirmation and all of the Plan's printed materials and these Terms and Conditions;
+(b) you notify Apple of the transfer by sending, faxing or e-mailing notice of transfer to Apple Inc., ATTN:
+Agreement Administration, MS: 217-AC, 2511 Laguna Blvd, Elk Grove, CA 95758, U.S., fax number 916-
+405-3655 or agmts_transfer@apple.com, respectively, and (c) the party receiving the Plan accepts the
+terms and conditions of the Plan. When notifying Apple of the transfer of the Plan, you must provide the
+Plan Agreement Number, the serial number of the Covered iPhone being transferred, and the name,
+address, telephone number and email address of the new owner.
+11. General Terms
+(i) Apple may subcontract or assign performance of its obligations to third parties but shall not be
+relieved of its obligations to you in doing so.
+(ii) Apple is not responsible for any failures or delays in performing under the Plan that are due to events
+outside Apple’s reasonable control.
+(iii) You are not required to perform preventative maintenance on the Covered iPhone to receive service
+under the Plan.
+(iv) This Plan is offered and valid only in the fifty states of the United States of America and the District of
+Columbia and all provinces and territories of Canada. This Plan is not offered to persons who have not
+reached the age of majority. This Plan may not be available in all states of the United Sates and in all
+provinces and territories of Canada, and is not available where prohibited by law.
+(v) In carrying out its obligations Apple may, at its discretion and solely for the purposes of monitoring
+the quality of Apple’s response, record part or all of the calls between you and Apple.
+(vi) You agree that any information or data disclosed to Apple under this Plan is not confidential or
+proprietary to you. Furthermore, you agree that Apple may collect and process data on your behalf
+when it provides service. This may include transferring your data to affiliated companies or service
+providers in accordance with the Apple Customer Privacy Policy.
+(vii) Apple has security measures, which should protect your data against unauthorized access or
+disclosure as well as unlawful destruction. You will be responsible for the instructions you give to Apple
+regarding the processing of data, and Apple will seek to comply with those instructions as reasonably
+necessary for the performance of the service and support obligations under the Plan. If you do not agree
+with the above or if you have questions regarding how your data may be impacted by being processed
+in this way, contact Apple at the telephone numbers provided.
+(viii) Apple will protect your information in accordance with Apple Customer Privacy Policy available
+at www.apple.com/legal/warranty/privacy/. If you wish to have access to the information that Apple
+holds concerning you or if you want to make changes, access URL www.apple.com/contact/myinfo
+to update your personal contact preferences or you may contact Apple at URL
+www.apple.com/privacy/contact.
+(ix) The terms of the Plan, including the original sales receipt of the Plan and the Plan Confirmation, shall
+prevail over any conflicting, additional, or other terms of any purchase order or other document, and
+constitute your and Apple’s entire understanding with respect to the Plan.
+(x) Apple is not obligated to renew this Plan. If Apple does offer to renew this Plan, it will determine the
+price and terms.
+(xi) There is no informal dispute settlement process available under this Plan.
+(xii) For Plans sold in the United States, “Apple” is AppleCare Service Company, Inc., an Arizona
+corporation with its registered office at c/o CT Corporation System, 2394 East Camelback Road, Phoenix,
+Arizona 85016, doing business in the state of Texas as Apple CSC, Inc., and the obligations of such Plans
+are backed by the full faith and credit of the provider, AppleCare Service Company, Inc. For Plans sold in
+Canada, “Apple” is Apple Canada Inc., with offices at 7495 Birchmount Road, Markham, Ontario, L3R 5G2,
+Canada. Apple Canada Inc. is the legal and financial obligor for Plans sold in Canada.
+(xiii) The Administrator is Apple Inc. (the “Administrator” TDLR Lic. #300), a California corporation with its
+registered office at 1 Infinite Loop, Cupertino, California 95014. The Administrator is responsible for the
+collection and transfer to AppleCare Service Company, Inc. of the purchase price for the Plan and for the
+administration of claims under the Plan.
+(xiv) Except where prohibited by law, the laws of the State of California govern Plans purchased in the
+United States. Except where prohibited by law, the laws of the province of Ontario govern Plans
+purchased in Canada. If the laws of any jurisdiction where this Plan is purchased are inconsistent with
+these terms, including the jurisdictions of Arizona, Florida, Georgia, Nevada, Oregon, Vermont,
+Washington, Wisconsin and Wyoming, the laws of that jurisdiction will control.
+(xv) Support services under this Plan may be available in English and French only.
+12. Country, Province and State Variations
+One or more of the terms that appear below may apply to the Plan. The terms below may vary from one
+or more of the terms that appear above this section. The following country, province or state variations
+will control if inconsistent with any other provisions of this Plan:
+12.1 Canada
+In Canada, the service fee for each ADH Claim as described in section 3.2 is forty-nine (CDN$49)
+Canadian dollars plus applicable tax, and the cancellation fee described in section 9 is twenty-five
+(CDN$25) Canadian dollars or ten percent (10%) of the pro-rata amount, whichever is less.
+Quebec Residents
+The laws of the Province of Quebec will govern this Plan and any disputes arising under it. The section
+“Limitation of Liability” is not applicable to residents of Quebec.
+12.2 United States
+Alabama, California, Hawaii, Maryland, Minnesota, Missouri, New Mexico, Nevada, New York, South
+Carolina, Texas, Washington and Wyoming Residents. If you purchased the Plan in one of these states,
+this term applies to the Plan.
+If you cancel this Plan pursuant to these terms and conditions, and we fail to refund the purchase price
+to you within thirty (30) days for California, New York, Missouri and Washington residents, within fortyfive
+(45) days for Alabama, Hawaii, Maryland, Minnesota, Nevada, South Carolina, Texas and Wyoming
+residents, and within sixty (60) days for New Mexico residents, we are required to pay you a penalty of
+10% per month for the unpaid amount due and owing to you. The right to cancel and receive this
+penalty payment only applies to the original owner of the Agreement and may not be transferred or
+assigned. The obligations of the provider under this service contract are backed by the full faith and
+credit of the provider, AppleCare Service Company, Inc.
+California Residents. If you purchased the Plan in this state, this term applies to the Plan.
+If you cancel this Plan within thirty (30) days of your Plan receipt, you will receive a full refund less the
+value of any service provided under the Plan.
+Colorado Residents. If you purchased the Plan in this state, this term applies to the Plan.
+Notice: This Plan is subject to the Colorado Consumer Protection Act or the Unfair Practices Act, Articles
+1 and 2 of Title 6, CRS.
+Connecticut Residents. If you purchased the Plan in this state, this term applies to the Plan.
+The expiration date of the Plan will automatically be extended by the period that the Covered iPhone is
+in Apple’s custody while it is being serviced. Resolution of Disputes: Disputes may be resolved by
+arbitration. Unresolved disputes or complaints may be mailed, with a copy of this Plan, to State of
+Connecticut, Insurance Dept., P.O. Box 816, Hartford, CT 06142-0846, Attn: Consumer Affairs.
+Florida Residents. If you purchased the Plan in this state, this term applies to the Plan.
+The laws of the State of Florida will govern this Plan and any dispute arising under it. The rate which is
+charged for this Plan is not subject to regulation by the Florida Office of Insurance Regulation.
+Michigan Residents. If you purchased the Plan in this state, this term applies to the Plan.
+If performance of the service contract is interrupted because of a strike or work stoppage at the
+company's place of business, the effective period of the service contract shall be extended for the period
+of the strike or work stoppage.
+Nevada Residents. If you purchased the Plan in this state, this term applies to the Plan.
+Cancellations: No Plan that has been in effect for at least 70 days may be canceled by the provider
+before the expiration of the agreed term or one year after the effective date of the Plan, whichever
+occurs first, except on the following grounds:
+a. Failure by the holder to pay an amount due;
+b. Conviction of the holder of a crime which results in an increase in the service required;
+c. Discovery of fraud or material misrepresentation by the holder in obtaining the Plan, or in presenting a
+claim for service thereunder;
+d. Discovery of an act or omission by the holder, or a violation by the holder of any condition of the Plan,
+which occurred after the effective date of the Plan and which substantially and materially increases the
+service required under the Plan;
+e. A material change in the nature or extent of the required service or repair which occurs after the
+effective date of the Plan and which causes the required service or repair to be substantially and
+materially increased beyond that contemplated at the time that the Plan was issued or sold.
+Grounds for cancellation; date cancellation effective. No cancellation of a service contract may become
+effective until at least 15 days after the notice of cancellation is mailed to the holder.
+Cancellation of contract; Refund of purchase price; cancellation fee.
+(i) If Apple cancels this Plan, Apple shall refund to Nevada consumers the portion of the purchase price
+that is unearned. Apple may deduct any outstanding balance on your account from the amount of the
+purchase price that is unearned when calculating the amount of the refund. If Apple cancels a contract
+pursuant to NRS 690C.270, it may not impose a cancellation fee.
+(ii) Except as otherwise provided in this section, a Nevada resident who is the original purchaser of this
+Plan, who submits to Apple a request in writing to cancel the Plan in accordance with the terms of the
+Plan, shall receive a refund of the portion of the Plan’s purchase price that is unearned and Apple will
+not deduct the value of any service provided.
+(iii) If you request the cancellation of this Plan after the first thirty (30) days of the Plan term, Apple may
+impose the cancellation fee described in the Plan, but will not deduct the value of any service provided.
+(iv) When Apple calculates the amount of a refund pursuant to subsection (ii), it may deduct from the
+portion of the purchase price that is unearned: (a) any outstanding balance on the account; and (b) any
+cancellation fee imposed pursuant to this Plan. AppleCare Service Company, Inc. backs this Plan for
+Nevada residents by its full faith and credit.
+No prior approval for services or goods covered under the Plan is necessary.
+Tax is not applicable in the State of Nevada on the $49 service fee for ADH claims.
+New Hampshire Residents. If you purchased the Plan in this state, this term applies to the Plan.
+In the event you do not receive satisfaction under this contract, you may contact the New Hampshire
+insurance department, by mail at State of New Hampshire Insurance Department, 21 South Fruit Street,
+Suite 14, Concord NH 03301, or by telephone, via Consumer Assistance, at 800-852-3416.
+New Mexico Residents. If you purchased the Plan in this state, this term applies to the Plan.
+Cancellations: No Plan that has been in effect for at least 70 days may be canceled by the provider
+before the expiration of the agreed term or one year after the effective date of the Plan, whichever
+occurs first, except on the following grounds:
+a. Failure by the holder to pay an amount due;
+b. Conviction of the holder of a crime which results in an increase in the service required;
+c. Discovery of fraud or material misrepresentation by the holder in obtaining the Plan, or in presenting a
+claim for service thereunder;
+d. Discovery of an act or omission by the holder, or a violation by the holder of any condition of the Plan,
+which occurred after the effective date of the Plan and which substantially and materially increases the
+service required under the Plan;
+e. A material change in the nature or extent of the required service or repair which occurs after the
+effective date of the Plan and which causes the required service or repair to be substantially and
+materially increased beyond that contemplated at the time that the Plan was issued or sold.
+North Carolina Residents. If you purchased the Plan in this state, this term applies to the Plan.
+The purchase of this Plan is not required either to purchase or to obtain financing for an iPhone. Apple
+Inc. will not cancel this plan EXCEPT for failure to pay the purchase price for the Plan.
+Ohio Residents. If you purchased the Plan in this state, this term applies to the Plan.
+Although this service contract is not an insurance policy, the obligations for claims hereunder for Plans
+sold in Ohio are insured by Illinois National Insurance Co., with an address of 180 Maiden Lane 25th
+Floor, New York, NY 10038 (Phone Number: 1-800-250-3819). With any correspondence, please provide
+your phone number and case number, if applicable. You are entitled to make a direct claim against the
+insurance company if Apple fails to provide service pursuant to a claim sixty (60) days after Apple’s
+receipt of your claim.
+Oregon Residents. If you purchased the Plan in this state, this term applies to the Plan.
+In the event you do not receive satisfaction under this contract, you may contact the Oregon
+Department of Consumer and Business Services by mail at the Department of Consumer and Business
+Services, Oregon Insurance Division, 350 Winter Street NE, Salem, OR 97301; or by telephone via
+Consumer Advocacy, at 888-877-4894.
+South Carolina Residents. If you purchased the Plan in this state, this term applies to the Plan.
+You may address any unresolved complaints or Plan regulation questions to the South Carolina
+Department of Insurance, P.O. Box 100105, Columbia, South Carolina 29202-3105, Tel: 1-800-768-3467.
+Tennessee Residents. If you purchased the Plan in this state, this term applies to the Plan.
+The Plan Term of this Plan shall be extended as follows: (1) the number of days you are deprived of the
+use of the product because the product is in repair; plus two (2) additional work days.
+Texas Residents. If you purchased the Plan in this state, this term applies to the Plan.
+The provider may cancel this Plan with no prior notice for non-payment, misrepresentation or a
+substantial breach of a duty by the holder relating to the Covered iPhone or its use. You may address
+any unresolved complaints or contract regulation question to the TX Dept. of Licensing and Regulation,
+P.O. Box 12157, Austin, TX 78711, U.S.
+The Administrator in Texas is Apple Inc., TDLR Lic. #300.
+Wisconsin Residents. If you purchased the Plan in this state, this term applies to the Plan.
+THIS WARRANTY IS SUBJECT TO LIMITED REGULATION BY THE OFFICE OF THE COMMISSIONER OF
+INSURANCE.
+If you cancel this Plan within thirty (30) days of your Plan’s purchase, or receipt of these Terms and
+Conditions, whichever occurs later, you will receive a full refund. If you cancel this Plan more than thirty
+(30) days after your receipt of the Plan, you will receive a pro-rata refund of the original purchase price,
+based on the percentage of the unexpired Plan Term, less a cancellation fee of twenty-five ($25 USD)
+dollars or ten percent (10%) of the pro-rata amount, whichever is less. No deduction shall be made from
+the refund for the cost of any service received. Apple will not cancel this Plan EXCEPT for failure to pay
+the purchase price for the Plan. If Apple cancels the Plan, you will be paid a pro-rata refund for the Plan’s
+unexpired term.
+Wyoming Residents. If you purchased the Plan in this state, this term applies to the Plan.
+If Apple cancels this Plan, Apple will mail to you written notice of the cancellation at your last known
+address contained in Apple’s records. Apple will mail this written notice to you no less than ten (10)
+days prior to the date when the cancellation will take effect. This written notice to you will contain the
+date when the cancellation will take effect and the reasons for the cancellation. Apple is not obligated to
+provide prior notice if cancellation is due to nonpayment of the Plan, a material misrepresentation by
+you to Apple, a substantial breach of your duties under the Plan or a substantial breach of your duties
+relating to the Covered iPhone or its use.
+Disputes that arise under this Plan may be settled in accordance with the Wyoming Arbitration Act.
+Telephone Numbers
+United States - 800-APL-CARE (800-275-2273)
+7:00 A.M. to 10:00 P.M. central time*
+Seven days a week
+Canada – 800-263-3394
+8:00 A.M. to 8:00 P.M. central time*
+Seven days a week
+* Telephone numbers and hours of operation may vary and are subject to change. You can find
+the most up-to-date local and international contact information at
+www.apple.com/contact/phone_contacts.html. Toll-free numbers are not available in all
+countries.
+041612 AppleCare+ for iPhone US and Canada English v1.3

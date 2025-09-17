@@ -1,0 +1,26 @@
+{
+  "name": "synthetic-conversation-generator",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "openai": "^4.12.0",
+    "zod": "^3.23.0",
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/react": "^18.2.21",
+    "@types/node": "^20.4.2",
+    "eslint": "^8.45.0",
+    "eslint-config-next": "^14.0.0"
+  }
+}
