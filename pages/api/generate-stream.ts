@@ -1,43 +1,34 @@
+// /pages/api/generate-stream.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs/promises";
+import { randomBytes } from "crypto";
 import { createChatCompletion } from "../../lib/openai";
 import { buildPrompt, TEMPERATURE_BY_DIFFICULTY, PromptOptions } from "../../lib/prompt-templates";
-import { createRng } from "../../lib/seed";
-import {
-  parseAndValidateConversation,
-  Conversation,
-} from "../../types/schema";
+import { parseAndValidateConversation, Conversation } from "../../types/schema";
 
-/**
- * Streaming generation endpoint.
- * Accepts a POST with the same body as /api/generate and returns a chunked text/event-stream-like output.
- * Each chunk will be a small text block prefixed with an event type and JSON payload:
- *
- * event: progress
- * data: { requested, generated, errors, seed }
- *
- * event: item
- * data: { conversation: {...} }
- *
- * event: error
- * data: { index, error, raw? }
- *
- * event: done
- * data: { requested, generated, errors, seed }
- *
- * The client should POST and then read the response body as a stream and parse events split by double-newline.
- */
+type CoverageDecisionStr = "covered" | "not_covered" | "edgecase";
+type DifficultyChoice = "easy" | "medium" | "hard" | "random";
+type LengthChoice = "short" | "medium" | "long" | "random";
+type ToneChoice =
+  | "friendly"
+  | "professional"
+  | "neutral"
+  | "apologetic"
+  | "assertive"
+  | "casual"
+  | "custom"
+  | "random";
+type TurnsMode = "short" | "average" | "long" | "random";
 
 type GenerateRequest = {
   total: number;
-  covered?: boolean | "random" | "edgecase";
-  difficulty?: "easy" | "medium" | "hard";
-  turns?: number;
-  tone?: string;
-  length?: "short" | "medium" | "long";
+  covered?: CoverageDecisionStr;
+  difficulty?: DifficultyChoice;
+  turns?: number;         // legacy numeric; if provided, overrides turnsMode
+  turnsMode?: TurnsMode;
+  tone?: ToneChoice;
+  length?: LengthChoice;
   noise?: boolean;
-  seed?: number;
-  batchSize?: number;
   incidentTypes?: string[];
   failureModesConfig?: {
     fraudProbability?: number;
@@ -45,17 +36,79 @@ type GenerateRequest = {
     missingInfoProbability?: number;
     amountAnomalyProbability?: number;
   };
-  claimAmountOverride?: number | null;
 };
 
+const DIFFICULTIES: Exclude<DifficultyChoice, "random">[] = ["easy", "medium", "hard"];
+const LENGTHS: Exclude<LengthChoice, "random">[] = ["short", "medium", "long"];
+const TONES: Exclude<ToneChoice, "random">[] = [
+  "friendly","professional","neutral","apologetic","assertive","casual","custom"
+];
+const TURNS_RANGES: Record<Exclude<TurnsMode, "random">, [number, number]> = {
+  short: [2, 6],
+  average: [6, 10],
+  long: [10, 20],
+};
+
+// RNG
+const sysRandom = () => {
+  try {
+    // @ts-ignore
+    if (globalThis.crypto?.getRandomValues) {
+      const a = new Uint32Array(1);
+      globalThis.crypto.getRandomValues(a);
+      return a[0] / 2 ** 32;
+    }
+  } catch {}
+  try {
+    const buf = randomBytes(4);
+    const n = buf.readUInt32BE(0);
+    return n / 2 ** 32;
+  } catch {}
+  return Math.random();
+};
+const randomInt = (min: number, max: number) =>
+  Math.floor(sysRandom() * (max - min + 1)) + min;
+const pick = <T,>(arr: T[]) => arr[Math.floor(sysRandom() * arr.length)];
+
+function extractFirstJsonObject(s: string): string | null {
+  if (!s) return null;
+  let t = s.trim().replace(/^\s*```(?:json)?\s*/i, "").replace(/\s*```$/i, "");
+  const start = t.indexOf("{");
+  if (start === -1) return null;
+  let depth = 0, inString = false, esc = false;
+  for (let i = start; i < t.length; i++) {
+    const ch = t[i];
+    if (inString) {
+      if (esc) { esc = false; continue; }
+      if (ch === "\\") { esc = true; continue; }
+      if (ch === "\"") inString = false;
+      continue;
+    }
+    if (ch === "\"") { inString = true; continue; }
+    if (ch === "{") depth++;
+    else if (ch === "}") {
+      depth--;
+      if (depth === 0) {
+        const candidate = t.slice(start, i + 1);
+        try { JSON.parse(candidate); return candidate; } catch {}
+      }
+    }
+  }
+  return null;
+}
+
+function normalizeCovered(v: any): CoverageDecisionStr {
+  if (v === "covered" || v === "not_covered" || v === "edgecase") return v;
+  return "edgecase";
+}
 function writeEvent(res: NextApiResponse, event: string, payload: any) {
   try {
     res.write(`event: ${event}\n`);
     res.write(`data: ${JSON.stringify(payload)}\n\n`);
-  } catch (e) {
-    // ignore write errors - will be handled by checking res.finished
-  }
+  } catch {}
 }
+
+export const config = { api: { bodyParser: true } };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
@@ -63,40 +116,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ error: "Method not allowed. Use POST." });
   }
 
-  // Prepare streaming headers
   res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("Connection", "keep-alive");
-  // Disable Next.js automatic response compression buffering (if any)
-  // Note: NextApiResponse may not expose `flush()` in all environments; skip calling it here.
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
   const body = req.body as GenerateRequest;
 
   const total = Math.max(1, Math.min(10000, body.total ?? 10));
-  const covered = body.covered ?? "random";
+  const covered = normalizeCovered(body.covered);
   const difficulty = body.difficulty ?? "medium";
-  const turns = body.turns ?? 6;
+  const turnsLegacy = typeof body.turns === "number" ? Math.max(2, Math.min(50, body.turns!)) : undefined;
+  const turnsMode = body.turnsMode ?? "average";
   const tone = body.tone ?? "neutral";
   const length = body.length ?? "short";
   const noise = body.noise ?? false;
-  const runSeed = typeof body.seed === "number" ? body.seed : Math.floor(Math.random() * 2 ** 31);
-  const batchSize = Math.max(1, Math.min(50, body.batchSize ?? 1));
   const incidentTypes = body.incidentTypes ?? [
-    "screen damage (drop)",
-    "liquid damage",
-    "theft",
-    "battery issue",
-    "software malfunction",
+    "screen damage (drop)","liquid damage","theft","battery issue","software malfunction"
   ];
-  const failureModesConfig = body.failureModesConfig ?? {
-    fraudProbability: 0.2,
-    inconsistentProbability: 0.1,
-    missingInfoProbability: 0.2,
-    amountAnomalyProbability: 0.1,
+  const failureModesConfig = {
+    fraudProbability: body.failureModesConfig?.fraudProbability ?? 0.2,
+    inconsistentProbability: body.failureModesConfig?.inconsistentProbability ?? 0.1,
+    missingInfoProbability: body.failureModesConfig?.missingInfoProbability ?? 0.2,
+    amountAnomalyProbability: body.failureModesConfig?.amountAnomalyProbability ?? 0.1,
   };
-  const claimAmountOverride = typeof body.claimAmountOverride === "number" ? body.claimAmountOverride : null;
 
-  // Load policy text once per request
+  // Load policy text once
   let policyText = "";
   try {
     policyText = await fs.readFile("policy/applecareplus.txt", "utf8");
@@ -105,66 +150,47 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     policyText = "";
   }
 
-  // Notify client that stream is starting
-  writeEvent(res, "progress", { requested: total, generated: 0, errors: 0, seed: runSeed });
-
-  const runRng = createRng(runSeed);
-  const results: Conversation[] = [];
-  const errors: { index: number; error: string; raw?: string }[] = [];
-
+  let generated = 0;
+  let errors = 0;
   let aborted = false;
-  req.on("close", () => {
-    aborted = true;
-  });
+  req.on("close", () => { aborted = true; });
+
+  writeEvent(res, "progress", { requested: total, generated, errors });
 
   for (let i = 0; i < total; i++) {
-    if (aborted) {
-      // client disconnected
-      break;
-    }
+    if (aborted) break;
 
     const id = `conv_${String(i + 1).padStart(6, "0")}`;
-    const convSeed = Math.floor(runSeed + i + Math.floor(runRng() * 100000));
-    const convRng = createRng(convSeed);
 
-    const perConvCovered =
-      covered === "random" ? convRng() < 0.5 : (covered as boolean | "random" | "edgecase");
+    const resolvedDifficulty = difficulty === "random" ? pick(DIFFICULTIES) : (difficulty as any);
+    const resolvedTone = tone === "random" ? pick(TONES) : (tone as any);
+    const resolvedLength = length === "random" ? pick(LENGTHS) : (length as any);
 
-    // Choose failure modes deterministically
-    const failureModes: string[] = [];
-    if (failureModesConfig.fraudProbability && convRng() < (failureModesConfig.fraudProbability ?? 0)) {
-      failureModes.push("fraud_attempt");
+    let resolvedTurns: number;
+    let resolvedTurnsBucket: Exclude<TurnsMode, "random">;
+    if (typeof turnsLegacy === "number") {
+      resolvedTurns = turnsLegacy;
+      resolvedTurnsBucket = resolvedTurns <= 6 ? "short" : resolvedTurns <= 10 ? "average" : "long";
+    } else {
+      resolvedTurnsBucket = turnsMode === "random" ? pick(["short","average","long"] as const) : turnsMode;
+      const [minT, maxT] = TURNS_RANGES[resolvedTurnsBucket];
+      resolvedTurns = randomInt(minT, maxT);
     }
-    if (failureModesConfig.inconsistentProbability && convRng() < (failureModesConfig.inconsistentProbability ?? 0)) {
-      failureModes.push("inconsistent_statement");
-    }
-    if (failureModesConfig.missingInfoProbability && convRng() < (failureModesConfig.missingInfoProbability ?? 0)) {
-      failureModes.push("missing_info");
-    }
-    if (failureModesConfig.amountAnomalyProbability && convRng() < (failureModesConfig.amountAnomalyProbability ?? 0)) {
-      failureModes.push("amount_anomaly");
-    }
-
-    const forcedAmount = failureModes.includes("amount_anomaly") && claimAmountOverride ? claimAmountOverride : null;
 
     const promptOpts: PromptOptions = {
       id,
-      covered: perConvCovered === "random" ? "random" : (perConvCovered as any),
-      difficulty,
-      turns,
-      tone,
-      length,
+      covered,
+      difficulty: resolvedDifficulty,
+      turns: resolvedTurns,
+      tone: resolvedTone,
+      length: resolvedLength,
       noise,
-      seed: convSeed,
       incidentTypes,
       configured_failure_modes: failureModesConfig,
-      forced_failure_mode: failureModes.length > 0 ? failureModes[0] : null,
-      claimAmountOverride: forcedAmount,
     };
 
     const prompt = buildPrompt(policyText, promptOpts);
-    let _raw_model_output = "";
-    const temperature = TEMPERATURE_BY_DIFFICULTY[difficulty] ?? 0.6;
+    const temperature = TEMPERATURE_BY_DIFFICULTY[resolvedDifficulty] ?? 0.6;
 
     try {
       const completion = await createChatCompletion({
@@ -174,8 +200,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           { role: "user", content: prompt },
         ],
         temperature,
-        max_tokens: 1200,
+        max_tokens: 2000,
         n: 1,
+        response_format: { type: "json_object" } as any,
       });
 
       const rawText =
@@ -185,86 +212,64 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         completion?.choices?.[0]?.text ??
         JSON.stringify(completion);
 
-      const jsonText = typeof rawText === "string" ? rawText.trim() : String(rawText);
-      // store the original raw model output for debugging/inspection
-      _raw_model_output = jsonText;
+      const rawStr = typeof rawText === "string" ? rawText.trim() : String(rawText);
+      const salvaged = extractFirstJsonObject(rawStr);
+      const jsonText = salvaged ?? rawStr;
 
+      let conv: Conversation | null = null;
       try {
-        const conv = parseAndValidateConversation(jsonText) as Conversation;
-        conv.metadata = {
-          ...conv.metadata,
-          seed: convSeed,
-          configured_failure_modes: failureModesConfig,
-        };
-        // attach debug fields: full prompt and raw model output
-        (conv as any)._prompt = prompt;
-        (conv as any)._raw_model_output = _raw_model_output;
-        if (!conv.labels.covered && conv.labels.coverage_decision) {
-          conv.labels.covered = conv.labels.coverage_decision === "covered";
-        }
-        results.push(conv);
-
-        writeEvent(res, "item", { conversation: conv });
-        writeEvent(res, "progress", { requested: total, generated: results.length, errors: errors.length, seed: runSeed });
-      } catch (parseErr: any) {
-        // Attempt repair
-        try {
-          const repairPrompt = `The previous response contained this text:\n\n${jsonText}\n\nPlease convert it to a single valid JSON object that matches the schema described earlier. Output only valid JSON and nothing else.`;
-          const repair = await createChatCompletion({
-            model: "gpt-4.1-mini",
-            messages: [
-              { role: "system", content: "You are a JSON formatter. Output only valid JSON, no explanations." },
-              { role: "user", content: repairPrompt },
-            ],
-            temperature: 0.0,
-            max_tokens: 800,
-            n: 1,
-          });
-
-          const repairedRaw =
-            // @ts-ignore
-            repair?.choices?.[0]?.message?.content ?? repair?.choices?.[0]?.text ?? JSON.stringify(repair);
-
-          const repairedText = typeof repairedRaw === "string" ? repairedRaw.trim() : String(repairedRaw);
-          const conv = parseAndValidateConversation(repairedText) as Conversation;
-          conv.metadata = {
-            ...conv.metadata,
-            seed: convSeed,
-            configured_failure_modes: failureModesConfig,
-          };
-          // attach debug fields: preserve original raw output and the repaired output
-          (conv as any)._prompt = prompt;
-          (conv as any)._raw_model_output_original = _raw_model_output;
-          (conv as any)._raw_model_output = repairedText;
-          if (!conv.labels.covered && conv.labels.coverage_decision) {
-            conv.labels.covered = conv.labels.coverage_decision === "covered";
-          }
-          results.push(conv);
-          writeEvent(res, "item", { conversation: conv });
-          writeEvent(res, "progress", { requested: total, generated: results.length, errors: errors.length, seed: runSeed });
-        } catch (repairErr: any) {
-          errors.push({
-            index: i,
-            error: `parse/retry failed: ${(parseErr && parseErr.message) || String(parseErr)}`,
-            raw: jsonText,
-          });
-          writeEvent(res, "error", { index: i, error: errors[errors.length - 1].error, raw: jsonText });
-          writeEvent(res, "progress", { requested: total, generated: results.length, errors: errors.length, seed: runSeed });
-        }
+        conv = parseAndValidateConversation(jsonText) as Conversation;
+      } catch {
+        // Repair
+        const repairPrompt = `Reformat into ONE valid JSON object matching the schema.\n\n${rawStr}`;
+        const repair = await createChatCompletion({
+          model: "gpt-4.1-mini",
+          messages: [
+            { role: "system", content: "You are a JSON formatter. Output only valid JSON, no explanations." },
+            { role: "user", content: repairPrompt },
+          ],
+          temperature: 0.0,
+          max_tokens: 1200,
+          n: 1,
+          response_format: { type: "json_object" } as any,
+        });
+        const repairedRaw =
+          // @ts-ignore
+          repair?.choices?.[0]?.message?.content ??
+          repair?.choices?.[0]?.text ??
+          JSON.stringify(repair);
+        const repairedStr = typeof repairedRaw === "string" ? repairedRaw.trim() : String(repairedRaw);
+        const repairedJson = extractFirstJsonObject(repairedStr) ?? repairedStr;
+        conv = parseAndValidateConversation(repairedJson) as Conversation;
+        (conv as any)._raw_model_output_original = rawStr;
+        (conv as any)._raw_model_output = repairedJson;
       }
+
+      conv!.metadata = {
+        ...conv!.metadata,
+        configured_failure_modes: failureModesConfig,
+      };
+      (conv as any)._server_selected = {
+        difficulty: resolvedDifficulty,
+        tone: resolvedTone,
+        length: resolvedLength,
+        turns: resolvedTurns,
+        turns_bucket: resolvedTurnsBucket,
+        covered,
+      };
+      (conv as any)._prompt = prompt;
+      if ((conv as any)._raw_model_output == null) (conv as any)._raw_model_output = jsonText;
+
+      generated += 1;
+      writeEvent(res, "item", { index: i, conversation: conv });
+      writeEvent(res, "progress", { requested: total, generated, errors });
     } catch (err: any) {
-      errors.push({ index: i, error: err.message ?? String(err) });
+      errors += 1;
       writeEvent(res, "error", { index: i, error: err.message ?? String(err) });
-      writeEvent(res, "progress", { requested: total, generated: results.length, errors: errors.length, seed: runSeed });
+      writeEvent(res, "progress", { requested: total, generated, errors });
     }
   }
 
-  // Final done event
-  writeEvent(res, "done", { requested: total, generated: results.length, errors: errors.length, seed: runSeed });
-
-  try {
-    res.end();
-  } catch (e) {
-    // ignore
-  }
+  writeEvent(res, "done", { requested: total, generated, errors });
+  try { res.end(); } catch {}
 }
