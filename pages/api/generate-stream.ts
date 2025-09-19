@@ -2,11 +2,31 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs/promises";
 import { createChatCompletion } from "../../lib/openai";
 import { buildPrompt, TEMPERATURE_BY_DIFFICULTY, PromptOptions } from "../../lib/prompt-templates";
-import { createRng, chance, idFromSeed } from "../../lib/seed";
+import { createRng } from "../../lib/seed";
 import {
   parseAndValidateConversation,
   Conversation,
 } from "../../types/schema";
+
+/**
+ * Streaming generation endpoint.
+ * Accepts a POST with the same body as /api/generate and returns a chunked text/event-stream-like output.
+ * Each chunk will be a small text block prefixed with an event type and JSON payload:
+ *
+ * event: progress
+ * data: { requested, generated, errors, seed }
+ *
+ * event: item
+ * data: { conversation: {...} }
+ *
+ * event: error
+ * data: { index, error, raw? }
+ *
+ * event: done
+ * data: { requested, generated, errors, seed }
+ *
+ * The client should POST and then read the response body as a stream and parse events split by double-newline.
+ */
 
 type GenerateRequest = {
   total: number;
@@ -28,17 +48,27 @@ type GenerateRequest = {
   claimAmountOverride?: number | null;
 };
 
-type ErrorRecord = {
-  index: number;
-  error: string;
-  raw?: string;
-};
+function writeEvent(res: NextApiResponse, event: string, payload: any) {
+  try {
+    res.write(`event: ${event}\n`);
+    res.write(`data: ${JSON.stringify(payload)}\n\n`);
+  } catch (e) {
+    // ignore write errors - will be handled by checking res.finished
+  }
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed. Use POST." });
   }
+
+  // Prepare streaming headers
+  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+  res.setHeader("Cache-Control", "no-cache, no-transform");
+  res.setHeader("Connection", "keep-alive");
+  // Disable Next.js automatic response compression buffering (if any)
+  // Note: NextApiResponse may not expose `flush()` in all environments; skip calling it here.
 
   const body = req.body as GenerateRequest;
 
@@ -75,31 +105,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     policyText = "";
   }
 
-  const results: Conversation[] = [];
-  const errors: ErrorRecord[] = [];
+  // Notify client that stream is starting
+  writeEvent(res, "progress", { requested: total, generated: 0, errors: 0, seed: runSeed });
 
-  // Create a run-level RNG (we will derive per-conversation choices deterministically from this)
   const runRng = createRng(runSeed);
+  const results: Conversation[] = [];
+  const errors: { index: number; error: string; raw?: string }[] = [];
 
-  // Sequential generation loop (deterministic when seed provided)
+  let aborted = false;
+  req.on("close", () => {
+    aborted = true;
+  });
+
   for (let i = 0; i < total; i++) {
-    const id = `conv_${String(i + 1).padStart(6, "0")}`;
+    if (aborted) {
+      // client disconnected
+      break;
+    }
 
-    // Derive a conversation-specific seed deterministically
+    const id = `conv_${String(i + 1).padStart(6, "0")}`;
     const convSeed = Math.floor(runSeed + i + Math.floor(runRng() * 100000));
     const convRng = createRng(convSeed);
 
-    // Decide per-conversation covered if user requested 'random' or 'edgecase'
-    let perConvCovered: boolean | "edgecase" | "random";
-    if (covered === "random") {
-      perConvCovered = convRng() < 0.5;
-    } else if (covered === "edgecase") {
-      perConvCovered = "edgecase";
-    } else {
-      perConvCovered = covered as boolean;
-    }
+    const perConvCovered =
+      covered === "random" ? convRng() < 0.5 : (covered as boolean | "random" | "edgecase");
 
-    // Decide whether to include a failure mode and which one (deterministic via convRng)
+    // Choose failure modes deterministically
     const failureModes: string[] = [];
     if (failureModesConfig.fraudProbability && convRng() < (failureModesConfig.fraudProbability ?? 0)) {
       failureModes.push("fraud_attempt");
@@ -114,13 +145,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       failureModes.push("amount_anomaly");
     }
 
-    // Optionally force an amount override if amount_anomaly was selected and claimAmountOverride provided
     const forcedAmount = failureModes.includes("amount_anomaly") && claimAmountOverride ? claimAmountOverride : null;
 
-    // Build prompt options
     const promptOpts: PromptOptions = {
       id,
-      covered: perConvCovered === "edgecase" ? "edgecase" : (perConvCovered as boolean),
+      covered: perConvCovered === "random" ? "random" : (perConvCovered as any),
       difficulty,
       turns,
       tone,
@@ -135,7 +164,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const prompt = buildPrompt(policyText, promptOpts);
     let _raw_model_output = "";
-
     const temperature = TEMPERATURE_BY_DIFFICULTY[difficulty] ?? 0.6;
 
     try {
@@ -163,23 +191,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       try {
         const conv = parseAndValidateConversation(jsonText) as Conversation;
-        // Ensure metadata contains seed and configured_failure_modes for traceability
         conv.metadata = {
           ...conv.metadata,
           seed: convSeed,
           configured_failure_modes: failureModesConfig,
         };
         // attach debug fields: full prompt and raw model output
-        // (these are optional/debug-only and prefixed with underscore)
         (conv as any)._prompt = prompt;
         (conv as any)._raw_model_output = _raw_model_output;
-        // Ensure covered boolean exists for backward compatibility
         if (!conv.labels.covered && conv.labels.coverage_decision) {
           conv.labels.covered = conv.labels.coverage_decision === "covered";
         }
         results.push(conv);
+
+        writeEvent(res, "item", { conversation: conv });
+        writeEvent(res, "progress", { requested: total, generated: results.length, errors: errors.length, seed: runSeed });
       } catch (parseErr: any) {
-        // Attempt a focused repair: ask model to output ONLY a JSON object corrected
+        // Attempt repair
         try {
           const repairPrompt = `The previous response contained this text:\n\n${jsonText}\n\nPlease convert it to a single valid JSON object that matches the schema described earlier. Output only valid JSON and nothing else.`;
           const repair = await createChatCompletion({
@@ -212,25 +240,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             conv.labels.covered = conv.labels.coverage_decision === "covered";
           }
           results.push(conv);
+          writeEvent(res, "item", { conversation: conv });
+          writeEvent(res, "progress", { requested: total, generated: results.length, errors: errors.length, seed: runSeed });
         } catch (repairErr: any) {
           errors.push({
             index: i,
             error: `parse/retry failed: ${(parseErr && parseErr.message) || String(parseErr)}`,
             raw: jsonText,
           });
+          writeEvent(res, "error", { index: i, error: errors[errors.length - 1].error, raw: jsonText });
+          writeEvent(res, "progress", { requested: total, generated: results.length, errors: errors.length, seed: runSeed });
         }
       }
     } catch (err: any) {
       errors.push({ index: i, error: err.message ?? String(err) });
+      writeEvent(res, "error", { index: i, error: err.message ?? String(err) });
+      writeEvent(res, "progress", { requested: total, generated: results.length, errors: errors.length, seed: runSeed });
     }
   }
 
-  return res.status(200).json({
-    ok: true,
-    requested: total,
-    generated: results.length,
-    seed: runSeed,
-    errors,
-    results,
-  });
+  // Final done event
+  writeEvent(res, "done", { requested: total, generated: results.length, errors: errors.length, seed: runSeed });
+
+  try {
+    res.end();
+  } catch (e) {
+    // ignore
+  }
 }

@@ -51,7 +51,7 @@ export const LabelsSchema = z.object({
   coverage_decision: z.enum(["covered", "not_covered", "edgecase"]),
   reason: z.string(),
   policy_reference: z.string().optional(), // short excerpt or clause id
-  claim_amount_estimate: z.number().optional(),
+  claim_amount_estimate: z.number().nullable().optional(),
   photos_provided: z.boolean().optional(),
   fraud_suspected: z.boolean().optional(),
   failure_modes: z.array(z.string()).optional(), // e.g., ["missing_info","inconsistent_statement"]
