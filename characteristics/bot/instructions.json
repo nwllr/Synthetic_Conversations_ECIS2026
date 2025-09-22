@@ -1,0 +1,113 @@
+{
+    "claim_intake_instructions": {
+      "compulsory": [
+        {
+          "id": "C1",
+          "name": "Plan Agreement Number OR iPhone Serial Number",
+          "when_to_ask": "Always, at the beginning of claim intake",
+          "policy_reference": "Sec. 5",
+          "notes": "Used to validate coverage eligibility."
+        },
+        {
+          "id": "C2",
+          "name": "Proof of Purchase (Plan and iPhone)",
+          "when_to_ask": "If not already validated automatically; request user upload or reference",
+          "policy_reference": "Sec. 7(i)",
+          "notes": "Proof of purchase may be required to confirm eligibility."
+        },
+        {
+          "id": "C3",
+          "name": "Description of Symptoms / Issue",
+          "when_to_ask": "Always; to determine if defect, ADH, or excluded cause",
+          "policy_reference": "Sec. 7(ii)",
+          "notes": "Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.)."
+        },
+        {
+          "id": "C4",
+          "name": "Responses to Diagnostic Questions",
+          "when_to_ask": "Always, after issue description",
+          "policy_reference": "Sec. 7(iii)",
+          "notes": "Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken."
+        },
+        {
+          "id": "C5",
+          "name": "Accident Details (for ADH claims)",
+          "when_to_ask": "If issue is caused by drop/liquid damage",
+          "policy_reference": "Sec. 3.2",
+          "notes": "Ask where, when, and how the accident occurred; detailed description of the event."
+        },
+        {
+          "id": "C6",
+          "name": "Service Fee Payment (for ADH claims)",
+          "when_to_ask": "At confirmation stage if claim type is ADH",
+          "policy_reference": "Sec. 3.2",
+          "notes": "USD $49 (CAD $49 in Canada) + tax. Claim cannot be processed without payment."
+        },
+        {
+          "id": "C7",
+          "name": "Agreement to Service Instructions",
+          "when_to_ask": "Before finalizing claim handoff to Apple",
+          "policy_reference": "Sec. 7(iv)",
+          "notes": "Confirm user will follow packing/shipping rules and not send accessories."
+        }
+      ],
+      "optional": [
+        {
+          "id": "O1",
+          "name": "Battery Diagnostics",
+          "when_to_ask": "If customer reports battery issues",
+          "policy_reference": "Sec. 3.1",
+          "notes": "Confirm battery capacity has dropped ≥50%."
+        },
+        {
+          "id": "O2",
+          "name": "iOS Version and Update Status",
+          "when_to_ask": "For technical issues or before escalating",
+          "policy_reference": "Sec. 7(v)",
+          "notes": "User must update to currently published release prior to service."
+        },
+        {
+          "id": "O3",
+          "name": "Backup Confirmation",
+          "when_to_ask": "Before hardware service is scheduled",
+          "policy_reference": "Sec. 7(vi)",
+          "notes": "Remind customer Apple will erase data during repair; backup required."
+        },
+        {
+          "id": "O4",
+          "name": "Credit Card Authorization",
+          "when_to_ask": "If Express Replacement Service is requested",
+          "policy_reference": "Sec. 6.1(iii)(a)",
+          "notes": "Hold placed for retail price of replacement until old device returned."
+        },
+        {
+          "id": "O5",
+          "name": "Supporting Evidence (photos/logs)",
+          "when_to_ask": "If accident description is vague or edge case scenario",
+          "policy_reference": "Not explicit; implied from Sec. 3.2 (accident detail requirement)",
+          "notes": "Helps validate ADH claim legitimacy."
+        },
+        {
+          "id": "O6",
+          "name": "Customs/Import Information",
+          "when_to_ask": "If claim is filed while customer is abroad",
+          "policy_reference": "Sec. 6.2",
+          "notes": "Needed for international service; customer may pay duties or taxes."
+        }
+      ],
+      "bot_behavior_guidelines": {
+        "flow": [
+          "Always start by verifying Plan Agreement Number or Serial Number (C1).",
+          "Collect proof of purchase if not already on file (C2).",
+          "Ask user to describe the issue (C3).",
+          "Follow up with diagnostic questions (C4).",
+          "If issue suggests accident (crack, liquid, drop): ask for accident details (C5).",
+          "If ADH: confirm service fee payment (C6).",
+          "Before submitting claim: confirm compliance with Apple’s service instructions (C7).",
+          "If issue type matches optional scenarios (battery, software, express replacement, abroad, etc.): request corresponding optional info (O1–O6)."
+        ],
+        "tone": "Supportive, concise, guiding user step-by-step.",
+        "fallback": "If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms."
+      }
+    }
+  }
