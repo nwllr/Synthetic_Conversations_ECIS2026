@@ -1,0 +1,181 @@
+{
+    "policy": {
+      "name": "AppleCare+ for iPhone",
+      "region": "US & Canada",
+      "plan_term_months": 24
+    },
+    "generated_on": "2025-09-22",
+    "additional_prompt": "Finally, do the same [AS FOR COVERED AND NOT COVERED]for the edge cases (requiring a judgement call). Make sure to also have 8 edge case scenarios to be consistent. Leave out the email field",
+    "categories": {
+      "edge_case": [
+        {
+          "id": "EC-01",
+          "title": "Water damage from filming underwater",
+          "description": "User used the iPhone for underwater video in a pool; phone later fails.",
+          "claim_type": "liquid_damage_outside_intended_use",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "maybe", "amount": 49, "currency": "USD", "notes": "If Apple deems usage outside intended uses, ADH may be denied (4.2(ii)(c))." },
+          "counts_toward_adh_limit": "if_approved",
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "accident… from handling that is the result of an unexpected and unintentional external event (e.g., drops and liquid contact)" },
+            { "section": "4.2(ii)(c)", "snippet": "operating the Covered iPhone outside the permitted or intended uses described by the manufacturer" }
+          ],
+          "reasoning": "Outcome depends on whether underwater filming is judged outside intended use vs. accidental liquid contact during normal usage.",
+          "required_user_inputs": ["Accident circumstances (where/when/how) per Sec. 3.2", "Payment of ADH fee if approved", "Serial number and proof of coverage if requested (Secs. 5, 7.i)"],
+          "suggested_service_options": ["Carry-in", "Mail-in"],
+          "customer_data": {
+            "device": "iPhone 15 Pro (256 GB)",
+            "plan_agreement_number": "APLCARE-3102598647",
+            "serial_number": "Y4L8Q2M9N7C3",
+            "phone_number": "+1-202-555-0117"
+          }
+        },
+        {
+          "id": "EC-02",
+          "title": "Service requested while traveling abroad",
+          "description": "Phone bought in US; breaks during trip to Europe; customer seeks local service.",
+          "claim_type": "service_location_restriction",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "depends", "amount": 49, "currency": "USD", "notes": "ADH fee applies if ADH; shipping/charges may vary (6.2)." },
+          "counts_toward_adh_limit": "if_ADH",
+          "policy_references": [
+            { "section": "4.1", "snippet": "Apple may restrict hardware service and ADH coverage to the Covered iPhone’s original Country of Purchase." },
+            { "section": "6.2", "snippet": "Service will be limited to the options available in the country where you request service… You may be responsible for shipping and handling charges…" }
+          ],
+          "reasoning": "Coverage exists but method/location can be restricted; may incur costs/shipping or require returning to country of purchase.",
+          "required_user_inputs": ["Country of purchase vs. current location", "Serial number/Plan Agreement Number", "Accident details if ADH"],
+          "suggested_service_options": ["Mail-in (if available)", "Carry-in at local AASP (availability varies)"],
+          "customer_data": {
+            "device": "iPhone 16 (256 GB)",
+            "plan_agreement_number": "APLCARE-4209753186",
+            "serial_number": "Z8K6D3T1R9V5",
+            "phone_number": "+1-202-555-0118"
+          }
+        },
+        {
+          "id": "EC-03",
+          "title": "Serial number label damaged but still readable",
+          "description": "Back glass repair caused cosmetic damage to the serial number marking.",
+          "claim_type": "serial_number_condition",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "depends", "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "4.2(iii)", "snippet": "does not apply to an iPhone with a serial number that has been altered, defaced or removed" }
+          ],
+          "reasoning": "If Apple deems the serial ‘altered/defaced,’ claim can be denied; judgment call if system validation succeeds.",
+          "required_user_inputs": ["Device settings screenshot showing serial", "Proof of purchase and Plan Confirmation if requested"],
+          "suggested_service_options": ["Carry-in for inspection"],
+          "customer_data": {
+            "device": "iPhone 14 Pro (128 GB)",
+            "plan_agreement_number": "APLCARE-5392641078",
+            "phone_number": "+1-202-555-0119"
+          }
+        },
+        {
+          "id": "EC-04",
+          "title": "Motorcycle mount vibration caused camera blur",
+          "description": "After extended motorcycle use with a handlebar mount, camera stabilization fails.",
+          "claim_type": "usage_stress_damage",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "maybe", "amount": 49, "currency": "USD", "notes": "If seen as normal daily usage accident → ADH; otherwise outside intended uses (4.2(ii)(c))." },
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "unexpected and unintentional external event" },
+            { "section": "4.2(ii)(c)", "snippet": "operating the Covered iPhone outside the permitted or intended uses" }
+          ],
+          "reasoning": "Outcome hinges on whether sustained vibration is considered outside intended use vs. accidental external event.",
+          "required_user_inputs": ["Mount type and usage details", "Timeline of failure", "Accident specifics if any single incident occurred"],
+          "suggested_service_options": ["Carry-in diagnosis"],
+          "counts_toward_adh_limit": "if_approved",
+          "customer_data": {
+            "device": "iPhone 15 (128 GB)",
+            "plan_agreement_number": "APLCARE-7519362048",
+            "serial_number": "P7X2L9M3Q6H8",
+            "phone_number": "+1-202-555-0120"
+          }
+        },
+        {
+          "id": "EC-05",
+          "title": "Insufficient accident details on ADH claim",
+          "description": "Customer reports 'it just broke' and declines to provide when/where/how.",
+          "claim_type": "adh_documentation_issue",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "if_accepted", "amount": 49, "currency": "USD" },
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "may be asked to provide an explanation of where and when the accident occurred… A claim will be denied if you fail to provide information relating to the accident when asked." }
+          ],
+          "reasoning": "If more detail is later provided, claim may be approved; otherwise denial.",
+          "required_user_inputs": ["Where/when/how accident occurred", "Agreement to pay ADH fee if approved"],
+          "suggested_service_options": ["Carry-in after providing details", "Mail-in once details are documented"],
+          "customer_data": {
+            "device": "iPhone 16 Pro (256 GB)",
+            "phone_number": "+1-202-555-0121"
+          }
+        },
+        {
+          "id": "EC-06",
+          "title": "Mail-in shipping damage due to packing",
+          "description": "Phone sent in a non-Apple box without padding; arrives further damaged.",
+          "claim_type": "shipping_damage_customer_fault",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "depends", "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "6.1(ii)", "snippet": "Apple will send you prepaid way bills… and… packaging material… and you will ship… in accordance with Apple’s instructions." },
+            { "section": "7(iv)", "snippet": "packing the Covered iPhone in accordance with shipping instructions" }
+          ],
+          "reasoning": "If instructions weren’t followed, added damage may be excluded; Apple may still service the original issue.",
+          "required_user_inputs": ["Proof of following packing instructions", "Photos of packaging if available"],
+          "suggested_service_options": ["Mail-in (using Apple-provided materials)", "Carry-in for assessment"],
+          "customer_data": {
+            "device": "iPhone 13 (128 GB)",
+            "plan_agreement_number": "APLCARE-8642097531",
+            "serial_number": "B3V7N1C6Q9T2",
+            "phone_number": "+1-202-555-0122"
+          }
+        },
+        {
+          "id": "EC-07",
+          "title": "Charging port burn after using third-party fast charger",
+          "description": "After overnight charging with a non-Apple fast charger, the port shows scorch marks and the phone won’t power on.",
+          "claim_type": "third_party_accessory_damage",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "depends", "amount": 49, "currency": "USD", "notes": "May be excluded as damage caused by a product that is not the Covered iPhone (4.2(ii)(a)); if treated as accidental external event, ADH fee may apply." },
+          "counts_toward_adh_limit": "if_approved",
+          "policy_references": [
+            { "section": "4.2(ii)(a)", "snippet": "The Plan does not apply to damage caused by… a product that is not the Covered iPhone" },
+            { "section": "3.2 ADH", "snippet": "operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event" }
+          ],
+          "reasoning": "Causation may be attributed to a third-party accessory (excluded) or to an unexpected electrical event (possibly ADH).",
+          "required_user_inputs": ["Charger/cable brand and model", "Accident description and timing", "Photos of port damage"],
+          "suggested_service_options": ["Carry-in evaluation"],
+          "customer_data": {
+            "device": "iPhone 14 (128 GB)",
+            "plan_agreement_number": "APLCARE-9753186420",
+            "serial_number": "U5R9K2J7L3D8",
+            "phone_number": "+1-202-555-0123"
+          }
+        },
+        {
+          "id": "EC-08",
+          "title": "Cumulative micro-drops; intermittent touch failure",
+          "description": "No single major incident, but after months of small drops, the screen has hairline cracks and touch intermittently fails.",
+          "claim_type": "wear_vs_accident",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "maybe", "amount": 49, "currency": "USD", "notes": "Could be denied as normal wear and tear (4.2(vii)); if a specific accidental event is identified, ADH may apply." },
+          "counts_toward_adh_limit": "if_approved",
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "…accident from handling that is the result of an unexpected and unintentional external event" },
+            { "section": "4.2(vii)", "snippet": "does not apply to defects caused by normal wear and tear or due to normal aging" }
+          ],
+          "reasoning": "Without a discrete accident, Apple may categorize this as wear/aging; if a specific qualifying accident is documented, ADH could apply.",
+          "required_user_inputs": ["Documented accident details (date/time/location) if any", "Photos of current condition", "Prior repair history"],
+          "suggested_service_options": ["Carry-in assessment"],
+          "customer_data": {
+            "device": "iPhone 15 Plus (128 GB)",
+            "plan_agreement_number": "APLCARE-6184279053",
+            "serial_number": "W6M1N8T3R5Q9",
+            "phone_number": "+1-202-555-0124"
+          }
+        }
+      ]
+    }
+  }

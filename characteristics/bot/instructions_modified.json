@@ -1,0 +1,75 @@
+{
+    "claim_intake_instructions": {
+      "compulsory": [
+        {
+          "id": "C1",
+          "name": "Plan Agreement Number OR iPhone Serial Number",
+          "when_to_ask": "Always, at the beginning of claim intake",
+          "policy_reference": "Sec. 5",
+          "notes": "Used to validate coverage eligibility."
+        },
+        {
+          "id": "C2",
+          "name": "Description of Symptoms / Issue",
+          "when_to_ask": "Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause",
+          "policy_reference": "Sec. 7(ii)",
+          "notes": "Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.)."
+        },
+        {
+          "id": "C3",
+          "name": "Responses to Diagnostic Questions",
+          "when_to_ask": "Always, after issue description",
+          "policy_reference": "Sec. 7(iii)",
+          "notes": "Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken."
+        }
+      ],
+      "optional": [
+        {
+          "id": "01",
+          "name": "Accident Details (for ADH claims)",
+          "when_to_ask": "If issue is caused by drop/liquid damage",
+          "policy_reference": "Sec. 3.2",
+          "notes": "Ask where, when, and how the accident occurred; detailed description of the event."
+        },
+        {
+          "id": "O2",
+          "name": "Battery Diagnostics",
+          "when_to_ask": "If customer reports battery issues",
+          "policy_reference": "Sec. 3.1",
+          "notes": "Confirm battery capacity has dropped ≥50%."
+        },
+        {
+          "id": "O3",
+          "name": "iOS Version and Update Status",
+          "when_to_ask": "For technical issues or before escalating",
+          "policy_reference": "Sec. 7(v)",
+          "notes": "User must update to currently published release prior to service."
+        },
+        {
+          "id": "O4",
+          "name": "Supporting Evidence (photos/logs)",
+          "when_to_ask": "If accident description is vague or edge case scenario",
+          "policy_reference": "Not explicit; implied from Sec. 3.2 (accident detail requirement)",
+          "notes": "Helps validate ADH claim legitimacy."
+        },
+        {
+          "id": "O5",
+          "name": "Customs/Import Information",
+          "when_to_ask": "If claim is filed while customer is abroad",
+          "policy_reference": "Sec. 6.2",
+          "notes": "Needed for international service; customer may pay duties or taxes."
+        }
+      ],
+      "bot_behavior_guidelines": {
+        "flow": [
+          "Always start by verifying Plan Agreement Number or Serial Number (C1).",
+          "Ask user to describe the issue (C2).",
+          "Follow up with diagnostic questions (C3).",
+          "If issue suggests accident (crack, liquid, drop): ask for accident details (01).",
+          "If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5)."
+        ],
+        "tone": "Supportive, concise, guiding user step-by-step.",
+        "fallback": "If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms."
+      }
+    }
+  }

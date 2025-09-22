@@ -1,0 +1,323 @@
+{
+    "policy": {
+      "name": "AppleCare+ for iPhone",
+      "region": "US & Canada",
+      "plan_term_months": 24
+    },
+    "generated_on": "2025-09-22",
+    "prompt": "Based on the following insurance policy, generate scenarios of why policyholders could reach out to file a claim. These scenarios will be used to set a goal of a simulated policyholder persona in order to generate multi-turn conversations. Sort the scenarios by ground truth (covered, not covered, edge case). Edge case means that some sort of judgement call is needed because the scenario is not explicitly covered in the policy without being unrealistic. Return the scenarios and the metadata which includes reasoning (refering to the specific policy text snippet) in a JSON file.\nHere is the policy: INSERT POLICY TEXT",
+    "categories": {
+      "covered": [
+        {
+          "id": "COV-01",
+          "title": "Hardware defect — microphone stops working",
+          "description": "Within 12 months, the iPhone’s microphone fails with no accidental damage.",
+          "claim_type": "hardware_defect",
+          "ground_truth": "covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD", "notes": "No ADH fee for hardware defects" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            {
+              "section": "3.1 Hardware Service",
+              "snippet": "a defect in materials and workmanship has arisen... Apple will either (a) repair... or (b) exchange..."
+            }
+          ],
+          "reasoning": "Defect in materials/workmanship during Plan Term is explicitly covered.",
+          "required_user_inputs": ["Plan Agreement Number or serial number (Sec. 5)", "Proof of purchase if requested (Sec. 7.i)", "Symptoms and steps already tried (Sec. 7.ii–iii)"],
+          "suggested_service_options": ["Carry-in (6.1.i)", "Mail-in (6.1.ii)", "Express Replacement (6.1.iii)"]
+        },
+        {
+          "id": "COV-02",
+          "title": "Battery capacity depleted ≥50%",
+          "description": "After 18 months, battery health reports ~40% of original capacity; device dies quickly.",
+          "claim_type": "battery_depletion",
+          "ground_truth": "covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            {
+              "section": "3.1 Hardware Service",
+              "snippet": "battery... capacity... has depleted fifty (50%) percent or more from its original specifications"
+            }
+          ],
+          "reasoning": "Battery depletion ≥50% triggers covered repair or replacement.",
+          "required_user_inputs": ["Serial number (Sec. 5)", "Battery diagnostics if requested (Sec. 7.ii–iii)"],
+          "suggested_service_options": ["Carry-in", "Mail-in", "Express Replacement"]
+        },
+        {
+          "id": "COV-03",
+          "title": "Accidental drop — cracked screen",
+          "description": "Phone slips from hand onto tile; display shatters and touch stops responding.",
+          "claim_type": "ADH_drop",
+          "ground_truth": "covered",
+          "service_fee": { "applies": true, "amount": 49, "currency": "USD", "notes": "CAD$49 in Canada (Sec. 12.1). Plus applicable tax." },
+          "counts_toward_adh_limit": true,
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "accidental damage from handling… (e.g., drops and liquid contact)" },
+            { "section": "3.2 ADH", "snippet": "You will pay a $49 (U.S.) dollar service fee… for each ADH claim" },
+            { "section": "3.2 ADH", "snippet": "as a result of ADH claims… two (2) Service Events" }
+          ],
+          "reasoning": "A drop is an unexpected external event from normal daily usage; covered with ADH fee and counts toward the two-event limit.",
+          "required_user_inputs": ["Where/when/how accident occurred (Sec. 3.2)", "Payment of service fee (Sec. 3.2)"],
+          "suggested_service_options": ["Carry-in", "Mail-in", "Express Replacement"]
+        },
+        {
+          "id": "COV-4",
+          "title": "Liquid spill — phone won’t power on",
+          "description": "Coffee spills onto the iPhone during normal use at a desk; device fails.",
+          "claim_type": "ADH_liquid",
+          "ground_truth": "covered",
+          "service_fee": { "applies": true, "amount": 49, "currency": "USD" },
+          "counts_toward_adh_limit": true,
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "…accidental damage… (e.g., drops and liquid contact)" }
+          ],
+          "reasoning": "Liquid contact from an unexpected event qualifies as ADH.",
+          "required_user_inputs": ["Accident details (Sec. 3.2)", "Service fee"],
+          "suggested_service_options": ["Carry-in", "Mail-in"]
+        },
+        {
+          "id": "COV-05",
+          "title": "Fall down stairs — enclosure bent, phone dead",
+          "description": "Phone slips from pocket, tumbles down stairs, no power afterwards.",
+          "claim_type": "ADH_drop",
+          "ground_truth": "covered",
+          "service_fee": { "applies": true, "amount": 49, "currency": "USD" },
+          "counts_toward_adh_limit": true,
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "operational or mechanical failure caused by an accident from handling… unexpected and unintentional external event" }
+          ],
+          "reasoning": "Unintentional drop during normal daily usage is covered as ADH.",
+          "required_user_inputs": ["Accident description", "Service fee"],
+          "suggested_service_options": ["Carry-in", "Mail-in", "Express Replacement"]
+        },
+        {
+          "id": "COV-06",
+          "title": "Second ADH event within term",
+          "description": "After one prior ADH screen repair, device is later dropped into a sink and fails.",
+          "claim_type": "ADH_liquid",
+          "ground_truth": "covered",
+          "service_fee": { "applies": true, "amount": 49, "currency": "USD" },
+          "counts_toward_adh_limit": true,
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "…two (2) Service Events" }
+          ],
+          "reasoning": "Second ADH claim is still covered; it exhausts ADH coverage for the Plan Term.",
+          "required_user_inputs": ["Accident description", "Service fee"],
+          "suggested_service_options": ["Carry-in", "Mail-in"]
+        },
+        {
+          "id": "COV-07",
+          "title": "Defective Face ID module",
+          "description": "Face ID stops working without any accidental damage or third-party repair.",
+          "claim_type": "hardware_defect",
+          "ground_truth": "covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            { "section": "3.1 Hardware Service", "snippet": "defect in materials and workmanship… repair… or exchange" }
+          ],
+          "reasoning": "Non-accidental functional failure is covered under hardware service.",
+          "required_user_inputs": ["Serial number", "Symptoms", "Proof of purchase if asked"],
+          "suggested_service_options": ["Carry-in", "Mail-in", "Express Replacement"]
+        },
+        {
+          "id": "COV-08",
+          "title": "Charging port fails intermittently (no damage)",
+          "description": "Phone stops charging unless cable is held at an angle; no signs of abuse.",
+          "claim_type": "hardware_defect",
+          "ground_truth": "covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            { "section": "3.1 Hardware Service", "snippet": "defect in materials and workmanship… repair or exchange" }
+          ],
+          "reasoning": "Functional defect without accidental cause falls under 3.1.",
+          "required_user_inputs": ["Symptoms and steps tried (Sec. 7.ii–iii)"],
+          "suggested_service_options": ["Carry-in", "Mail-in"]
+        }
+      ],
+      "not_covered": [
+        {
+          "id": "NC-01",
+          "title": "Cosmetic scratch or dent only",
+          "description": "Small scratch on screen; phone works normally.",
+          "claim_type": "cosmetic_damage",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            { "section": "4.2(v)", "snippet": "cosmetic damage… scratches and dents… that do not otherwise affect functionality" }
+          ],
+          "reasoning": "Cosmetic-only issues are excluded."
+        },
+        {
+          "id": "NC-02",
+          "title": "Lost or stolen iPhone",
+          "description": "Phone missing after commute; cannot be returned to Apple.",
+          "claim_type": "loss_theft",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            { "section": "4.2(iv)", "snippet": "does not apply to a Covered iPhone that has been lost or stolen" },
+            { "section": "4.2(iv)", "snippet": "This Plan only covers a Covered iPhone that is returned to Apple in its entirety." }
+          ],
+          "reasoning": "Loss/theft are explicitly excluded."
+        },
+        {
+          "id": "NC-03",
+          "title": "Intentional or reckless damage",
+          "description": "User smashes phone in frustration.",
+          "claim_type": "intentional_damage",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "3.2 ADH (exclusions)", "snippet": "does not include… theft, misplacement, reckless, abusive, willful or intentional conduct" }
+          ],
+          "reasoning": "ADH excludes reckless/intentional conduct; no coverage."
+        },
+        {
+          "id": "NC-04",
+          "title": "Third-party repair caused damage",
+          "description": "After non-Apple screen replacement, True Tone and Face ID fail.",
+          "claim_type": "unauthorized_service_damage",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "4.2(ii)(d)", "snippet": "service… performed by anyone who is not… Apple or an AASP" }
+          ],
+          "reasoning": "Damage from unauthorized service is excluded."
+        },
+        {
+          "id": "NC-05",
+          "title": "Battery at ~70% of original capacity",
+          "description": "Battery degraded but not to the 50% threshold.",
+          "claim_type": "battery_depletion_insufficient",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "3.1", "snippet": "battery… depleted fifty (50%) percent or more" }
+          ],
+          "reasoning": "Depletion <50% is outside the stated coverage."
+        },
+        {
+          "id": "NC-06",
+          "title": "Earthquake/fire damage",
+          "description": "Device destroyed in a house fire.",
+          "claim_type": "catastrophic_external_cause",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "4.2(ii)(b)", "snippet": "damage caused by… fire, earthquake or other external causes except as described in 3.2" }
+          ],
+          "reasoning": "Catastrophic external causes are excluded; not ADH."
+        },
+        {
+          "id": "NC-07",
+          "title": "Pre-existing crack before buying Plan",
+          "description": "Screen was cracked before AppleCare+ purchase; user tries to claim after buying Plan.",
+          "claim_type": "pre_existing_condition",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "4.2(viii)", "snippet": "does not apply to a pre-existing condition… if you purchased the Plan after you purchased the Covered iPhone" }
+          ],
+          "reasoning": "Pre-existing damage is excluded."
+        },
+        {
+          "id": "NC-08",
+          "title": "Loaner/temporary replacement request",
+          "description": "Customer requests a loaner while phone is being serviced.",
+          "claim_type": "equipment_while_serviced",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "4.2(i)", "snippet": "does not apply to… provision of equipment while the Covered iPhone is being serviced" }
+          ],
+          "reasoning": "The Plan explicitly excludes providing equipment during service."
+        }
+      ],
+      "edge_case": [
+        {
+          "id": "EC-01",
+          "title": "Water damage from filming underwater",
+          "description": "User used the iPhone for underwater video in a pool; phone later fails.",
+          "claim_type": "liquid_damage_outside_intended_use",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "maybe", "amount": 49, "currency": "USD", "notes": "If Apple deems usage outside intended uses, ADH may be denied (4.2(ii)(c))." },
+          "counts_toward_adh_limit": "if_approved",
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "accident… from handling… unexpected and unintentional external event" },
+            { "section": "4.2(ii)(c)", "snippet": "operating the Covered iPhone outside the permitted or intended uses" }
+          ],
+          "reasoning": "Outcome depends on whether underwater filming is judged outside intended use vs. accidental liquid contact during normal usage.",
+          "required_user_inputs": ["Detailed account of use circumstances (Sec. 3.2)", "Photos/logs if available"]
+        },
+        {
+          "id": "EC-02",
+          "title": "Service requested while traveling abroad",
+          "description": "Phone bought in US; breaks during trip to Europe; customer seeks local service.",
+          "claim_type": "service_location_restriction",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "depends", "amount": 49, "currency": "USD", "notes": "ADH fee applies if ADH; shipping/charges may vary (6.2)." },
+          "counts_toward_adh_limit": "if_ADH",
+          "policy_references": [
+            { "section": "4.1", "snippet": "Apple may restrict hardware service and ADH coverage to the… original Country of Purchase." },
+            { "section": "6.2", "snippet": "Service will be limited to the options available in the country where you request service… You may be responsible for shipping and handling charges…" }
+          ],
+          "reasoning": "Coverage exists but method/location can be restricted; may incur costs/shipping or require returning to country of purchase."
+        },
+        {
+          "id": "EC-03",
+          "title": "Serial number label damaged but still readable",
+          "description": "Back glass repair caused cosmetic damage to the serial number marking.",
+          "claim_type": "serial_number_condition",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "depends", "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "4.2(iii)", "snippet": "does not apply to an iPhone with a serial number that has been altered, defaced or removed" }
+          ],
+          "reasoning": "If Apple deems the serial ‘altered/defaced,’ claim can be denied; judgment call if still readable and system can validate."
+        },
+        {
+          "id": "EC-04",
+          "title": "Motorcycle mount vibration caused camera blur",
+          "description": "After extended motorcycle use with a handlebar mount, camera stabilization fails.",
+          "claim_type": "usage_stress_damage",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "maybe", "amount": 49, "currency": "USD", "notes": "If seen as normal daily usage accident → ADH; otherwise outside intended uses (4.2(ii)(c))." },
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "unexpected and unintentional external event" },
+            { "section": "4.2(ii)(c)", "snippet": "operating… outside the permitted or intended uses" }
+          ],
+          "reasoning": "Outcome hinges on whether sustained vibration is considered outside intended use vs. accidental external event."
+        },
+        {
+          "id": "EC-05",
+          "title": "Insufficient accident details on ADH claim",
+          "description": "Customer reports ‘it just broke’ and declines to provide when/where/how.",
+          "claim_type": "adh_documentation_issue",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "if_accepted", "amount": 49, "currency": "USD" },
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "may be asked to provide an explanation of where and when the accident occurred… A claim will be denied if you… fail to provide information" }
+          ],
+          "reasoning": "If more detail is later provided, claim may be approved; otherwise denial."
+        },
+        {
+          "id": "EC-06",
+          "title": "Mail-in shipping damage due to packing",
+          "description": "Phone sent in a non-Apple box without padding; arrives further damaged.",
+          "claim_type": "shipping_damage_customer_fault",
+          "ground_truth": "edge_case",
+          "service_fee": { "applies": "depends", "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "6.1(ii)", "snippet": "Apple will send you prepaid way bills… and… packaging material… ship… in accordance with Apple’s instructions." },
+            { "section": "7(iv)", "snippet": "packing the Covered iPhone in accordance with shipping instructions" }
+          ],
+          "reasoning": "If instructions weren’t followed, added damage may be excluded; Apple may still service original issue."
+        }
+      ]
+    }
+  }

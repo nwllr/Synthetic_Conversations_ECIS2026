@@ -1,0 +1,159 @@
+{
+    "policy": {
+      "name": "AppleCare+ for iPhone",
+      "region": "US & Canada",
+      "plan_term_months": 24
+    },
+    "generated_on": "2025-09-22",
+    "additional_prompt": "now, do the same [AS FOR THE COVERED SCENARIOS] for not covered. In case the scenario is not covered due to missing information, it is fine to exclude some of the customer data. also leave out the email field",
+    "categories": {
+      "not_covered": [
+        {
+          "id": "NC-01",
+          "title": "Cosmetic scratch or dent only",
+          "description": "Small scratch on screen; phone works normally.",
+          "claim_type": "cosmetic_damage",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            { "section": "4.2(v)", "snippet": "cosmetic damage… scratches and dents… that do not otherwise affect functionality" }
+          ],
+          "reasoning": "Cosmetic-only issues are excluded.",
+          "customer_data": {
+            "device": "iPhone 13 (128 GB)",
+            "plan_agreement_number": "APLCARE-5544332211",
+            "serial_number": "F3L7N2K8R5T4",
+            "phone_number": "+1-202-555-0109"
+          }
+        },
+        {
+          "id": "NC-02",
+          "title": "Lost or stolen iPhone",
+          "description": "Phone missing after commute; cannot be returned to Apple.",
+          "claim_type": "loss_theft",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            { "section": "4.2(iv)", "snippet": "does not apply to a Covered iPhone that has been lost or stolen" },
+            { "section": "4.2(iv)", "snippet": "This Plan only covers a Covered iPhone that is returned to Apple in its entirety." }
+          ],
+          "reasoning": "Loss/theft are explicitly excluded.",
+          "customer_data": {
+            "device": "Unknown",
+            "plan_agreement_number": "Unknown",
+            "phone_number": "+1-202-555-0110"
+          }
+        },
+        {
+          "id": "NC-03",
+          "title": "Intentional or reckless damage",
+          "description": "User smashes phone in frustration.",
+          "claim_type": "intentional_damage",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "3.2 ADH (exclusions)", "snippet": "does not include… theft, misplacement, reckless, abusive, willful or intentional conduct" }
+          ],
+          "reasoning": "ADH excludes reckless/intentional conduct; no coverage.",
+          "customer_data": {
+            "device": "iPhone 15 (128 GB)",
+            "plan_agreement_number": "APLCARE-7766554433",
+            "serial_number": "G7R2T9M5C8L1",
+            "phone_number": "+1-202-555-0111"
+          }
+        },
+        {
+          "id": "NC-04",
+          "title": "Third-party repair caused damage",
+          "description": "After non-Apple screen replacement, True Tone and Face ID fail.",
+          "claim_type": "unauthorized_service_damage",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "4.2(ii)(d)", "snippet": "service… performed by anyone who is not… Apple or an AASP" }
+          ],
+          "reasoning": "Damage from unauthorized service is excluded.",
+          "customer_data": {
+            "device": "iPhone 12 Pro (256 GB)",
+            "plan_agreement_number": "APLCARE-6677889900",
+            "serial_number": "H6K3P9Z7V2M5",
+            "phone_number": "+1-202-555-0112"
+          }
+        },
+        {
+          "id": "NC-05",
+          "title": "Battery at ~70% of original capacity",
+          "description": "Battery degraded but not to the 50% threshold.",
+          "claim_type": "battery_depletion_insufficient",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "3.1", "snippet": "battery… depleted fifty (50%) percent or more" }
+          ],
+          "reasoning": "Depletion <50% is outside the stated coverage.",
+          "customer_data": {
+            "device": "iPhone 14 Plus (128 GB)",
+            "plan_agreement_number": "APLCARE-2233445566",
+            "serial_number": "J5N8T2R6W3Y9",
+            "phone_number": "+1-202-555-0113"
+          }
+        },
+        {
+          "id": "NC-06",
+          "title": "Earthquake/fire damage",
+          "description": "Device destroyed in a house fire.",
+          "claim_type": "catastrophic_external_cause",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "4.2(ii)(b)", "snippet": "damage caused by… fire, earthquake or other external causes except as described in 3.2" }
+          ],
+          "reasoning": "Catastrophic external causes are excluded; not ADH.",
+          "customer_data": {
+            "device": "iPhone 13 Pro Max (256 GB)",
+            "plan_agreement_number": "APLCARE-4455667788",
+            "serial_number": "K2M7V5X9S1D4",
+            "phone_number": "+1-202-555-0114"
+          }
+        },
+        {
+          "id": "NC-07",
+          "title": "Pre-existing crack before buying Plan",
+          "description": "Screen was cracked before AppleCare+ purchase; user tries to claim after buying Plan.",
+          "claim_type": "pre_existing_condition",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "4.2(viii)", "snippet": "does not apply to a pre-existing condition… if you purchased the Plan after you purchased the Covered iPhone" }
+          ],
+          "reasoning": "Pre-existing damage is excluded.",
+          "customer_data": {
+            "device": "iPhone 12 (64 GB)",
+            "plan_agreement_number": "APLCARE-9988776655",
+            "serial_number": "M9C2R7T4V8L6",
+            "phone_number": "+1-202-555-0115"
+          }
+        },
+        {
+          "id": "NC-08",
+          "title": "Loaner/temporary replacement request",
+          "description": "Customer requests a loaner while phone is being serviced.",
+          "claim_type": "equipment_while_serviced",
+          "ground_truth": "not_covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "policy_references": [
+            { "section": "4.2(i)", "snippet": "does not apply to… provision of equipment while the Covered iPhone is being serviced" }
+          ],
+          "reasoning": "The Plan explicitly excludes providing equipment during service.",
+          "customer_data": {
+            "device": "iPhone 16 Pro Max (512 GB)",
+            "plan_agreement_number": "APLCARE-1122334455",
+            "serial_number": "N7V3L5X2D9R8",
+            "phone_number": "+1-202-555-0116"
+          }
+        }
+      ]
+    }
+  }

@@ -1,0 +1,189 @@
+{
+    "policy": {
+      "name": "AppleCare+ for iPhone",
+      "region": "US & Canada",
+      "plan_term_months": 24
+    },
+    "generated_on": "2025-09-22",
+    "additional_prompt": "Please only output the 'covered' scenarios in one similarly structured json file. Also generate the customer_data which will be asked for in an extra field for each scenario (e.g. device: 'iPhone 15 pro' or 'iPhone 16 (256 GB)', plan agreement number: 'XXXXX' or 'Unknown', serial number: 'XXXXX', phone number: 'XXXXX', email: 'XXXXX').  The rest of the json should remain unchanged. Remember that part of this information (the title, description, and customer_data) will be used as basis for a synthetic conversation, thus it will need to e.g. a specific number as serial number that mimics the actual format.",
+    "categories": {
+      "covered": [
+        {
+          "id": "COV-01",
+          "title": "Hardware defect — microphone stops working",
+          "description": "Within 12 months, the iPhone’s microphone fails with no accidental damage.",
+          "claim_type": "hardware_defect",
+          "ground_truth": "covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD", "notes": "No ADH fee for hardware defects" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            {
+              "section": "3.1 Hardware Service",
+              "snippet": "a defect in materials and workmanship has arisen... Apple will either (a) repair... or (b) exchange..."
+            }
+          ],
+          "reasoning": "Defect in materials/workmanship during Plan Term is explicitly covered.",
+          "required_user_inputs": ["Plan Agreement Number or serial number (Sec. 5)", "Proof of purchase if requested (Sec. 7.i)", "Symptoms and steps already tried (Sec. 7.ii–iii)"],
+          "suggested_service_options": ["Carry-in (6.1.i)", "Mail-in (6.1.ii)", "Express Replacement (6.1.iii)"],
+          "customer_data": {
+            "device": "iPhone 15 Pro (256 GB)",
+            "plan_agreement_number": "APLCARE-1029384756",
+            "serial_number": "F2LQW0H8N72Q",
+            "phone_number": "+1-202-555-0101"
+          }
+        },
+        {
+          "id": "COV-02",
+          "title": "Battery capacity depleted ≥50%",
+          "description": "After 18 months, battery health reports ~40% of original capacity; device dies quickly.",
+          "claim_type": "battery_depletion",
+          "ground_truth": "covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            {
+              "section": "3.1 Hardware Service",
+              "snippet": "battery... capacity... has depleted fifty (50%) percent or more from its original specifications"
+            }
+          ],
+          "reasoning": "Battery depletion ≥50% triggers covered repair or replacement.",
+          "required_user_inputs": ["Serial number (Sec. 5)", "Battery diagnostics if requested (Sec. 7.ii–iii)"],
+          "suggested_service_options": ["Carry-in", "Mail-in", "Express Replacement"],
+          "customer_data": {
+            "device": "iPhone 14 (128 GB)",
+            "plan_agreement_number": "APLCARE-5647382910",
+            "serial_number": "C39ZP1Q5KD8R",
+            "phone_number": "+1-202-555-0102"
+          }
+        },
+        {
+          "id": "COV-03",
+          "title": "Accidental drop — cracked screen",
+          "description": "Phone slips from hand onto tile; display shatters and touch stops responding.",
+          "claim_type": "ADH_drop",
+          "ground_truth": "covered",
+          "service_fee": { "applies": true, "amount": 49, "currency": "USD", "notes": "CAD$49 in Canada (Sec. 12.1). Plus applicable tax." },
+          "counts_toward_adh_limit": true,
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "accidental damage from handling… (e.g., drops and liquid contact)" },
+            { "section": "3.2 ADH", "snippet": "You will pay a $49 (U.S.) dollar service fee… for each ADH claim" },
+            { "section": "3.2 ADH", "snippet": "as a result of ADH claims… two (2) Service Events" }
+          ],
+          "reasoning": "A drop is an unexpected external event from normal daily usage; covered with ADH fee and counts toward the two-event limit.",
+          "required_user_inputs": ["Where/when/how accident occurred (Sec. 3.2)", "Payment of service fee (Sec. 3.2)"],
+          "suggested_service_options": ["Carry-in", "Mail-in", "Express Replacement"],
+          "customer_data": {
+            "device": "iPhone 16 (256 GB)",
+            "plan_agreement_number": "APLCARE-9182736455",
+            "serial_number": "Q2KM9N8L4V7T",
+            "phone_number": "+1-202-555-0103"
+          }
+        },
+        {
+          "id": "COV-4",
+          "title": "Liquid spill — phone won’t power on",
+          "description": "Coffee spills onto the iPhone during normal use at a desk; device fails.",
+          "claim_type": "ADH_liquid",
+          "ground_truth": "covered",
+          "service_fee": { "applies": true, "amount": 49, "currency": "USD" },
+          "counts_toward_adh_limit": true,
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "…accidental damage… (e.g., drops and liquid contact)" }
+          ],
+          "reasoning": "Liquid contact from an unexpected event qualifies as ADH.",
+          "required_user_inputs": ["Accident details (Sec. 3.2)", "Service fee"],
+          "suggested_service_options": ["Carry-in", "Mail-in"],
+          "customer_data": {
+            "device": "iPhone 15 (128 GB)",
+            "plan_agreement_number": "APLCARE-7362518490",
+            "serial_number": "D7H9Q2L6M3P8",
+            "phone_number": "+1-202-555-0104"
+          }
+        },
+        {
+          "id": "COV-05",
+          "title": "Fall down stairs — enclosure bent, phone dead",
+          "description": "Phone slips from pocket, tumbles down stairs, no power afterwards.",
+          "claim_type": "ADH_drop",
+          "ground_truth": "covered",
+          "service_fee": { "applies": true, "amount": 49, "currency": "USD" },
+          "counts_toward_adh_limit": true,
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "operational or mechanical failure caused by an accident from handling… unexpected and unintentional external event" }
+          ],
+          "reasoning": "Unintentional drop during normal daily usage is covered as ADH.",
+          "required_user_inputs": ["Accident description", "Service fee"],
+          "suggested_service_options": ["Carry-in", "Mail-in", "Express Replacement"],
+          "customer_data": {
+            "device": "iPhone 15 Plus (128 GB)",
+            "plan_agreement_number": "APLCARE-8473625190",
+            "serial_number": "R8T5W2Y7U3I9",
+            "phone_number": "+1-202-555-0105"
+          }
+        },
+        {
+          "id": "COV-06",
+          "title": "Second ADH event within term",
+          "description": "After one prior ADH screen repair, device is later dropped into a sink and fails.",
+          "claim_type": "ADH_liquid",
+          "ground_truth": "covered",
+          "service_fee": { "applies": true, "amount": 49, "currency": "USD" },
+          "counts_toward_adh_limit": true,
+          "policy_references": [
+            { "section": "3.2 ADH", "snippet": "…two (2) Service Events" }
+          ],
+          "reasoning": "Second ADH claim is still covered; it exhausts ADH coverage for the Plan Term.",
+          "required_user_inputs": ["Accident description", "Service fee"],
+          "suggested_service_options": ["Carry-in", "Mail-in"],
+          "customer_data": {
+            "device": "iPhone 15 Pro Max (512 GB)",
+            "plan_agreement_number": "APLCARE-1928374650",
+            "serial_number": "M4N7B2V9C1X8",
+            "phone_number": "+1-202-555-0106"
+          }
+        },
+        {
+          "id": "COV-07",
+          "title": "Defective Face ID module",
+          "description": "Face ID stops working without any accidental damage or third-party repair.",
+          "claim_type": "hardware_defect",
+          "ground_truth": "covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            { "section": "3.1 Hardware Service", "snippet": "defect in materials and workmanship… repair… or exchange" }
+          ],
+          "reasoning": "Non-accidental functional failure is covered under hardware service.",
+          "required_user_inputs": ["Serial number", "Symptoms", "Proof of purchase if asked"],
+          "suggested_service_options": ["Carry-in", "Mail-in", "Express Replacement"],
+          "customer_data": {
+            "device": "iPhone 16 Pro (256 GB)",
+            "plan_agreement_number": "APLCARE-0099887766",
+            "serial_number": "L1P9K3J8H2G7",
+            "phone_number": "+1-202-555-0107"
+          }
+        },
+        {
+          "id": "COV-08",
+          "title": "Charging port fails intermittently (no damage)",
+          "description": "Phone stops charging unless cable is held at an angle; no signs of abuse.",
+          "claim_type": "hardware_defect",
+          "ground_truth": "covered",
+          "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+          "counts_toward_adh_limit": false,
+          "policy_references": [
+            { "section": "3.1 Hardware Service", "snippet": "defect in materials and workmanship… repair or exchange" }
+          ],
+          "reasoning": "Functional defect without accidental cause falls under 3.1.",
+          "required_user_inputs": ["Symptoms and steps tried (Sec. 7.ii–iii)"],
+          "suggested_service_options": ["Carry-in", "Mail-in"],
+          "customer_data": {
+            "device": "iPhone 15 (256 GB)",
+            "plan_agreement_number": "APLCARE-1357924680",
+            "serial_number": "S6D3F8G2H9J4",
+            "phone_number": "+1-202-555-0108"
+          }
+        }
+      ]
+    }
+  }
