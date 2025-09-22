@@ -49,6 +49,32 @@ const TURNS_RANGES: Record<Exclude<TurnsMode, "random">, [number, number]> = {
   long: [10, 20],
 };
 
+const POLICY_FILE_PATH = "policy/applecareplus.txt";
+
+let cachedPolicyText: string | null = null;
+let policyLoadPromise: Promise<string> | null = null;
+
+async function getPolicyText(): Promise<string> {
+  if (cachedPolicyText !== null) return cachedPolicyText;
+  if (!policyLoadPromise) {
+    policyLoadPromise = fs
+      .readFile(POLICY_FILE_PATH, "utf8")
+      .then((text) => {
+        cachedPolicyText = text;
+        return text;
+      })
+      .catch((err: any) => {
+        console.warn(
+          `Could not read policy file at ${POLICY_FILE_PATH}:`,
+          err?.message ?? String(err)
+        );
+        cachedPolicyText = "";
+        return "";
+      });
+  }
+  return policyLoadPromise!;
+}
+
 // RNG
 const sysRandom = () => {
   try {
@@ -141,14 +167,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     amountAnomalyProbability: body.failureModesConfig?.amountAnomalyProbability ?? 0.1,
   };
 
-  // Load policy text once
-  let policyText = "";
-  try {
-    policyText = await fs.readFile("policy/applecareplus.txt", "utf8");
-  } catch (err: any) {
-    console.warn("Could not read policy file: ", err?.message ?? String(err));
-    policyText = "";
-  }
+  const policyText = await getPolicyText();
 
   let generated = 0;
   let errors = 0;

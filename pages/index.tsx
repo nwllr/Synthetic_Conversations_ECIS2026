@@ -245,7 +245,7 @@ export default function HomePage() {
     const rows = results.map((r) => [
       r.id,
       r.metadata?.ground_truth?.requested_coverage_decision ?? "",
-+     (r.metadata?.observed_failure_modes ?? []).join("|"),
+      (r.metadata?.observed_failure_modes ?? []).join("|"),
       r.metadata?.difficulty ?? "",
       r.metadata?.tone ?? "",
       r.metadata?.length_category ?? "",
