@@ -60,7 +60,7 @@
     ]
   },
   "not_covered": {
-    "instructions": "Produce scenarios that the policy excludes. Highlight the exclusion in reasoning and remove any optional customer data that would realistically be unavailable.",
+    "instructions": "Produce scenarios that are not covered by the policy. Highlight the specific exclusion or the reason for it not being covered in reasoning and remove any optional customer data that would realistically be unavailable.",
     "examples": [
       {
         "id": "NC-01",
@@ -108,7 +108,7 @@
     ]
   },
   "edge_case": {
-    "instructions": "Produce ambiguous scenarios requiring judgment. Explain how multiple policy sections create tension and capture any data Apple would ask to resolve it.",
+    "instructions": "Produce edge case scenarios. Edge case means that some sort of judgment call is needed because the scenario is not explicitly covered in the policy without being unrealistic. In the metadata fields include reasoning (refering to the specific policy text snippet) by for example explaining how multiple policy sections create tension and capture any data Apple would ask to resolve it.",
     "examples": [
       {
         "id": "EC-01",

@@ -10,70 +10,70 @@
     "temperature": 0.35,
     "max_tokens": 2800,
     "attempted_count": 2,
-    "slug": "20250925T153229Z"
+    "slug": "20250925T161551Z"
   },
   "categories": {
     "edge_case": [
       {
-        "id": "EC-20250925T153229Z-01",
-        "title": "Battery failure after screen replacement by third party",
-        "description": "Customer reports the iPhone battery holds less than 50% of its original charge, but also discloses that the screen was replaced by a non-Apple repair shop prior to the battery issue.",
-        "claim_type": "battery_depletion_with_third_party_repair",
+        "id": "EC-20250925T161551Z-01",
+        "title": "Cosmetic Damage with Potential Functional Impact",
+        "description": "Customer reports a deep scratch and dent on the iPhone frame after dropping it, but claims that Face ID intermittently fails since the incident. The screen and other functions appear unaffected.",
+        "claim_type": "cosmetic_vs_functional_damage",
         "ground_truth": "edge_case",
         "service_fee": {
-          "applies": "depends",
-          "amount": 0,
-          "currency": "USD",
-          "notes": "Battery replacement is normally covered with no fee, but third-party repairs may void coverage."
-        },
-        "counts_toward_adh_limit": "no",
-        "policy_references": [
-          {
-            "section": "3.1 Hardware Service",
-            "snippet": "If during the Plan Term, you submit a valid claim by notifying Apple that...the capacity of the Covered iPhone’s battery to hold an electrical charge has depleted fifty (50%) percent or more from its original specifications, Apple will...repair the defect at no charge..."
-          },
-          {
-            "section": "4.2(ii)(d)",
-            "snippet": "The Plan does not apply to damage caused by...service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider (“AASP”)."
-          }
-        ],
-        "reasoning": "The policy covers battery depletion, but explicitly excludes coverage if prior service was performed by non-Apple technicians. Apple must determine if the battery issue is related to the unauthorized screen replacement. If so, the claim may be denied; if not, coverage may apply. Apple will likely request proof of the repair and inspect for related damage.",
-        "customer_data": {
-          "device": "iPhone 13 (128 GB)",
-          "plan_agreement_number": "APLCARE-5123901842",
-          "serial_number": "G6X9H2P7Q3L1",
-          "phone_number": "+1-415-555-0193"
-        }
-      },
-      {
-        "id": "EC-20250925T153229Z-02",
-        "title": "Cracked back glass with no clear accidental event",
-        "description": "Customer discovers the back glass of the iPhone is cracked but cannot recall any drop, impact, or specific incident that would have caused the damage.",
-        "claim_type": "cosmetic_vs_adh_uncertain_event",
-        "ground_truth": "edge_case",
-        "service_fee": {
-          "applies": "uncertain",
+          "applies": "if_approved",
           "amount": 49,
           "currency": "USD",
-          "notes": "If classified as ADH, the fee applies and counts toward the limit; if cosmetic, claim is denied."
+          "notes": "Only if Apple determines the Face ID issue is caused by accidental damage from handling."
         },
         "counts_toward_adh_limit": "if_approved",
         "policy_references": [
           {
-            "section": "3.2 ADH",
-            "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event (e.g., drops and liquid contact)..."
+            "section": "3.2",
+            "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event."
           },
           {
             "section": "4.2(v)",
             "snippet": "The Plan does not apply to cosmetic damage to the Covered iPhone, including but not limited to scratches and dents, that do not otherwise affect the functionality of the Covered iPhone."
           }
         ],
-        "reasoning": "The claim's validity depends on whether the cracked glass resulted from an accidental event (covered by ADH) or is considered cosmetic (not covered). The lack of a specific incident makes this ambiguous. Apple may request more details or inspect for evidence of accidental damage versus wear or manufacturing defect.",
+        "reasoning": "The claim requires judgment because the policy excludes cosmetic-only damage (Section 4.2(v)), but allows ADH coverage if the accident caused a functional failure (Section 3.2). Apple must determine if the Face ID issue is directly linked to the drop or if it is unrelated. If approved, the claim counts toward the ADH limit and incurs the service fee.",
         "customer_data": {
-          "device": "iPhone 14 Pro (512 GB)",
-          "plan_agreement_number": "APLCARE-6842039175",
-          "serial_number": "M2R7D4S8K1V0",
-          "phone_number": "+1-212-555-0172"
+          "device": "iPhone 14 Pro (128 GB)",
+          "plan_agreement_number": "APLCARE-3198745621",
+          "serial_number": "G6Y9J2K8L5M3",
+          "phone_number": "+1-415-555-0193"
+        }
+      },
+      {
+        "id": "EC-20250925T161551Z-02",
+        "title": "Battery Depletion Claim with Prior Unreported Drop",
+        "description": "Customer requests battery replacement, stating capacity is below 80%. During intake, customer mentions the phone was dropped onto concrete a month ago, but no visible damage was reported or claimed at that time.",
+        "claim_type": "battery_vs_ADH_overlap",
+        "ground_truth": "edge_case",
+        "service_fee": {
+          "applies": "depends",
+          "amount": 0,
+          "currency": "USD",
+          "notes": "If battery failure is due to defect (Section 3.1), no fee. If drop caused the failure, ADH fee applies."
+        },
+        "counts_toward_adh_limit": "if_ADH",
+        "policy_references": [
+          {
+            "section": "3.1",
+            "snippet": "If a defect in materials and workmanship has arisen in the Covered iPhone or, (ii) the capacity of the Covered iPhone’s battery to hold an electrical charge has depleted fifty (50%) percent or more from its original specifications, Apple will either (a) repair the defect at no charge..."
+          },
+          {
+            "section": "3.2",
+            "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event (e.g., drops...)."
+          }
+        ],
+        "reasoning": "The policy provides free battery replacement for defects or natural depletion (Section 3.1), but if the drop caused the battery failure, it falls under ADH with a fee (Section 3.2). Apple must determine if the battery issue is due to the drop or normal wear. The outcome affects both the service fee and whether the claim counts toward the ADH limit.",
+        "customer_data": {
+          "device": "iPhone 13 (256 GB)",
+          "plan_agreement_number": "APLCARE-3120984756",
+          "serial_number": "H2J7F4S9Q1L8",
+          "phone_number": "+1-646-555-0142"
         }
       }
     ]

@@ -110,12 +110,15 @@ def _build_prompt(
     count: int,
     fewshot: Mapping[str, Any],
     policy_text: str,
+    slug: str,
 ) -> Tuple[str, str]:
     prefix = LABEL_TO_PREFIX[label]
     label_ground_truth = LABEL_TO_GROUND_TRUTH[label]
     instructions = fewshot.get("instructions", "").strip()
     examples = fewshot.get("examples", [])
     examples_json = json.dumps(examples, indent=2, ensure_ascii=False)
+    scenario_ids = [f"{prefix}-{slug}-{idx:02d}" for idx in range(1, count + 1)]
+    scenario_ids_text = "\n".join(f"- {scenario_id}" for scenario_id in scenario_ids)
 
     system_prompt = textwrap.dedent(
         f"""
@@ -128,17 +131,18 @@ def _build_prompt(
         f"""
         Target label: {label}
         Target ground_truth value: {label_ground_truth}
-        Scenario id prefix: {prefix}-<unique>
+        Scenario ids to use (in order):
+        {scenario_ids_text}
         Required scenario count: {count}
 
         Requirements:
         - Return a JSON array with exactly {count} objects.
         - Every scenario must include the fields: id, title, description, claim_type, ground_truth, service_fee, counts_toward_adh_limit, policy_references, reasoning, customer_data.
         - ground_truth must equal "{label_ground_truth}".
+        - Use the provided scenario ids verbatim; do not invent new identifiers.
         - Policy references must be an array of objects with section and snippet.
         - customer_data should include realistic values for device, plan_agreement_number (or "Unknown"), serial_number (or "Unknown"), and phone_number (use realistic formatting).
         - Tie the reasoning back to concrete policy clauses and mention service fees or limits where relevant.
-        - Use unique identifiers with the {prefix}- prefix (e.g., {prefix}-202509-01). You can invent the unique suffix.
         - Do not repeat the example ids; produce new scenarios.
         - Output JSON only; no prose, no code fences.
 
@@ -269,6 +273,7 @@ class ScenarioGenerator:
                 count=count,
                 fewshot=self.fewshot[label],
                 policy_text=self.policy_text,
+                slug=slug,
             )
             prompts_record = {
                 "system": system_prompt,
