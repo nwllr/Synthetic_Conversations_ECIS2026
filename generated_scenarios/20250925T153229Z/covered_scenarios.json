@@ -1,0 +1,50 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20250925T153229Z-01",
+      "title": "Cracked screen from accidental drop — first ADH event",
+      "description": "Customer accidentally drops their iPhone 13 Mini on a tile floor, resulting in a cracked front display. This is the first accidental damage claim under their AppleCare+ plan.",
+      "claim_type": "accidental_damage_from_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Standard ADH service fee applies for screen damage"
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "If during the Plan Term you submit a valid claim notifying Apple that the Covered iPhone has failed due to accidental damage from handling ('ADH'), Apple will subject to the service fee described below either (i) repair the defect... or (ii) exchange the Covered iPhone..."
+        },
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage will expire... when Apple, as a result of ADH claims, has provided to you two (2) Service Events."
+        }
+      ],
+      "reasoning": "The cracked screen is the result of an unexpected, unintentional external event (a drop) and is covered under section 3.2 as accidental damage from handling. A $49 service fee applies and this counts toward the two-event ADH limit.",
+      "required_user_inputs": [
+        "Plan Agreement Number or serial number (Sec. 5)",
+        "Explanation and details of the accident (Sec. 3.2)",
+        "Proof of purchase if requested (Sec. 7.i)"
+      ],
+      "suggested_service_options": [
+        "Carry-in (6.1.i)",
+        "Mail-in (6.1.ii)",
+        "Express Replacement (6.1.iii)"
+      ],
+      "customer_data": {
+        "device": "iPhone 13 Mini (128 GB)",
+        "plan_agreement_number": "APLCARE-2233445566",
+        "serial_number": "G6T8L0K2J9QW",
+        "phone_number": "+1-415-555-0198"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

@@ -46,6 +46,13 @@ type ProgressState = {
   total: number;
   generated: number;
   errors: number;
+  scenariosGenerated: number;
+};
+
+type ScenarioRecord = {
+  index: number;
+  label?: string;
+  scenario: any;
 };
 
 type LogEntry = {
@@ -80,16 +87,19 @@ type FatalPayload = {
   generated?: number;
   errors?: number;
   conversations?: ConversationRecord[];
+  scenariosGenerated?: number;
+  scenarios?: ScenarioRecord[];
 };
 
 type GeneratorEvent =
-  | { type: "start"; data: { runId: string; outputDir: string; total: number } }
+  | { type: "start"; data: { runId: string; outputDir: string; total: number; scenariosGenerated?: number } }
   | { type: "progress"; data: ProgressState }
   | { type: "item"; data: { index: number; conversation: ConversationRecord } }
+  | { type: "scenario"; data: ScenarioRecord }
   | { type: "log"; data: { stream?: "stdout" | "stderr"; message?: string } }
   | { type: "error"; data: WarningEntry }
-  | { type: "done"; data: { runId: string; outputDir: string; total: number; generated: number; errors: number; stdout?: string; stderr?: string; conversations?: ConversationRecord[] } }
-  | { type: "fatal"; data: FatalPayload };
+  | { type: "done"; data: { runId: string; outputDir: string; total: number; generated: number; errors: number; stdout?: string; stderr?: string; conversations?: ConversationRecord[]; scenariosGenerated?: number; scenarios?: ScenarioRecord[] } }
+  | { type: "fatal"; data: FatalPayload & { scenariosGenerated?: number; scenarios?: ScenarioRecord[] } };
 
 const initialForm: FormState = {
   covered: "2",
@@ -140,8 +150,9 @@ export default function GenerationPipelinePage() {
   const [form, setForm] = useState<FormState>({ ...initialForm });
   const [loading, setLoading] = useState(false);
   const [runInfo, setRunInfo] = useState<RunInfo | null>(null);
-  const [progress, setProgress] = useState<ProgressState>({ total: 0, generated: 0, errors: 0 });
+  const [progress, setProgress] = useState<ProgressState>({ total: 0, generated: 0, errors: 0, scenariosGenerated: 0 });
   const [conversations, setConversations] = useState<ConversationRecord[]>([]);
+  const [scenarios, setScenarios] = useState<ScenarioRecord[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [warnings, setWarnings] = useState<WarningEntry[]>([]);
@@ -186,8 +197,9 @@ export default function GenerationPipelinePage() {
 
     setLoading(true);
     setRunInfo(null);
-    setProgress({ total: totalScenarios, generated: 0, errors: 0 });
+    setProgress({ total: totalScenarios, generated: 0, errors: 0, scenariosGenerated: 0 });
     setConversations([]);
+    setScenarios([]);
     setSelectedIndex(null);
     setLogs([]);
     setWarnings([]);
@@ -253,7 +265,7 @@ export default function GenerationPipelinePage() {
             continue;
           }
 
-          if (!["start", "progress", "item", "log", "error", "done", "fatal"].includes(eventName)) {
+          if (!["start", "progress", "scenario", "item", "log", "error", "done", "fatal"].includes(eventName)) {
             continue;
           }
 
@@ -267,14 +279,43 @@ export default function GenerationPipelinePage() {
                 outputDir: eventData.outputDir,
                 total: eventData.total,
               });
-              setProgress({ total: eventData.total, generated: 0, errors: 0 });
+              setConversations([]);
+              setScenarios([]);
+              setProgress({
+                total: eventData.total,
+                generated: 0,
+                errors: 0,
+                scenariosGenerated: eventData.scenariosGenerated ?? 0,
+              });
               break;
             case "progress":
               setProgress((prev) => ({
                 total: typeof (eventData as ProgressState)?.total === "number" ? (eventData as ProgressState).total : prev.total,
                 generated: typeof (eventData as ProgressState)?.generated === "number" ? (eventData as ProgressState).generated : prev.generated,
                 errors: typeof (eventData as ProgressState)?.errors === "number" ? (eventData as ProgressState).errors : prev.errors,
+                scenariosGenerated:
+                  typeof (eventData as ProgressState)?.scenariosGenerated === "number"
+                    ? (eventData as ProgressState).scenariosGenerated
+                    : prev.scenariosGenerated,
               }));
+              break;
+            case "scenario":
+              {
+                const record = eventData as ScenarioRecord;
+                setScenarios((prev) => {
+                  const next = [...prev];
+                  const targetIndex = typeof record.index === "number" ? record.index : next.length;
+                  next[targetIndex] = record;
+                  return next;
+                });
+                setProgress((prev) => ({
+                  ...prev,
+                  scenariosGenerated: Math.max(
+                    prev.scenariosGenerated,
+                    (typeof record.index === "number" ? record.index : prev.scenariosGenerated) + 1
+                  ),
+                }));
+              }
               break;
             case "item":
               setConversations((prev) => {
@@ -307,10 +348,19 @@ export default function GenerationPipelinePage() {
               if (Array.isArray((eventData as any)?.conversations)) {
                 setConversations((eventData as any).conversations);
               }
+              if (Array.isArray((eventData as any)?.scenarios)) {
+                setScenarios((eventData as any).scenarios);
+              }
               setProgress({
                 total: (eventData as any).total,
                 generated: (eventData as any).generated,
                 errors: (eventData as any).errors,
+                scenariosGenerated:
+                  typeof (eventData as any).scenariosGenerated === "number"
+                    ? (eventData as any).scenariosGenerated
+                    : Array.isArray((eventData as any)?.scenarios)
+                    ? (eventData as any).scenarios.length
+                    : (eventData as any).generated,
               });
               setDonePayload({
                 stdout: (eventData as any).stdout ?? "",
@@ -323,10 +373,19 @@ export default function GenerationPipelinePage() {
               if (Array.isArray((eventData as any)?.conversations)) {
                 setConversations((eventData as any).conversations);
               }
+              if (Array.isArray((eventData as any)?.scenarios)) {
+                setScenarios((eventData as any).scenarios);
+              }
               setProgress((prev) => ({
                 total: typeof (eventData as any)?.total === "number" ? (eventData as any).total : prev.total,
                 generated: typeof (eventData as any)?.generated === "number" ? (eventData as any).generated : prev.generated,
                 errors: typeof (eventData as any)?.errors === "number" ? (eventData as any).errors : prev.errors,
+                scenariosGenerated:
+                  typeof (eventData as any)?.scenariosGenerated === "number"
+                    ? (eventData as any).scenariosGenerated
+                    : Array.isArray((eventData as any)?.scenarios)
+                    ? (eventData as any).scenarios.length
+                    : prev.scenariosGenerated,
               }));
               if ((eventData as any)?.runId && (eventData as any)?.outputDir) {
                 setRunInfo((prev) => ({
@@ -379,8 +438,10 @@ export default function GenerationPipelinePage() {
     URL.revokeObjectURL(url);
   };
 
-  const conversationCount = conversations.length;
-  const progressPercent = progress.total > 0 ? Math.min(100, Math.round((progress.generated / progress.total) * 100)) : 0;
+  const scenarioCount = scenarios.filter(Boolean).length;
+  const conversationCount = conversations.filter(Boolean).length;
+  const scenarioProgressPercent = progress.total > 0 ? Math.min(100, Math.round((progress.scenariosGenerated / progress.total) * 100)) : 0;
+  const conversationProgressPercent = progress.total > 0 ? Math.min(100, Math.round((progress.generated / progress.total) * 100)) : 0;
 
   return (
     <div style={{ maxWidth: 1100, margin: "32px auto", fontFamily: "Inter, system-ui, sans-serif" }}>
@@ -598,23 +659,86 @@ export default function GenerationPipelinePage() {
 
           <div style={{ marginTop: 16 }}>
             <div style={{ fontWeight: 600, fontSize: 14, color: "#0f172a" }}>Progress</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 6 }}>
-              <div style={{ flex: 1, height: 10, background: "#e2e8f0", borderRadius: 999 }}>
-                <div
-                  style={{
-                    width: `${progressPercent}%`,
-                    height: "100%",
-                    borderRadius: 999,
-                    background: "#0ea5e9",
-                    transition: "width 0.2s ease",
-                  }}
-                />
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 6 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ minWidth: 130, fontSize: 12, color: "#475569" }}>Scenarios</div>
+                <div style={{ flex: 1, height: 10, background: "#e2e8f0", borderRadius: 999 }}>
+                  <div
+                    style={{
+                      width: `${scenarioProgressPercent}%`,
+                      height: "100%",
+                      borderRadius: 999,
+                      background: "#10b981",
+                      transition: "width 0.2s ease",
+                    }}
+                  />
+                </div>
+                <div style={{ fontSize: 12, color: "#047857" }}>
+                  {progress.scenariosGenerated} / {progress.total}
+                </div>
               </div>
-              <div style={{ fontSize: 12, color: "#475569" }}>
-                {progress.generated} / {progress.total}
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ minWidth: 130, fontSize: 12, color: "#475569" }}>Conversations</div>
+                <div style={{ flex: 1, height: 10, background: "#e2e8f0", borderRadius: 999 }}>
+                  <div
+                    style={{
+                      width: `${conversationProgressPercent}%`,
+                      height: "100%",
+                      borderRadius: 999,
+                      background: "#0ea5e9",
+                      transition: "width 0.2s ease",
+                    }}
+                  />
+                </div>
+                <div style={{ fontSize: 12, color: "#0f172a" }}>
+                  {progress.generated} / {progress.total}
+                </div>
               </div>
-              <div style={{ fontSize: 12, color: "#dc2626" }}>Errors: {progress.errors}</div>
+              <div style={{ fontSize: 12, color: "#dc2626", textAlign: "right" }}>Errors: {progress.errors}</div>
             </div>
+          </div>
+
+          <div style={{ marginTop: 16 }}>
+            <div style={{ fontWeight: 600, fontSize: 14, color: "#0f172a" }}>Scenarios ({scenarioCount})</div>
+            {scenarioCount === 0 ? (
+              <p style={{ color: "#64748b", fontSize: 13, marginTop: 6 }}>Waiting for scenarios…</p>
+            ) : (
+              <div style={{
+                marginTop: 8,
+                maxHeight: 200,
+                overflowY: "auto",
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+              }}>
+                {scenarios.map((record, idx) => {
+                  if (!record) return null;
+                  const scenario = record?.scenario ?? {};
+                  const scenarioId = scenario?.id ?? `Scenario ${idx + 1}`;
+                  const title = scenario?.title ?? "Untitled scenario";
+                  const label = record?.label ?? scenario?.ground_truth ?? "";
+                  return (
+                    <div
+                      key={`${scenarioId}-${idx}`}
+                      style={{
+                        border: "1px solid #d1d5db",
+                        borderRadius: 8,
+                        padding: 10,
+                        background: "#fff",
+                        fontSize: 13,
+                        color: "#0f172a",
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
+                        <strong>{scenarioId}</strong>
+                        {label && <span style={{ fontSize: 11, textTransform: "uppercase", color: "#475569" }}>{label}</span>}
+                      </div>
+                      <div style={{ color: "#475569", marginTop: 4 }}>{title}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {warnings.length > 0 && (
@@ -642,6 +766,7 @@ export default function GenerationPipelinePage() {
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 8, maxHeight: 480, overflowY: "auto" }}>
                   {conversations.map((conv, idx) => {
+                    if (!conv) return null;
                     const label = conv?.id ?? `Conversation ${idx + 1}`;
                     const messagesCount = Array.isArray(conv?.messages) ? conv.messages.length : 0;
                     const createdAt = formatDate(conv?.created_at);

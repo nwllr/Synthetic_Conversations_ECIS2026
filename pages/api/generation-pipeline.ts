@@ -134,8 +134,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   });
   res.write(": connected\n\n");
 
-  writeEvent(res, "start", { runId, outputDir: relativeOutputDir, total });
-  writeEvent(res, "progress", { total, generated: 0, errors: 0 });
+  writeEvent(res, "start", { runId, outputDir: relativeOutputDir, total, scenariosGenerated: 0 });
+  writeEvent(res, "progress", { total, generated: 0, errors: 0, scenariosGenerated: 0 });
 
   let stdoutBuffer = "";
   let stderrBuffer = "";
@@ -143,6 +143,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   let stderrAll = "";
   let generatedCount = 0;
   let errorCount = 0;
+  const scenarios: any[] = [];
   const conversations: any[] = [];
   const pendingReads: Promise<void>[] = [];
 
@@ -154,6 +155,33 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const processStdoutLine = (line: string) => {
     const trimmed = line.trim();
     if (!trimmed) return;
+    const scenarioPrefix = "SCENARIO_GENERATED:";
+    if (trimmed.startsWith(scenarioPrefix)) {
+      const payloadText = trimmed.slice(scenarioPrefix.length).trim();
+      try {
+        const parsed = JSON.parse(payloadText);
+        const scenarioRecord = {
+          index: scenarios.length,
+          label: parsed?.label,
+          scenario: parsed?.scenario ?? parsed,
+        };
+        scenarios.push(scenarioRecord);
+        writeEvent(res, "scenario", scenarioRecord);
+        writeEvent(res, "progress", {
+          total,
+          generated: generatedCount,
+          errors: errorCount,
+          scenariosGenerated: scenarios.length,
+        });
+      } catch (err: any) {
+        writeEvent(res, "log", {
+          stream: "stderr",
+          message: `Failed to parse scenario payload: ${err?.message ?? String(err)}`,
+        });
+      }
+      return;
+    }
+
     const match = trimmed.match(/Wrote conversation to (.+)$/);
     if (match) {
       const printedPath = match[1].trim();
@@ -167,14 +195,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           conversations.push(conversation);
           generatedCount += 1;
           writeEvent(res, "item", { index: generatedCount - 1, conversation });
-          writeEvent(res, "progress", { total, generated: generatedCount, errors: errorCount });
+          writeEvent(res, "progress", {
+            total,
+            generated: generatedCount,
+            errors: errorCount,
+            scenariosGenerated: scenarios.length,
+          });
         } catch (err: any) {
           errorCount += 1;
           writeEvent(res, "error", {
             message: err?.message ?? String(err),
             path: printedPath,
           });
-          writeEvent(res, "progress", { total, generated: generatedCount, errors: errorCount });
+          writeEvent(res, "progress", {
+            total,
+            generated: generatedCount,
+            errors: errorCount,
+            scenariosGenerated: scenarios.length,
+          });
         }
       })();
       pendingReads.push(readPromise);
@@ -214,7 +252,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     for (const line of lines) {
       const trimmed = line.trim();
       if (trimmed) {
-        writeEvent(res, "log", { stream: "stderr", message: trimmed });
+      writeEvent(res, "log", { stream: "stderr", message: trimmed });
       }
     }
   };
@@ -246,7 +284,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         total,
         generated: generatedCount,
         errors: errorCount,
+        scenariosGenerated: scenarios.length,
         conversations,
+        scenarios,
       });
       res.end();
       return;
@@ -258,9 +298,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       total,
       generated: generatedCount,
       errors: errorCount,
+      scenariosGenerated: scenarios.length,
       stdout: stdoutAll,
       stderr: stderrAll,
       conversations,
+      scenarios,
       exitCode,
     });
     res.end();

@@ -101,10 +101,10 @@ def build_customer_system_prompt(*, persona: Mapping[str, Any], scenario: Mappin
 
     return f"""
 You are a policyholder filing a claim with AppleCare.
-You are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding. Keep it realistic and consistent.
+You are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.
 You will have a conversation with an AppleCare bot to file your claim.
 Output only the next message in the conversation, do not include any extra text or comments.
-The conversation should be turn-taking and unique.
+The conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder interacting with a bot to file a claim.
 If the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.
 When the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.
 

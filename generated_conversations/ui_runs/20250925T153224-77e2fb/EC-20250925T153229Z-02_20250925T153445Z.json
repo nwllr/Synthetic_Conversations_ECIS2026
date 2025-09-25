@@ -1,0 +1,140 @@
+{
+  "id": "EC-20250925T153229Z-02_20250925T153445Z",
+  "created_at": "2025-09-25T15:34:45.095195+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 0.7,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20250925T153229Z-02",
+    "title": "Cracked back glass with no clear accidental event",
+    "description": "Customer discovers the back glass of the iPhone is cracked but cannot recall any drop, impact, or specific incident that would have caused the damage.",
+    "claim_type": "cosmetic_vs_adh_uncertain_event",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "uncertain",
+      "amount": 49,
+      "currency": "USD",
+      "notes": "If classified as ADH, the fee applies and counts toward the limit; if cosmetic, claim is denied."
+    },
+    "counts_toward_adh_limit": "if_approved",
+    "policy_references": [
+      {
+        "section": "3.2 ADH",
+        "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event (e.g., drops and liquid contact)..."
+      },
+      {
+        "section": "4.2(v)",
+        "snippet": "The Plan does not apply to cosmetic damage to the Covered iPhone, including but not limited to scratches and dents, that do not otherwise affect the functionality of the Covered iPhone."
+      }
+    ],
+    "reasoning": "The claim's validity depends on whether the cracked glass resulted from an accidental event (covered by ADH) or is considered cosmetic (not covered). The lack of a specific incident makes this ambiguous. Apple may request more details or inspect for evidence of accidental damage versus wear or manufacturing defect.",
+    "customer_data": {
+      "device": "iPhone 14 Pro (512 GB)",
+      "plan_agreement_number": "APLCARE-6842039175",
+      "serial_number": "M2R7D4S8K1V0",
+      "phone_number": "+1-212-555-0172"
+    }
+  },
+  "persona": {
+    "age": "67",
+    "ancestry": "Irish",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Low",
+      "Extraversion": "Extremely High",
+      "Neuroticism": "Average",
+      "Openness": "Average"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Private",
+    "defining quirks": "Enjoys painting in her free time",
+    "detailed job description": "Retired artist",
+    "disability": "With a disability",
+    "education": "Regular high school diploma",
+    "employment status": "Not in labor force",
+    "family presence and age": "With related children 5 to 17 years only",
+    "health insurance": "With health insurance coverage",
+    "hearing difficulty": "Yes",
+    "household language": "English only",
+    "household type": "Female householder, no spouse/partner present, with relatives, no children of the householder less than 18",
+    "ideology": "Liberal",
+    "income": "7500.0",
+    "industry category": "Arts",
+    "lifestyle": "Relaxed and leisurely",
+    "mannerisms": "Often seen with paint on her hands",
+    "marital status": "Widowed",
+    "occupation category": "Artist",
+    "personal time": "Spends free time painting or attending theater performances",
+    "place of birth": "Pennsylvania/PA",
+    "political views": "Democrat",
+    "race": "White alone",
+    "religion": "Religiously Unaffiliated",
+    "sex": "Female",
+    "veteran status": "Non-Veteran",
+    "vision difficulty": "Yes"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder interacting with a bot to file a claim.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer discovers the back glass of the iPhone is cracked but cannot recall any drop, impact, or specific incident that would have caused the damage.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-6842039175\",\n  \"serial_number\": \"M2R7D4S8K1V0\",\n  \"phone_number\": \"+1-212-555-0172\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"67\",\n  \"ancestry\": \"Irish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Low\",\n    \"Extraversion\": \"Extremely High\",\n    \"Neuroticism\": \"Average\",\n    \"Openness\": \"Average\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Private\",\n  \"defining quirks\": \"Enjoys painting in her free time\",\n  \"detailed job description\": \"Retired artist\",\n  \"disability\": \"With a disability\",\n  \"education\": \"Regular high school diploma\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"With related children 5 to 17 years only\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"hearing difficulty\": \"Yes\",\n  \"household language\": \"English only\",\n  \"household type\": \"Female householder, no spouse/partner present, with relatives, no children of the householder less than 18\",\n  \"ideology\": \"Liberal\",\n  \"income\": \"7500.0\",\n  \"industry category\": \"Arts\",\n  \"lifestyle\": \"Relaxed and leisurely\",\n  \"mannerisms\": \"Often seen with paint on her hands\",\n  \"marital status\": \"Widowed\",\n  \"occupation category\": \"Artist\",\n  \"personal time\": \"Spends free time painting or attending theater performances\",\n  \"place of birth\": \"Pennsylvania/PA\",\n  \"political views\": \"Democrat\",\n  \"race\": \"White alone\",\n  \"religion\": \"Religiously Unaffiliated\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\",\n  \"vision difficulty\": \"Yes\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "customer",
+      "text": "Hello, I need to file a claim for my iPhone 14 Pro. I recently noticed the back glass is cracked, but honestly, I can't remember dropping it or anything like that. Could you help me with this?",
+      "raw_text": "Hello, I need to file a claim for my iPhone 14 Pro. I recently noticed the back glass is cracked, but honestly, I can't remember dropping it or anything like that. Could you help me with this?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Certainly, I can help you with that. To get started, could you please provide me with your Plan Agreement Number or your iPhone's serial number? This is to verify your coverage eligibility.",
+      "raw_text": "Certainly, I can help you with that. To get started, could you please provide me with your Plan Agreement Number or your iPhone's serial number? This is to verify your coverage eligibility."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure thing! My Plan Agreement Number is APLCARE-6842039175, and the serial number of my iPhone is M2R7D4S8K1V0. Does that help?",
+      "raw_text": "Sure thing! My Plan Agreement Number is APLCARE-6842039175, and the serial number of my iPhone is M2R7D4S8K1V0. Does that help?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing those details. Now, could you please describe the issue with your iPhone back glass in a bit more detail? For example, is the crack affecting the functionality, or is it just cosmetic? Any other symptoms you notice would be helpful as well.",
+      "raw_text": "Thank you for providing those details. Now, could you please describe the issue with your iPhone back glass in a bit more detail? For example, is the crack affecting the functionality, or is it just cosmetic? Any other symptoms you notice would be helpful as well."
+    },
+    {
+      "speaker": "customer",
+      "text": "The crack is mainly cosmetic; the phone still works fine, and the touchscreen responds just like before. But the crack is pretty visible and bothers me, especially since I use the phone often when I'm out painting or at theater performances. I just want to make sure it gets fixed properly.",
+      "raw_text": "The crack is mainly cosmetic; the phone still works fine, and the touchscreen responds just like before. But the crack is pretty visible and bothers me, especially since I use the phone often when I'm out painting or at theater performances. I just want to make sure it gets fixed properly."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for the clarification. To better understand the situation, could you please tell me if you noticed any specific event that might have caused the crack, like dropping the phone or exposure to liquid? Even if you’re unsure, any details you recall will help. Also, could you confirm the iPhone model and the iOS version you are currently running?",
+      "raw_text": "Thanks for the clarification. To better understand the situation, could you please tell me if you noticed any specific event that might have caused the crack, like dropping the phone or exposure to liquid? Even if you’re unsure, any details you recall will help. Also, could you confirm the iPhone model and the iOS version you are currently running?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I honestly can't think of any specific event that would have caused the crack—no drops or spills that I can remember. As for the model, it's the iPhone 14 Pro with 512 GB of storage. I believe it's running the latest iOS version; I usually keep it updated but don't recall the exact number right now.",
+      "raw_text": "I honestly can't think of any specific event that would have caused the crack—no drops or spills that I can remember. As for the model, it's the iPhone 14 Pro with 512 GB of storage. I believe it's running the latest iOS version; I usually keep it updated but don't recall the exact number right now."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for the info. Just to confirm, are there any peripherals connected to your iPhone right now, like cases or screen protectors? Also, have you seen any error messages or tried any troubleshooting steps related to the crack?",
+      "raw_text": "Thanks for the info. Just to confirm, are there any peripherals connected to your iPhone right now, like cases or screen protectors? Also, have you seen any error messages or tried any troubleshooting steps related to the crack?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, I do have a protective case on the phone at all times, and I also use a screen protector on the front. I haven't seen any error messages or tried any troubleshooting since the phone otherwise works perfectly fine. The crack is just on the back glass.",
+      "raw_text": "Yes, I do have a protective case on the phone at all times, and I also use a screen protector on the front. I haven't seen any error messages or tried any troubleshooting since the phone otherwise works perfectly fine. The crack is just on the back glass."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the details. Since the crack is on the back glass and there is no clear accident, we'll proceed with your claim under AppleCare+. Your claim will be processed shortly. Is there anything else I can assist you with today?",
+      "raw_text": "Thank you for the details. Since the crack is on the back glass and there is no clear accident, we'll proceed with your claim under AppleCare+. Your claim will be processed shortly. Is there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "That's wonderful to hear, thank you so much for your help! No, that's all for now. I really appreciate how smoothly this went. Have a great day!",
+      "raw_text": "That's wonderful to hear, thank you so much for your help! No, that's all for now. I really appreciate how smoothly this went. Have a great day! <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

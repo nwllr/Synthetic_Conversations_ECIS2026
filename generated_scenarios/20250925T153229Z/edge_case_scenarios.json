@@ -1,0 +1,71 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250925T153229Z-01",
+      "title": "Battery failure after screen replacement by third party",
+      "description": "Customer reports the iPhone battery holds less than 50% of its original charge, but also discloses that the screen was replaced by a non-Apple repair shop prior to the battery issue.",
+      "claim_type": "battery_depletion_with_third_party_repair",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "depends",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery replacement is normally covered with no fee, but third-party repairs may void coverage."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "If during the Plan Term, you submit a valid claim by notifying Apple that...the capacity of the Covered iPhone’s battery to hold an electrical charge has depleted fifty (50%) percent or more from its original specifications, Apple will...repair the defect at no charge..."
+        },
+        {
+          "section": "4.2(ii)(d)",
+          "snippet": "The Plan does not apply to damage caused by...service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider (“AASP”)."
+        }
+      ],
+      "reasoning": "The policy covers battery depletion, but explicitly excludes coverage if prior service was performed by non-Apple technicians. Apple must determine if the battery issue is related to the unauthorized screen replacement. If so, the claim may be denied; if not, coverage may apply. Apple will likely request proof of the repair and inspect for related damage.",
+      "customer_data": {
+        "device": "iPhone 13 (128 GB)",
+        "plan_agreement_number": "APLCARE-5123901842",
+        "serial_number": "G6X9H2P7Q3L1",
+        "phone_number": "+1-415-555-0193"
+      }
+    },
+    {
+      "id": "EC-20250925T153229Z-02",
+      "title": "Cracked back glass with no clear accidental event",
+      "description": "Customer discovers the back glass of the iPhone is cracked but cannot recall any drop, impact, or specific incident that would have caused the damage.",
+      "claim_type": "cosmetic_vs_adh_uncertain_event",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "uncertain",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "If classified as ADH, the fee applies and counts toward the limit; if cosmetic, claim is denied."
+      },
+      "counts_toward_adh_limit": "if_approved",
+      "policy_references": [
+        {
+          "section": "3.2 ADH",
+          "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event (e.g., drops and liquid contact)..."
+        },
+        {
+          "section": "4.2(v)",
+          "snippet": "The Plan does not apply to cosmetic damage to the Covered iPhone, including but not limited to scratches and dents, that do not otherwise affect the functionality of the Covered iPhone."
+        }
+      ],
+      "reasoning": "The claim's validity depends on whether the cracked glass resulted from an accidental event (covered by ADH) or is considered cosmetic (not covered). The lack of a specific incident makes this ambiguous. Apple may request more details or inspect for evidence of accidental damage versus wear or manufacturing defect.",
+      "customer_data": {
+        "device": "iPhone 14 Pro (512 GB)",
+        "plan_agreement_number": "APLCARE-6842039175",
+        "serial_number": "M2R7D4S8K1V0",
+        "phone_number": "+1-212-555-0172"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

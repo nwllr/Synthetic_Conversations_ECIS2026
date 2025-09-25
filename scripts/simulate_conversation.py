@@ -374,6 +374,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             scenarios_for_label = result.scenarios.get(label, [])
             generated_pairs.extend((label, scenario) for scenario in scenarios_for_label)
             print(f"Generated {len(scenarios_for_label)} {label} scenarios -> {path}")
+            for scenario in scenarios_for_label:
+                payload = {"label": label, "scenario": scenario}
+                print(f"SCENARIO_GENERATED: {json.dumps(payload, ensure_ascii=False)}", flush=True)
         if result.archive_dir is not None:
             print(f"Archived raw scenario prompts in {result.archive_dir}")
 
