@@ -1,0 +1,71 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250925T142003Z-01",
+      "title": "Battery capacity claim with prior third-party screen replacement",
+      "description": "Customer requests a battery replacement under AppleCare+ due to diminished capacity, but the iPhone previously had its screen replaced by a non-Apple repair shop.",
+      "claim_type": "battery_capacity_with_third_party_repair",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery replacement for diminished capacity is typically covered without a fee, but third-party repairs may affect eligibility."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "Apple will repair or replace the Covered iPhone if a defect in materials and workmanship has arisen."
+        },
+        {
+          "section": "4.2(ii)(d)",
+          "snippet": "The Plan does not apply to service if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider."
+        }
+      ],
+      "reasoning": "While battery capacity loss is a covered hardware defect, prior unauthorized repairs may void coverage. Apple must determine if the third-party screen replacement impacts the ability to safely service the battery or if it constitutes grounds for denial under 4.2(ii)(d). This creates tension between the right to battery service and the exclusion for third-party repairs.",
+      "customer_data": {
+        "device": "iPhone 13 Pro (128 GB)",
+        "plan_agreement_number": "APLCARE-3124589761",
+        "serial_number": "F2LZ3N8R6T1B",
+        "phone_number": "+1-415-555-0192"
+      }
+    },
+    {
+      "id": "EC-20250925T142003Z-02",
+      "title": "Cracked back glass with no functional impact",
+      "description": "Customer requests service for a cracked back glass panel, but the iPhone is fully functional and the damage is purely cosmetic.",
+      "claim_type": "cosmetic_damage_vs_adh",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "maybe",
+        "amount": 99,
+        "currency": "USD",
+        "notes": "Fee applies if Apple determines the crack is accidental damage from handling and not merely cosmetic."
+      },
+      "counts_toward_adh_limit": "if_approved",
+      "policy_references": [
+        {
+          "section": "3.2 ADH",
+          "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event."
+        },
+        {
+          "section": "4.2(v)",
+          "snippet": "The Plan does not apply to cosmetic damage to the Covered iPhone, including but not limited to scratches and dents, that do not otherwise affect the functionality."
+        }
+      ],
+      "reasoning": "The scenario is ambiguous because the policy excludes purely cosmetic damage, but ADH covers accidental external events. If the crack is deemed to compromise device integrity or is more than cosmetic, it may be covered under ADH with a service fee and count toward the ADH limit. Apple must assess if the crack is only cosmetic or if it rises to the level of accidental damage from handling.",
+      "customer_data": {
+        "device": "iPhone 14 (256 GB)",
+        "plan_agreement_number": "APLCARE-3298745610",
+        "serial_number": "G7X4M2P9S5Q8",
+        "phone_number": "+1-646-555-0176"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

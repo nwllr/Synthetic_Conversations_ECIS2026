@@ -1,0 +1,67 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20250925T135421Z-01",
+      "title": "Screen cracked from accidental drop — first ADH claim",
+      "description": "Customer dropped their iPhone 13 Mini on concrete, resulting in a shattered front display. No prior accidental damage claims have been made under the plan.",
+      "claim_type": "accidental_damage_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Standard ADH service fee applies for each incident"
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "If during the Plan Term you submit a valid claim notifying Apple that the Covered iPhone has failed due to accidental damage from handling ('ADH'), Apple will...repair the defect...subject to the service fee described below."
+        },
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage will expire...when Apple, as a result of ADH claims, has provided to you two (2) Service Events."
+        }
+      ],
+      "reasoning": "The cracked screen is the result of an unexpected, unintentional external event (drop), which is explicitly covered under section 3.2. The customer has not exceeded the two-incident ADH limit, and the standard $49 service fee applies.",
+      "customer_data": {
+        "device": "iPhone 13 Mini (128 GB)",
+        "plan_agreement_number": "APLCARE-9988776655",
+        "serial_number": "G6TQW4L8P2ZV",
+        "phone_number": "+1-415-555-0193"
+      }
+    },
+    {
+      "id": "COV-20250925T135421Z-02",
+      "title": "Power button fails to respond within plan term",
+      "description": "The power button on an iPhone 12 Pro Max stopped functioning after 14 months of normal use, with no signs of accidental damage or misuse.",
+      "claim_type": "hardware_defect",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD",
+        "notes": "No fee for hardware defects"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "A defect in materials and workmanship has arisen in the Covered iPhone...Apple will either (a) repair the defect at no charge...or (b) exchange the Covered iPhone with a replacement product..."
+        }
+      ],
+      "reasoning": "A non-functional power button is a defect in materials or workmanship, which is covered under section 3.1. No accidental damage is present, so no service fee applies and this does not count toward the ADH limit.",
+      "customer_data": {
+        "device": "iPhone 12 Pro Max (256 GB)",
+        "plan_agreement_number": "APLCARE-1234567890",
+        "serial_number": "K2LMN3B7X9QW",
+        "phone_number": "+1-212-555-0178"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

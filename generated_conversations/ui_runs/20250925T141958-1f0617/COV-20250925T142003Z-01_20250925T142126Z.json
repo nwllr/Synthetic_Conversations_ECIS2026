@@ -1,0 +1,138 @@
+{
+  "id": "COV-20250925T142003Z-01_20250925T142126Z",
+  "created_at": "2025-09-25T14:21:26.051499+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 0.7,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "covered",
+  "scenario": {
+    "id": "COV-20250925T142003Z-01",
+    "title": "Cracked screen from accidental drop — first ADH claim",
+    "description": "Customer dropped their iPhone 14 Pro on concrete during normal daily use, resulting in a cracked front display. This is the first accidental damage claim under their AppleCare+ plan.",
+    "claim_type": "accidental_damage_handling",
+    "ground_truth": "covered",
+    "service_fee": {
+      "applies": true,
+      "amount": 49,
+      "currency": "USD",
+      "notes": "Standard ADH service fee applies for screen damage"
+    },
+    "counts_toward_adh_limit": true,
+    "policy_references": [
+      {
+        "section": "3.2 Accidental Damage from Handling",
+        "snippet": "If during the Plan Term you submit a valid claim notifying Apple that the Covered iPhone has failed due to accidental damage from handling ('ADH'), Apple will subject to the service fee described below either (i) repair the defect... or (ii) exchange the Covered iPhone..."
+      },
+      {
+        "section": "3.2 Accidental Damage from Handling",
+        "snippet": "You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim..."
+      }
+    ],
+    "reasoning": "The cracked screen is the result of an unexpected and unintentional external event (a drop) during normal use, which qualifies as accidental damage from handling under section 3.2. The first ADH claim is within the covered limit (maximum two per plan term), and the standard $49 service fee applies.",
+    "customer_data": {
+      "device": "iPhone 14 Pro (128 GB)",
+      "plan_agreement_number": "APLCARE-7894561230",
+      "serial_number": "G6YQX2L8P4MJ",
+      "phone_number": "+1-415-555-0198"
+    }
+  },
+  "persona": {
+    "age": "50",
+    "ancestry": "Croatian",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "High",
+      "Extraversion": "Average",
+      "Neuroticism": "Average",
+      "Openness": "Average"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Employee of a private not-for-profit, tax-exempt, or charitable organization",
+    "defining quirks": "Enjoys sketching in her free time",
+    "detailed job description": "Teaches various subjects to elementary and middle school students, develops lesson plans, and assesses student performance",
+    "disability": "None",
+    "education": "Bachelor's degree",
+    "employment status": "Civilian employed, with a job but not at work",
+    "family presence and age": "No related children",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Married couple household, no children of the householder less than 18",
+    "ideology": "Believes in the importance of empathy and understanding in society",
+    "income": "178000.0",
+    "industry category": "EDU-Elementary And Secondary Schools",
+    "lifestyle": "Quiet and peaceful, enjoys spending time in nature",
+    "mannerisms": "Often uses hand gestures while speaking",
+    "marital status": "Married",
+    "occupation category": "EDU-Elementary And Middle School Teachers",
+    "personal time": "Spends free time sketching, reading or gardening",
+    "place of birth": "New York/NY",
+    "political views": "Democrat",
+    "race": "White alone",
+    "religion": "Catholic",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding. Keep it realistic and consistent.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer dropped their iPhone 14 Pro on concrete during normal daily use, resulting in a cracked front display. This is the first accidental damage claim under their AppleCare+ plan.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro (128 GB)\",\n  \"plan_agreement_number\": \"APLCARE-7894561230\",\n  \"serial_number\": \"G6YQX2L8P4MJ\",\n  \"phone_number\": \"+1-415-555-0198\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"50\",\n  \"ancestry\": \"Croatian\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"High\",\n    \"Extraversion\": \"Average\",\n    \"Neuroticism\": \"Average\",\n    \"Openness\": \"Average\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Employee of a private not-for-profit, tax-exempt, or charitable organization\",\n  \"defining quirks\": \"Enjoys sketching in her free time\",\n  \"detailed job description\": \"Teaches various subjects to elementary and middle school students, develops lesson plans, and assesses student performance\",\n  \"disability\": \"None\",\n  \"education\": \"Bachelor's degree\",\n  \"employment status\": \"Civilian employed, with a job but not at work\",\n  \"family presence and age\": \"No related children\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Married couple household, no children of the householder less than 18\",\n  \"ideology\": \"Believes in the importance of empathy and understanding in society\",\n  \"income\": \"178000.0\",\n  \"industry category\": \"EDU-Elementary And Secondary Schools\",\n  \"lifestyle\": \"Quiet and peaceful, enjoys spending time in nature\",\n  \"mannerisms\": \"Often uses hand gestures while speaking\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"EDU-Elementary And Middle School Teachers\",\n  \"personal time\": \"Spends free time sketching, reading or gardening\",\n  \"place of birth\": \"New York/NY\",\n  \"political views\": \"Democrat\",\n  \"race\": \"White alone\",\n  \"religion\": \"Catholic\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "customer",
+      "text": "Hello, I need to file a claim for my iPhone 14 Pro. I accidentally dropped it on concrete, and now the front display is cracked. This is my first accidental damage claim under my AppleCare+ plan. Could you please help me with the process?",
+      "raw_text": "Hello, I need to file a claim for my iPhone 14 Pro. I accidentally dropped it on concrete, and now the front display is cracked. This is my first accidental damage claim under my AppleCare+ plan. Could you please help me with the process?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for reaching out. To get started with your claim, could you please provide your Plan Agreement Number or your iPhone 14 Pro's serial number? This is needed to verify your coverage eligibility.",
+      "raw_text": "Thank you for reaching out. To get started with your claim, could you please provide your Plan Agreement Number or your iPhone 14 Pro's serial number? This is needed to verify your coverage eligibility."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, my Plan Agreement Number is APLCARE-7894561230, and the serial number of my iPhone 14 Pro is G6YQX2L8P4MJ. Please let me know if you need any other information.",
+      "raw_text": "Sure, my Plan Agreement Number is APLCARE-7894561230, and the serial number of my iPhone 14 Pro is G6YQX2L8P4MJ. Please let me know if you need any other information."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing that information. Could you please describe the issue you are experiencing with your iPhone 14 Pro in your own words? For example, you mentioned the front display is cracked—any additional details about the damage or symptoms would be helpful.",
+      "raw_text": "Thank you for providing that information. Could you please describe the issue you are experiencing with your iPhone 14 Pro in your own words? For example, you mentioned the front display is cracked—any additional details about the damage or symptoms would be helpful."
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, the front display is visibly cracked in several places, mostly near the bottom edge. The touchscreen still works, but the cracks are spreading a bit, and it's a bit uncomfortable to use. There are no other issues like unresponsiveness or battery problems so far—just the broken glass.",
+      "raw_text": "Yes, the front display is visibly cracked in several places, mostly near the bottom edge. The touchscreen still works, but the cracks are spreading a bit, and it's a bit uncomfortable to use. There are no other issues like unresponsiveness or battery problems so far—just the broken glass."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for the details. To better assist you, could you confirm the iPhone model is indeed 14 Pro and tell me the current iOS version installed? Also, are there any accessories or peripherals connected when the damage occurred? Have you tried any troubleshooting steps since the incident?",
+      "raw_text": "Thanks for the details. To better assist you, could you confirm the iPhone model is indeed 14 Pro and tell me the current iOS version installed? Also, are there any accessories or peripherals connected when the damage occurred? Have you tried any troubleshooting steps since the incident?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, it is definitely the iPhone 14 Pro model, 128 GB. The iOS version is up to date with the latest release, which I believe is iOS 17. I wasn't using any accessories or peripherals at the time—it just slipped from my hand while I was walking outside. Since the incident, I haven't tried any troubleshooting other than carefully using it to avoid further damage.",
+      "raw_text": "Yes, it is definitely the iPhone 14 Pro model, 128 GB. The iOS version is up to date with the latest release, which I believe is iOS 17. I wasn't using any accessories or peripherals at the time—it just slipped from my hand while I was walking outside. Since the incident, I haven't tried any troubleshooting other than carefully using it to avoid further damage."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. Since this is an accidental damage claim due to a drop, could you please provide more details about the accident? Specifically, where and when did the drop happen, and how did it occur? This will help us process your claim accurately.",
+      "raw_text": "Thank you for the information. Since this is an accidental damage claim due to a drop, could you please provide more details about the accident? Specifically, where and when did the drop happen, and how did it occur? This will help us process your claim accurately."
+    },
+    {
+      "speaker": "customer",
+      "text": "Of course. The drop happened just yesterday in the afternoon while I was walking on the sidewalk near my home. I was holding the phone in one hand, and it slipped from my fingers, falling onto the concrete pavement. It was a brief moment of distraction as I was thinking about my lesson plans for school. The impact caused the front display to crack as I described earlier.",
+      "raw_text": "Of course. The drop happened just yesterday in the afternoon while I was walking on the sidewalk near my home. I was holding the phone in one hand, and it slipped from my fingers, falling onto the concrete pavement. It was a brief moment of distraction as I was thinking about my lesson plans for school. The impact caused the front display to crack as I described earlier."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the detailed accident description. Based on the information you've provided, I will now proceed with processing your accidental damage claim for your iPhone 14 Pro. Is there anything else you need assistance with today?",
+      "raw_text": "Thank you for the detailed accident description. Based on the information you've provided, I will now proceed with processing your accidental damage claim for your iPhone 14 Pro. Is there anything else you need assistance with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that covers everything for now. Thank you for your help in filing this claim. I appreciate your assistance. Have a good day!",
+      "raw_text": "No, that covers everything for now. Thank you for your help in filing this claim. I appreciate your assistance. Have a good day!<END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

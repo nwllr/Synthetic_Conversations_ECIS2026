@@ -1,0 +1,71 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250925T135421Z-01",
+      "title": "Cracked screen after third-party screen protector removal",
+      "description": "Customer reports the screen cracked while removing a third-party screen protector. The protector was difficult to remove and required some force, but the phone was not dropped.",
+      "claim_type": "screen_damage_during_accessory_removal",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "maybe",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Fee applies if considered ADH; claim may be denied if damage is attributed to misuse or improper accessory use."
+      },
+      "counts_toward_adh_limit": "if_approved",
+      "policy_references": [
+        {
+          "section": "3.2 ADH",
+          "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event."
+        },
+        {
+          "section": "4.2(ii)(b)",
+          "snippet": "The Plan does not apply to damage caused by abuse, misuse, fire, earthquake or other external causes except as described in section 3.2 above."
+        }
+      ],
+      "reasoning": "The claim is ambiguous because it is unclear whether the force used to remove the protector constitutes normal handling (covered) or misuse (excluded). Apple would need to assess if the event was truly accidental and unintentional, or if improper removal technique voids coverage.",
+      "customer_data": {
+        "device": "iPhone 14 Pro (128 GB)",
+        "plan_agreement_number": "APLCARE-3124567890",
+        "serial_number": "F2L6G8H9J1K2",
+        "phone_number": "+1-415-555-0192"
+      }
+    },
+    {
+      "id": "EC-20250925T135421Z-02",
+      "title": "Battery failure after using non-Apple charging cable",
+      "description": "Customer's iPhone will not power on after charging overnight with a non-Apple certified cable. No visible external damage is present.",
+      "claim_type": "hardware_failure_after_third_party_accessory_use",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "depends",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "No fee if covered as hardware defect; claim may be denied if third-party accessory is determined to be the cause."
+      },
+      "counts_toward_adh_limit": "no_if_hardware_defect",
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "If a defect in materials and workmanship has arisen in the Covered iPhone, Apple will repair or exchange the device."
+        },
+        {
+          "section": "4.2(ii)(a)",
+          "snippet": "The Plan does not apply to damage caused by a product that is not the Covered iPhone."
+        }
+      ],
+      "reasoning": "This scenario is ambiguous because hardware defects are covered, but damage caused by third-party accessories is not. Apple would need to determine if the failure was due to a manufacturing defect or if the non-certified cable caused the issue.",
+      "customer_data": {
+        "device": "iPhone 13 (256 GB)",
+        "plan_agreement_number": "APLCARE-3098765432",
+        "serial_number": "W1X2C3V4B5N6",
+        "phone_number": "+1-646-555-0176"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

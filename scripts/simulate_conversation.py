@@ -17,7 +17,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable, List, Mapping, Sequence, Tuple, TYPE_CHECKING
+from typing import Dict, Iterable, List, Mapping, Sequence, Tuple, TYPE_CHECKING
 
 try:
     from dotenv import load_dotenv
@@ -36,6 +36,11 @@ from prompts.customer_prompt import (
     find_scenario_by_id,
     iter_all_scenarios,
     load_personas,
+)
+from prompts.scenario_generation import (
+    ScenarioGenerationError,
+    ScenarioGenerationSettings,
+    ScenarioGenerator,
 )
 
 
@@ -98,6 +103,61 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         "--seed",
         type=int,
         help="Random seed to make persona sampling deterministic",
+    )
+    parser.add_argument(
+        "--generate-scenarios",
+        action="store_true",
+        help="Generate fresh scenarios before simulating conversations",
+    )
+    parser.add_argument(
+        "--scenario-only",
+        action="store_true",
+        help="Only generate scenarios and skip conversation simulation",
+    )
+    parser.add_argument(
+        "--scenario-count-covered",
+        type=int,
+        default=0,
+        help="Number of covered scenarios to generate (requires --generate-scenarios)",
+    )
+    parser.add_argument(
+        "--scenario-count-not-covered",
+        type=int,
+        default=0,
+        help="Number of not-covered scenarios to generate (requires --generate-scenarios)",
+    )
+    parser.add_argument(
+        "--scenario-count-edge-case",
+        type=int,
+        default=0,
+        help="Number of edge-case scenarios to generate (requires --generate-scenarios)",
+    )
+    parser.add_argument(
+        "--scenario-model",
+        default="gpt-4.1",
+        help="Model name to use for scenario generation (default: gpt-4.1)",
+    )
+    parser.add_argument(
+        "--scenario-temperature",
+        type=float,
+        default=0.35,
+        help="Sampling temperature for scenario generation (default: 0.35)",
+    )
+    parser.add_argument(
+        "--scenario-max-tokens",
+        type=int,
+        default=2800,
+        help="Token cap for scenario generation responses (default: 2800)",
+    )
+    parser.add_argument(
+        "--scenario-archive-dir",
+        default="generated_scenarios",
+        help="Directory for archiving raw scenario prompts and responses",
+    )
+    parser.add_argument(
+        "--no-scenario-archive",
+        action="store_true",
+        help="Skip archiving scenario generation prompts/responses",
     )
     return parser.parse_args(argv)
 
@@ -261,10 +321,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.seed is not None:
         random.seed(args.seed)
 
-    personas = load_personas()
-    instructions = load_bot_instructions()
-    scenarios = select_scenarios(args.count, args.scenario_id)
-
     try:
         from openai import OpenAI  # type: ignore
     except ImportError as exc:  # pragma: no cover - import error path
@@ -279,13 +335,94 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not api_key:
         raise SystemExit("Set the OPENAI_API_KEY environment variable before running this script.")
     client = OpenAI(api_key=api_key)
+
+    if args.scenario_only and not args.generate_scenarios:
+        raise SystemExit("--scenario-only requires --generate-scenarios")
+
+    generated_pairs: List[Tuple[str, Mapping[str, object]]] = []
+
+    if args.generate_scenarios:
+        scenario_counts: Dict[str, int] = {
+            "covered": max(0, args.scenario_count_covered),
+            "not_covered": max(0, args.scenario_count_not_covered),
+            "edge_case": max(0, args.scenario_count_edge_case),
+        }
+        if not any(scenario_counts.values()):
+            raise SystemExit(
+                "Specify at least one positive --scenario-count-<label> when using --generate-scenarios"
+            )
+
+        scenario_settings = ScenarioGenerationSettings(
+            counts=scenario_counts,
+            model=args.scenario_model,
+            temperature=args.scenario_temperature,
+            max_tokens=args.scenario_max_tokens,
+        )
+        generator = ScenarioGenerator(
+            client,
+            archive_root=Path(args.scenario_archive_dir),
+        )
+        try:
+            result = generator.generate(
+                scenario_settings,
+                archive=not args.no_scenario_archive,
+            )
+        except ScenarioGenerationError as exc:
+            raise SystemExit(f"Scenario generation failed: {exc}") from exc
+
+        for label, path in result.written_files.items():
+            scenarios_for_label = result.scenarios.get(label, [])
+            generated_pairs.extend((label, scenario) for scenario in scenarios_for_label)
+            print(f"Generated {len(scenarios_for_label)} {label} scenarios -> {path}")
+        if result.archive_dir is not None:
+            print(f"Archived raw scenario prompts in {result.archive_dir}")
+
+    if args.scenario_only:
+        print("Scenario generation complete; skipping conversations (--scenario-only).")
+        return 0
+
+    scenarios: List[Tuple[str, Mapping[str, object]]]
+
+    if generated_pairs:
+        conversation_count = len(generated_pairs)
+        if args.count not in (None, 0, 1) and args.count != conversation_count:
+            print(
+                f"Overriding requested --count={args.count} to match freshly generated scenario count ({conversation_count})."
+            )
+        if args.scenario_id:
+            print("Ignoring --scenario-id because new scenarios were generated in this run.")
+        scenarios = generated_pairs
+        print(f"Planning {conversation_count} conversations (one per freshly generated scenario).")
+    else:
+        conversation_count = max(0, args.count)
+        if conversation_count <= 0:
+            print("No conversations requested; exiting.")
+            return 0
+        scenarios = select_scenarios(conversation_count, args.scenario_id)
+
+    personas = load_personas()
+    instructions = load_bot_instructions()
+
     output_dir = Path(args.output_dir)
 
     written_paths: List[Path] = []
 
-    for idx in range(args.count):
+    persona_cycle: List[Mapping[str, object]] = list(personas)
+    if not persona_cycle:
+        raise SystemExit("Persona list is empty; ensure personas.json is populated.")
+    random.shuffle(persona_cycle)
+    cycle_idx = 0
+
+    for idx in range(conversation_count):
         scenario_label, scenario = scenarios[idx % len(scenarios)]
-        persona = pick_persona(personas, args.persona_index)
+        if args.persona_index is not None:
+            persona = pick_persona(personas, args.persona_index)
+        else:
+            persona = persona_cycle[cycle_idx]
+            cycle_idx += 1
+            if cycle_idx >= len(persona_cycle):
+                random.shuffle(persona_cycle)
+                cycle_idx = 0
 
         try:
             conversation = run_conversation(

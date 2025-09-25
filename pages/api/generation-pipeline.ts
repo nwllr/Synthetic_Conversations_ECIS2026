@@ -4,14 +4,23 @@ import fs from "fs/promises";
 import { spawn } from "child_process";
 import { randomBytes } from "crypto";
 
-interface PythonGeneratorRequest {
-  count?: number;
-  scenarioId?: string;
+interface ScenarioCountsPayload {
+  covered?: number;
+  notCovered?: number;
+  edgeCase?: number;
+}
+
+interface GenerationPipelineRequest {
+  counts?: ScenarioCountsPayload;
+  scenarioModel?: string;
+  scenarioTemperature?: number;
+  scenarioMaxTokens?: number;
+  skipScenarioArchive?: boolean;
+  conversationModel?: string;
+  conversationTemperature?: number;
+  conversationMaxTokens?: number;
+  conversationMaxTurns?: number;
   personaIndex?: number;
-  model?: string;
-  temperature?: number;
-  maxTokens?: number;
-  maxTurns?: number;
   seed?: number;
 }
 
@@ -27,6 +36,13 @@ function writeEvent(res: NextApiResponse, event: string, payload: unknown) {
   }
 }
 
+function toPositiveInt(value: unknown, defaultValue = 0): number {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return defaultValue;
+  const floored = Math.floor(parsed);
+  return floored > 0 ? floored : defaultValue;
+}
+
 export const config = { api: { bodyParser: true } };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -36,8 +52,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
-  const body = (req.body ?? {}) as PythonGeneratorRequest;
-  const count = Number.isFinite(body.count) && body.count! > 0 ? Math.floor(body.count!) : 1;
+  const body = (req.body ?? {}) as GenerationPipelineRequest;
+  const counts = body.counts ?? {};
+  const covered = toPositiveInt(counts.covered, 0);
+  const notCovered = toPositiveInt(counts.notCovered, 0);
+  const edgeCase = toPositiveInt(counts.edgeCase, 0);
+  const total = covered + notCovered + edgeCase;
+
+  if (total <= 0) {
+    res.status(400).json({ error: "Provide at least one scenario to generate." });
+    return;
+  }
 
   try {
     await fs.mkdir(OUTPUT_ROOT, { recursive: true });
@@ -59,27 +84,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
-  const args = [SCRIPT_PATH, "--output-dir", outputDir, "--count", String(count)];
+  const args = [
+    SCRIPT_PATH,
+    "--output-dir",
+    outputDir,
+    "--generate-scenarios",
+    "--count",
+    String(total),
+  ];
 
-  if (body.scenarioId) {
-    args.push("--scenario-id", body.scenarioId);
+  if (covered > 0) args.push("--scenario-count-covered", String(covered));
+  if (notCovered > 0) args.push("--scenario-count-not-covered", String(notCovered));
+  if (edgeCase > 0) args.push("--scenario-count-edge-case", String(edgeCase));
+
+  if (body.scenarioModel) args.push("--scenario-model", body.scenarioModel);
+  if (typeof body.scenarioTemperature === "number") {
+    args.push("--scenario-temperature", String(body.scenarioTemperature));
   }
-  if (Number.isInteger(body.personaIndex ?? NaN)) {
+  if (typeof body.scenarioMaxTokens === "number") {
+    args.push("--scenario-max-tokens", String(Math.max(1, Math.floor(body.scenarioMaxTokens))));
+  }
+  if (body.skipScenarioArchive) {
+    args.push("--no-scenario-archive");
+  }
+
+  if (body.personaIndex !== undefined && Number.isFinite(body.personaIndex)) {
     args.push("--persona-index", String(body.personaIndex));
   }
-  if (body.model) {
-    args.push("--model", body.model);
+  if (body.conversationModel) {
+    args.push("--model", body.conversationModel);
   }
-  if (Number.isFinite(body.temperature)) {
-    args.push("--temperature", String(body.temperature));
+  if (typeof body.conversationTemperature === "number") {
+    args.push("--temperature", String(body.conversationTemperature));
   }
-  if (Number.isFinite(body.maxTokens)) {
-    args.push("--max-tokens", String(body.maxTokens));
+  if (typeof body.conversationMaxTokens === "number") {
+    args.push("--max-tokens", String(Math.max(1, Math.floor(body.conversationMaxTokens))));
   }
-  if (Number.isFinite(body.maxTurns)) {
-    args.push("--max-turns", String(body.maxTurns));
+  if (typeof body.conversationMaxTurns === "number") {
+    args.push("--max-turns", String(Math.max(1, Math.floor(body.conversationMaxTurns))));
   }
-  if (Number.isFinite(body.seed)) {
+  if (body.seed !== undefined && Number.isFinite(body.seed)) {
     args.push("--seed", String(body.seed));
   }
 
@@ -88,18 +132,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     "Cache-Control": "no-cache, no-transform",
     Connection: "keep-alive",
   });
-  // Kick off the event stream
   res.write(": connected\n\n");
 
-  writeEvent(res, "start", { runId, outputDir: relativeOutputDir, total: count });
-  writeEvent(res, "progress", { total: count, generated: 0, errors: 0 });
+  writeEvent(res, "start", { runId, outputDir: relativeOutputDir, total });
+  writeEvent(res, "progress", { total, generated: 0, errors: 0 });
 
   let stdoutBuffer = "";
   let stderrBuffer = "";
   let stdoutAll = "";
   let stderrAll = "";
-  let generated = 0;
-  let errors = 0;
+  let generatedCount = 0;
+  let errorCount = 0;
   const conversations: any[] = [];
   const pendingReads: Promise<void>[] = [];
 
@@ -122,16 +165,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           const text = await fs.readFile(resolvedPath, "utf-8");
           const conversation = JSON.parse(text);
           conversations.push(conversation);
-          generated += 1;
-          writeEvent(res, "item", { index: generated - 1, conversation });
-          writeEvent(res, "progress", { total: count, generated, errors });
+          generatedCount += 1;
+          writeEvent(res, "item", { index: generatedCount - 1, conversation });
+          writeEvent(res, "progress", { total, generated: generatedCount, errors: errorCount });
         } catch (err: any) {
-          errors += 1;
+          errorCount += 1;
           writeEvent(res, "error", {
             message: err?.message ?? String(err),
             path: printedPath,
           });
-          writeEvent(res, "progress", { total: count, generated, errors });
+          writeEvent(res, "progress", { total, generated: generatedCount, errors: errorCount });
         }
       })();
       pendingReads.push(readPromise);
@@ -200,62 +243,41 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         stderr: stderrAll,
         runId,
         outputDir: relativeOutputDir,
-        total: count,
-        generated,
-        errors,
-      });
-    } else if ((exitCode ?? 0) !== 0) {
-      writeEvent(res, "fatal", {
-        message: `Python generator exited with code ${exitCode}`,
-        stdout: stdoutAll,
-        stderr: stderrAll,
-        runId,
-        outputDir: relativeOutputDir,
-        total: count,
-        generated,
-        errors,
-      });
-    } else {
-      writeEvent(res, "done", {
-        runId,
-        outputDir: relativeOutputDir,
-        total: count,
-        generated,
-        errors,
-        stdout: stdoutAll,
-        stderr: stderrAll,
+        total,
+        generated: generatedCount,
+        errors: errorCount,
         conversations,
       });
-    }
-    try {
       res.end();
-    } catch {}
+      return;
+    }
+
+    writeEvent(res, "done", {
+      runId,
+      outputDir: relativeOutputDir,
+      total,
+      generated: generatedCount,
+      errors: errorCount,
+      stdout: stdoutAll,
+      stderr: stderrAll,
+      conversations,
+      exitCode,
+    });
+    res.end();
   };
 
-  const completion = new Promise<void>((resolve) => {
-    let finished = false;
-
-    const finalize = (exitCode: number | null, fatalMessage?: string) => {
-      if (finished) return;
-      finished = true;
-      finish(exitCode, fatalMessage).finally(resolve);
-    };
-
-    child.on("error", (err) => {
-      stderrAll += `\n${err?.message ?? err}`;
-      finalize(null, "Failed to start python generator");
-    });
-
-    child.on("close", (code) => {
-      finalize(code ?? 0);
-    });
-
-    req.on("close", () => {
-      if (!finished) {
-        child.kill("SIGTERM");
-      }
-    });
+  child.on("close", (code) => {
+    finish(code);
   });
 
-  await completion;
+  child.on("error", (err) => {
+    console.error("Failed to spawn python process", err);
+    finish(child.exitCode, err?.message ?? "Failed to spawn python process");
+  });
+
+  req.on("close", () => {
+    try {
+      child.kill("SIGTERM");
+    } catch {}
+  });
 }

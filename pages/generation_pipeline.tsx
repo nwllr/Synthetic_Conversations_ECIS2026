@@ -2,14 +2,19 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 type FormState = {
-  count: string;
-  scenarioId: string;
+  covered: string;
+  notCovered: string;
+  edgeCase: string;
+  scenarioModel: string;
+  scenarioTemperature: string;
+  scenarioMaxTokens: string;
+  conversationModel: string;
+  conversationTemperature: string;
+  conversationMaxTokens: string;
+  conversationMaxTurns: string;
   personaIndex: string;
-  model: string;
-  temperature: string;
-  maxTokens: string;
-  maxTurns: string;
   seed: string;
+  skipScenarioArchive: boolean;
 };
 
 type MessageRecord = {
@@ -87,14 +92,19 @@ type GeneratorEvent =
   | { type: "fatal"; data: FatalPayload };
 
 const initialForm: FormState = {
-  count: "1",
-  scenarioId: "",
+  covered: "2",
+  notCovered: "1",
+  edgeCase: "1",
+  scenarioModel: "gpt-4.1",
+  scenarioTemperature: "0.35",
+  scenarioMaxTokens: "2800",
+  conversationModel: "gpt-4.1-mini",
+  conversationTemperature: "0.7",
+  conversationMaxTokens: "400",
+  conversationMaxTurns: "20",
   personaIndex: "",
-  model: "gpt-4.1-mini",
-  temperature: "0.7",
-  maxTokens: "400",
-  maxTurns: "20",
   seed: "",
+  skipScenarioArchive: false,
 };
 
 const parseNumber = (value: string): number | undefined => {
@@ -126,7 +136,7 @@ const MetadataRow = ({ label, value }: { label: string; value: React.ReactNode }
 
 const makeLogId = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 
-export default function PythonGeneratorPage() {
+export default function GenerationPipelinePage() {
   const [form, setForm] = useState<FormState>({ ...initialForm });
   const [loading, setLoading] = useState(false);
   const [runInfo, setRunInfo] = useState<RunInfo | null>(null);
@@ -164,11 +174,19 @@ export default function PythonGeneratorPage() {
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    const countValue = Math.max(1, Math.floor(parseNumber(form.count) ?? 1));
+    const coveredCount = Math.max(0, Math.floor(parseNumber(form.covered) ?? 0));
+    const notCoveredCount = Math.max(0, Math.floor(parseNumber(form.notCovered) ?? 0));
+    const edgeCaseCount = Math.max(0, Math.floor(parseNumber(form.edgeCase) ?? 0));
+    const totalScenarios = coveredCount + notCoveredCount + edgeCaseCount;
+
+    if (totalScenarios <= 0) {
+      setError("Enter at least one scenario to generate.");
+      return;
+    }
 
     setLoading(true);
     setRunInfo(null);
-    setProgress({ total: countValue, generated: 0, errors: 0 });
+    setProgress({ total: totalScenarios, generated: 0, errors: 0 });
     setConversations([]);
     setSelectedIndex(null);
     setLogs([]);
@@ -178,18 +196,25 @@ export default function PythonGeneratorPage() {
     setFatalDetail(null);
 
     const payload = {
-      count: countValue,
-      scenarioId: form.scenarioId.trim() || undefined,
+      counts: {
+        covered: coveredCount,
+        notCovered: notCoveredCount,
+        edgeCase: edgeCaseCount,
+      },
+      scenarioModel: form.scenarioModel.trim() || undefined,
+      scenarioTemperature: parseNumber(form.scenarioTemperature),
+      scenarioMaxTokens: parseNumber(form.scenarioMaxTokens),
+      skipScenarioArchive: form.skipScenarioArchive,
+      conversationModel: form.conversationModel.trim() || undefined,
+      conversationTemperature: parseNumber(form.conversationTemperature),
+      conversationMaxTokens: parseNumber(form.conversationMaxTokens),
+      conversationMaxTurns: parseNumber(form.conversationMaxTurns),
       personaIndex: parseNumber(form.personaIndex),
-      model: form.model.trim() || undefined,
-      temperature: parseNumber(form.temperature),
-      maxTokens: parseNumber(form.maxTokens),
-      maxTurns: parseNumber(form.maxTurns),
       seed: parseNumber(form.seed),
     };
 
     try {
-      const resp = await fetch("/api/python-generator", {
+      const resp = await fetch("/api/generation-pipeline", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -360,79 +385,139 @@ export default function PythonGeneratorPage() {
   return (
     <div style={{ maxWidth: 1100, margin: "32px auto", fontFamily: "Inter, system-ui, sans-serif" }}>
       <header style={{ marginBottom: 24 }}>
-        <h1 style={{ margin: 0 }}>Python Conversation Generator</h1>
+        <h1 style={{ margin: 0 }}>Scenario Generation Pipeline</h1>
         <p style={{ margin: "8px 0 0", color: "#475569" }}>
-          Trigger the existing Python script from a dedicated page. The original UI remains at <Link href="/">/</Link>.
+          Generate fresh scenarios and automatically simulate one conversation per scenario.
+        </p>
+        <p style={{ margin: "4px 0 0", color: "#64748b" }}>
+          Need the conversation-only runner? Visit <Link href="/python-generator">/python-generator</Link>.
         </p>
       </header>
 
       <section style={{ padding: 24, border: "1px solid #e2e8f0", borderRadius: 12, marginBottom: 24 }}>
         <form onSubmit={handleSubmit}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+          <h2 style={{ marginTop: 0, fontSize: 18 }}>Scenarios</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
             <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
-              <span>Count</span>
+              <span>Covered scenarios</span>
               <input
                 type="number"
-                min={1}
-                value={form.count}
-                onChange={(e) => updateField("count", e.target.value)}
+                min={0}
+                value={form.covered}
+                onChange={(e) => updateField("covered", e.target.value)}
                 style={{ marginTop: 6, padding: 8 }}
               />
             </label>
             <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
-              <span>Scenario ID (optional)</span>
+              <span>Not covered scenarios</span>
+              <input
+                type="number"
+                min={0}
+                value={form.notCovered}
+                onChange={(e) => updateField("notCovered", e.target.value)}
+                style={{ marginTop: 6, padding: 8 }}
+              />
+            </label>
+            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
+              <span>Edge case scenarios</span>
+              <input
+                type="number"
+                min={0}
+                value={form.edgeCase}
+                onChange={(e) => updateField("edgeCase", e.target.value)}
+                style={{ marginTop: 6, padding: 8 }}
+              />
+            </label>
+          </div>
+
+          <h2 style={{ marginTop: 24, fontSize: 18 }}>Scenario generation settings</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
+              <span>Scenario model</span>
               <input
                 type="text"
-                value={form.scenarioId}
-                onChange={(e) => updateField("scenarioId", e.target.value)}
-                placeholder="e.g. COV-01"
+                value={form.scenarioModel}
+                onChange={(e) => updateField("scenarioModel", e.target.value)}
                 style={{ marginTop: 6, padding: 8 }}
               />
             </label>
             <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
-              <span>Persona Index (optional)</span>
+              <span>Scenario temperature</span>
+              <input
+                type="number"
+                step="0.05"
+                value={form.scenarioTemperature}
+                onChange={(e) => updateField("scenarioTemperature", e.target.value)}
+                style={{ marginTop: 6, padding: 8 }}
+              />
+            </label>
+            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
+              <span>Scenario max tokens</span>
+              <input
+                type="number"
+                min={256}
+                value={form.scenarioMaxTokens}
+                onChange={(e) => updateField("scenarioMaxTokens", e.target.value)}
+                style={{ marginTop: 6, padding: 8 }}
+              />
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14 }}>
+              <input
+                type="checkbox"
+                checked={form.skipScenarioArchive}
+                onChange={(e) => updateField("skipScenarioArchive", e.target.checked)}
+              />
+              Skip scenario prompt archive
+            </label>
+          </div>
+
+          <h2 style={{ marginTop: 24, fontSize: 18 }}>Conversation settings</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
+              <span>Conversation model</span>
+              <input
+                type="text"
+                value={form.conversationModel}
+                onChange={(e) => updateField("conversationModel", e.target.value)}
+                style={{ marginTop: 6, padding: 8 }}
+              />
+            </label>
+            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
+              <span>Conversation temperature</span>
+              <input
+                type="number"
+                step="0.05"
+                value={form.conversationTemperature}
+                onChange={(e) => updateField("conversationTemperature", e.target.value)}
+                style={{ marginTop: 6, padding: 8 }}
+              />
+            </label>
+            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
+              <span>Conversation max tokens</span>
+              <input
+                type="number"
+                min={64}
+                value={form.conversationMaxTokens}
+                onChange={(e) => updateField("conversationMaxTokens", e.target.value)}
+                style={{ marginTop: 6, padding: 8 }}
+              />
+            </label>
+            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
+              <span>Conversation max turns</span>
+              <input
+                type="number"
+                min={2}
+                value={form.conversationMaxTurns}
+                onChange={(e) => updateField("conversationMaxTurns", e.target.value)}
+                style={{ marginTop: 6, padding: 8 }}
+              />
+            </label>
+            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
+              <span>Persona index (optional)</span>
               <input
                 type="number"
                 value={form.personaIndex}
                 onChange={(e) => updateField("personaIndex", e.target.value)}
-                placeholder="0-based index"
-                style={{ marginTop: 6, padding: 8 }}
-              />
-            </label>
-            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
-              <span>Model</span>
-              <input
-                type="text"
-                value={form.model}
-                onChange={(e) => updateField("model", e.target.value)}
-                style={{ marginTop: 6, padding: 8 }}
-              />
-            </label>
-            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
-              <span>Temperature</span>
-              <input
-                type="number"
-                step="0.1"
-                value={form.temperature}
-                onChange={(e) => updateField("temperature", e.target.value)}
-                style={{ marginTop: 6, padding: 8 }}
-              />
-            </label>
-            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
-              <span>Max Tokens</span>
-              <input
-                type="number"
-                value={form.maxTokens}
-                onChange={(e) => updateField("maxTokens", e.target.value)}
-                style={{ marginTop: 6, padding: 8 }}
-              />
-            </label>
-            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
-              <span>Max Turns</span>
-              <input
-                type="number"
-                value={form.maxTurns}
-                onChange={(e) => updateField("maxTurns", e.target.value)}
                 style={{ marginTop: 6, padding: 8 }}
               />
             </label>
@@ -446,9 +531,10 @@ export default function PythonGeneratorPage() {
               />
             </label>
           </div>
+
           <div style={{ marginTop: 24, display: "flex", gap: 12 }}>
             <button type="submit" disabled={loading} style={{ padding: "10px 16px" }}>
-              {loading ? "Running…" : "Run Python Script"}
+              {loading ? "Running…" : "Run generation pipeline"}
             </button>
             <button type="button" onClick={resetForm} disabled={loading} style={{ padding: "10px 16px" }}>
               Reset

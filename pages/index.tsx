@@ -34,6 +34,41 @@ type GenerateOptions = {
 
 type Conversation = any; // kept loose for UI
 
+type PipelineScenarioOptions = {
+  generate: boolean;
+  covered: number;
+  notCovered: number;
+  edgeCase: number;
+  model: string;
+  temperature: number;
+  maxTokens: number;
+  archiveDir: string;
+  noArchive: boolean;
+};
+
+type PipelineConversationOptions = {
+  count: number;
+  model: string;
+  temperature: number;
+  maxTurns: number;
+  maxTokens: number;
+  outputDir: string;
+  personaIndex?: number | null;
+  scenarioId?: string | null;
+  seed?: number | null;
+};
+
+type PipelineOptions = {
+  scenario: PipelineScenarioOptions;
+  conversation: PipelineConversationOptions;
+  scenarioOnly: boolean;
+};
+
+type PipelineLogEntry = {
+  type: "log" | "stderr" | "status" | "error";
+  message: string;
+};
+
 function Badge({ text, color }: { text: string; color?: string }) {
   return (
     <span
@@ -74,6 +109,9 @@ const turnsBucket = (turns?: number): Exclude<TurnsMode, "random"> | "unknown" =
   if (turns <= 10) return "average";
   return "long";
 };
+
+const DEFAULT_PIPELINE_CONVERSATION_MODEL = "gpt-4.1-mini";
+const DEFAULT_PIPELINE_MAX_TOKENS = 400;
 
 export default function HomePage() {
   const [options, setOptions] = useState<GenerateOptions>({
@@ -116,11 +154,60 @@ export default function HomePage() {
   // Toggle to redact full policy text when displaying prompt in the UI
   const [redactPolicy, setRedactPolicy] = useState<boolean>(true);
 
+  const [pipelineOptions, setPipelineOptions] = useState<PipelineOptions>({
+    scenario: {
+      generate: true,
+      covered: 4,
+      notCovered: 4,
+      edgeCase: 4,
+      model: "gpt-4.1",
+      temperature: 0.35,
+      maxTokens: 2800,
+      archiveDir: "generated_scenarios",
+      noArchive: false,
+    },
+    conversation: {
+      count: 5,
+      model: DEFAULT_PIPELINE_CONVERSATION_MODEL,
+      temperature: 0.7,
+      maxTurns: 12,
+      maxTokens: DEFAULT_PIPELINE_MAX_TOKENS,
+      outputDir: "generated_conversations",
+      personaIndex: null,
+      scenarioId: null,
+      seed: null,
+    },
+    scenarioOnly: false,
+  });
+  const [pipelineRunning, setPipelineRunning] = useState(false);
+  const [pipelineLogs, setPipelineLogs] = useState<PipelineLogEntry[]>([]);
+  const [pipelineExitCode, setPipelineExitCode] = useState<number | null>(null);
+
   function updateOption<K extends keyof GenerateOptions>(key: K, value: GenerateOptions[K]) {
     setOptions((o) => ({ ...o, [key]: value }));
   }
   function updateFailureConfig<K extends keyof GenerateOptions["failureModesConfig"]>(key: K, value: number) {
     setOptions((o) => ({ ...o, failureModesConfig: { ...o.failureModesConfig, [key]: value } }));
+  }
+
+  function updatePipelineScenario<K extends keyof PipelineScenarioOptions>(
+    key: K,
+    value: PipelineScenarioOptions[K]
+  ) {
+    setPipelineOptions((state) => ({
+      ...state,
+      scenario: { ...state.scenario, [key]: value },
+    }));
+  }
+
+  function updatePipelineConversation<K extends keyof PipelineConversationOptions>(
+    key: K,
+    value: PipelineConversationOptions[K]
+  ) {
+    setPipelineOptions((state) => ({
+      ...state,
+      conversation: { ...state.conversation, [key]: value },
+    }));
   }
 
   const submit = async (e?: React.FormEvent) => {
@@ -213,6 +300,122 @@ export default function HomePage() {
     } catch (err: any) {
       setErrorLog((prev) => [...prev, { fatal: true, message: String(err) }]);
       setGenerating(false);
+    }
+  };
+
+  const runPipeline = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (pipelineRunning) return;
+
+    setPipelineRunning(true);
+    setPipelineLogs([]);
+    setPipelineExitCode(null);
+
+    const scenarioPayload = pipelineOptions.scenario.generate
+      ? {
+          generate: true,
+          counts: {
+            covered: pipelineOptions.scenario.covered,
+            not_covered: pipelineOptions.scenario.notCovered,
+            edge_case: pipelineOptions.scenario.edgeCase,
+          },
+          model: pipelineOptions.scenario.model,
+          temperature: pipelineOptions.scenario.temperature,
+          maxTokens: pipelineOptions.scenario.maxTokens,
+          archiveDir: pipelineOptions.scenario.archiveDir,
+          noArchive: pipelineOptions.scenario.noArchive,
+        }
+      : { generate: false };
+
+    const convo = pipelineOptions.conversation;
+    const conversationPayload = {
+      count: convo.count,
+      model: convo.model,
+      temperature: convo.temperature,
+      maxTurns: convo.maxTurns,
+      maxTokens: convo.maxTokens,
+      outputDir: convo.outputDir,
+      personaIndex: convo.personaIndex ?? undefined,
+      scenarioId: convo.scenarioId ?? undefined,
+      seed: convo.seed ?? undefined,
+    };
+
+    const payload = {
+      scenario: scenarioPayload,
+      conversation: conversationPayload,
+      scenarioOnly: pipelineOptions.scenarioOnly,
+    };
+
+    try {
+      const resp = await fetch("/api/run-pipeline", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!resp.ok || !resp.body) {
+        const text = await resp.text();
+        setPipelineLogs([{ type: "error", message: `Server returned ${resp.status}: ${text}` }]);
+        setPipelineExitCode(resp.status);
+        return;
+      }
+
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let exitCode: number | null = null;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const parts = buffer.split("\n\n");
+        buffer = parts.pop() ?? "";
+
+        for (const part of parts) {
+          const lines = part.split("\n").map((line) => line.trim());
+          const eventLine = lines.find((line) => line.startsWith("event:"));
+          const dataLine = lines.find((line) => line.startsWith("data:"));
+          if (!eventLine || !dataLine) continue;
+
+          const event = eventLine.slice("event:".length).trim();
+          const dataText = dataLine.slice("data:".length).trim();
+          let payloadObj: any = null;
+          try {
+            payloadObj = JSON.parse(dataText);
+          } catch {
+            continue;
+          }
+
+          if (event === "done") {
+            exitCode = typeof payloadObj.code === "number" ? payloadObj.code : null;
+            continue;
+          }
+
+          const message = typeof payloadObj.message === "string"
+            ? payloadObj.message
+            : JSON.stringify(payloadObj);
+          if (!message) continue;
+
+          const entryType: PipelineLogEntry["type"] =
+            event === "stderr"
+              ? "stderr"
+              : event === "error"
+              ? "error"
+              : event === "status"
+              ? "status"
+              : "log";
+
+          setPipelineLogs((prev) => [...prev, { type: entryType, message }]);
+        }
+      }
+
+      setPipelineExitCode(exitCode);
+    } catch (err: any) {
+      setPipelineLogs([{ type: "error", message: err?.message ?? String(err) }]);
+      setPipelineExitCode(-1);
+    } finally {
+      setPipelineRunning(false);
     }
   };
 
@@ -676,8 +879,285 @@ export default function HomePage() {
               })
             )}
           </div>
-        </div>
       </div>
+    </div>
+
+      <section style={{ marginTop: 24, border: "1px solid #e5e7eb", borderRadius: 8, padding: 16 }}>
+        <h2 style={{ marginTop: 0 }}>Scenario + Conversation Pipeline</h2>
+        <form onSubmit={runPipeline} style={{ display: "grid", gap: 12 }}>
+          <fieldset style={{ border: "1px solid #ddd", borderRadius: 6, padding: 12 }}>
+            <legend style={{ padding: "0 6px" }}>Scenario generation</legend>
+            <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <input
+                type="checkbox"
+                checked={pipelineOptions.scenario.generate}
+                onChange={(e) => {
+                  const checked = e.target.checked;
+                  setPipelineOptions((state) => ({
+                    ...state,
+                    scenarioOnly: checked ? state.scenarioOnly : false,
+                    scenario: { ...state.scenario, generate: checked },
+                  }));
+                }}
+                disabled={pipelineRunning}
+              />
+              Generate new scenarios before conversations
+            </label>
+
+            <div style={{ display: "grid", gap: 8, gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", marginTop: 12 }}>
+              <label>
+                Covered count
+                <input
+                  type="number"
+                  min={0}
+                  value={pipelineOptions.scenario.covered}
+                  onChange={(e) => updatePipelineScenario("covered", Math.max(0, Number(e.target.value) || 0))}
+                  disabled={pipelineRunning || !pipelineOptions.scenario.generate}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Not covered count
+                <input
+                  type="number"
+                  min={0}
+                  value={pipelineOptions.scenario.notCovered}
+                  onChange={(e) => updatePipelineScenario("notCovered", Math.max(0, Number(e.target.value) || 0))}
+                  disabled={pipelineRunning || !pipelineOptions.scenario.generate}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Edge case count
+                <input
+                  type="number"
+                  min={0}
+                  value={pipelineOptions.scenario.edgeCase}
+                  onChange={(e) => updatePipelineScenario("edgeCase", Math.max(0, Number(e.target.value) || 0))}
+                  disabled={pipelineRunning || !pipelineOptions.scenario.generate}
+                  style={{ width: "100%" }}
+                />
+              </label>
+            </div>
+
+            <div style={{ display: "grid", gap: 8, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", marginTop: 12 }}>
+              <label>
+                Scenario model
+                <input
+                  value={pipelineOptions.scenario.model}
+                  onChange={(e) => updatePipelineScenario("model", e.target.value)}
+                  disabled={pipelineRunning || !pipelineOptions.scenario.generate}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Scenario temperature
+                <input
+                  type="number"
+                  step={0.05}
+                  value={pipelineOptions.scenario.temperature}
+                  onChange={(e) => updatePipelineScenario("temperature", Number(e.target.value))}
+                  disabled={pipelineRunning || !pipelineOptions.scenario.generate}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Scenario max tokens
+                <input
+                  type="number"
+                  min={256}
+                  value={pipelineOptions.scenario.maxTokens}
+                  onChange={(e) => updatePipelineScenario("maxTokens", Math.max(0, Number(e.target.value) || 0))}
+                  disabled={pipelineRunning || !pipelineOptions.scenario.generate}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Archive directory
+                <input
+                  value={pipelineOptions.scenario.archiveDir}
+                  onChange={(e) => updatePipelineScenario("archiveDir", e.target.value)}
+                  disabled={pipelineRunning || !pipelineOptions.scenario.generate}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <input
+                  type="checkbox"
+                  checked={pipelineOptions.scenario.noArchive}
+                  onChange={(e) => updatePipelineScenario("noArchive", e.target.checked)}
+                  disabled={pipelineRunning || !pipelineOptions.scenario.generate}
+                />
+                Skip prompt archive
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset style={{ border: "1px solid #ddd", borderRadius: 6, padding: 12 }}>
+            <legend style={{ padding: "0 6px" }}>Conversation simulation</legend>
+            <div style={{ display: "grid", gap: 8, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+              <label>
+                Conversation count
+                <input
+                  type="number"
+                  min={0}
+                  value={pipelineOptions.conversation.count}
+                  onChange={(e) => updatePipelineConversation("count", Math.max(0, Number(e.target.value) || 0))}
+                  disabled={pipelineRunning}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Conversation model
+                <input
+                  value={pipelineOptions.conversation.model}
+                  onChange={(e) => updatePipelineConversation("model", e.target.value)}
+                  disabled={pipelineRunning}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Conversation temperature
+                <input
+                  type="number"
+                  step={0.05}
+                  value={pipelineOptions.conversation.temperature}
+                  onChange={(e) => updatePipelineConversation("temperature", Number(e.target.value))}
+                  disabled={pipelineRunning}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Max turns
+                <input
+                  type="number"
+                  min={2}
+                  value={pipelineOptions.conversation.maxTurns}
+                  onChange={(e) => updatePipelineConversation("maxTurns", Math.max(1, Number(e.target.value) || 1))}
+                  disabled={pipelineRunning}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Max tokens per turn
+                <input
+                  type="number"
+                  min={64}
+                  value={pipelineOptions.conversation.maxTokens}
+                  onChange={(e) => updatePipelineConversation("maxTokens", Math.max(1, Number(e.target.value) || 0))}
+                  disabled={pipelineRunning}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Output directory
+                <input
+                  value={pipelineOptions.conversation.outputDir}
+                  onChange={(e) => updatePipelineConversation("outputDir", e.target.value)}
+                  disabled={pipelineRunning}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Persona index (optional)
+                <input
+                  value={pipelineOptions.conversation.personaIndex ?? ""}
+                  onChange={(e) => {
+                    const raw = e.target.value.trim();
+                    if (raw === "") {
+                      updatePipelineConversation("personaIndex", null);
+                    } else {
+                      const parsed = Number(raw);
+                      updatePipelineConversation(
+                        "personaIndex",
+                        Number.isNaN(parsed) ? null : parsed
+                      );
+                    }
+                  }}
+                  disabled={pipelineRunning}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Scenario id (optional)
+                <input
+                  value={pipelineOptions.conversation.scenarioId ?? ""}
+                  onChange={(e) => updatePipelineConversation("scenarioId", e.target.value || null)}
+                  disabled={pipelineRunning}
+                  style={{ width: "100%" }}
+                />
+              </label>
+              <label>
+                Seed (optional)
+                <input
+                  value={pipelineOptions.conversation.seed ?? ""}
+                  onChange={(e) => {
+                    const raw = e.target.value.trim();
+                    if (raw === "") {
+                      updatePipelineConversation("seed", null);
+                    } else {
+                      const parsed = Number(raw);
+                      updatePipelineConversation("seed", Number.isNaN(parsed) ? null : parsed);
+                    }
+                  }}
+                  disabled={pipelineRunning}
+                  style={{ width: "100%" }}
+                />
+              </label>
+            </div>
+          </fieldset>
+
+          <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <input
+              type="checkbox"
+              checked={pipelineOptions.scenarioOnly}
+              onChange={(e) => {
+                const checked = e.target.checked;
+                setPipelineOptions((state) => ({
+                  ...state,
+                  scenarioOnly: checked,
+                  scenario: { ...state.scenario, generate: checked ? true : state.scenario.generate },
+                }));
+              }}
+              disabled={pipelineRunning}
+            />
+            Generate scenarios only (skip conversations)
+          </label>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <button type="submit" disabled={pipelineRunning} style={{ padding: "8px 14px" }}>
+              {pipelineRunning ? "Running..." : "Run pipeline"}
+            </button>
+            {pipelineExitCode !== null && (
+              <span style={{ color: pipelineExitCode === 0 ? "#16a34a" : "#ef4444" }}>
+                Exit code: {pipelineExitCode}
+              </span>
+            )}
+          </div>
+
+          <div style={{ maxHeight: 220, overflow: "auto", background: "#111827", color: "#e5e7eb", padding: 12, borderRadius: 6, fontFamily: "Menlo, monospace" }}>
+            {pipelineLogs.length === 0 ? (
+              <div style={{ color: "#9ca3af" }}>Logs will appear here.</div>
+            ) : (
+              pipelineLogs.map((entry, idx) => {
+                const color =
+                  entry.type === "stderr"
+                    ? "#fcd34d"
+                    : entry.type === "error"
+                    ? "#f87171"
+                    : entry.type === "status"
+                    ? "#93c5fd"
+                    : "#d1d5db";
+                return (
+                  <div key={idx} style={{ color }}>
+                    [{entry.type}] {entry.message}
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </form>
+      </section>
 
       <div style={{ marginTop: 18 }}>
         <h2>Selected conversation</h2>

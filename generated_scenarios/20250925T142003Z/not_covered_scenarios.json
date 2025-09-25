@@ -1,0 +1,35 @@
+{
+  "scenarios": [
+    {
+      "id": "NC-20250925T142003Z-01",
+      "title": "Third-Party Repair Damage",
+      "description": "Customer reports that the iPhone stopped working after being serviced by a non-authorized repair shop for a battery replacement.",
+      "claim_type": "unauthorized_repair_damage",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(ii)(d)",
+          "snippet": "The Plan does not apply to damage caused by service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider (\"AASP\")."
+        }
+      ],
+      "reasoning": "Damage resulting from repairs performed by non-authorized service providers is explicitly excluded under section 4.2(ii)(d). No service fee applies and this does not count toward the accidental damage from handling (ADH) limit.",
+      "customer_data": {
+        "device": "iPhone 12 Pro (256 GB)",
+        "plan_agreement_number": "APLCARE-9988776655",
+        "serial_number": "G6Y8H4J2L9P0",
+        "phone_number": "+1-415-555-0178"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

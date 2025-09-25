@@ -1,0 +1,178 @@
+{
+  "covered": {
+    "instructions": "Produce scenarios where the policy clearly applies. Keep facts concise but concrete, cite the exact policy section in reasoning, and include realistic customer_data values.",
+    "examples": [
+      {
+        "id": "COV-01",
+        "title": "Hardware defect — microphone stops working",
+        "description": "Within 12 months, the iPhone microphone fails with no accidental damage.",
+        "claim_type": "hardware_defect",
+        "ground_truth": "covered",
+        "service_fee": { "applies": false, "amount": 0, "currency": "USD", "notes": "No ADH fee for hardware defects" },
+        "counts_toward_adh_limit": false,
+        "policy_references": [
+          {
+            "section": "3.1 Hardware Service",
+            "snippet": "A defect in materials or workmanship arose during the plan term; Apple repairs or replaces the device."
+          }
+        ],
+        "reasoning": "Defect in materials during the plan term is explicitly covered under section 3.1.",
+        "required_user_inputs": [
+          "Plan Agreement Number or serial number (Sec. 5)",
+          "Proof of purchase if requested (Sec. 7.i)",
+          "Symptoms and steps already tried (Sec. 7.ii-iii)"
+        ],
+        "suggested_service_options": ["Carry-in (6.1.i)", "Mail-in (6.1.ii)", "Express Replacement (6.1.iii)"],
+        "customer_data": {
+          "device": "iPhone 15 Pro (256 GB)",
+          "plan_agreement_number": "APLCARE-1029384756",
+          "serial_number": "F2LQW0H8N72Q",
+          "phone_number": "+1-202-555-0101"
+        }
+      },
+      {
+        "id": "COV-02",
+        "title": "Battery capacity depleted 50 percent",
+        "description": "After 18 months, battery health reports near 40 percent of the original capacity.",
+        "claim_type": "battery_depletion",
+        "ground_truth": "covered",
+        "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+        "counts_toward_adh_limit": false,
+        "policy_references": [
+          {
+            "section": "3.1 Hardware Service",
+            "snippet": "Battery capacity depleted fifty percent or more from original specifications qualifies for service."
+          }
+        ],
+        "reasoning": "Battery depletion at or beyond the stated threshold is covered under section 3.1.",
+        "required_user_inputs": [
+          "Serial number (Sec. 5)",
+          "Battery diagnostics if requested (Sec. 7.ii-iii)"
+        ],
+        "suggested_service_options": ["Carry-in", "Mail-in", "Express Replacement"],
+        "customer_data": {
+          "device": "iPhone 14 (128 GB)",
+          "plan_agreement_number": "APLCARE-5647382910",
+          "serial_number": "C39ZP1Q5KD8R",
+          "phone_number": "+1-202-555-0102"
+        }
+      }
+    ]
+  },
+  "not_covered": {
+    "instructions": "Produce scenarios that the policy excludes. Highlight the exclusion in reasoning and remove any optional customer data that would realistically be unavailable.",
+    "examples": [
+      {
+        "id": "NC-01",
+        "title": "Cosmetic scratch only",
+        "description": "Small scratch on the screen while the phone works normally.",
+        "claim_type": "cosmetic_damage",
+        "ground_truth": "not_covered",
+        "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+        "counts_toward_adh_limit": false,
+        "policy_references": [
+          {
+            "section": "4.2(v)",
+            "snippet": "Cosmetic damage such as scratches and dents that do not affect functionality is excluded."
+          }
+        ],
+        "reasoning": "Damage is cosmetic only, which is excluded under section 4.2(v).",
+        "customer_data": {
+          "device": "iPhone 13 (128 GB)",
+          "plan_agreement_number": "APLCARE-5544332211",
+          "serial_number": "F3L7N2K8R5T4",
+          "phone_number": "+1-202-555-0109"
+        }
+      },
+      {
+        "id": "NC-02",
+        "title": "Lost or stolen iPhone",
+        "description": "Phone is missing after a commute and cannot be returned to Apple.",
+        "claim_type": "loss_theft",
+        "ground_truth": "not_covered",
+        "service_fee": { "applies": false, "amount": 0, "currency": "USD" },
+        "counts_toward_adh_limit": false,
+        "policy_references": [
+          {
+            "section": "4.2(iv)",
+            "snippet": "Plan does not apply to a covered iPhone that has been lost or stolen or not returned in its entirety."
+          }
+        ],
+        "reasoning": "Loss and theft are explicit exclusions under section 4.2(iv).",
+        "customer_data": {
+          "device": "Unknown",
+          "plan_agreement_number": "Unknown",
+          "phone_number": "+1-202-555-0110"
+        }
+      }
+    ]
+  },
+  "edge_case": {
+    "instructions": "Produce ambiguous scenarios requiring judgment. Explain how multiple policy sections create tension and capture any data Apple would ask to resolve it.",
+    "examples": [
+      {
+        "id": "EC-01",
+        "title": "Underwater filming caused failure",
+        "description": "Customer filmed underwater in a swimming pool and the phone later fails to power on.",
+        "claim_type": "liquid_damage_outside_intended_use",
+        "ground_truth": "edge_case",
+        "service_fee": { "applies": "maybe", "amount": 49, "currency": "USD", "notes": "Outcome depends on whether Apple views this as outside intended uses." },
+        "counts_toward_adh_limit": "if_approved",
+        "policy_references": [
+          {
+            "section": "3.2 ADH",
+            "snippet": "Accidental damage from handling covers unexpected external events such as liquid contact."
+          },
+          {
+            "section": "4.2(ii)(c)",
+            "snippet": "Operating the iPhone outside the permitted or intended uses is excluded."
+          }
+        ],
+        "reasoning": "Claim hinges on whether underwater filming is outside intended use versus accidental liquid contact.",
+        "required_user_inputs": [
+          "Accident circumstances (where, when, how)",
+          "Payment of ADH fee if approved",
+          "Serial number or plan agreement number"
+        ],
+        "suggested_service_options": ["Carry-in", "Mail-in"],
+        "customer_data": {
+          "device": "iPhone 15 Pro (256 GB)",
+          "plan_agreement_number": "APLCARE-3102598647",
+          "serial_number": "Y4L8Q2M9N7C3",
+          "phone_number": "+1-202-555-0117"
+        }
+      },
+      {
+        "id": "EC-02",
+        "title": "Service requested while abroad",
+        "description": "Phone purchased in the United States breaks during a trip to Europe and local service is requested.",
+        "claim_type": "service_location_restriction",
+        "ground_truth": "edge_case",
+        "service_fee": { "applies": "depends", "amount": 49, "currency": "USD", "notes": "Availability and fees depend on local options." },
+        "counts_toward_adh_limit": "if_ADH",
+        "policy_references": [
+          {
+            "section": "4.1",
+            "snippet": "Apple may restrict hardware service to the country of purchase."
+          },
+          {
+            "section": "6.2",
+            "snippet": "Service availability and shipping charges vary by country." }
+        ],
+        "reasoning": "Coverage exists, but logistics may require returning to the purchase country or accepting shipping fees.",
+        "required_user_inputs": [
+          "Country of purchase versus current location",
+          "Serial number or plan agreement number",
+          "Accident details if ADH applies"
+        ],
+        "suggested_service_options": ["Mail-in", "Carry-in where available"],
+        "customer_data": {
+          "device": "iPhone 16 (256 GB)",
+          "plan_agreement_number": "APLCARE-4209753186",
+          "serial_number": "Z8K6D3T1R9V5",
+          "phone_number": "+1-202-555-0118"
+        }
+      }
+    ]
+  }
+}
