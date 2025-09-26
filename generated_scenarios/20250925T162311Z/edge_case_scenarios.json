@@ -1,0 +1,40 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250925T162311Z-01",
+      "title": "Battery swelling after third-party screen replacement",
+      "description": "Customer reports battery swelling and screen lifting, but the device previously had its screen replaced by a non-Apple repair shop. The customer is requesting service under AppleCare+ for the battery issue.",
+      "claim_type": "hardware_defect_with_prior_unauthorized_repair",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "uncertain",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "If Apple determines the battery defect is unrelated to the unauthorized repair, standard coverage may apply with no fee; otherwise, claim may be denied."
+      },
+      "counts_toward_adh_limit": "if_approved",
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "If during the Plan Term, you submit a valid claim by notifying Apple that a defect in materials and workmanship has arisen in the Covered iPhone ... Apple will either repair the defect at no charge ... or exchange the Covered iPhone with a replacement product ..."
+        },
+        {
+          "section": "4.2(ii)(d)",
+          "snippet": "The Plan does not apply to damage caused by ... service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider (\"AASP\")."
+        }
+      ],
+      "reasoning": "The policy excludes coverage for damage caused by unauthorized repairs (4.2(ii)(d)), but does not explicitly address unrelated subsequent hardware failures. If Apple determines the battery swelling is independent of the prior third-party screen replacement, coverage may apply under 3.1. However, if the battery issue is deemed related to the unauthorized repair, the claim could be denied. Determination requires technical inspection and judgment.",
+      "customer_data": {
+        "device": "iPhone 14 Pro (128 GB)",
+        "plan_agreement_number": "APLCARE-1122334455",
+        "serial_number": "G6T2H8R9S4P1",
+        "phone_number": "+1-415-555-0192"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

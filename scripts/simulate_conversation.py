@@ -48,6 +48,7 @@ DEFAULT_MODEL = "gpt-4.1-mini"
 DEFAULT_MAX_TOKENS = 400
 MAX_DEFAULT_TURNS = 20
 END_TOKEN = "<END>"
+BOT_GREETING = "Thank you for contacting AppleCare. How may I help you today?"
 
 
 @dataclass
@@ -245,6 +246,15 @@ def run_conversation(
     speaker_cycle = ["customer", "bot"]
     cycle_idx = 0
     ended = False
+
+    if max_turns > 0:
+        history.append(
+            ConversationMessage(
+                speaker="bot",
+                text=BOT_GREETING,
+                raw_text=BOT_GREETING,
+            )
+        )
 
     while len(history) < max_turns and not ended:
         speaker = speaker_cycle[cycle_idx % 2]

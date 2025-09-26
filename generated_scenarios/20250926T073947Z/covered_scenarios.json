@@ -1,0 +1,40 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20250926T073947Z-01",
+      "title": "Cracked screen from accidental drop — first ADH claim",
+      "description": "Customer accidentally drops their iPhone 15 on concrete, resulting in a cracked front display. This is the first accidental damage from handling (ADH) claim during the plan term.",
+      "claim_type": "accidental_damage_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Standard ADH service fee applies for screen damage"
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "If during the Plan Term you submit a valid claim notifying Apple that the Covered iPhone has failed due to accidental damage from handling ('ADH'), Apple will subject to the service fee described below either (i) repair the defect... or (ii) exchange the Covered iPhone..."
+        },
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim..."
+        }
+      ],
+      "reasoning": "The cracked screen is a result of an unexpected and unintentional external event, which qualifies as accidental damage from handling under section 3.2. The claim is within the plan term and is the first ADH event, so coverage applies subject to the $49 service fee and the two-claim ADH limit.",
+      "customer_data": {
+        "device": "iPhone 15 (128 GB)",
+        "plan_agreement_number": "APLCARE-9876543210",
+        "serial_number": "G6TQK1X9L4PW",
+        "phone_number": "+1-415-555-0198"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

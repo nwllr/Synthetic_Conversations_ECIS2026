@@ -1,0 +1,40 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250926T073947Z-01",
+      "title": "Claim for ADH after third-party screen replacement",
+      "description": "Customer requests accidental damage coverage for a cracked screen, but the iPhone previously had its display replaced by a non-Apple repair shop.",
+      "claim_type": "adh_with_prior_unauthorized_repair",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "maybe",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Fee applies if claim is accepted; claim may be denied due to prior unauthorized repair."
+      },
+      "counts_toward_adh_limit": "if_approved",
+      "policy_references": [
+        {
+          "section": "4.2(ii)(d)",
+          "snippet": "The Plan does not apply to service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider (AASP)."
+        },
+        {
+          "section": "3.2 ADH",
+          "snippet": "ADH coverage applies to operational or mechanical failure caused by an accident from handling that arises from your normal daily usage."
+        }
+      ],
+      "reasoning": "The policy excludes coverage for devices serviced by non-Apple/non-AASP providers (4.2(ii)(d)), but the accidental damage itself is eligible under ADH (3.2) if the prior repair did not cause the current failure. Apple must determine if the unauthorized display replacement contributed to the current damage or if the new damage is unrelated. This creates an edge case requiring judgment.",
+      "customer_data": {
+        "device": "iPhone 14 Pro (128 GB)",
+        "plan_agreement_number": "APLCARE-5501983124",
+        "serial_number": "D1F7K9L2S8Q4",
+        "phone_number": "+1-415-555-0193"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

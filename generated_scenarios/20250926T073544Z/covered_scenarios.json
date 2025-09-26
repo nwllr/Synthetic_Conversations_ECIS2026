@@ -1,0 +1,40 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20250926T073544Z-01",
+      "title": "Screen cracked from accidental drop — first ADH claim",
+      "description": "Customer accidentally drops their iPhone 14 Pro on concrete, resulting in a visibly cracked display and loss of touch functionality. This is the first accidental damage claim under the current AppleCare+ term.",
+      "claim_type": "accidental_damage_from_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Standard ADH service fee applies for screen damage"
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "If during the Plan Term you submit a valid claim notifying Apple that the Covered iPhone has failed due to accidental damage from handling ('ADH'), Apple will subject to the service fee described below either (i) repair the defect ... or (ii) exchange the Covered iPhone."
+        },
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage will expire ... when Apple, as a result of ADH claims, has provided to you two (2) Service Events."
+        }
+      ],
+      "reasoning": "The cracked screen is the result of an unexpected and unintentional external event (a drop), which is explicitly covered as accidental damage from handling under section 3.2. The customer has not exceeded the two-claim ADH limit. A $49 service fee applies as specified in the policy.",
+      "customer_data": {
+        "device": "iPhone 14 Pro (128 GB)",
+        "plan_agreement_number": "APLCARE-8765432101",
+        "serial_number": "G6YH4K3L2M9N",
+        "phone_number": "+1-415-555-0198"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

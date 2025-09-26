@@ -4,21 +4,21 @@
     "region": "US & Canada",
     "plan_term_months": 24
   },
-  "generated_on": "20250925",
+  "generated_on": "20250926",
   "generator": {
     "model": "gpt-4.1",
     "temperature": 0.35,
     "max_tokens": 2800,
     "attempted_count": 1,
-    "slug": "20250925T153229Z"
+    "slug": "20250926T073947Z"
   },
   "categories": {
     "covered": [
       {
-        "id": "COV-20250925T153229Z-01",
-        "title": "Cracked screen from accidental drop — first ADH event",
-        "description": "Customer accidentally drops their iPhone 13 Mini on a tile floor, resulting in a cracked front display. This is the first accidental damage claim under their AppleCare+ plan.",
-        "claim_type": "accidental_damage_from_handling",
+        "id": "COV-20250926T073947Z-01",
+        "title": "Cracked screen from accidental drop — first ADH claim",
+        "description": "Customer accidentally drops their iPhone 15 on concrete, resulting in a cracked front display. This is the first accidental damage from handling (ADH) claim during the plan term.",
+        "claim_type": "accidental_damage_handling",
         "ground_truth": "covered",
         "service_fee": {
           "applies": true,
@@ -34,24 +34,14 @@
           },
           {
             "section": "3.2 Accidental Damage from Handling",
-            "snippet": "ADH coverage will expire... when Apple, as a result of ADH claims, has provided to you two (2) Service Events."
+            "snippet": "You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim..."
           }
         ],
-        "reasoning": "The cracked screen is the result of an unexpected, unintentional external event (a drop) and is covered under section 3.2 as accidental damage from handling. A $49 service fee applies and this counts toward the two-event ADH limit.",
-        "required_user_inputs": [
-          "Plan Agreement Number or serial number (Sec. 5)",
-          "Explanation and details of the accident (Sec. 3.2)",
-          "Proof of purchase if requested (Sec. 7.i)"
-        ],
-        "suggested_service_options": [
-          "Carry-in (6.1.i)",
-          "Mail-in (6.1.ii)",
-          "Express Replacement (6.1.iii)"
-        ],
+        "reasoning": "The cracked screen is a result of an unexpected and unintentional external event, which qualifies as accidental damage from handling under section 3.2. The claim is within the plan term and is the first ADH event, so coverage applies subject to the $49 service fee and the two-claim ADH limit.",
         "customer_data": {
-          "device": "iPhone 13 Mini (128 GB)",
-          "plan_agreement_number": "APLCARE-2233445566",
-          "serial_number": "G6T8L0K2J9QW",
+          "device": "iPhone 15 (128 GB)",
+          "plan_agreement_number": "APLCARE-9876543210",
+          "serial_number": "G6TQK1X9L4PW",
           "phone_number": "+1-415-555-0198"
         }
       }
