@@ -1,0 +1,148 @@
+{
+  "id": "NC-20250926T131737Z-01_20250926T131834Z",
+  "created_at": "2025-09-26T13:18:34.719549+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 1.0,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "not_covered",
+  "scenario": {
+    "id": "NC-20250926T131737Z-01",
+    "title": "Damage due to unauthorized third-party repair",
+    "description": "The customer submitted a claim for repair of an iPhone that was previously serviced by a non-Apple authorized technician, resulting in additional functional damage.",
+    "claim_type": "unauthorized_service_damage",
+    "ground_truth": "not_covered",
+    "service_fee": {
+      "applies": false,
+      "amount": 0,
+      "currency": "USD"
+    },
+    "counts_toward_adh_limit": false,
+    "policy_references": [
+      {
+        "section": "4.2(ii)(d)",
+        "snippet": "Plan does not apply to damage caused by service (including upgrades and expansions) performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider (AASP)."
+      }
+    ],
+    "reasoning": "The damage resulted from unauthorized third-party repair, explicitly excluded from coverage under section 4.2(ii)(d). Therefore, no service fee applies and the claim is not covered.",
+    "customer_data": {
+      "device": "iPhone SE (3rd generation, 64 GB)",
+      "plan_agreement_number": "APLCARE-7832916450",
+      "serial_number": "DX3K9M7PTQ2B",
+      "phone_number": "+1-415-555-0198"
+    }
+  },
+  "persona": {
+    "age": "48",
+    "ancestry": "Bulgarian",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Extremely High",
+      "Extraversion": "High",
+      "Neuroticism": "Extremely High",
+      "Openness": "Extremely High"
+    },
+    "citizenship": "U.S. citizen by naturalization",
+    "class of worker": "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+    "defining quirks": "Deep interest in literature and reading, particularly science fiction and fantasy genres",
+    "detailed job description": "Managing the operations of a retail store",
+    "disability": "None",
+    "education": "Master's degree",
+    "employment status": "Civilian employed, at work",
+    "family presence and age": "With related children 5 to 17 years only",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Married couple household with children of the householder less than 18",
+    "ideology": "Liberal",
+    "income": "180000.0",
+    "industry category": "RET-Miscellaneous Retail Stores",
+    "lifestyle": "Active and intellectually stimulating",
+    "mannerisms": "Expressive hand gestures when talking",
+    "marital status": "Married",
+    "occupation category": "MGR-General And Operations Managers",
+    "personal time": "Spends free time reading or exploring new hiking trails",
+    "place of birth": "Bulgaria",
+    "political views": "Democrat",
+    "race": "White alone",
+    "religion": "Catholic",
+    "sex": "Male",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nThe customer submitted a claim for repair of an iPhone that was previously serviced by a non-Apple authorized technician, resulting in additional functional damage.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone SE (3rd generation, 64 GB)\",\n  \"plan_agreement_number\": \"APLCARE-7832916450\",\n  \"serial_number\": \"DX3K9M7PTQ2B\",\n  \"phone_number\": \"+1-415-555-0198\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"48\",\n  \"ancestry\": \"Bulgarian\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Extremely High\",\n    \"Extraversion\": \"High\",\n    \"Neuroticism\": \"Extremely High\",\n    \"Openness\": \"Extremely High\"\n  },\n  \"citizenship\": \"U.S. citizen by naturalization\",\n  \"class of worker\": \"Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions\",\n  \"defining quirks\": \"Deep interest in literature and reading, particularly science fiction and fantasy genres\",\n  \"detailed job description\": \"Managing the operations of a retail store\",\n  \"disability\": \"None\",\n  \"education\": \"Master's degree\",\n  \"employment status\": \"Civilian employed, at work\",\n  \"family presence and age\": \"With related children 5 to 17 years only\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Married couple household with children of the householder less than 18\",\n  \"ideology\": \"Liberal\",\n  \"income\": \"180000.0\",\n  \"industry category\": \"RET-Miscellaneous Retail Stores\",\n  \"lifestyle\": \"Active and intellectually stimulating\",\n  \"mannerisms\": \"Expressive hand gestures when talking\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"MGR-General And Operations Managers\",\n  \"personal time\": \"Spends free time reading or exploring new hiking trails\",\n  \"place of birth\": \"Bulgaria\",\n  \"political views\": \"Democrat\",\n  \"race\": \"White alone\",\n  \"religion\": \"Catholic\",\n  \"sex\": \"Male\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hello. I recently submitted a claim for my iPhone SE, but there’s an issue. The phone was previously repaired by a non-Apple authorized technician, and now it’s showing additional functional problems. I need assistance with filing a claim for this. Can you help me understand the next steps?",
+      "raw_text": "Hello. I recently submitted a claim for my iPhone SE, but there’s an issue. The phone was previously repaired by a non-Apple authorized technician, and now it’s showing additional functional problems. I need assistance with filing a claim for this. Can you help me understand the next steps?"
+    },
+    {
+      "speaker": "bot",
+      "text": "I can help you with that. To start, could you please provide your Plan Agreement Number or the serial number of your iPhone SE? This information is required to verify your coverage.",
+      "raw_text": "I can help you with that. To start, could you please provide your Plan Agreement Number or the serial number of your iPhone SE? This information is required to verify your coverage."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, I have both. The Plan Agreement Number is APLCARE-7832916450, and the serial number is DX3K9M7PTQ2B. Please let me know if you need any other details to proceed.",
+      "raw_text": "Sure, I have both. The Plan Agreement Number is APLCARE-7832916450, and the serial number is DX3K9M7PTQ2B. Please let me know if you need any other details to proceed."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing that information. Now, could you please describe the current issues or symptoms your iPhone SE is experiencing? This will help us determine the nature of the problem.",
+      "raw_text": "Thank you for providing that information. Now, could you please describe the current issues or symptoms your iPhone SE is experiencing? This will help us determine the nature of the problem."
+    },
+    {
+      "speaker": "customer",
+      "text": "Absolutely. After the non-authorized repair, my iPhone started having frequent freezes, unresponsive touch screen behavior, and issues with the battery draining way faster than before. It’s really affected the phone’s performance and usability badly. I’m quite concerned because it worked perfectly before that repair.",
+      "raw_text": "Absolutely. After the non-authorized repair, my iPhone started having frequent freezes, unresponsive touch screen behavior, and issues with the battery draining way faster than before. It’s really affected the phone’s performance and usability badly. I’m quite concerned because it worked perfectly before that repair."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the details. To assist further, could you please tell me the iOS version currently installed on your iPhone SE? Also, have you connected any accessories or peripherals recently? Have you noticed any error messages or tried any troubleshooting steps so far?",
+      "raw_text": "Thank you for the details. To assist further, could you please tell me the iOS version currently installed on your iPhone SE? Also, have you connected any accessories or peripherals recently? Have you noticed any error messages or tried any troubleshooting steps so far?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Right now, the iPhone is running iOS 16.5. I haven’t used any new accessories or peripherals since the repair. There weren’t any specific error messages, but I've tried restarting the phone multiple times and even did a soft reset, but the problems persist. It’s frustrating because all the issues started right after that unauthorized repair.",
+      "raw_text": "Right now, the iPhone is running iOS 16.5. I haven’t used any new accessories or peripherals since the repair. There weren’t any specific error messages, but I've tried restarting the phone multiple times and even did a soft reset, but the problems persist. It’s frustrating because all the issues started right after that unauthorized repair."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. Since you mentioned battery draining quickly, can you check your battery health in Settings > Battery > Battery Health & Charging? Specifically, does it show that the maximum capacity has dropped to 50% or lower? This helps determine if battery degradation is significant for your claim.",
+      "raw_text": "Thank you for the information. Since you mentioned battery draining quickly, can you check your battery health in Settings > Battery > Battery Health & Charging? Specifically, does it show that the maximum capacity has dropped to 50% or lower? This helps determine if battery degradation is significant for your claim."
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, I checked just now. The maximum battery capacity shows 48%, which is definitely lower than what it should be for a relatively new iPhone SE. That definitely aligns with the rapid battery drain I’m experiencing. It’s quite disappointing given I rely on this phone daily for both work and personal use.",
+      "raw_text": "Yes, I checked just now. The maximum battery capacity shows 48%, which is definitely lower than what it should be for a relatively new iPhone SE. That definitely aligns with the rapid battery drain I’m experiencing. It’s quite disappointing given I rely on this phone daily for both work and personal use."
+    },
+    {
+      "speaker": "bot",
+      "text": "Understood, thank you for confirming the battery capacity. Since the symptoms include freezing, unresponsive touch, and a significantly degraded battery, and considering a non-authorized repair was done, this could be covered under accidental damage or defect evaluation.\n\nFor accuracy, can you confirm if during or after the non-authorized repair there was any accidental damage like drops or liquid exposure? If so, please provide details about how, when, and where that occurred. If not, we will proceed based on the symptoms alone.",
+      "raw_text": "Understood, thank you for confirming the battery capacity. Since the symptoms include freezing, unresponsive touch, and a significantly degraded battery, and considering a non-authorized repair was done, this could be covered under accidental damage or defect evaluation.\n\nFor accuracy, can you confirm if during or after the non-authorized repair there was any accidental damage like drops or liquid exposure? If so, please provide details about how, when, and where that occurred. If not, we will proceed based on the symptoms alone."
+    },
+    {
+      "speaker": "customer",
+      "text": "No, there wasn’t any accidental damage like drops or liquid exposure related to or after the unauthorized repair. The issues started purely due to the repair itself. The phone was handled carefully at all times. So it’s just those functional problems caused by the previous non-authorized service. I’d appreciate it if we could proceed based on that.",
+      "raw_text": "No, there wasn’t any accidental damage like drops or liquid exposure related to or after the unauthorized repair. The issues started purely due to the repair itself. The phone was handled carefully at all times. So it’s just those functional problems caused by the previous non-authorized service. I’d appreciate it if we could proceed based on that."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for clarifying that. Based on the coverage validation and symptoms you’ve described, we will proceed with processing your claim related to the functional issues and battery degradation following the non-authorized repair.\n\nYour claim will be reviewed and processed accordingly. Is there anything else I can assist you with today?",
+      "raw_text": "Thank you for clarifying that. Based on the coverage validation and symptoms you’ve described, we will proceed with processing your claim related to the functional issues and battery degradation following the non-authorized repair.\n\nYour claim will be reviewed and processed accordingly. Is there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Thank you for your help. That covers everything for now. I hope the claim process goes smoothly—I rely on my phone a lot. I really appreciate your assistance today. Have a good day!",
+      "raw_text": "Thank you for your help. That covers everything for now. I hope the claim process goes smoothly—I rely on my phone a lot. I really appreciate your assistance today. Have a good day!<END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

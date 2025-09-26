@@ -1,0 +1,128 @@
+{
+  "id": "NC-20250926T151944Z-04_20250926T152330Z",
+  "created_at": "2025-09-26T15:23:30.412819+00:00",
+  "model": "gpt-4.1-nano",
+  "temperature": 0.9,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "not_covered",
+  "scenario": {
+    "id": "NC-20250926T151944Z-04",
+    "title": "Claim for pre-existing battery degradation purchased after Plan",
+    "description": "Customer submits a claim for battery capacity loss exceeding 50%, but the degradation was known and existed before Plan purchase.",
+    "claim_type": "battery_degradation",
+    "ground_truth": "not_covered",
+    "service_fee": {
+      "applies": false,
+      "amount": 0,
+      "currency": "USD"
+    },
+    "counts_toward_adh_limit": false,
+    "policy_references": [
+      {
+        "section": "4.2(viii)",
+        "snippet": "The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased the Plan after you purchased the Covered iPhone."
+      }
+    ],
+    "reasoning": "The claim involves a battery defect that was pre-existing prior to Plan purchase, which is excluded from coverage under section 4.2(viii). No service fee applies since no repair or replacement is authorized.",
+    "customer_data": {
+      "device": "iPhone 12 Pro Max (256 GB)",
+      "plan_agreement_number": "APLCARE-9988776655",
+      "serial_number": "D4K2J9V7M8Q3",
+      "phone_number": "+1-408-555-0199"
+    }
+  },
+  "persona": {
+    "age": "30",
+    "ancestry": "Irish",
+    "big five scores": {
+      "Agreeableness": "Low",
+      "Conscientiousness": "Average",
+      "Extraversion": "Extremely Low",
+      "Neuroticism": "Extremely High",
+      "Openness": "High"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Private",
+    "defining quirks": "Works long hours and often brings work home",
+    "detailed job description": "Represents clients in criminal and civil litigation and other legal proceedings",
+    "disability": "None",
+    "education": "Juris Doctor degree",
+    "employment status": "Employed",
+    "family presence and age": "No family",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "One-person household",
+    "ideology": "Liberal",
+    "income": "175000.0",
+    "industry category": "Legal Services",
+    "lifestyle": "Busy and fast-paced",
+    "mannerisms": "Often seen with a cup of coffee and a briefcase",
+    "marital status": "Never married",
+    "occupation category": "Lawyer",
+    "personal time": "Spends free time in yoga classes or reading at home",
+    "place of birth": "Arizona/AZ",
+    "political views": "Democrat",
+    "race": "White alone",
+    "religion": "Religiously Unaffiliated",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer submits a claim for battery capacity loss exceeding 50%, but the degradation was known and existed before Plan purchase.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 12 Pro Max (256 GB)\",\n  \"plan_agreement_number\": \"APLCARE-9988776655\",\n  \"serial_number\": \"D4K2J9V7M8Q3\",\n  \"phone_number\": \"+1-408-555-0199\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"30\",\n  \"ancestry\": \"Irish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Low\",\n    \"Conscientiousness\": \"Average\",\n    \"Extraversion\": \"Extremely Low\",\n    \"Neuroticism\": \"Extremely High\",\n    \"Openness\": \"High\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Private\",\n  \"defining quirks\": \"Works long hours and often brings work home\",\n  \"detailed job description\": \"Represents clients in criminal and civil litigation and other legal proceedings\",\n  \"disability\": \"None\",\n  \"education\": \"Juris Doctor degree\",\n  \"employment status\": \"Employed\",\n  \"family presence and age\": \"No family\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"One-person household\",\n  \"ideology\": \"Liberal\",\n  \"income\": \"175000.0\",\n  \"industry category\": \"Legal Services\",\n  \"lifestyle\": \"Busy and fast-paced\",\n  \"mannerisms\": \"Often seen with a cup of coffee and a briefcase\",\n  \"marital status\": \"Never married\",\n  \"occupation category\": \"Lawyer\",\n  \"personal time\": \"Spends free time in yoga classes or reading at home\",\n  \"place of birth\": \"Arizona/AZ\",\n  \"political views\": \"Democrat\",\n  \"race\": \"White alone\",\n  \"religion\": \"Religiously Unaffiliated\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hi, I need to file a claim for my iPhone 12 Pro Max. The battery isn't holding capacity like it used to, and I think it’s over 50% degraded.",
+      "raw_text": "Hi, I need to file a claim for my iPhone 12 Pro Max. The battery isn't holding capacity like it used to, and I think it’s over 50% degraded."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the details. To start the claim process, could you please provide your Plan Agreement Number or the serial number of your iPhone 12 Pro Max?",
+      "raw_text": "Thank you for the details. To start the claim process, could you please provide your Plan Agreement Number or the serial number of your iPhone 12 Pro Max?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, the plan agreement number is APLCARE-9988776655, and the serial number is D4K2J9V7M8Q3. But, honestly, I just want to make sure this isn't a waste of time. The battery was already bad before I got this plan.",
+      "raw_text": "Sure, the plan agreement number is APLCARE-9988776655, and the serial number is D4K2J9V7M8Q3. But, honestly, I just want to make sure this isn't a waste of time. The battery was already bad before I got this plan."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing the information. Can you please describe the specific issue with your iPhone? For example, is the battery not lasting as long, or are you experiencing unexpected shutdowns?",
+      "raw_text": "Thank you for providing the information. Can you please describe the specific issue with your iPhone? For example, is the battery not lasting as long, or are you experiencing unexpected shutdowns?"
+    },
+    {
+      "speaker": "customer",
+      "text": "The battery just doesn't last long anymore, but like I said, it was already pretty degraded before I even bought this plan. I don't see why I should be penalized for something I already knew about.",
+      "raw_text": "The battery just doesn't last long anymore, but like I said, it was already pretty degraded before I even bought this plan. I don't see why I should be penalized for something I already knew about."
+    },
+    {
+      "speaker": "bot",
+      "text": "I understand your concern. To proceed with the claim, I need to confirm the current battery capacity has dropped by at least 50%. Have you had this battery diagnostic test done, or would you like guidance on how to check your battery health?",
+      "raw_text": "I understand your concern. To proceed with the claim, I need to confirm the current battery capacity has dropped by at least 50%. Have you had this battery diagnostic test done, or would you like guidance on how to check your battery health?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I haven't done a diagnostic test yet. Honestly, I can tell from how quickly my phone's battery drains that it's pretty bad. I've used it normally, and it just doesn't last as long as it should. Why does this matter if I already knew about the degradation?",
+      "raw_text": "I haven't done a diagnostic test yet. Honestly, I can tell from how quickly my phone's battery drains that it's pretty bad. I've used it normally, and it just doesn't last as long as it should. Why does this matter if I already knew about the degradation?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for explaining. For the claim process, we rely on battery diagnostics to confirm the specific level of capacity loss. Would you like assistance in performing a battery health check on your device now?",
+      "raw_text": "Thank you for explaining. For the claim process, we rely on battery diagnostics to confirm the specific level of capacity loss. Would you like assistance in performing a battery health check on your device now?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, I don’t really have time for that. Like I said, I already know the battery’s crap. It’s just frustrating because I feel like I’m being asked to prove something I already told you. Can we just move forward with the claim?",
+      "raw_text": "No, I don’t really have time for that. Like I said, I already know the battery’s crap. It’s just frustrating because I feel like I’m being asked to prove something I already told you. Can we just move forward with the claim?\t<END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

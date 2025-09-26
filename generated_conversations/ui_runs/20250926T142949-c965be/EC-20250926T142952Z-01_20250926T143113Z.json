@@ -1,0 +1,137 @@
+{
+  "id": "EC-20250926T142952Z-01_20250926T143113Z",
+  "created_at": "2025-09-26T14:31:13.768735+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 0.7,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20250926T142952Z-01",
+    "title": "Battery degradation post plan purchase with missing original purchase proof",
+    "description": "Customer reports battery capacity has declined 55% impacting usage. The AppleCare+ plan was purchased after the phone purchase, and the customer cannot provide the original iPhone purchase receipt.",
+    "claim_type": "battery_degradation_post_plan_purchase_no_proof",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "no",
+      "amount": 0,
+      "currency": "USD",
+      "notes": "Battery service for genuine degradation is covered without ADH fee."
+    },
+    "counts_toward_adh_limit": "no",
+    "policy_references": [
+      {
+        "section": "3.1 Hardware Service",
+        "snippet": "Apple will service battery capacity degradation of 50% or more during the Plan Term."
+      },
+      {
+        "section": "4.2 (viii)",
+        "snippet": "Plan does not apply to pre-existing conditions if Plan purchased after iPhone purchase."
+      },
+      {
+        "section": "7(i)",
+        "snippet": "Customer must provide the Plan’s original proof of purchase if requested."
+      }
+    ],
+    "reasoning": "Battery degradation over 50% is covered hardware service (3.1), but since the Plan was purchased post iPhone purchase and original iPhone receipt is missing, it creates tension per 4.2(viii) exclusion and 7(i) evidence requirement. Judgment depends on verifying coverage eligibility without original receipt. No ADH service fee applies as this is not an accidental damage claim. This case requires further verification steps with customer to clarify coverage status.",
+    "customer_data": {
+      "device": "iPhone 14 (128 GB)",
+      "plan_agreement_number": "APLCARE-5524683790",
+      "serial_number": "G7N2B5L9W3YV",
+      "phone_number": "+1-415-555-0134"
+    }
+  },
+  "persona": {
+    "age": "57",
+    "ancestry": "Mexican and Other",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Low",
+      "Extraversion": "Average",
+      "Neuroticism": "Average",
+      "Openness": "Average"
+    },
+    "citizenship": "Not a U.S. citizen",
+    "class of worker": "Not Applicable",
+    "defining quirks": "Passionate about community gardening",
+    "detailed job description": "Not Applicable",
+    "disability": "None",
+    "education": "Grade 11",
+    "employment status": "Not in labor force",
+    "family presence and age": "With related children 5 to 17 years only",
+    "health insurance": "With health insurance coverage",
+    "household language": "Spanish",
+    "household type": "Married couple household with children of the householder less than 18",
+    "ideology": "Progressive",
+    "income": "22000.0",
+    "industry category": "Not Applicable",
+    "lifestyle": "Active and community-oriented",
+    "mannerisms": "Often uses hand gestures when speaking",
+    "marital status": "Married",
+    "occupation category": "Not Applicable",
+    "personal time": "Gardening or volunteering at local community events",
+    "place of birth": "Mexico",
+    "political views": "Left-leaning",
+    "race": "Two or More Races",
+    "religion": "Other Non-Christian Religion",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer reports battery capacity has declined 55% impacting usage. The AppleCare+ plan was purchased after the phone purchase, and the customer cannot provide the original iPhone purchase receipt.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 (128 GB)\",\n  \"plan_agreement_number\": \"APLCARE-5524683790\",\n  \"serial_number\": \"G7N2B5L9W3YV\",\n  \"phone_number\": \"+1-415-555-0134\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"57\",\n  \"ancestry\": \"Mexican and Other\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Low\",\n    \"Extraversion\": \"Average\",\n    \"Neuroticism\": \"Average\",\n    \"Openness\": \"Average\"\n  },\n  \"citizenship\": \"Not a U.S. citizen\",\n  \"class of worker\": \"Not Applicable\",\n  \"defining quirks\": \"Passionate about community gardening\",\n  \"detailed job description\": \"Not Applicable\",\n  \"disability\": \"None\",\n  \"education\": \"Grade 11\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"With related children 5 to 17 years only\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"Spanish\",\n  \"household type\": \"Married couple household with children of the householder less than 18\",\n  \"ideology\": \"Progressive\",\n  \"income\": \"22000.0\",\n  \"industry category\": \"Not Applicable\",\n  \"lifestyle\": \"Active and community-oriented\",\n  \"mannerisms\": \"Often uses hand gestures when speaking\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"Not Applicable\",\n  \"personal time\": \"Gardening or volunteering at local community events\",\n  \"place of birth\": \"Mexico\",\n  \"political views\": \"Left-leaning\",\n  \"race\": \"Two or More Races\",\n  \"religion\": \"Other Non-Christian Religion\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hola, I have an iPhone 14 and I've noticed the battery capacity has gone down a lot, like 55%, and it’s really making it hard to use. I want to file a claim under my AppleCare+ plan. What do I need to do?",
+      "raw_text": "Hola, I have an iPhone 14 and I've noticed the battery capacity has gone down a lot, like 55%, and it’s really making it hard to use. I want to file a claim under my AppleCare+ plan. What do I need to do?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing that information. To start, could you please provide your Plan Agreement Number or your iPhone’s serial number? This helps us verify your coverage eligibility.",
+      "raw_text": "Thank you for providing that information. To start, could you please provide your Plan Agreement Number or your iPhone’s serial number? This helps us verify your coverage eligibility."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, my Plan Agreement Number is APLCARE-5524683790, and the serial number for the iPhone is G7N2B5L9W3YV. What’s the next step?",
+      "raw_text": "Sure, my Plan Agreement Number is APLCARE-5524683790, and the serial number for the iPhone is G7N2B5L9W3YV. What’s the next step?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for sharing that. Now, could you describe any other symptoms or issues you’ve noticed with your iPhone besides the battery capacity drop? For example, any hardware failures, screen damage, or error messages?",
+      "raw_text": "Thanks for sharing that. Now, could you describe any other symptoms or issues you’ve noticed with your iPhone besides the battery capacity drop? For example, any hardware failures, screen damage, or error messages?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, there’s no screen damage or error messages. It’s just that the battery drains super fast now, and it doesn’t hold charge like before. I mostly use it for calls and community gardening apps, so it’s important it lasts longer.",
+      "raw_text": "No, there’s no screen damage or error messages. It’s just that the battery drains super fast now, and it doesn’t hold charge like before. I mostly use it for calls and community gardening apps, so it’s important it lasts longer."
+    },
+    {
+      "speaker": "bot",
+      "text": "Got it. To confirm, your iPhone 14’s battery capacity has dropped by 55%, causing rapid battery drain without other hardware issues. Could you please tell me which iOS version your iPhone is currently running? Also, have you attached any peripherals or accessories recently? Have you tried any troubleshooting steps so far?",
+      "raw_text": "Got it. To confirm, your iPhone 14’s battery capacity has dropped by 55%, causing rapid battery drain without other hardware issues. Could you please tell me which iOS version your iPhone is currently running? Also, have you attached any peripherals or accessories recently? Have you tried any troubleshooting steps so far?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I'm running iOS 17.0 on my iPhone. No, I haven’t attached any new accessories recently. For troubleshooting, I just tried restarting the phone a couple of times, but the battery still drains quickly. I haven’t done anything else because I’m not super tech-savvy.",
+      "raw_text": "I'm running iOS 17.0 on my iPhone. No, I haven’t attached any new accessories recently. For troubleshooting, I just tried restarting the phone a couple of times, but the battery still drains quickly. I haven’t done anything else because I’m not super tech-savvy."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the details. Since your battery capacity has dropped significantly, I have all the information needed to process your claim for battery service under AppleCare+. We will review your claim and notify you once it has been processed.\n\nIs there anything else I can assist you with today?",
+      "raw_text": "Thank you for the details. Since your battery capacity has dropped significantly, I have all the information needed to process your claim for battery service under AppleCare+. We will review your claim and notify you once it has been processed.\n\nIs there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that’s all for now. Gracias for your help. I hope the battery can be fixed soon so I can keep using my phone for gardening and staying connected with my community. Have a good day!",
+      "raw_text": "No, that’s all for now. Gracias for your help. I hope the battery can be fixed soon so I can keep using my phone for gardening and staying connected with my community. Have a good day!<END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

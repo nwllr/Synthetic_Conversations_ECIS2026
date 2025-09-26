@@ -1,0 +1,67 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20250926T140510Z-01",
+      "title": "Cracked rear glass from accidental drop",
+      "description": "Customer accidentally drops their iPhone 13 Pro Max on a tile floor while answering a call at home, resulting in a spiderweb crack across the rear glass, but the device remains functional.",
+      "claim_type": "accidental_damage_from_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "ADH service event fee per section 3.2"
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage applies to mechanical failure due to an unexpected and unintentional external event (e.g., drops) resulting from normal daily usage. Subject to a $49 service fee and a maximum of two (2) ADH events per Plan Term."
+        }
+      ],
+      "reasoning": "The rear glass breakage was caused by an unintentional, sudden drop during normal handling, which falls directly under the scope of 'accidental damage from handling' as defined in section 3.2. The customer is within the plan term and the event is not excluded by sections regarding wear and tear, intentional conduct, or cosmetic-only damage since functionality would be compromised without replacement. The $49 service fee applies, and this event counts toward the two permitted ADH service events.",
+      "customer_data": {
+        "device": "iPhone 13 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-2736154890",
+        "serial_number": "C39WX1V7J98T",
+        "phone_number": "+1-303-555-0184"
+      }
+    },
+    {
+      "id": "COV-20250926T140510Z-02",
+      "title": "Liquid damage after coffee spill — touchscreen unresponsive",
+      "description": "Customer accidentally spills coffee on iPhone 13 mini during normal use. Touchscreen becomes completely unresponsive immediately after the incident.",
+      "claim_type": "accidental_damage_from_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Standard Accidental Damage from Handling (ADH) service fee is applicable."
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event (e.g., drops and liquid contact) that arises from your normal daily usage of the Covered iPhone as intended."
+        },
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim."
+        }
+      ],
+      "reasoning": "The failure is a direct result of unexpected and unintentional liquid contact occurring during normal daily usage. Section 3.2 explicitly includes liquid contact as an example of covered accidental damage from handling (ADH), subject to a $49 service fee and the ADH claim limit. No exclusion applies, and the device remains eligible for ADH coverage under policy limits.",
+      "customer_data": {
+        "device": "iPhone 13 mini (128 GB)",
+        "plan_agreement_number": "APLCARE-9871346261",
+        "serial_number": "X4YHJ6MNPQ1L",
+        "phone_number": "+1-415-555-0196"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

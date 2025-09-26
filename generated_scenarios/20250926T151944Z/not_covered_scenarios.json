@@ -1,0 +1,113 @@
+{
+  "scenarios": [
+    {
+      "id": "NC-20250926T151944Z-01",
+      "title": "Damage due to unauthorized third-party repair",
+      "description": "The iPhone experienced hardware failure after repair by a non-Apple authorized service provider.",
+      "claim_type": "unauthorized_repair_damage",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(ii)(d)",
+          "snippet": "The Plan does not apply to damage caused by service performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider."
+        }
+      ],
+      "reasoning": "Damage resulting from unauthorized repair is excluded under section 4.2(ii)(d). Therefore, no coverage or service fee applies.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (256 GB)",
+        "plan_agreement_number": "APLCARE-7896541230",
+        "serial_number": "DX9H7F2KL1Q3",
+        "phone_number": "+1-415-555-0199"
+      }
+    },
+    {
+      "id": "NC-20250926T151944Z-02",
+      "title": "Damage from Operating Outside Manufacturer's Intended Use",
+      "description": "User subjected the iPhone to high temperature environment causing internal component failure.",
+      "claim_type": "hardware_damage",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(ii)(c)",
+          "snippet": "The Plan does not apply to damage caused by operating the Covered iPhone outside the permitted or intended uses described by the manufacturer."
+        }
+      ],
+      "reasoning": "The damage resulted from operating the device outside of intended environmental parameters, which is excluded under section 4.2(ii)(c). No service fee applies as the claim is denied.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (256 GB)",
+        "plan_agreement_number": "APLCARE-9876543210",
+        "serial_number": "G6Y8M1P4Q2Z9",
+        "phone_number": "+1-415-555-0199"
+      }
+    },
+    {
+      "id": "NC-20250926T151944Z-03",
+      "title": "Damage from Modified iPhone Serial Number",
+      "description": "Customer submits a claim for hardware failure on an iPhone whose serial number has been altered after purchase.",
+      "claim_type": "hardware_service",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(iii)",
+          "snippet": "The Plan does not apply to an iPhone with a serial number that has been altered, defaced or removed, or has been modified to alter its functionality or capability without the written permission of the manufacturer."
+        }
+      ],
+      "reasoning": "The claim is denied because the Covered iPhone’s serial number was altered, which is an explicit exclusion under section 4.2(iii). Such modification voids coverage and service fees do not apply.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (256 GB)",
+        "plan_agreement_number": "APLCARE-7890123456",
+        "serial_number": "Modified-XXX-123456",
+        "phone_number": "+1-310-555-2368"
+      }
+    },
+    {
+      "id": "NC-20250926T151944Z-04",
+      "title": "Claim for pre-existing battery degradation purchased after Plan",
+      "description": "Customer submits a claim for battery capacity loss exceeding 50%, but the degradation was known and existed before Plan purchase.",
+      "claim_type": "battery_degradation",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(viii)",
+          "snippet": "The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased the Plan after you purchased the Covered iPhone."
+        }
+      ],
+      "reasoning": "The claim involves a battery defect that was pre-existing prior to Plan purchase, which is excluded from coverage under section 4.2(viii). No service fee applies since no repair or replacement is authorized.",
+      "customer_data": {
+        "device": "iPhone 12 Pro Max (256 GB)",
+        "plan_agreement_number": "APLCARE-9988776655",
+        "serial_number": "D4K2J9V7M8Q3",
+        "phone_number": "+1-408-555-0199"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 0.9,
+    "max_tokens": 2800
+  }
+}

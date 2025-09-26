@@ -1,0 +1,147 @@
+{
+  "id": "NC-20250926T140510Z-01_20250926T140736Z",
+  "created_at": "2025-09-26T14:07:36.259437+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 0.7,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "not_covered",
+  "scenario": {
+    "id": "NC-20250926T140510Z-01",
+    "title": "iPhone Operated Outside Intended Use",
+    "description": "The iPhone suffered motherboard failure after being used repeatedly as a dashcam for several months in an automobile exposed to extreme heat and sunlight.",
+    "claim_type": "misuse_external_environment",
+    "ground_truth": "not_covered",
+    "service_fee": {
+      "applies": false,
+      "amount": 0,
+      "currency": "USD"
+    },
+    "counts_toward_adh_limit": false,
+    "policy_references": [
+      {
+        "section": "4.2(ii)(c)",
+        "snippet": "The Plan does not apply to damage caused by operating the Covered iPhone outside the permitted or intended uses described by the manufacturer."
+      },
+      {
+        "section": "3.2",
+        "snippet": "ADH coverage only applies to operational or mechanical failure caused by an unexpected and unintentional external event arising from normal daily usage of the Covered iPhone as intended."
+      }
+    ],
+    "reasoning": "The device failure resulted from prolonged use as a dashcam, leading to exposure beyond environmental operating guidelines. The policy specifically excludes damage resulting from use outside manufacturer-intended purposes (section 4.2(ii)(c)), and accidental damage coverage only applies to unintended external events arising from normal daily use (section 3.2). Service fees and ADH limits do not apply because this claim is not eligible.",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (256 GB)",
+      "plan_agreement_number": "APLCARE-8877665544",
+      "serial_number": "J6F9L3P2Q8M7",
+      "phone_number": "+1-415-555-0198"
+    }
+  },
+  "persona": {
+    "age": "29",
+    "ancestry": "Polish",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Average",
+      "Extraversion": "Extremely High",
+      "Neuroticism": "High",
+      "Openness": "Average"
+    },
+    "citizenship": "U.S. citizen by naturalization",
+    "class of worker": "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+    "defining quirks": "Enjoys learning about new technology and gadgets",
+    "detailed job description": "Provides social services to individuals and families in need",
+    "disability": "None",
+    "education": "Master's degree",
+    "employment status": "Civilian employed, at work",
+    "family presence and age": "With related children under 5 years only",
+    "health insurance": "With health insurance coverage",
+    "household language": "Other Indo-European languages",
+    "household type": "Married couple household with children of the householder less than 18",
+    "ideology": "Open-minded",
+    "income": "143700.0",
+    "industry category": "SCA-Individual And Family Services",
+    "lifestyle": "Busy and family-oriented",
+    "mannerisms": "Speaks quickly and with enthusiasm",
+    "marital status": "Married",
+    "occupation category": "CMS-Healthcare Social Workers",
+    "personal time": "Spends free time with family or volunteering",
+    "place of birth": "Poland",
+    "political views": "Undisclosed",
+    "race": "White alone",
+    "religion": "Other Christian",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nThe iPhone suffered motherboard failure after being used repeatedly as a dashcam for several months in an automobile exposed to extreme heat and sunlight.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (256 GB)\",\n  \"plan_agreement_number\": \"APLCARE-8877665544\",\n  \"serial_number\": \"J6F9L3P2Q8M7\",\n  \"phone_number\": \"+1-415-555-0198\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"29\",\n  \"ancestry\": \"Polish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Average\",\n    \"Extraversion\": \"Extremely High\",\n    \"Neuroticism\": \"High\",\n    \"Openness\": \"Average\"\n  },\n  \"citizenship\": \"U.S. citizen by naturalization\",\n  \"class of worker\": \"Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions\",\n  \"defining quirks\": \"Enjoys learning about new technology and gadgets\",\n  \"detailed job description\": \"Provides social services to individuals and families in need\",\n  \"disability\": \"None\",\n  \"education\": \"Master's degree\",\n  \"employment status\": \"Civilian employed, at work\",\n  \"family presence and age\": \"With related children under 5 years only\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"Other Indo-European languages\",\n  \"household type\": \"Married couple household with children of the householder less than 18\",\n  \"ideology\": \"Open-minded\",\n  \"income\": \"143700.0\",\n  \"industry category\": \"SCA-Individual And Family Services\",\n  \"lifestyle\": \"Busy and family-oriented\",\n  \"mannerisms\": \"Speaks quickly and with enthusiasm\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"CMS-Healthcare Social Workers\",\n  \"personal time\": \"Spends free time with family or volunteering\",\n  \"place of birth\": \"Poland\",\n  \"political views\": \"Undisclosed\",\n  \"race\": \"White alone\",\n  \"religion\": \"Other Christian\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hi! So my iPhone 14 Pro Max has been acting up—it's like the motherboard gave out or something. I've been using it as a dashcam in my car for months, and it’s been through some crazy heat and sunlight. Can I file a claim for this?",
+      "raw_text": "Hi! So my iPhone 14 Pro Max has been acting up—it's like the motherboard gave out or something. I've been using it as a dashcam in my car for months, and it’s been through some crazy heat and sunlight. Can I file a claim for this?"
+    },
+    {
+      "speaker": "bot",
+      "text": "To get started with your claim, could you please provide your Plan Agreement Number or your iPhone 14 Pro Max's serial number? This will help us verify your coverage.",
+      "raw_text": "To get started with your claim, could you please provide your Plan Agreement Number or your iPhone 14 Pro Max's serial number? This will help us verify your coverage."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure thing! My Plan Agreement Number is APLCARE-8877665544. Let me know if you need any other info from me!",
+      "raw_text": "Sure thing! My Plan Agreement Number is APLCARE-8877665544. Let me know if you need any other info from me!"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing your Plan Agreement Number. Could you please describe the symptoms or issues you are experiencing with your iPhone in more detail? For example, any hardware failures, error messages, or specific malfunctions you've noticed.",
+      "raw_text": "Thank you for providing your Plan Agreement Number. Could you please describe the symptoms or issues you are experiencing with your iPhone in more detail? For example, any hardware failures, error messages, or specific malfunctions you've noticed."
+    },
+    {
+      "speaker": "customer",
+      "text": "Absolutely! So, after a few months of using it as a dashcam, the phone started overheating a lot even when just sitting in the car. Then it began freezing and rebooting randomly, and eventually, it just wouldn’t turn on at all. No error messages or anything, just completely dead. I suspect the motherboard failed because of the constant heat exposure. It's pretty frustrating because I rely on it a lot, especially for work and family safety.",
+      "raw_text": "Absolutely! So, after a few months of using it as a dashcam, the phone started overheating a lot even when just sitting in the car. Then it began freezing and rebooting randomly, and eventually, it just wouldn’t turn on at all. No error messages or anything, just completely dead. I suspect the motherboard failed because of the constant heat exposure. It's pretty frustrating because I rely on it a lot, especially for work and family safety."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for the detailed description. To help us further, could you please tell me your iPhone model, the iOS version it was running before the issue started, and if you had any peripherals connected at the time the problem began? Also, did you try any troubleshooting steps like restarting or restoring the device?",
+      "raw_text": "Thanks for the detailed description. To help us further, could you please tell me your iPhone model, the iOS version it was running before the issue started, and if you had any peripherals connected at the time the problem began? Also, did you try any troubleshooting steps like restarting or restoring the device?"
+    },
+    {
+      "speaker": "customer",
+      "text": "The model is iPhone 14 Pro Max with 256GB storage. I think it was running iOS 17.2 before the issue started. No peripherals were connected when the problem began — just the phone itself mounted on the dash. I did try restarting it a few times, but no luck. I haven’t tried restoring it yet since it wouldn’t even stay on long enough to do that. Does that help?",
+      "raw_text": "The model is iPhone 14 Pro Max with 256GB storage. I think it was running iOS 17.2 before the issue started. No peripherals were connected when the problem began — just the phone itself mounted on the dash. I did try restarting it a few times, but no luck. I haven’t tried restoring it yet since it wouldn’t even stay on long enough to do that. Does that help?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Yes, that’s helpful—thank you. Since the issue appears related to heat exposure, could you please share if the phone was exposed to any drops, liquid spills, or other accidents recently? If so, please provide details about when, where, and how the accident occurred.",
+      "raw_text": "Yes, that’s helpful—thank you. Since the issue appears related to heat exposure, could you please share if the phone was exposed to any drops, liquid spills, or other accidents recently? If so, please provide details about when, where, and how the accident occurred."
+    },
+    {
+      "speaker": "customer",
+      "text": "No drops, spills, or accidents at all. The phone was always secured in the dash mount, and I took care to park in shaded spots when possible, but with how hot it gets in the car during the day, I think the heat just wore it down over time. No physical damage otherwise.",
+      "raw_text": "No drops, spills, or accidents at all. The phone was always secured in the dash mount, and I took care to park in shaded spots when possible, but with how hot it gets in the car during the day, I think the heat just wore it down over time. No physical damage otherwise."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for confirming that. Since your issue does not involve accidental damage, we will proceed with the claim based on the information you've provided. Your claim will now be processed, and you will be notified as soon as there is an update. Is there anything else I can assist you with today?",
+      "raw_text": "Thank you for confirming that. Since your issue does not involve accidental damage, we will proceed with the claim based on the information you've provided. Your claim will now be processed, and you will be notified as soon as there is an update. Is there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Thanks so much for your help! I really appreciate it. That’s all for now—just hoping to get this sorted soon. Have a great day!",
+      "raw_text": "Thanks so much for your help! I really appreciate it. That’s all for now—just hoping to get this sorted soon. Have a great day!"
+    },
+    {
+      "speaker": "bot",
+      "text": "You're very welcome! If you need any further assistance in the future, don't hesitate to reach out. Have a great day as well!",
+      "raw_text": "You're very welcome! If you need any further assistance in the future, don't hesitate to reach out. Have a great day as well! <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

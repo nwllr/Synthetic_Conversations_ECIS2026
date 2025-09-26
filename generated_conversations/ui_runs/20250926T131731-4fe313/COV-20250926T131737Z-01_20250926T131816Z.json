@@ -1,0 +1,145 @@
+{
+  "id": "COV-20250926T131737Z-01_20250926T131816Z",
+  "created_at": "2025-09-26T13:18:16.184745+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 1.0,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "covered",
+  "scenario": {
+    "id": "COV-20250926T131737Z-01",
+    "title": "Accidental liquid damage within plan term",
+    "description": "Customer dropped iPhone XR in water causing it to stop functioning. The claim is filed within the 24-month plan term, first ADH event for this device.",
+    "claim_type": "accidental_damage_handling",
+    "ground_truth": "covered",
+    "service_fee": {
+      "applies": true,
+      "amount": 49,
+      "currency": "USD",
+      "notes": "Service fee applies for each ADH claim as stated in section 3.2"
+    },
+    "counts_toward_adh_limit": true,
+    "policy_references": [
+      {
+        "section": "3.2 Accidental Damage from Handling",
+        "snippet": "ADH coverage applies to operational failure caused by unexpected and unintentional external events like liquid contact, subject to a $49 service fee per claim."
+      },
+      {
+        "section": "2. When Coverage Begins and Ends",
+        "snippet": "Coverage is valid within 24 months from original iPhone purchase date."
+      }
+    ],
+    "reasoning": "The liquid damage resulted from an accidental and unintentional external event during the 24-month coverage period. This is explicitly covered under section 3.2, which allows repair or replacement after payment of a $49 service fee. This is the first ADH claim, so it counts toward the two-event ADH limit.",
+    "customer_data": {
+      "device": "iPhone XR (64 GB)",
+      "plan_agreement_number": "APLCARE-7890123456",
+      "serial_number": "DX7RT5FG9H1J",
+      "phone_number": "+1-415-555-1234"
+    }
+  },
+  "persona": {
+    "age": "83",
+    "ancestry": "Irish",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Extremely High",
+      "Extraversion": "Extremely Low",
+      "Neuroticism": "Low",
+      "Openness": "Low"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Retired",
+    "cognitive difficulty": "Yes",
+    "defining quirks": "Enjoys tinkering with technology and gadgets",
+    "detailed job description": "Retired from a career in civil service",
+    "disability": "With a disability",
+    "education": "1 or more years of college credit, no degree",
+    "employment status": "Not in labor force",
+    "family presence and age": "No related children",
+    "health insurance": "With health insurance coverage",
+    "hearing difficulty": "Yes",
+    "household language": "English only",
+    "household type": "Married couple household, no children of the householder less than 18",
+    "ideology": "Conservative",
+    "income": "55000.0",
+    "industry category": "Retired",
+    "lifestyle": "Quiet and relaxed",
+    "mannerisms": "Speaks slowly and deliberately",
+    "marital status": "Married",
+    "occupation category": "Retired",
+    "personal time": "Spends free time in his garden or reading",
+    "place of birth": "Ohio/OH",
+    "political views": "Republican",
+    "race": "White alone",
+    "religion": "Protestant",
+    "sex": "Male",
+    "veteran status": "On active duty in the past, but not now"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer dropped iPhone XR in water causing it to stop functioning. The claim is filed within the 24-month plan term, first ADH event for this device.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone XR (64 GB)\",\n  \"plan_agreement_number\": \"APLCARE-7890123456\",\n  \"serial_number\": \"DX7RT5FG9H1J\",\n  \"phone_number\": \"+1-415-555-1234\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"83\",\n  \"ancestry\": \"Irish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Extremely High\",\n    \"Extraversion\": \"Extremely Low\",\n    \"Neuroticism\": \"Low\",\n    \"Openness\": \"Low\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Retired\",\n  \"cognitive difficulty\": \"Yes\",\n  \"defining quirks\": \"Enjoys tinkering with technology and gadgets\",\n  \"detailed job description\": \"Retired from a career in civil service\",\n  \"disability\": \"With a disability\",\n  \"education\": \"1 or more years of college credit, no degree\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"No related children\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"hearing difficulty\": \"Yes\",\n  \"household language\": \"English only\",\n  \"household type\": \"Married couple household, no children of the householder less than 18\",\n  \"ideology\": \"Conservative\",\n  \"income\": \"55000.0\",\n  \"industry category\": \"Retired\",\n  \"lifestyle\": \"Quiet and relaxed\",\n  \"mannerisms\": \"Speaks slowly and deliberately\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"Retired\",\n  \"personal time\": \"Spends free time in his garden or reading\",\n  \"place of birth\": \"Ohio/OH\",\n  \"political views\": \"Republican\",\n  \"race\": \"White alone\",\n  \"religion\": \"Protestant\",\n  \"sex\": \"Male\",\n  \"veteran status\": \"On active duty in the past, but not now\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Good day. I dropped my iPhone XR in some water, and now it’s not working. I need to file a claim under my AppleCare plan, please. Could you help me with that?",
+      "raw_text": "Good day. I dropped my iPhone XR in some water, and now it’s not working. I need to file a claim under my AppleCare plan, please. Could you help me with that?"
+    },
+    {
+      "speaker": "bot",
+      "text": "I’m sorry to hear about your iPhone XR. To start the claim process, could you please provide your Plan Agreement Number or your iPhone’s serial number? This helps us verify your coverage.",
+      "raw_text": "I’m sorry to hear about your iPhone XR. To start the claim process, could you please provide your Plan Agreement Number or your iPhone’s serial number? This helps us verify your coverage."
+    },
+    {
+      "speaker": "customer",
+      "text": "Certainly. The Plan Agreement Number is APLCARE-7890123456, and the serial number of the iPhone XR is DX7RT5FG9H1J. Would you need any other information?",
+      "raw_text": "Certainly. The Plan Agreement Number is APLCARE-7890123456, and the serial number of the iPhone XR is DX7RT5FG9H1J. Would you need any other information?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for that information. Could you please describe the issue in a bit more detail? For example, is the phone not turning on, is the screen damaged, or something else? Also, have you noticed any error messages or unusual behavior?",
+      "raw_text": "Thank you for that information. Could you please describe the issue in a bit more detail? For example, is the phone not turning on, is the screen damaged, or something else? Also, have you noticed any error messages or unusual behavior?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, well, after it fell into the water, it completely stopped turning on. No screen display at all, and there aren't any error messages showing up. I've tried charging it, but nothing happens. It’s like dead, unfortunately. I was tinkering with it a bit, thinking maybe I could fix it myself, but no luck.",
+      "raw_text": "Yes, well, after it fell into the water, it completely stopped turning on. No screen display at all, and there aren't any error messages showing up. I've tried charging it, but nothing happens. It’s like dead, unfortunately. I was tinkering with it a bit, thinking maybe I could fix it myself, but no luck."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the details. To complete the information needed for your claim, can you tell me when and where the water accident happened? Additionally, any specifics about how the phone got wet will help with the claim.",
+      "raw_text": "Thank you for the details. To complete the information needed for your claim, can you tell me when and where the water accident happened? Additionally, any specifics about how the phone got wet will help with the claim."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure. It happened just yesterday, right here at my home. I was on my porch, and the phone slipped out of my hand while I was checking messages, and it landed in a shallow birdbath nearby. I retrieved it quickly but, alas, it seems the damage was done by then. I hope this information helps.",
+      "raw_text": "Sure. It happened just yesterday, right here at my home. I was on my porch, and the phone slipped out of my hand while I was checking messages, and it landed in a shallow birdbath nearby. I retrieved it quickly but, alas, it seems the damage was done by then. I hope this information helps."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for explaining the accident details. One last question: Is your iPhone XR running the latest iOS version available for it? Also, are there any peripherals or accessories connected when the issue occurred? This helps us ensure proper diagnostics.",
+      "raw_text": "Thank you for explaining the accident details. One last question: Is your iPhone XR running the latest iOS version available for it? Also, are there any peripherals or accessories connected when the issue occurred? This helps us ensure proper diagnostics."
+    },
+    {
+      "speaker": "customer",
+      "text": "I believe it was up to date with the iOS version, as I kept it updated when I could. As for accessories, no, it wasn’t connected to any when it fell. Just the phone itself in my hand. I hope that’s sufficient information.",
+      "raw_text": "I believe it was up to date with the iOS version, as I kept it updated when I could. As for accessories, no, it wasn’t connected to any when it fell. Just the phone itself in my hand. I hope that’s sufficient information."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. We will proceed with processing your claim for the water damage to your iPhone XR under your AppleCare plan. Is there anything else I can assist you with today?",
+      "raw_text": "Thank you for the information. We will proceed with processing your claim for the water damage to your iPhone XR under your AppleCare plan. Is there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that will be all for now. I appreciate your help. Please let me know promptly if you need anything else from me. Have a good day.",
+      "raw_text": "No, that will be all for now. I appreciate your help. Please let me know promptly if you need anything else from me. Have a good day. <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

@@ -1,0 +1,75 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250926T143242Z-01",
+      "title": "Battery capacity claim near 50% depletion threshold",
+      "description": "Customer reports battery capacity has degraded to approximately 48% of original specifications and requests replacement under hardware service coverage.",
+      "claim_type": "battery_capacity_depletion_threshold",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery replacement under hardware service is free if capacity is 50% or more depleted; this case is just below threshold."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "Apple will repair or replace the battery if its capacity has depleted fifty (50%) percent or more from original specifications."
+        },
+        {
+          "section": "4.2(vii)",
+          "snippet": "The Plan does not apply to defects caused by normal wear and tear or normal aging of the product."
+        }
+      ],
+      "reasoning": "The claim is ambiguous because the battery capacity is slightly below the 50% depletion threshold required for free service under section 3.1. However, the degradation may be considered normal wear and tear excluded under section 4.2(vii). Determining coverage requires precise battery diagnostics and assessment if the degradation is due to normal aging or a defect. No service fee applies if covered, but denial is possible if considered normal wear.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-9876543210",
+        "serial_number": "F2M7X9P4Q6L1",
+        "phone_number": "+1-415-555-0199"
+      }
+    },
+    {
+      "id": "EC-20250926T143242Z-02",
+      "title": "Battery degradation claim just before plan expiration",
+      "description": "Customer submits a claim for battery replacement due to capacity depletion measured at 49% just three days before the AppleCare+ plan expires.",
+      "claim_type": "battery_capacity_threshold_edge",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery service under section 3.1 is free if capacity is 50% or more depleted; here it is just below threshold."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "Apple will repair or replace the battery if its capacity has depleted fifty (50%) percent or more from original specifications."
+        },
+        {
+          "section": "2 When Coverage Begins and Ends",
+          "snippet": "Coverage ends twenty-four (24) months from the date of retail purchase of your original iPhone."
+        },
+        {
+          "section": "4.2(vii)",
+          "snippet": "The Plan does not apply to defects caused by normal wear and tear or normal aging of the product."
+        }
+      ],
+      "reasoning": "The claim is borderline because the battery capacity depletion is just under the 50% threshold required for free replacement under section 3.1. The plan is also nearing expiration, which may affect timing of service. The policy excludes normal wear and tear defects (4.2(vii)), and battery degradation near 50% may be considered normal aging. Apple may require additional diagnostic data or consider a margin of error in measurement to determine eligibility.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-7593842105",
+        "serial_number": "F2N7K8M3P1Q4",
+        "phone_number": "+1-415-555-0199"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

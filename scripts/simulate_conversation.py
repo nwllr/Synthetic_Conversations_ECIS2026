@@ -17,7 +17,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Iterable, List, Mapping, Sequence, Tuple, TYPE_CHECKING
+from typing import Any, Dict, Iterable, List, Mapping, Sequence, Tuple, TYPE_CHECKING
 
 try:
     from dotenv import load_dotenv
@@ -148,7 +148,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         "--scenario-max-tokens",
         type=int,
         default=2800,
-        help="Token cap for scenario generation responses (default: 2800)",
+        help="Token cap per generated scenario response (default: 2800)",
     )
     parser.add_argument(
         "--scenario-archive-dir",
@@ -372,10 +372,29 @@ def main(argv: Sequence[str] | None = None) -> int:
             client,
             archive_root=Path(args.scenario_archive_dir),
         )
+
+        def handle_scenario_generated(
+            scenario_label: str,
+            scenario_payload: Mapping[str, Any],
+            index: int,
+            total_for_label: int,
+        ) -> None:
+            payload = {"label": scenario_label, "scenario": scenario_payload}
+            print(
+                f"SCENARIO_GENERATED: {json.dumps(payload, ensure_ascii=False)}",
+                flush=True,
+            )
+            scenario_id = scenario_payload.get("id", "(unknown id)")
+            print(
+                f"Generated {scenario_label} scenario {index}/{total_for_label}: {scenario_id}",
+                flush=True,
+            )
+
         try:
             result = generator.generate(
                 scenario_settings,
                 archive=not args.no_scenario_archive,
+                on_scenario=handle_scenario_generated,
             )
         except ScenarioGenerationError as exc:
             raise SystemExit(f"Scenario generation failed: {exc}") from exc
@@ -384,9 +403,6 @@ def main(argv: Sequence[str] | None = None) -> int:
             scenarios_for_label = result.scenarios.get(label, [])
             generated_pairs.extend((label, scenario) for scenario in scenarios_for_label)
             print(f"Generated {len(scenarios_for_label)} {label} scenarios -> {path}")
-            for scenario in scenarios_for_label:
-                payload = {"label": label, "scenario": scenario}
-                print(f"SCENARIO_GENERATED: {json.dumps(payload, ensure_ascii=False)}", flush=True)
         if result.archive_dir is not None:
             print(f"Archived raw scenario prompts in {result.archive_dir}")
 
@@ -454,7 +470,18 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         path = write_conversation(output_dir, conversation)
         written_paths.append(path)
-        print(f"Wrote conversation to {path}")
+        conversation_payload = {
+            "index": idx + 1,
+            "total": conversation_count,
+            "conversation_id": conversation.get("id"),
+            "scenario_label": scenario_label,
+            "scenario_id": scenario.get("id"),
+        }
+        print(
+            f"CONVERSATION_GENERATED: {json.dumps(conversation_payload, ensure_ascii=False)}",
+            flush=True,
+        )
+        print(f"Wrote conversation to {path}", flush=True)
 
     return 0
 

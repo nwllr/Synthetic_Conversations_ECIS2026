@@ -1,0 +1,35 @@
+{
+  "scenarios": [
+    {
+      "id": "NC-20250926T132514Z-01",
+      "title": "Damage caused by unauthorized third-party repair",
+      "description": "The customer had their iPhone repaired by a non-Apple authorized technician, leading to hardware failure.",
+      "claim_type": "unauthorized_repair_damage",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(ii)(d)",
+          "snippet": "The Plan does not apply to service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider (“AASP”)."
+        }
+      ],
+      "reasoning": "Damage resulted from service performed by an unauthorized provider, which is excluded from coverage per section 4.2(ii)(d). Hence, no service fee is applicable and the claim is denied.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (256 GB)",
+        "plan_agreement_number": "APLCARE-7894561230",
+        "serial_number": "DX8R5J2K9PTW",
+        "phone_number": "+1-415-555-0198"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

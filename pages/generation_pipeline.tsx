@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import policyAnchorsJson from "../policy/policy_anchors.json";
 
 type FormState = {
   covered: string;
@@ -14,7 +15,6 @@ type FormState = {
   conversationMaxTurns: string;
   personaIndex: string;
   seed: string;
-  skipScenarioArchive: boolean;
 };
 
 type MessageRecord = {
@@ -114,6 +114,9 @@ type EmbeddingItem = {
   description: string;
   text: string;
   fingerprint: string;
+  isAnchor?: boolean;
+  anchorSection?: string;
+  embeddingText: string;
 };
 
 type EmbeddingApiResult = {
@@ -129,6 +132,9 @@ type SemanticPoint = {
   description: string;
   x: number;
   y: number;
+  isAnchor?: boolean;
+  anchorSection?: string;
+  embeddingText: string;
 };
 
 type NormalizedSemanticPoint = SemanticPoint & {
@@ -139,6 +145,13 @@ type NormalizedSemanticPoint = SemanticPoint & {
 type EvaluationDashboardProps = {
   scenarios: ScenarioRecord[];
   conversations: ConversationRecord[];
+};
+
+type PolicyAnchor = {
+  id: string;
+  section: string;
+  title: string;
+  snippet: string;
 };
 
 type CoverageListProps = {
@@ -159,7 +172,11 @@ type SemanticLayoutState = {
   loading: boolean;
   error: string | null;
   points: SemanticPoint[];
-  varianceExplained: number[];
+};
+
+type SemanticLayoutInfo = {
+  nNeighbors: number;
+  minDist: number;
 };
 
 type CoverageGroup = {
@@ -181,15 +198,17 @@ type WordStats = {
 };
 
 const LABEL_COLOR_MAP: Record<string, string> = {
-  covered: "#2563eb",
-  not_covered: "#ef4444",
-  edge_case: "#f97316",
+  covered: "#16a34a",
+  not_covered: "#dc2626",
+  edge_case: "#facc15",
+  policy_reference: "#000000",
 };
 
 const LABEL_DISPLAY_MAP: Record<string, string> = {
   covered: "Covered",
   not_covered: "Not Covered",
   edge_case: "Edge Case",
+  policy_reference: "Policy Reference",
 };
 
 const WORD_STATS_EMPTY: WordStats = {
@@ -204,13 +223,6 @@ const WORD_STATS_EMPTY: WordStats = {
   topBigrams: [],
 };
 
-const clamp01 = (value: number) => {
-  if (!Number.isFinite(value)) return 0;
-  if (value < 0) return 0;
-  if (value > 1) return 1;
-  return value;
-};
-
 const formatNumber = (value: number, fractionDigits = 1) => {
   if (!Number.isFinite(value)) {
     return (0).toFixed(fractionDigits);
@@ -222,6 +234,10 @@ const formatPercent = (value: number) => {
   if (!Number.isFinite(value)) return "0%";
   return `${(value * 100).toFixed(1)}%`;
 };
+
+const POLICY_ANCHOR_LABEL_KEY = "policy_reference";
+const POLICY_ANCHOR_STORAGE_KEY = "policy-anchor-embeddings-v1";
+const policyAnchors: PolicyAnchor[] = policyAnchorsJson as PolicyAnchor[];
 
 const normalizeLabelKey = (value?: string) => {
   if (!value) return "unlabeled";
@@ -339,15 +355,105 @@ const computeWordStats = (texts: string[]): WordStats => {
   };
 };
 
-function dotProduct(a: number[], b: number[]): number {
-  const length = Math.min(a.length, b.length);
-  let sum = 0;
-  for (let idx = 0; idx < length; idx += 1) {
-    sum += a[idx] * b[idx];
-  }
-  return sum;
-}
+async function computeUmapPoints(
+  items: EmbeddingItem[],
+  cache: Map<string, EmbeddingCacheEntry>
+): Promise<{ points: SemanticPoint[]; info: SemanticLayoutInfo | null }> {
+  const itemsWithVectors = items
+    .map((item) => {
+      const cached = cache.get(item.id);
+      if (!cached || cached.fingerprint !== item.fingerprint || !Array.isArray(cached.vector)) {
+        return null;
+      }
+      return { item, vector: cached.vector };
+    })
+    .filter((entry): entry is { item: EmbeddingItem; vector: number[] } => Boolean(entry));
 
+  if (!itemsWithVectors.length) {
+    return { points: [], info: null };
+  }
+
+  const vectors = itemsWithVectors.map((entry) => entry.vector);
+  const sampleCount = vectors.length;
+
+  if (sampleCount === 1) {
+    const only = itemsWithVectors[0];
+    return {
+      points: [
+        {
+          id: only.item.id,
+          label: only.item.label,
+          labelKey: only.item.labelKey,
+          title: only.item.title,
+          description: only.item.description,
+          x: 0,
+          y: 0,
+          isAnchor: only.item.isAnchor,
+          anchorSection: only.item.anchorSection,
+          embeddingText: only.item.embeddingText,
+        },
+      ],
+      info: { nNeighbors: 1, minDist: 0.1 },
+    };
+  }
+
+  const maxNeighbors = Math.max(1, sampleCount - 1);
+  const nNeighbors = Math.min(10, maxNeighbors);
+  const minDist = 0.1;
+
+  const response = await fetch("/api/umap", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      vectors,
+      nNeighbors,
+      minDist,
+      metric: "cosine",
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    let message = errorText || `UMAP request failed (${response.status})`;
+    try {
+      const parsed = JSON.parse(errorText);
+      if (parsed?.error) {
+        message = parsed.error;
+      }
+    } catch {
+      // ignore JSON parse errors and use raw message
+    }
+    throw new Error(message);
+  }
+
+  const payload = (await response.json()) as { coords?: number[][] };
+  if (!payload?.coords || !Array.isArray(payload.coords)) {
+    throw new Error("UMAP response missing coordinates");
+  }
+
+  const coords = payload.coords;
+
+  const points: SemanticPoint[] = itemsWithVectors.map((entry, idx) => {
+    const coord = coords[idx] ?? [0, 0];
+    return {
+      id: entry.item.id,
+      label: entry.item.label,
+      labelKey: entry.item.labelKey,
+      title: entry.item.title,
+      description: entry.item.description,
+      x: Array.isArray(coord) ? coord[0] ?? 0 : 0,
+      y: Array.isArray(coord) ? coord[1] ?? 0 : 0,
+      isAnchor: entry.item.isAnchor,
+      anchorSection: entry.item.anchorSection,
+      embeddingText: entry.item.embeddingText,
+    };
+  });
+
+  return {
+    points,
+    info: { nNeighbors, minDist },
+  };
+}
 function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardProps) {
   const scenarioRecords = useMemo(
     () => scenarios.filter((record): record is ScenarioRecord => Boolean(record?.scenario)),
@@ -363,11 +469,49 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
     loading: false,
     error: null,
     points: [],
-    varianceExplained: [],
   });
+  const [layoutInfo, setLayoutInfo] = useState<SemanticLayoutInfo | null>(null);
+  const [hoveredPoint, setHoveredPoint] = useState<NormalizedSemanticPoint | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = window.localStorage.getItem(POLICY_ANCHOR_STORAGE_KEY);
+      if (!raw) return;
+      const stored = JSON.parse(raw) as Record<string, EmbeddingCacheEntry>;
+      const cache = embeddingCacheRef.current;
+      Object.entries(stored).forEach(([id, entry]) => {
+        if (!entry || typeof entry.fingerprint !== "string" || !Array.isArray(entry.vector)) {
+          return;
+        }
+        cache.set(id, entry);
+      });
+    } catch {
+      // Ignore malformed storage
+    }
+  }, []);
+
+  const policyAnchorItems = useMemo<EmbeddingItem[]>(() => {
+    return policyAnchors.map((anchor) => {
+      const snippet = anchor.snippet.trim();
+      const anchorId = `policy::${anchor.id}`;
+        return {
+          id: anchorId,
+          label: `Policy §${anchor.section}`,
+          labelKey: POLICY_ANCHOR_LABEL_KEY,
+          title: `${anchor.title} (§${anchor.section})`,
+          description: snippet,
+          text: snippet,
+          fingerprint: `${anchorId}::${snippet}`,
+          isAnchor: true,
+          anchorSection: anchor.section,
+          embeddingText: snippet,
+        };
+      });
+  }, []);
 
   const embeddingItems = useMemo<EmbeddingItem[]>(() => {
-    return scenarioRecords
+    const scenarioItems = scenarioRecords
       .map((record, idx) => {
         const scenario = record?.scenario ?? {};
         const scenarioId =
@@ -401,21 +545,54 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
           description,
           text: truncated,
           fingerprint: `${scenarioId}::${truncated}`,
+          embeddingText: truncated,
         };
       })
       .filter((item) => item.text.trim().length > 0);
-  }, [scenarioRecords]);
+
+    return [...scenarioItems, ...policyAnchorItems];
+  }, [scenarioRecords, policyAnchorItems]);
+
+  const persistAnchorEmbeddings = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const cache = embeddingCacheRef.current;
+    const payload: Record<string, EmbeddingCacheEntry> = {};
+    embeddingItems.forEach((item) => {
+      if (!item.isAnchor) return;
+      const cached = cache.get(item.id);
+      if (!cached || cached.fingerprint !== item.fingerprint || !Array.isArray(cached.vector)) {
+        return;
+      }
+      payload[item.id] = cached;
+    });
+
+    try {
+      window.localStorage.setItem(POLICY_ANCHOR_STORAGE_KEY, JSON.stringify(payload));
+    } catch {
+      // Best-effort persistence only
+    }
+  }, [embeddingItems]);
 
   useEffect(() => {
     if (scenarioRecords.length === 0) {
-      embeddingCacheRef.current.clear();
-      setSemanticState({ loading: false, error: null, points: [], varianceExplained: [] });
+      const cache = embeddingCacheRef.current;
+      const anchorIds = new Set(policyAnchorItems.map((anchor) => anchor.id));
+      Array.from(cache.keys()).forEach((key) => {
+        if (!anchorIds.has(key)) {
+          cache.delete(key);
+        }
+      });
+      setSemanticState({ loading: false, error: null, points: [] });
+      setLayoutInfo(null);
+      setHoveredPoint(null);
     }
-  }, [scenarioRecords.length]);
+  }, [scenarioRecords.length, policyAnchorItems]);
 
   useEffect(() => {
-    if (embeddingItems.length === 0) {
-      setSemanticState({ loading: false, error: null, points: [], varianceExplained: [] });
+    if (scenarioRecords.length === 0 || embeddingItems.length === 0) {
+      setSemanticState({ loading: false, error: null, points: [] });
+      setLayoutInfo(null);
+      setHoveredPoint(null);
       return;
     }
 
@@ -424,12 +601,6 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
       const cached = cache.get(item.id);
       return !cached || cached.fingerprint !== item.fingerprint;
     });
-
-    if (missing.length === 0) {
-      const { points, varianceExplained } = buildSemanticPoints(embeddingItems, cache);
-      setSemanticState({ loading: false, error: null, points, varianceExplained });
-      return;
-    }
 
     let cancelled = false;
     const controller = new AbortController();
@@ -464,17 +635,23 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
     const run = async () => {
       try {
         setSemanticState((prev) => ({ ...prev, loading: true, error: null }));
-        const CHUNK_SIZE = 64;
-        for (let start = 0; start < missing.length; start += CHUNK_SIZE) {
-          if (cancelled) return;
-          const chunk = missing.slice(start, start + CHUNK_SIZE);
-          await fetchChunk(chunk);
+        if (missing.length > 0) {
+          const CHUNK_SIZE = 64;
+          for (let start = 0; start < missing.length; start += CHUNK_SIZE) {
+            if (cancelled) return;
+            const chunk = missing.slice(start, start + CHUNK_SIZE);
+            await fetchChunk(chunk);
+          }
         }
         if (cancelled) return;
-        const { points, varianceExplained } = buildSemanticPoints(embeddingItems, cache);
-        setSemanticState({ loading: false, error: null, points, varianceExplained });
+        const { points, info } = await computeUmapPoints(embeddingItems, cache);
+        if (cancelled) return;
+        setLayoutInfo(info);
+        setSemanticState({ loading: false, error: null, points });
+        persistAnchorEmbeddings();
       } catch (err: any) {
         if (cancelled) return;
+        setLayoutInfo(null);
         setSemanticState((prev) => ({
           ...prev,
           loading: false,
@@ -489,7 +666,7 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
       cancelled = true;
       controller.abort();
     };
-  }, [embeddingItems]);
+  }, [scenarioRecords.length, embeddingItems, persistAnchorEmbeddings]);
 
   const normalizedPoints = useMemo<NormalizedSemanticPoint[]>(() => {
     if (!semanticState.points.length) return [];
@@ -508,17 +685,22 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
     }));
   }, [semanticState.points]);
 
+  useEffect(() => {
+    setHoveredPoint(null);
+  }, [normalizedPoints.length]);
+
   const legendEntries = useMemo(
     () =>
       semanticState.points.length === 0
         ? []
         : Array.from(
             semanticState.points.reduce((acc, point) => {
+              const displayLabel = toDisplayLabel(point.labelKey, point.label);
               const current = acc.get(point.labelKey);
               if (current) {
                 current.count += 1;
               } else {
-                acc.set(point.labelKey, { label: point.label, count: 1 });
+                acc.set(point.labelKey, { label: displayLabel, count: 1 });
               }
               return acc;
             }, new Map<string, { label: string; count: number }>())
@@ -532,12 +714,10 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
     [semanticState.points]
   );
 
-  const varianceSummary = useMemo(() => {
-    if (!semanticState.varianceExplained.length) return null;
-    const primary = clamp01(semanticState.varianceExplained[0] ?? 0);
-    const secondary = clamp01(semanticState.varianceExplained[1] ?? 0);
-    return `Variance: PC1 ${formatPercent(primary)}, PC2 ${formatPercent(secondary)}`;
-  }, [semanticState.varianceExplained]);
+  const layoutSummary = useMemo(() => {
+    if (!layoutInfo) return null;
+    return `UMAP · n_neighbors=${layoutInfo.nNeighbors}, min_dist=${formatNumber(layoutInfo.minDist, 2)}`;
+  }, [layoutInfo]);
 
   const coverageSummary = useMemo(() => {
     const labelCounts = new Map<string, number>();
@@ -685,7 +865,7 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
             </span>
           </div>
           <p style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
-            Embeds scenario narratives and projects them into a two-dimensional map so you can spot dense clusters or outliers at a glance.
+            UMAP embeds scenario narratives and projects them into a two-dimensional map so you can spot dense clusters or outliers at a glance.
           </p>
 
           <div
@@ -729,28 +909,68 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
                 Waiting for embeddings…
               </div>
             ) : (
-              normalizedPoints.map((point) => (
-                <div
-                  key={point.id}
-                  title={`${point.title} • ${toDisplayLabel(point.labelKey, point.label)}`}
-                  style={{
-                    position: "absolute",
-                    left: `calc(${point.xPct}% - 6px)`,
-                    top: `calc(${point.yPct}% - 6px)`,
-                    width: 12,
-                    height: 12,
-                    borderRadius: "50%",
-                    background: getLabelColor(point.labelKey),
-                    border: "1px solid rgba(15,23,42,0.2)",
-                    boxShadow: "0 1px 3px rgba(15,23,42,0.25)",
-                  }}
-                />
-              ))
+              <>
+                {normalizedPoints.map((point) => (
+                  <div
+                    key={point.id}
+                    title={`${point.title} • ${toDisplayLabel(point.labelKey, point.label)}`}
+                    onMouseEnter={() => setHoveredPoint(point)}
+                    onMouseLeave={() => {
+                      setHoveredPoint((current) => (current?.id === point.id ? null : current));
+                    }}
+                    style={{
+                      position: "absolute",
+                      left: `calc(${point.xPct}% - 6px)`,
+                      top: `calc(${point.yPct}% - 6px)`,
+                      width: point.isAnchor ? 14 : 12,
+                      height: point.isAnchor ? 14 : 12,
+                      borderRadius: point.isAnchor ? 4 : "50%",
+                      background: getLabelColor(point.labelKey),
+                      border: "1px solid rgba(15,23,42,0.2)",
+                      boxShadow: "0 1px 3px rgba(15,23,42,0.25)",
+                      cursor: "pointer",
+                    }}
+                  />
+                ))}
+                {hoveredPoint && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: `${hoveredPoint.xPct}%`,
+                      top: `${hoveredPoint.yPct}%`,
+                      transform: "translate(-50%, -130%)",
+                      background: "#0f172a",
+                      color: "#ffffff",
+                      padding: "8px 12px",
+                      borderRadius: 10,
+                      fontSize: 12,
+                      boxShadow: "0 8px 16px rgba(15,23,42,0.25)",
+                      pointerEvents: "none",
+                      maxWidth: 260,
+                      textAlign: "left",
+                    }}
+                  >
+                    <div style={{ fontWeight: 600 }}>{hoveredPoint.title}</div>
+                    <div style={{ marginTop: 2, opacity: 0.85 }}>
+                      {hoveredPoint.isAnchor
+                        ? `Policy reference (§${hoveredPoint.anchorSection ?? ""})`
+                        : toDisplayLabel(hoveredPoint.labelKey, hoveredPoint.label)}
+                    </div>
+                    {hoveredPoint.embeddingText ? (
+                      <div style={{ marginTop: 6, opacity: 0.75, lineHeight: 1.35 }}>
+                        {hoveredPoint.embeddingText.length > 230
+                          ? `${hoveredPoint.embeddingText.slice(0, 227)}…`
+                          : hoveredPoint.embeddingText}
+                      </div>
+                    ) : null}
+                  </div>
+                )}
+              </>
             )}
           </div>
 
           <div style={{ marginTop: 12, display: "flex", flexWrap: "wrap", gap: 16, fontSize: 12, color: "#475569" }}>
-            {varianceSummary && <span>{varianceSummary}</span>}
+            {layoutSummary && <span>{layoutSummary}</span>}
             {normalizedPoints.length < 2 && !semanticState.error && (
               <span style={{ color: "#94a3b8" }}>Generate at least two scenarios to see the relative layout.</span>
             )}
@@ -942,169 +1162,6 @@ function WordStatsBlock({ title, stats, itemCount, extraDetails }: WordStatsBloc
   );
 }
 
-function vectorNorm(values: number[]): number {
-  let sum = 0;
-  for (let idx = 0; idx < values.length; idx += 1) {
-    sum += values[idx] * values[idx];
-  }
-  return Math.sqrt(sum);
-}
-
-function principalComponent(vectors: number[][]): { component: number[]; eigenvalue: number } | null {
-  if (vectors.length === 0) return null;
-  const dimension = vectors[0]?.length ?? 0;
-  if (dimension === 0) return null;
-
-  let component = Array.from({ length: dimension }, () => Math.random() - 0.5);
-  let norm = vectorNorm(component);
-  if (norm === 0) {
-    component[0] = 1;
-    norm = 1;
-  }
-  component = component.map((value) => value / norm);
-
-  const maxIterations = 80;
-  const tolerance = 1e-6;
-
-  for (let iteration = 0; iteration < maxIterations; iteration += 1) {
-    const next = new Array(dimension).fill(0);
-    for (let rowIdx = 0; rowIdx < vectors.length; rowIdx += 1) {
-      const row = vectors[rowIdx];
-      const projection = dotProduct(row, component);
-      for (let dimIdx = 0; dimIdx < dimension; dimIdx += 1) {
-        next[dimIdx] += row[dimIdx] * projection;
-      }
-    }
-
-    const nextNorm = vectorNorm(next);
-    if (nextNorm === 0) {
-      return null;
-    }
-
-    const normalizedNext = next.map((value) => value / nextNorm);
-    let diff = 0;
-    for (let dimIdx = 0; dimIdx < dimension; dimIdx += 1) {
-      const delta = normalizedNext[dimIdx] - component[dimIdx];
-      diff += delta * delta;
-    }
-
-    component = normalizedNext;
-
-    if (diff < tolerance) {
-      break;
-    }
-  }
-
-  const firstNonZero = component.findIndex((value) => Math.abs(value) > 1e-8);
-  if (firstNonZero >= 0 && component[firstNonZero] < 0) {
-    component = component.map((value) => -value);
-  }
-
-  const projections = vectors.map((row) => dotProduct(row, component));
-  const eigenvalueNumerator = projections.reduce((sum, value) => sum + value * value, 0);
-  const eigenvalue = eigenvalueNumerator / Math.max(1, vectors.length - 1);
-
-  return { component, eigenvalue };
-}
-
-function computePca2D(vectors: number[][]): { coords: { x: number; y: number }[]; varianceExplained: number[] } {
-  if (!vectors.length) {
-    return { coords: [], varianceExplained: [] };
-  }
-
-  const dimension = vectors[0]?.length ?? 0;
-  if (dimension === 0) {
-    return { coords: vectors.map(() => ({ x: 0, y: 0 })), varianceExplained: [] };
-  }
-
-  const means = new Array(dimension).fill(0);
-  vectors.forEach((vector) => {
-    for (let idx = 0; idx < dimension; idx += 1) {
-      means[idx] += vector[idx];
-    }
-  });
-  for (let idx = 0; idx < dimension; idx += 1) {
-    means[idx] /= vectors.length;
-  }
-
-  const centered = vectors.map((vector) => {
-    const row = new Array(dimension);
-    for (let idx = 0; idx < dimension; idx += 1) {
-      row[idx] = vector[idx] - means[idx];
-    }
-    return row;
-  });
-
-  const totalVarianceNumerator = centered.reduce(
-    (sum, row) => sum + row.reduce((rowSum, value) => rowSum + value * value, 0),
-    0
-  );
-  const varianceDenominator = Math.max(1, vectors.length - 1);
-  const totalVariance = totalVarianceNumerator / varianceDenominator;
-
-  const working = centered.map((row) => row.slice());
-  const components: number[][] = [];
-  const eigenvalues: number[] = [];
-
-  for (let rank = 0; rank < 2; rank += 1) {
-    const result = principalComponent(working);
-    if (!result) break;
-    const { component, eigenvalue } = result;
-    components.push(component);
-    eigenvalues.push(eigenvalue);
-
-    for (let rowIdx = 0; rowIdx < working.length; rowIdx += 1) {
-      const projection = dotProduct(working[rowIdx], component);
-      for (let dimIdx = 0; dimIdx < dimension; dimIdx += 1) {
-        working[rowIdx][dimIdx] -= projection * component[dimIdx];
-      }
-    }
-  }
-
-  const coords = centered.map((row) => {
-    const x = components[0] ? dotProduct(row, components[0]) : 0;
-    const y = components[1] ? dotProduct(row, components[1]) : 0;
-    return { x, y };
-  });
-
-  const varianceExplained = totalVariance === 0 ? eigenvalues.map(() => 0) : eigenvalues.map((value) => value / totalVariance);
-
-  return { coords, varianceExplained };
-}
-
-function buildSemanticPoints(
-  items: EmbeddingItem[],
-  cache: Map<string, EmbeddingCacheEntry>
-): { points: SemanticPoint[]; varianceExplained: number[] } {
-  const itemsWithVectors = items
-    .map((item) => {
-      const cached = cache.get(item.id);
-      if (!cached || cached.fingerprint !== item.fingerprint || !Array.isArray(cached.vector)) {
-        return null;
-      }
-      return { item, vector: cached.vector };
-    })
-    .filter((entry): entry is { item: EmbeddingItem; vector: number[] } => Boolean(entry));
-
-  if (!itemsWithVectors.length) {
-    return { points: [], varianceExplained: [] };
-  }
-
-  const vectors = itemsWithVectors.map((entry) => entry.vector);
-  const { coords, varianceExplained } = computePca2D(vectors);
-
-  const points: SemanticPoint[] = itemsWithVectors.map((entry, idx) => ({
-    id: entry.item.id,
-    label: entry.item.label,
-    labelKey: entry.item.labelKey,
-    title: entry.item.title,
-    description: entry.item.description,
-    x: coords[idx]?.x ?? 0,
-    y: coords[idx]?.y ?? 0,
-  }));
-
-  return { points, varianceExplained };
-}
 
 const initialForm: FormState = {
   covered: "2",
@@ -1119,7 +1176,6 @@ const initialForm: FormState = {
   conversationMaxTurns: "20",
   personaIndex: "",
   seed: "",
-  skipScenarioArchive: false,
 };
 
 const parseNumber = (value: string): number | undefined => {
@@ -1221,7 +1277,6 @@ export default function GenerationPipelinePage() {
       scenarioModel: form.scenarioModel.trim() || undefined,
       scenarioTemperature: parseNumber(form.scenarioTemperature),
       scenarioMaxTokens: parseNumber(form.scenarioMaxTokens),
-      skipScenarioArchive: form.skipScenarioArchive,
       conversationModel: form.conversationModel.trim() || undefined,
       conversationTemperature: parseNumber(form.conversationTemperature),
       conversationMaxTokens: parseNumber(form.conversationMaxTokens),
@@ -1526,14 +1581,6 @@ export default function GenerationPipelinePage() {
                 onChange={(e) => updateField("scenarioMaxTokens", e.target.value)}
                 style={{ marginTop: 6, padding: 8 }}
               />
-            </label>
-            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14 }}>
-              <input
-                type="checkbox"
-                checked={form.skipScenarioArchive}
-                onChange={(e) => updateField("skipScenarioArchive", e.target.checked)}
-              />
-              Skip scenario prompt archive
             </label>
           </div>
 

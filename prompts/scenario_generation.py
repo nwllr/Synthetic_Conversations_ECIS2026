@@ -7,7 +7,7 @@ import textwrap
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Tuple
+from typing import Any, Callable, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Tuple
 
 from prompts.customer_prompt import SCENARIO_PATHS
 
@@ -107,18 +107,21 @@ def _load_fewshot(path: Path = DEFAULT_FEWSHOT_PATH) -> Mapping[str, Mapping[str
 def _build_prompt(
     *,
     label: ScenarioLabel,
-    count: int,
+    scenario_id: str,
     fewshot: Mapping[str, Any],
     policy_text: str,
-    slug: str,
+    previous_summaries: Sequence[str],
 ) -> Tuple[str, str]:
     prefix = LABEL_TO_PREFIX[label]
     label_ground_truth = LABEL_TO_GROUND_TRUTH[label]
     instructions = fewshot.get("instructions", "").strip()
     examples = fewshot.get("examples", [])
     examples_json = json.dumps(examples, indent=2, ensure_ascii=False)
-    scenario_ids = [f"{prefix}-{slug}-{idx:02d}" for idx in range(1, count + 1)]
-    scenario_ids_text = "\n".join(f"- {scenario_id}" for scenario_id in scenario_ids)
+    context_hint = ""
+    if previous_summaries:
+        limited = list(previous_summaries[-10:])
+        bullet_points = "\n".join(f"- {summary}" for summary in limited)
+        context_hint = f"Previously generated scenarios for this label (avoid overlap):\n{bullet_points}\n"
 
     system_prompt = textwrap.dedent(
         f"""
@@ -131,29 +134,29 @@ def _build_prompt(
         f"""
         Target label: {label}
         Target ground_truth value: {label_ground_truth}
-        Scenario ids to use (in order):
-        {scenario_ids_text}
-        Required scenario count: {count}
+        Scenario id you must use: {scenario_id}
 
         Requirements:
-        - Return a JSON array with exactly {count} objects.
-        - Every scenario must include the fields: id, title, description, claim_type, ground_truth, service_fee, counts_toward_adh_limit, policy_references, reasoning, customer_data.
+        - Return a single JSON object describing one scenario.
+        - The object must include the fields: id, title, description, claim_type, ground_truth, service_fee, counts_toward_adh_limit, policy_references, reasoning, customer_data.
         - ground_truth must equal "{label_ground_truth}".
-        - Use the provided scenario ids verbatim; do not invent new identifiers.
+        - Use the provided scenario id verbatim; do not invent a new identifier.
         - Policy references must be an array of objects with section and snippet.
         - customer_data should include realistic values for device, plan_agreement_number (or "Unknown"), serial_number (or "Unknown"), and phone_number (use realistic formatting).
         - Tie the reasoning back to concrete policy clauses and mention service fees or limits where relevant.
-        - Do not repeat the example ids; produce new scenarios.
+        - Avoid repeating themes, devices, or fact patterns from previously generated scenarios in this run.
         - Output JSON only; no prose, no code fences.
 
         Style guidance for this label:
         {instructions or 'N/A'}
 
-        Example scenarios for inspiration (do not copy; ids must differ):
-        {examples_json}
-
+        {context_hint}
+        
         Full AppleCare+ policy text (use for citations):
         {policy_text}
+
+        Example scenarios for inspiration:
+        {examples_json}
         """
     ).strip()
     return system_prompt, user_prompt
@@ -202,6 +205,32 @@ def _validate_scenario(label: ScenarioLabel, scenario: Mapping[str, Any]) -> Non
         raise ScenarioGenerationError(f"Scenario {scenario.get('id')} customer_data must be an object")
 
 
+def _summarize_for_context(scenario: Mapping[str, Any]) -> str:
+    title = str(scenario.get("title") or scenario.get("id") or "Scenario").strip()
+    references = scenario.get("policy_references")
+    formatted_refs: List[str] = []
+    if isinstance(references, Sequence):
+        for ref in references:
+            if not isinstance(ref, Mapping):
+                continue
+            section = str(ref.get("section") or "").strip()
+            snippet = str(ref.get("snippet") or "").strip()
+            if snippet:
+                snippet = " ".join(snippet.split())
+                if len(snippet) > 160:
+                    snippet = snippet[:157].rstrip() + "..."
+            if section and snippet:
+                formatted_refs.append(f"{section}: {snippet}")
+            elif section:
+                formatted_refs.append(section)
+            elif snippet:
+                formatted_refs.append(snippet)
+            if len(formatted_refs) >= 2:
+                break
+    refs_text = "; ".join(formatted_refs)
+    return f"{title} — {refs_text}" if refs_text else title
+
+
 def _timestamp_slug() -> str:
     return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
@@ -240,6 +269,7 @@ class ScenarioGenerator:
         *,
         scenario_paths: Mapping[ScenarioLabel, Path] | None = None,
         archive: bool = True,
+        on_scenario: Callable[[ScenarioLabel, Mapping[str, Any], int, int], None] | None = None,
     ) -> ScenarioGenerationResult:
         counts = {label: settings.counts.get(label, 0) for label in LABELS}
         if not any(counts.values()):
@@ -261,66 +291,99 @@ class ScenarioGenerator:
             "generated_at": slug,
             "model": settings.model,
             "temperature": settings.temperature,
-            "max_tokens": settings.max_tokens,
+            "max_tokens_per_scenario": settings.max_tokens,
+            "labels": {},
         }
 
         for label, count in counts.items():
             if count <= 0:
                 continue
             label = _ensure_label(label)
-            system_prompt, user_prompt = _build_prompt(
-                label=label,
-                count=count,
-                fewshot=self.fewshot[label],
-                policy_text=self.policy_text,
-                slug=slug,
-            )
-            prompts_record = {
-                "system": system_prompt,
-                "user": user_prompt,
-            }
-            attempt = 0
-            response_text: Optional[str] = None
-            last_error: Optional[Exception] = None
-            while attempt <= settings.retries:
-                attempt += 1
-                try:
-                    completion = self.client.chat.completions.create(
-                        model=settings.model,
-                        messages=[
-                            {"role": "system", "content": system_prompt},
-                            {"role": "user", "content": user_prompt},
-                        ],
-                        temperature=settings.temperature,
-                        max_tokens=settings.max_tokens,
-                    )
-                    choice = completion.choices[0]
-                    response_text = (choice.message.content or choice.text or "").strip()
-                    parsed = json.loads(_strip_code_fences(response_text))
-                    if not isinstance(parsed, list):
-                        raise ScenarioGenerationError("Model must return a JSON array of scenarios")
-                    if len(parsed) != count:
-                        raise ScenarioGenerationError(
-                            f"Expected {count} scenarios for {label}, received {len(parsed)}"
+            label_records: List[Mapping[str, Any]] = []
+            previous_summaries: List[str] = []
+            total_for_label = count
+            raw_runs: List[Mapping[str, Any]] = []
+
+            for idx in range(1, count + 1):
+                scenario_id = f"{LABEL_TO_PREFIX[label]}-{slug}-{idx:02d}"
+                system_prompt, user_prompt = _build_prompt(
+                    label=label,
+                    scenario_id=scenario_id,
+                    fewshot=self.fewshot[label],
+                    policy_text=self.policy_text,
+                    previous_summaries=previous_summaries,
+                )
+                prompts_record = {
+                    "system": system_prompt,
+                    "user": user_prompt,
+                    "previous_summaries": list(previous_summaries[-5:]),
+                }
+                attempt = 0
+                response_text: Optional[str] = None
+                last_error: Optional[Exception] = None
+
+                while attempt <= settings.retries:
+                    attempt += 1
+                    try:
+                        completion = self.client.chat.completions.create(
+                            model=settings.model,
+                            messages=[
+                                {"role": "system", "content": system_prompt},
+                                {"role": "user", "content": user_prompt},
+                            ],
+                            temperature=settings.temperature,
+                            max_tokens=settings.max_tokens,
                         )
-                    normalized = self._normalize_batch(label, parsed, slug)
-                    generated[label] = normalized
-                    raw_materials[label] = {
-                        "prompt": prompts_record,
-                        "response": response_text,
-                    }
-                    break
-                except Exception as exc:  # pragma: no cover - network/UI path
-                    last_error = exc
-                    if attempt > settings.retries:
+                        choice = completion.choices[0]
+                        response_text = (choice.message.content or choice.text or "").strip()
+                        parsed = json.loads(_strip_code_fences(response_text))
+                        if isinstance(parsed, list):
+                            if len(parsed) != 1:
+                                raise ScenarioGenerationError(
+                                    f"Model must return exactly one scenario object for {label}"
+                                )
+                            scenario_payload = parsed[0]
+                        elif isinstance(parsed, MutableMapping):
+                            scenario_payload = parsed
+                        else:
+                            raise ScenarioGenerationError(
+                                "Model must return a JSON object describing the scenario"
+                            )
+                        normalized = _normalize_scenario(
+                            label,
+                            scenario_payload,
+                            new_id=scenario_id,
+                        )
+                        _validate_scenario(label, normalized)
+                        label_records.append(normalized)
+                        summary = _summarize_for_context(normalized)
+                        if summary:
+                            previous_summaries.append(summary)
+                        raw_runs.append(
+                            {
+                                "scenario_id": scenario_id,
+                                "attempt": attempt,
+                                "prompt": prompts_record,
+                                "response": response_text,
+                            }
+                        )
+                        if on_scenario is not None:
+                            on_scenario(label, normalized, idx, total_for_label)
+                        break
+                    except Exception as exc:  # pragma: no cover - network/UI path
+                        last_error = exc
+                        if attempt > settings.retries:
+                            raise ScenarioGenerationError(
+                                f"Failed to generate scenario {scenario_id} for {label}: {exc}"
+                            ) from exc
+                else:
+                    if last_error:
                         raise ScenarioGenerationError(
-                            f"Failed to generate scenarios for {label}: {exc}"
-                        ) from exc
-            else:
-                if last_error:
-                    raise ScenarioGenerationError(
-                        f"Failed to generate scenarios for {label}: {last_error}"
-                    ) from last_error
+                            f"Failed to generate scenario {scenario_id} for {label}: {last_error}"
+                        ) from last_error
+
+            generated[label] = label_records
+            raw_materials.setdefault("labels", {})[label] = raw_runs
 
         written_files = self._write_outputs(
             generated,
@@ -337,23 +400,6 @@ class ScenarioGenerator:
             archive_dir=archive_dir,
             settings=settings,
         )
-
-    def _normalize_batch(
-        self,
-        label: ScenarioLabel,
-        scenarios: Sequence[MutableMapping[str, Any]],
-        slug: str,
-    ) -> List[Mapping[str, Any]]:
-        prefix = LABEL_TO_PREFIX[label]
-        normalized: List[Mapping[str, Any]] = []
-        for idx, scenario in enumerate(scenarios, start=1):
-            if not isinstance(scenario, MutableMapping):
-                raise ScenarioGenerationError(f"Scenario {idx} for {label} must be an object")
-            new_id = f"{prefix}-{slug}-{idx:02d}"
-            normalized_item = _normalize_scenario(label, scenario, new_id=new_id)
-            _validate_scenario(label, normalized_item)
-            normalized.append(normalized_item)
-        return normalized
 
     def _write_outputs(
         self,

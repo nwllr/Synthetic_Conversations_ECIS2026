@@ -1,0 +1,157 @@
+{
+  "id": "EC-20250926T132514Z-03_20250926T132708Z",
+  "created_at": "2025-09-26T13:27:08.565302+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 1.0,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20250926T132514Z-03",
+    "title": "Claim for accidental damage on modified iPhone",
+    "description": "Customer reports accidental drop causing screen failure on an iPhone that has been jailbroken and had unauthorized hardware modifications to its camera module.",
+    "claim_type": "accidental_damage_with_modification",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "yes",
+      "amount": 49,
+      "currency": "USD",
+      "notes": "ADH service fee applies for accidental damage claims if accepted."
+    },
+    "counts_toward_adh_limit": "uncertain",
+    "policy_references": [
+      {
+        "section": "3.2 Accidental Damage from Handling",
+        "snippet": "Accidental damage coverage applies to operational or mechanical failure caused by an unexpected external event."
+      },
+      {
+        "section": "4.2(ii)(c)",
+        "snippet": "Plan does not apply to damage caused by service or modifications if not performed by Apple or AASP."
+      },
+      {
+        "section": "4.2(ii)(iii)",
+        "snippet": "Plan excludes coverage for iPhones with serial numbers modified or functionality altered without manufacturer permission."
+      }
+    ],
+    "reasoning": "The iPhone suffered accidental damage, nominally covered under ADH; however, the prior unauthorized hardware modifications void coverage under 4.2(ii)(c) and 4.2(ii)(iii). This tension creates an edge case requiring assessment of whether the modification contributed to failure or affects repairability. The service fee is required if ADH coverage is approved. Apple will need customer evidence and may request inspection to make a final eligibility determination. The claim may or may not count toward the ADH claim limit, depending on acceptance.",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (512 GB)",
+      "plan_agreement_number": "APLCARE-5938274650",
+      "serial_number": "F2X9M3P6Q7L1",
+      "phone_number": "+1-415-555-7293"
+    }
+  },
+  "persona": {
+    "age": "30",
+    "ancestry": "Specific American Indian tribe",
+    "big five scores": {
+      "Agreeableness": "High",
+      "Conscientiousness": "Average",
+      "Extraversion": "Low",
+      "Neuroticism": "Extremely Low",
+      "Openness": "High"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+    "defining quirks": "Enjoys painting in her free time",
+    "detailed job description": "Manages sales and customer relations in a retail setting",
+    "disability": "None",
+    "education": "Regular high school diploma",
+    "employment status": "Civilian employed, at work",
+    "family presence and age": "With related children 5 to 17 years only",
+    "health insurance": "With health insurance coverage",
+    "household language": "English",
+    "household type": "Female householder, no spouse/partner present, with relatives, no children of the householder less than 18",
+    "ideology": "Liberal",
+    "income": "160000.0",
+    "industry category": "RET-General Merchandise Stores, Including Warehouse Clubs and Supercenters",
+    "lifestyle": "Balanced, with a mix of work, family time, and personal hobbies",
+    "mannerisms": "Attentive and empathetic towards others",
+    "marital status": "Never married",
+    "occupation category": "SAL-Sales And Related Workers, All Other",
+    "personal time": "Spends free time painting or reading",
+    "place of birth": "California/CA",
+    "political views": "Democrat",
+    "race": "Other specified American Indian tribes alone",
+    "religion": "Jewish",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer reports accidental drop causing screen failure on an iPhone that has been jailbroken and had unauthorized hardware modifications to its camera module.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-5938274650\",\n  \"serial_number\": \"F2X9M3P6Q7L1\",\n  \"phone_number\": \"+1-415-555-7293\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"30\",\n  \"ancestry\": \"Specific American Indian tribe\",\n  \"big five scores\": {\n    \"Agreeableness\": \"High\",\n    \"Conscientiousness\": \"Average\",\n    \"Extraversion\": \"Low\",\n    \"Neuroticism\": \"Extremely Low\",\n    \"Openness\": \"High\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions\",\n  \"defining quirks\": \"Enjoys painting in her free time\",\n  \"detailed job description\": \"Manages sales and customer relations in a retail setting\",\n  \"disability\": \"None\",\n  \"education\": \"Regular high school diploma\",\n  \"employment status\": \"Civilian employed, at work\",\n  \"family presence and age\": \"With related children 5 to 17 years only\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English\",\n  \"household type\": \"Female householder, no spouse/partner present, with relatives, no children of the householder less than 18\",\n  \"ideology\": \"Liberal\",\n  \"income\": \"160000.0\",\n  \"industry category\": \"RET-General Merchandise Stores, Including Warehouse Clubs and Supercenters\",\n  \"lifestyle\": \"Balanced, with a mix of work, family time, and personal hobbies\",\n  \"mannerisms\": \"Attentive and empathetic towards others\",\n  \"marital status\": \"Never married\",\n  \"occupation category\": \"SAL-Sales And Related Workers, All Other\",\n  \"personal time\": \"Spends free time painting or reading\",\n  \"place of birth\": \"California/CA\",\n  \"political views\": \"Democrat\",\n  \"race\": \"Other specified American Indian tribes alone\",\n  \"religion\": \"Jewish\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hi, thanks for your help. I accidentally dropped my iPhone 14 Pro Max, and the screen is now completely broken. I'd like to file a claim to get it repaired or replaced under my AppleCare plan.",
+      "raw_text": "Hi, thanks for your help. I accidentally dropped my iPhone 14 Pro Max, and the screen is now completely broken. I'd like to file a claim to get it repaired or replaced under my AppleCare plan."
+    },
+    {
+      "speaker": "bot",
+      "text": "To get started, could you please provide your Plan Agreement Number or the serial number of your iPhone 14 Pro Max? This will help us verify your coverage.",
+      "raw_text": "To get started, could you please provide your Plan Agreement Number or the serial number of your iPhone 14 Pro Max? This will help us verify your coverage."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure! My Plan Agreement Number is APLCARE-5938274650, and the serial number of my iPhone is F2X9M3P6Q7L1. Let me know if you need anything else.",
+      "raw_text": "Sure! My Plan Agreement Number is APLCARE-5938274650, and the serial number of my iPhone is F2X9M3P6Q7L1. Let me know if you need anything else."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for that information. You mentioned your screen is completely broken after the drop. Could you please describe the issue in more detail? Any cracks, touch responsiveness, or display problems? Also, have you noticed any other symptoms?",
+      "raw_text": "Thank you for that information. You mentioned your screen is completely broken after the drop. Could you please describe the issue in more detail? Any cracks, touch responsiveness, or display problems? Also, have you noticed any other symptoms?"
+    },
+    {
+      "speaker": "customer",
+      "text": "The screen is shattered pretty badly, with cracks all over. The touch doesn't work at all anymore, and the display is mostly black except for some faint lines. Also, the front camera doesn't seem to work right now, but I hadn't noticed that issue before the drop. Just in case, I wanted to mention it.",
+      "raw_text": "The screen is shattered pretty badly, with cracks all over. The touch doesn't work at all anymore, and the display is mostly black except for some faint lines. Also, the front camera doesn't seem to work right now, but I hadn't noticed that issue before the drop. Just in case, I wanted to mention it."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the detailed description. To better understand your device's condition, could you please answer a few diagnostic questions? What iOS version is your iPhone currently running? Are there any peripherals connected or error messages displayed? Have you tried any troubleshooting steps so far?",
+      "raw_text": "Thank you for the detailed description. To better understand your device's condition, could you please answer a few diagnostic questions? What iOS version is your iPhone currently running? Are there any peripherals connected or error messages displayed? Have you tried any troubleshooting steps so far?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I had my iPhone jailbroken, so it’s running a custom iOS version, not the latest official release. No peripherals connected at the moment, and I haven’t seen any specific error messages, just the screen being unresponsive. I tried restarting the device a couple of times but no luck with the display or touch.",
+      "raw_text": "I had my iPhone jailbroken, so it’s running a custom iOS version, not the latest official release. No peripherals connected at the moment, and I haven’t seen any specific error messages, just the screen being unresponsive. I tried restarting the device a couple of times but no luck with the display or touch."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for sharing that. Since the issue was caused by the accidental drop, could you please provide more details about the accident? When and where did it happen, and how exactly did the device fall?",
+      "raw_text": "Thanks for sharing that. Since the issue was caused by the accidental drop, could you please provide more details about the accident? When and where did it happen, and how exactly did the device fall?"
+    },
+    {
+      "speaker": "customer",
+      "text": "It happened just a couple days ago. I was walking outside near the park close to my home in California when the phone slipped out of my hand — I think I might have been distracted thinking about a painting idea. The phone fell onto a concrete sidewalk. That’s when I noticed the screen was cracked and the issues started. It’s been a little tricky managing without it!",
+      "raw_text": "It happened just a couple days ago. I was walking outside near the park close to my home in California when the phone slipped out of my hand — I think I might have been distracted thinking about a painting idea. The phone fell onto a concrete sidewalk. That’s when I noticed the screen was cracked and the issues started. It’s been a little tricky managing without it!"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the accident details. With all the information gathered, I will now proceed with filing your claim. You will be notified as soon as the claim is processed. Is there anything else I can assist you with today?",
+      "raw_text": "Thank you for the accident details. With all the information gathered, I will now proceed with filing your claim. You will be notified as soon as the claim is processed. Is there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Actually, before we finish— I want to be upfront and let you know that I had made some unauthorized hardware modifications to the camera module recently. I understand that might complicate things, but I wanted to be honest about it. Could you let me know if that affects my claim?",
+      "raw_text": "Actually, before we finish— I want to be upfront and let you know that I had made some unauthorized hardware modifications to the camera module recently. I understand that might complicate things, but I wanted to be honest about it. Could you let me know if that affects my claim?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for letting me know about the hardware modifications. Regarding coverage specifics, you will be informed about the claim status once it is fully reviewed. For now, I will continue processing your claim with the information provided. Is there anything else you need assistance with today?",
+      "raw_text": "Thank you for letting me know about the hardware modifications. Regarding coverage specifics, you will be informed about the claim status once it is fully reviewed. For now, I will continue processing your claim with the information provided. Is there anything else you need assistance with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all for now. I appreciate your help and transparency throughout this process. I'll wait for your updates on the claim status. Thanks again!",
+      "raw_text": "No, that's all for now. I appreciate your help and transparency throughout this process. I'll wait for your updates on the claim status. Thanks again!<END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

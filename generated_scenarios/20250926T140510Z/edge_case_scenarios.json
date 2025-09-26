@@ -1,0 +1,75 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250926T140510Z-01",
+      "title": "Claim filed for device with partially illegible serial number",
+      "description": "Customer requests an accidental damage claim after dropping their iPhone, but the physical serial number is partially scratched off and cannot be fully confirmed, and the device does not power on to retrieve the electronic serial.",
+      "claim_type": "identity_verification_issue",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "if_approved",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee only applies if Apple accepts alternate proof; otherwise, claim is denied."
+      },
+      "counts_toward_adh_limit": "if_approved",
+      "policy_references": [
+        {
+          "section": "5. How to Obtain Service and Support?",
+          "snippet": "If you call, you will need to give the Apple technical support representative who answers your call the Plan Agreement Number or Covered iPhone serial number for your iPhone before you can receive assistance."
+        },
+        {
+          "section": "4.2(iii)",
+          "snippet": "The Plan does not apply to an iPhone with a serial number that has been altered, defaced or removed, or has been modified to alter its functionality or capability without the written permission of the manufacturer."
+        },
+        {
+          "section": "7(i)",
+          "snippet": "You will provide your Plan Agreement Number and a copy of your Plan’s original proof of purchase, if requested."
+        }
+      ],
+      "reasoning": "The policy generally excludes devices with altered or defaced serial numbers (Section 4.2(iii)), but it is ambiguous when damage is accidental and not done to conceal identity. Section 5 and Section 7(i) contemplate alternate forms of verification (plan agreement number, proof of purchase). Judgment is required to determine if alternate proofs reasonably tie the device to coverage, especially when accidental damage prevented serial confirmation.",
+      "customer_data": {
+        "device": "iPhone 14 (128 GB)",
+        "plan_agreement_number": "APLCARE-5137890412",
+        "serial_number": "Partial: G5Q71XXXXXX7 (last five unreadable)",
+        "phone_number": "+1-415-555-9022"
+      }
+    },
+    {
+      "id": "EC-20250926T140510Z-02",
+      "title": "Accidental damage after device transfer but before plan transfer notified",
+      "description": "Customer received an iPhone 14 Pro as a gift from the original Plan holder but did not notify Apple to transfer the AppleCare+ Plan before an accidental drop resulting in screen damage.",
+      "claim_type": "ownership_and_transfer_timing",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "if_approved",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies if claim is accepted under transferrable Plan conditions."
+      },
+      "counts_toward_adh_limit": "if_ADH_and_approved",
+      "policy_references": [
+        {
+          "section": "10. Transfer of Plan",
+          "snippet": "You may make a one-time permanent transfer of all of your rights under the Plan to another party... you notify Apple of the transfer... When notifying Apple... you must provide the Plan Agreement Number, the serial number of the Covered iPhone being transferred, and the name, address, telephone number and email address of the new owner."
+        },
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "If during the Plan Term you submit a valid claim notifying Apple that the Covered iPhone has failed due to accidental damage from handling... Apple will subject to the service fee... repair the defect..."
+        }
+      ],
+      "reasoning": "The scenario is an edge case because the Plan allows for ownership transfer but requires prompt notification to Apple. The policy does not specify if claims between the informal transfer and Apple being notified are eligible, leaving open whether the new user is covered at the moment of accidental damage. Resolution may hinge on evidence of original Plan ownership and when the transfer notification was sent relative to the date of damage.",
+      "customer_data": {
+        "device": "iPhone 14 Pro (128 GB)",
+        "plan_agreement_number": "APLCARE-3527004881",
+        "serial_number": "G8Y2LK3W9ZM4",
+        "phone_number": "+1-303-555-0143"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

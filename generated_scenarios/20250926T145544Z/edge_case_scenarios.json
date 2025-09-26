@@ -1,0 +1,79 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250926T145544Z-01",
+      "title": "Battery capacity claim at plan term end with delayed service",
+      "description": "Customer submits a claim for battery capacity depletion (below 50%) on the last day of the 24-month Plan Term but the device is not received by Apple for service until after the Plan Term has expired due to shipping delays.",
+      "claim_type": "battery_capacity_depletion_timing",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery service under section 3.1 is without service fee, but coverage ends at Plan Term expiration."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "2",
+          "snippet": "Coverage ends twenty-four (24) months from the date of retail purchase of your original iPhone."
+        },
+        {
+          "section": "3.1",
+          "snippet": "Apple will repair or exchange if battery capacity has depleted fifty (50%) percent or more during Plan Term."
+        },
+        {
+          "section": "6.2",
+          "snippet": "Service options and response times may vary; delays may occur in shipping and service."
+        }
+      ],
+      "reasoning": "The Plan covers battery capacity depletion claims only if submitted during the Plan Term (section 3.1). The customer notified Apple within the Plan Term, but the device was not physically received for service until after expiration (section 2). Policy does not explicitly address delayed receipt after timely claim submission. Apple must judge if the claim is valid based on timing of notification versus physical service. No service fee applies for battery claims (section 3.1). This scenario requires Apple to interpret the interplay between claim submission timing and Plan Term expiration, considering shipping delays (section 6.2).",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-9876543210",
+        "serial_number": "F2N7V4L9Q1X3",
+        "phone_number": "+1-415-555-0199"
+      }
+    },
+    {
+      "id": "EC-20250926T145544Z-02",
+      "title": "Claim for cosmetic damage combined with minor functional impairment",
+      "description": "Customer reports a scratch on the screen that is mostly cosmetic but also causes intermittent touch sensitivity issues. The claim challenges classification as purely cosmetic damage or a functional defect.",
+      "claim_type": "cosmetic_vs_functional_damage",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "conditional",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies if damage is classified as Accidental Damage from Handling (ADH); otherwise, no fee but claim denied."
+      },
+      "counts_toward_adh_limit": "if_claim_approved_as_ADH",
+      "policy_references": [
+        {
+          "section": "4.2(v)",
+          "snippet": "The Plan does not apply to cosmetic damage including scratches and dents that do not affect functionality."
+        },
+        {
+          "section": "3.2",
+          "snippet": "ADH coverage applies to operational or mechanical failure caused by accidental damage from handling."
+        },
+        {
+          "section": "3.2",
+          "snippet": "You will pay a $49 service fee plus applicable tax for each ADH claim."
+        }
+      ],
+      "reasoning": "The policy excludes cosmetic damage unless it affects functionality. The intermittent touch issues create ambiguity whether the damage is cosmetic or functional, requiring detailed diagnostics and customer input. If deemed ADH, the $49 service fee applies and counts toward the two-event ADH limit. If classified cosmetic only, the claim is denied without fee. This tension between sections 4.2(v) and 3.2 necessitates careful evaluation.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-5874920136",
+        "serial_number": "F9X7M2Q4L8J1",
+        "phone_number": "+1-415-555-0199"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

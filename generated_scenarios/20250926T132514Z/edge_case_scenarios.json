@@ -1,0 +1,157 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250926T132514Z-01",
+      "title": "Accidental damage claim after plan expiration during repair wait",
+      "description": "Customer’s iPhone suffered accidental damage on the 730th day after original purchase, but the claim was submitted during Apple’s 15-day warranty extension period due to prior repair delays.",
+      "claim_type": "timing_coverage_edge_case",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "yes",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies as claim is accidental damage from handling (ADH) within extended coverage period."
+      },
+      "counts_toward_adh_limit": "yes",
+      "policy_references": [
+        {
+          "section": "2",
+          "snippet": "Coverage ends twenty-four (24) months from the date of retail purchase of your original iPhone."
+        },
+        {
+          "section": "9",
+          "snippet": "The expiration date of the Plan will automatically be extended by the period that the Covered iPhone is in Apple’s custody while it is being serviced."
+        },
+        {
+          "section": "3.2",
+          "snippet": "ADH coverage expires and obligations end after two Service Events or at plan end."
+        }
+      ],
+      "reasoning": "Although the plan term is 730 days, section 9 extends coverage equitably if the device is held in service. The accidental damage event happened exactly after 730 days, but the claim was filed within Apple's authorized extended repair period, creating tension between strict plan expiration and the extension clause. The claim should be evaluated for coverage and service fee due given timing and prior service status.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-5521384790",
+        "serial_number": "F2R5X9T1M8Q4",
+        "phone_number": "+1-415-555-0199"
+      }
+    },
+    {
+      "id": "EC-20250926T132514Z-02",
+      "title": "Claim for battery wear after software update-induced accelerated degradation",
+      "description": "Customer submits a battery capacity claim shortly after a major iOS update reporting accelerated battery degradation that appears hardware-related but coincides with the software update timeframe.",
+      "claim_type": "battery_degradation_software_interaction",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery service under Section 3.1 is free if capacity degradation exceeds 50%, but interplay with software update raises ambiguity."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1",
+          "snippet": "Apple will service battery defects if capacity has depleted 50% or more from original specifications."
+        },
+        {
+          "section": "3.3",
+          "snippet": "Technical support includes issues with operating system and software affecting hardware performance."
+        },
+        {
+          "section": "4.2(ii)(c)",
+          "snippet": "Damage caused by operating the iPhone outside permitted or intended uses is not covered."
+        },
+        {
+          "section": "7(iii)",
+          "snippet": "Customer must provide information including symptoms, software version, and actions before issue occurred."
+        }
+      ],
+      "reasoning": "The claim is ambiguous because accelerated battery degradation could be due to a hardware defect covered under Section 3.1 or a software-induced condition potentially excluded by Section 4.2(ii)(c). Technical support per Section 3.3 may assist diagnosis. Customer’s detailed info on software updates and usage is required per Section 7(iii). No ADH service fee applies as this is battery health degradation. Judgment is needed whether the battery failure is a hardware defect or software-related, impacting coverage.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-9857362012",
+        "serial_number": "F4N7W8C5R2ZQ",
+        "phone_number": "+1-415-555-2673"
+      }
+    },
+    {
+      "id": "EC-20250926T132514Z-03",
+      "title": "Claim for accidental damage on modified iPhone",
+      "description": "Customer reports accidental drop causing screen failure on an iPhone that has been jailbroken and had unauthorized hardware modifications to its camera module.",
+      "claim_type": "accidental_damage_with_modification",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "yes",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "ADH service fee applies for accidental damage claims if accepted."
+      },
+      "counts_toward_adh_limit": "uncertain",
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "Accidental damage coverage applies to operational or mechanical failure caused by an unexpected external event."
+        },
+        {
+          "section": "4.2(ii)(c)",
+          "snippet": "Plan does not apply to damage caused by service or modifications if not performed by Apple or AASP."
+        },
+        {
+          "section": "4.2(ii)(iii)",
+          "snippet": "Plan excludes coverage for iPhones with serial numbers modified or functionality altered without manufacturer permission."
+        }
+      ],
+      "reasoning": "The iPhone suffered accidental damage, nominally covered under ADH; however, the prior unauthorized hardware modifications void coverage under 4.2(ii)(c) and 4.2(ii)(iii). This tension creates an edge case requiring assessment of whether the modification contributed to failure or affects repairability. The service fee is required if ADH coverage is approved. Apple will need customer evidence and may request inspection to make a final eligibility determination. The claim may or may not count toward the ADH claim limit, depending on acceptance.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-5938274650",
+        "serial_number": "F2X9M3P6Q7L1",
+        "phone_number": "+1-415-555-7293"
+      }
+    },
+    {
+      "id": "EC-20250926T132514Z-04",
+      "title": "Battery capacity claim near Plan expiration with recent technical support update",
+      "description": "Customer submits a claim for battery replacement after capacity dropped to 49% shortly before their AppleCare+ Plan expires, having recently received advanced technical support recommending software updates that may impact battery calibration and reporting.",
+      "claim_type": "battery_degradation_borderline",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery service under section 3.1 does not require a service fee if within terms and criteria met."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "2",
+          "snippet": "Coverage ends twenty-four (24) months from the date of retail purchase of your original iPhone (\"Plan Term\")."
+        },
+        {
+          "section": "3.1",
+          "snippet": "Battery service applies if capacity has depleted 50% or more from original specifications during Plan Term."
+        },
+        {
+          "section": "3.3",
+          "snippet": "Technical support includes issues with software affecting hardware performance, including updates."
+        },
+        {
+          "section": "7(iii)",
+          "snippet": "Customer must provide info on version of OS and software installed, error messages and actions taken."
+        }
+      ],
+      "reasoning": "The claim hinges on whether the observed battery capacity of 49% degradation is accurate given recent software updates that may have altered the battery reporting. Section 3.1 requires 50% or more capacity depletion for battery coverage, but the borderline figure and recent Apple technical support suggesting recalibration create ambiguity. The claim is borderline because the Plan term is about to expire, so timely submission matters per section 2. Customer's software environment and update history (section 7(iii)) is essential for Apple to qualify the defect as not due to software-induced misreporting, creating a judgment call. No service fee applies per battery service rules. This scenario requires detailed diagnostics and possibly repeat measurements before approving.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-5973164282",
+        "serial_number": "F2DJV1H7L9X4",
+        "phone_number": "+1-415-555-0298"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

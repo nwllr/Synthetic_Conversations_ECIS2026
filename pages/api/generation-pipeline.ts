@@ -15,7 +15,6 @@ interface GenerationPipelineRequest {
   scenarioModel?: string;
   scenarioTemperature?: number;
   scenarioMaxTokens?: number;
-  skipScenarioArchive?: boolean;
   conversationModel?: string;
   conversationTemperature?: number;
   conversationMaxTokens?: number;
@@ -104,10 +103,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (typeof body.scenarioMaxTokens === "number") {
     args.push("--scenario-max-tokens", String(Math.max(1, Math.floor(body.scenarioMaxTokens))));
   }
-  if (body.skipScenarioArchive) {
-    args.push("--no-scenario-archive");
-  }
-
   if (body.personaIndex !== undefined && Number.isFinite(body.personaIndex)) {
     args.push("--persona-index", String(body.personaIndex));
   }
@@ -135,17 +130,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   res.write(": connected\n\n");
 
   writeEvent(res, "start", { runId, outputDir: relativeOutputDir, total, scenariosGenerated: 0 });
-  writeEvent(res, "progress", { total, generated: 0, errors: 0, scenariosGenerated: 0 });
 
+  const scenarios: any[] = [];
+  const conversations: any[] = [];
+  const pendingReads: Promise<void>[] = [];
   let stdoutBuffer = "";
   let stderrBuffer = "";
   let stdoutAll = "";
   let stderrAll = "";
   let generatedCount = 0;
+  let conversationProgressCount = 0;
   let errorCount = 0;
-  const scenarios: any[] = [];
-  const conversations: any[] = [];
-  const pendingReads: Promise<void>[] = [];
+
+  const emitProgress = () => {
+    const generatedProgress = Math.max(generatedCount, conversationProgressCount);
+    writeEvent(res, "progress", {
+      total,
+      generated: generatedProgress,
+      errors: errorCount,
+      scenariosGenerated: scenarios.length,
+    });
+  };
+
+  emitProgress();
 
   const child = spawn("python3", args, {
     cwd: process.cwd(),
@@ -156,6 +163,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const trimmed = line.trim();
     if (!trimmed) return;
     const scenarioPrefix = "SCENARIO_GENERATED:";
+    const conversationPrefix = "CONVERSATION_GENERATED:";
     if (trimmed.startsWith(scenarioPrefix)) {
       const payloadText = trimmed.slice(scenarioPrefix.length).trim();
       try {
@@ -167,16 +175,42 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         };
         scenarios.push(scenarioRecord);
         writeEvent(res, "scenario", scenarioRecord);
-        writeEvent(res, "progress", {
-          total,
-          generated: generatedCount,
-          errors: errorCount,
-          scenariosGenerated: scenarios.length,
-        });
+        emitProgress();
       } catch (err: any) {
         writeEvent(res, "log", {
           stream: "stderr",
           message: `Failed to parse scenario payload: ${err?.message ?? String(err)}`,
+        });
+      }
+      return;
+    }
+
+    if (trimmed.startsWith(conversationPrefix)) {
+      const payloadText = trimmed.slice(conversationPrefix.length).trim();
+      try {
+        const parsed = JSON.parse(payloadText);
+        const idx = Number(parsed?.index);
+        const totalCount = Number(parsed?.total);
+        if (Number.isFinite(idx)) {
+          conversationProgressCount = Math.max(conversationProgressCount, idx);
+        }
+        emitProgress();
+        const parts: string[] = [];
+        if (Number.isFinite(idx) && Number.isFinite(totalCount)) {
+          parts.push(`Generated conversation ${idx}/${totalCount}`);
+        }
+        if (parsed?.conversation_id) {
+          parts.push(String(parsed.conversation_id));
+        }
+        if (parsed?.scenario_id) {
+          parts.push(`scenario ${parsed.scenario_id}`);
+        }
+        const message = parts.join(" · ") || `Generated conversation progress: ${payloadText}`;
+        writeEvent(res, "log", { stream: "stdout", message });
+      } catch (err: any) {
+        writeEvent(res, "log", {
+          stream: "stderr",
+          message: `Failed to parse conversation payload: ${err?.message ?? String(err)}`,
         });
       }
       return;
@@ -195,24 +229,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           conversations.push(conversation);
           generatedCount += 1;
           writeEvent(res, "item", { index: generatedCount - 1, conversation });
-          writeEvent(res, "progress", {
-            total,
-            generated: generatedCount,
-            errors: errorCount,
-            scenariosGenerated: scenarios.length,
-          });
+          conversationProgressCount = Math.max(conversationProgressCount, generatedCount);
+          emitProgress();
         } catch (err: any) {
           errorCount += 1;
           writeEvent(res, "error", {
             message: err?.message ?? String(err),
             path: printedPath,
           });
-          writeEvent(res, "progress", {
-            total,
-            generated: generatedCount,
-            errors: errorCount,
-            scenariosGenerated: scenarios.length,
-          });
+          emitProgress();
         }
       })();
       pendingReads.push(readPromise);

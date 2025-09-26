@@ -1,0 +1,40 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20250926T142952Z-01",
+      "title": "Accidental screen crack repair within plan term",
+      "description": "Customer's iPhone 12 screen cracked due to an accidental drop during normal daily use, reported within 24 months of retail purchase.",
+      "claim_type": "accidental_damage_from_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies as stated for each ADH claim in section 3.2."
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage includes failures caused by an unexpected and unintentional external event such as drops during normal daily use, subject to a $49 service fee per claim."
+        },
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "Apple provides up to two ADH service events within the Plan Term."
+        }
+      ],
+      "reasoning": "The cracked screen resulted from an accidental drop which qualifies as accidental damage from handling under section 3.2. The claim was submitted within the 24-month Plan Term. The $49 service fee applies per ADH claim. This is the first ADH event submitted, thus counts toward the two-incident limit.",
+      "customer_data": {
+        "device": "iPhone 12 (64 GB)",
+        "plan_agreement_number": "APLCARE-7348291045",
+        "serial_number": "DX9Y3H2VT6PL",
+        "phone_number": "+1-415-555-2673"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

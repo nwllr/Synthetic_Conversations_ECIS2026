@@ -1,0 +1,158 @@
+{
+  "id": "NC-20250926T151944Z-01_20250926T152237Z",
+  "created_at": "2025-09-26T15:22:37.677037+00:00",
+  "model": "gpt-4.1-nano",
+  "temperature": 0.9,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "not_covered",
+  "scenario": {
+    "id": "NC-20250926T151944Z-01",
+    "title": "Damage due to unauthorized third-party repair",
+    "description": "The iPhone experienced hardware failure after repair by a non-Apple authorized service provider.",
+    "claim_type": "unauthorized_repair_damage",
+    "ground_truth": "not_covered",
+    "service_fee": {
+      "applies": false,
+      "amount": 0,
+      "currency": "USD"
+    },
+    "counts_toward_adh_limit": false,
+    "policy_references": [
+      {
+        "section": "4.2(ii)(d)",
+        "snippet": "The Plan does not apply to damage caused by service performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider."
+      }
+    ],
+    "reasoning": "Damage resulting from unauthorized repair is excluded under section 4.2(ii)(d). Therefore, no coverage or service fee applies.",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (256 GB)",
+      "plan_agreement_number": "APLCARE-7896541230",
+      "serial_number": "DX9H7F2KL1Q3",
+      "phone_number": "+1-415-555-0199"
+    }
+  },
+  "persona": {
+    "age": "61",
+    "ancestry": "European",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Average",
+      "Extraversion": "Average",
+      "Neuroticism": "Extremely Low",
+      "Openness": "Average"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Local government employee (city, county, etc.)",
+    "defining quirks": "Meticulous organization",
+    "detailed job description": "Manages administrative tasks, scheduling, and communication within the school",
+    "disability": "None",
+    "education": "Bachelor's degree",
+    "employment status": "Civilian employed, at work",
+    "family presence and age": "No related children",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Married couple household, no children of the householder less than 18",
+    "ideology": "Moderate",
+    "income": "135000.0",
+    "industry category": "EDU-Elementary And Secondary Schools",
+    "lifestyle": "Calm and community-oriented",
+    "mannerisms": "Always carries a pen and notepad",
+    "marital status": "Married",
+    "occupation category": "OFF-Secretaries And Administrative Assistants, Except Legal, Medical, And Executive",
+    "personal time": "Spends free time in quiet reflection or prayer",
+    "place of birth": "Maine/ME",
+    "political views": "Conservative",
+    "race": "White alone",
+    "religion": "Catholic",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nThe iPhone experienced hardware failure after repair by a non-Apple authorized service provider.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (256 GB)\",\n  \"plan_agreement_number\": \"APLCARE-7896541230\",\n  \"serial_number\": \"DX9H7F2KL1Q3\",\n  \"phone_number\": \"+1-415-555-0199\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"61\",\n  \"ancestry\": \"European\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Average\",\n    \"Extraversion\": \"Average\",\n    \"Neuroticism\": \"Extremely Low\",\n    \"Openness\": \"Average\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Local government employee (city, county, etc.)\",\n  \"defining quirks\": \"Meticulous organization\",\n  \"detailed job description\": \"Manages administrative tasks, scheduling, and communication within the school\",\n  \"disability\": \"None\",\n  \"education\": \"Bachelor's degree\",\n  \"employment status\": \"Civilian employed, at work\",\n  \"family presence and age\": \"No related children\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Married couple household, no children of the householder less than 18\",\n  \"ideology\": \"Moderate\",\n  \"income\": \"135000.0\",\n  \"industry category\": \"EDU-Elementary And Secondary Schools\",\n  \"lifestyle\": \"Calm and community-oriented\",\n  \"mannerisms\": \"Always carries a pen and notepad\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"OFF-Secretaries And Administrative Assistants, Except Legal, Medical, And Executive\",\n  \"personal time\": \"Spends free time in quiet reflection or prayer\",\n  \"place of birth\": \"Maine/ME\",\n  \"political views\": \"Conservative\",\n  \"race\": \"White alone\",\n  \"religion\": \"Catholic\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hello, I need to file a claim for my iPhone. It recently experienced hardware failure after I had it repaired at a non-Apple authorized service provider.",
+      "raw_text": "Hello, I need to file a claim for my iPhone. It recently experienced hardware failure after I had it repaired at a non-Apple authorized service provider."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. To begin, could you please provide your Plan Agreement Number or the serial number of your iPhone?",
+      "raw_text": "Thank you. To begin, could you please provide your Plan Agreement Number or the serial number of your iPhone?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, the plan agreement number is APLCARE-7896541230, and the serial number of my iPhone is DX9H7F2KL1Q3.",
+      "raw_text": "Sure, the plan agreement number is APLCARE-7896541230, and the serial number of my iPhone is DX9H7F2KL1Q3."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Please describe the issue you're experiencing with your iPhone. What specific symptoms or problems have you noticed?",
+      "raw_text": "Thank you. Please describe the issue you're experiencing with your iPhone. What specific symptoms or problems have you noticed?"
+    },
+    {
+      "speaker": "customer",
+      "text": "The device just stopped working properly after the repair. It’s been acting up, like it won’t turn on sometimes and the screen flickers when it does. I’m pretty sure the non-Apple repair caused this.",
+      "raw_text": "The device just stopped working properly after the repair. It’s been acting up, like it won’t turn on sometimes and the screen flickers when it does. I’m pretty sure the non-Apple repair caused this."
+    },
+    {
+      "speaker": "bot",
+      "text": "I understand. To better assess the situation, could you tell me the model of your iPhone, the iOS version it's running, and if there are any peripherals attached? Also, have you seen any error messages?",
+      "raw_text": "I understand. To better assess the situation, could you tell me the model of your iPhone, the iOS version it's running, and if there are any peripherals attached? Also, have you seen any error messages?"
+    },
+    {
+      "speaker": "customer",
+      "text": "The model is iPhone 14 Pro Max with 256 GB. I haven't checked the iOS version recently, but it's up to date I believe. No peripherals attached now. No error messages, just the hardware issues I mentioned before.",
+      "raw_text": "The model is iPhone 14 Pro Max with 256 GB. I haven't checked the iOS version recently, but it's up to date I believe. No peripherals attached now. No error messages, just the hardware issues I mentioned before."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Have you already taken any steps to troubleshoot or resolve the issue?",
+      "raw_text": "Thank you. Have you already taken any steps to troubleshoot or resolve the issue?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, I haven't tried anything myself. I just noticed the problems after the repair, and I thought it's best to file a claim now. I want to get it sorted out properly.",
+      "raw_text": "No, I haven't tried anything myself. I just noticed the problems after the repair, and I thought it's best to file a claim now. I want to get it sorted out properly."
+    },
+    {
+      "speaker": "bot",
+      "text": "Understood. Since your issue is related to hardware failure after a repair, and the device was repaired at a non-Apple authorized provider, I will need to ask a few additional questions about any accidents, such as drops or liquid damage. Did any such incident occur?",
+      "raw_text": "Understood. Since your issue is related to hardware failure after a repair, and the device was repaired at a non-Apple authorized provider, I will need to ask a few additional questions about any accidents, such as drops or liquid damage. Did any such incident occur?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, there haven't been any drops, liquid spills, or accidents like that. It just stopped working after the repair. It’s frustrating because I trusted the authorized service, but clearly, something went wrong.",
+      "raw_text": "No, there haven't been any drops, liquid spills, or accidents like that. It just stopped working after the repair. It’s frustrating because I trusted the authorized service, but clearly, something went wrong."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for that information. Your claim will be processed. Is there anything else I can assist you with before we conclude?",
+      "raw_text": "Thank you for that information. Your claim will be processed. Is there anything else I can assist you with before we conclude?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all for now. I appreciate your help. I just want to get this sorted out as soon as possible. Thank you.",
+      "raw_text": "No, that's all for now. I appreciate your help. I just want to get this sorted out as soon as possible. Thank you."
+    },
+    {
+      "speaker": "bot",
+      "text": "You're welcome. Your claim will be processed, and you will be notified as soon as it is complete. If you need any further assistance in the future, feel free to contact us. Have a great day!",
+      "raw_text": "You're welcome. Your claim will be processed, and you will be notified as soon as it is complete. If you need any further assistance in the future, feel free to contact us. Have a great day!"
+    },
+    {
+      "speaker": "customer",
+      "text": "Thank you, I will. Have a good day as well.",
+      "raw_text": "Thank you, I will. Have a good day as well. <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

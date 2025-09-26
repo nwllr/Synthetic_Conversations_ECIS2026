@@ -1,0 +1,153 @@
+{
+  "id": "COV-20250926T151944Z-03_20250926T152208Z",
+  "created_at": "2025-09-26T15:22:08.918478+00:00",
+  "model": "gpt-4.1-nano",
+  "temperature": 0.9,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "covered",
+  "scenario": {
+    "id": "COV-20250926T151944Z-03",
+    "title": "Front camera fails due to manufacturing defect within plan term",
+    "description": "Customer reports that the iPhone 13 front camera stopped functioning properly 14 months after purchase, with no accidental damage or external causes.",
+    "claim_type": "hardware_defect",
+    "ground_truth": "covered",
+    "service_fee": {
+      "applies": false,
+      "amount": 0,
+      "currency": "USD",
+      "notes": "No service fee applies for defects in materials and workmanship"
+    },
+    "counts_toward_adh_limit": false,
+    "policy_references": [
+      {
+        "section": "3.1 Hardware Service",
+        "snippet": "If during the Plan Term, a defect in materials and workmanship has arisen in the Covered iPhone, Apple will repair or exchange the device at no charge."
+      },
+      {
+        "section": "2. When Coverage Begins and Ends",
+        "snippet": "Coverage ends twenty-four (24) months from the date of retail purchase of your original iPhone (Plan Term)."
+      }
+    ],
+    "reasoning": "The front camera failure is a defect arising within the 24-month plan term and not caused by accidental damage, triggering coverage under section 3.1. Since this is a hardware defect claim, no service fee applies as per policy terms.",
+    "customer_data": {
+      "device": "iPhone 13 (128 GB)",
+      "plan_agreement_number": "APLCARE-8374659201",
+      "serial_number": "G7R8X0TYPL9Q",
+      "phone_number": "+1-415-555-2763"
+    }
+  },
+  "persona": {
+    "age": "70",
+    "ancestry": "Scandinavian",
+    "big five scores": {
+      "Agreeableness": "Extremely Low",
+      "Conscientiousness": "Extremely High",
+      "Extraversion": "High",
+      "Neuroticism": "Average",
+      "Openness": "Low"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Private",
+    "defining quirks": "Enjoys discussing historical events",
+    "detailed job description": "Managed various projects and teams in a large corporation",
+    "disability": "None",
+    "education": "Regular high school diploma",
+    "employment status": "Not in labor force",
+    "family presence and age": "No related children",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Married couple household, no children of the householder less than 18",
+    "ideology": "Conservative",
+    "income": "83600.0",
+    "industry category": "Management",
+    "lifestyle": "Comfortable and relaxed",
+    "mannerisms": "Speaks in a commanding tone",
+    "marital status": "Married",
+    "occupation category": "Senior Manager",
+    "personal time": "Spends free time in his home library or garden",
+    "place of birth": "Minnesota/MN",
+    "political views": "Republican",
+    "race": "White alone",
+    "religion": "Catholic",
+    "sex": "Male",
+    "veteran status": "On active duty in the past, but not now"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer reports that the iPhone 13 front camera stopped functioning properly 14 months after purchase, with no accidental damage or external causes.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 13 (128 GB)\",\n  \"plan_agreement_number\": \"APLCARE-8374659201\",\n  \"serial_number\": \"G7R8X0TYPL9Q\",\n  \"phone_number\": \"+1-415-555-2763\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"70\",\n  \"ancestry\": \"Scandinavian\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Extremely Low\",\n    \"Conscientiousness\": \"Extremely High\",\n    \"Extraversion\": \"High\",\n    \"Neuroticism\": \"Average\",\n    \"Openness\": \"Low\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Private\",\n  \"defining quirks\": \"Enjoys discussing historical events\",\n  \"detailed job description\": \"Managed various projects and teams in a large corporation\",\n  \"disability\": \"None\",\n  \"education\": \"Regular high school diploma\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"No related children\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Married couple household, no children of the householder less than 18\",\n  \"ideology\": \"Conservative\",\n  \"income\": \"83600.0\",\n  \"industry category\": \"Management\",\n  \"lifestyle\": \"Comfortable and relaxed\",\n  \"mannerisms\": \"Speaks in a commanding tone\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"Senior Manager\",\n  \"personal time\": \"Spends free time in his home library or garden\",\n  \"place of birth\": \"Minnesota/MN\",\n  \"political views\": \"Republican\",\n  \"race\": \"White alone\",\n  \"religion\": \"Catholic\",\n  \"sex\": \"Male\",\n  \"veteran status\": \"On active duty in the past, but not now\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hello. I need to report a problem with my iPhone 13. The front camera isn't working right anymore, even though I haven't dropped or damaged it. It's been about 14 months since I bought it.",
+      "raw_text": "Hello. I need to report a problem with my iPhone 13. The front camera isn't working right anymore, even though I haven't dropped or damaged it. It's been about 14 months since I bought it."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for that information. To start your claim, could you please provide your Plan Agreement Number or the serial number of your iPhone 13?",
+      "raw_text": "Thank you for that information. To start your claim, could you please provide your Plan Agreement Number or the serial number of your iPhone 13?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Certainly. The serial number of my phone is G7R8X0TYPL9Q.",
+      "raw_text": "Certainly. The serial number of my phone is G7R8X0TYPL9Q."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Now, please describe the issue you're experiencing with the front camera.",
+      "raw_text": "Thank you. Now, please describe the issue you're experiencing with the front camera."
+    },
+    {
+      "speaker": "customer",
+      "text": "The front camera just stopped functioning. It won't focus or take photos, and I need it for video calls. Nothing accidental happened—it's just suddenly not working at all.",
+      "raw_text": "The front camera just stopped functioning. It won't focus or take photos, and I need it for video calls. Nothing accidental happened—it's just suddenly not working at all."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the description. I need to ask a few diagnostic questions now. Is your iPhone 13 running the latest iOS version, and have you tried restarting or updating the software?",
+      "raw_text": "Thank you for the description. I need to ask a few diagnostic questions now. Is your iPhone 13 running the latest iOS version, and have you tried restarting or updating the software?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yeah, I’ve checked. It’s up to date, and I’ve already tried restarting it a couple of times, but still no luck. This problem's pretty frustrating.",
+      "raw_text": "Yeah, I’ve checked. It’s up to date, and I’ve already tried restarting it a couple of times, but still no luck. This problem's pretty frustrating."
+    },
+    {
+      "speaker": "bot",
+      "text": "I understand, thank you. Is there any peripheral attached to your iPhone, like a case or external camera? Also, are you receiving any specific error messages related to the camera?",
+      "raw_text": "I understand, thank you. Is there any peripheral attached to your iPhone, like a case or external camera? Also, are you receiving any specific error messages related to the camera?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Nope, nothing attached. No external camera or unusual case. And I haven’t seen any error messages, just that the camera won’t open or focus anymore. It’s quite annoying.",
+      "raw_text": "Nope, nothing attached. No external camera or unusual case. And I haven’t seen any error messages, just that the camera won’t open or focus anymore. It’s quite annoying."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for confirming. Based on the information provided, it seems like there is no accidental damage involved. Your claim will be processed accordingly. Is there anything else I can assist you with before we conclude?",
+      "raw_text": "Thank you for confirming. Based on the information provided, it seems like there is no accidental damage involved. Your claim will be processed accordingly. Is there anything else I can assist you with before we conclude?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that’s all I need. I just want to get this fixed or replaced. Please go ahead with the claim.",
+      "raw_text": "No, that’s all I need. I just want to get this fixed or replaced. Please go ahead with the claim."
+    },
+    {
+      "speaker": "bot",
+      "text": "Your claim will be processed now. You will be notified as soon as the claim is reviewed. Is there anything else I can assist you with today?",
+      "raw_text": "Your claim will be processed now. You will be notified as soon as the claim is reviewed. Is there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all. Thank you for your help. I hope this gets resolved quickly.",
+      "raw_text": "No, that's all. Thank you for your help. I hope this gets resolved quickly. <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

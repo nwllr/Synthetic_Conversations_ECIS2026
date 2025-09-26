@@ -1,0 +1,75 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250926T131737Z-01",
+      "title": "Claim for battery degradation shortly after Plan purchase",
+      "description": "Customer purchased AppleCare+ seven days after buying the iPhone and now claims battery capacity has depleted by 51%.",
+      "claim_type": "pre_existing_condition_battery",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery service from AppleCare+ does not require service fee for defects under section 3.1."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1",
+          "snippet": "Apple will service battery defects including 50% or more capacity depletion."
+        },
+        {
+          "section": "4.2(viii)",
+          "snippet": "Plan does not cover pre-existing conditions if Plan purchased after device purchase."
+        }
+      ],
+      "reasoning": "The policy excludes coverage for pre-existing conditions under section 4.2(viii), but the battery degradation claim under 3.1 is typically covered. The key dispute is whether the 51% depletion happened before Plan purchase (excluded) or after (covered). As the Plan was purchased 7 days after the iPhone, this creates a gray area requiring further diagnostics and timestamps from Apple’s battery health logs and the proof of Plan purchase date.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-5581230098",
+        "serial_number": "DX4F1G2H7J9K",
+        "phone_number": "+1-408-555-0199"
+      }
+    },
+    {
+      "id": "EC-20250926T131737Z-02",
+      "title": "Battery replacement claim just before plan expiry with recent software update errors",
+      "description": "Customer reports battery capacity degraded by 52% near the end of the 24-month plan term and simultaneous iOS errors appearing after the latest OS upgrade, requesting replacement and software support under the same claim.",
+      "claim_type": "combined_hardware_and_software_issue",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery defect repair or replacement covered at no charge under section 3.1; software support coverage ended 90 days after original purchase per section 3.3, creating tension on software issue coverage."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1",
+          "snippet": "Apple will service battery defects including 50% or more capacity depletion during Plan Term at no charge."
+        },
+        {
+          "section": "3.3",
+          "snippet": "Complimentary technical support ends ninety (90) days after the Covered iPhone’s date of original purchase."
+        },
+        {
+          "section": "6.1(ii)",
+          "snippet": "Apple may use mail-in service for hardware repairs to expedite service near plan expiry."
+        }
+      ],
+      "reasoning": "Battery defect claim is covered at no service fee per 3.1 since capacity degradation is >50% within Plan Term. However, simultaneous software errors fall outside technical support coverage as the support window expired. A judgment is required to separate claims, inform customer about unsupported software issues, and advise backup prior to hardware servicing which will erase data as per policy section 7(vi).",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-5493821098",
+        "serial_number": "F9H5N2P7Q48W",
+        "phone_number": "+1-415-555-0199"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "id": "COV-20250926T151944Z-04_20250926T152222Z",
+  "created_at": "2025-09-26T15:22:22.521585+00:00",
+  "model": "gpt-4.1-nano",
+  "temperature": 0.9,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "covered",
+  "scenario": {
+    "id": "COV-20250926T151944Z-04",
+    "title": "Touchscreen stops responding due to hardware defect within plan term",
+    "description": "The iPhone touchscreen has become unresponsive with no evidence of accidental damage, reported 20 months after purchase.",
+    "claim_type": "hardware_defect",
+    "ground_truth": "covered",
+    "service_fee": {
+      "applies": false,
+      "amount": 0,
+      "currency": "USD",
+      "notes": "No service fee applies for non-ADH hardware defects"
+    },
+    "counts_toward_adh_limit": false,
+    "policy_references": [
+      {
+        "section": "3.1 Hardware Service",
+        "snippet": "If during the Plan Term, a defect in materials and workmanship has arisen in the Covered iPhone, Apple will repair or exchange the device at no charge."
+      },
+      {
+        "section": "2. When Coverage Begins and Ends",
+        "snippet": "Coverage ends twenty-four (24) months from the date of retail purchase of the original iPhone."
+      }
+    ],
+    "reasoning": "The touchscreen failure is a defect in materials or workmanship arising during the 24-month Plan Term and is not caused by accidental damage, so it is fully covered with no service fee as per section 3.1 and 2.",
+    "customer_data": {
+      "device": "iPhone 13 (512 GB)",
+      "plan_agreement_number": "APLCARE-7382910456",
+      "serial_number": "H3J7X0B9LY2C",
+      "phone_number": "+1-415-555-0198"
+    }
+  },
+  "persona": {
+    "age": "76",
+    "ancestry": "Swedish",
+    "big five scores": {
+      "Agreeableness": "High",
+      "Conscientiousness": "Extremely High",
+      "Extraversion": "Extremely Low",
+      "Neuroticism": "Average",
+      "Openness": "Extremely High"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Private",
+    "defining quirks": "Enjoys painting in his free time",
+    "detailed job description": "Retired artist",
+    "disability": "None",
+    "education": "Bachelor's degree",
+    "employment status": "Not in labor force",
+    "family presence and age": "No related children",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Married couple household, no children of the householder less than 18",
+    "ideology": "Liberal",
+    "income": "149100.0",
+    "industry category": "Arts, Entertainment, and Recreation",
+    "lifestyle": "Quiet and comfortable",
+    "mannerisms": "Often seen with a sketchbook",
+    "marital status": "Married",
+    "occupation category": "Artists and Related Workers",
+    "personal time": "Spends free time painting or reading",
+    "place of birth": "Pennsylvania/PA",
+    "political views": "Democrat",
+    "race": "White alone",
+    "religion": "Catholic",
+    "sex": "Male",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nThe iPhone touchscreen has become unresponsive with no evidence of accidental damage, reported 20 months after purchase.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 13 (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-7382910456\",\n  \"serial_number\": \"H3J7X0B9LY2C\",\n  \"phone_number\": \"+1-415-555-0198\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"76\",\n  \"ancestry\": \"Swedish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"High\",\n    \"Conscientiousness\": \"Extremely High\",\n    \"Extraversion\": \"Extremely Low\",\n    \"Neuroticism\": \"Average\",\n    \"Openness\": \"Extremely High\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Private\",\n  \"defining quirks\": \"Enjoys painting in his free time\",\n  \"detailed job description\": \"Retired artist\",\n  \"disability\": \"None\",\n  \"education\": \"Bachelor's degree\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"No related children\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Married couple household, no children of the householder less than 18\",\n  \"ideology\": \"Liberal\",\n  \"income\": \"149100.0\",\n  \"industry category\": \"Arts, Entertainment, and Recreation\",\n  \"lifestyle\": \"Quiet and comfortable\",\n  \"mannerisms\": \"Often seen with a sketchbook\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"Artists and Related Workers\",\n  \"personal time\": \"Spends free time painting or reading\",\n  \"place of birth\": \"Pennsylvania/PA\",\n  \"political views\": \"Democrat\",\n  \"race\": \"White alone\",\n  \"religion\": \"Catholic\",\n  \"sex\": \"Male\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hello. I have an iPhone 13 that suddenly stopped responding to touch, and I didn't notice any damage. It's been quite reliable until now. I’d like to see if I can get it fixed or replaced.",
+      "raw_text": "Hello. I have an iPhone 13 that suddenly stopped responding to touch, and I didn't notice any damage. It's been quite reliable until now. I’d like to see if I can get it fixed or replaced."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing that information. To start the claim process, could you please provide your Plan Agreement Number or the serial number of your iPhone 13?",
+      "raw_text": "Thank you for providing that information. To start the claim process, could you please provide your Plan Agreement Number or the serial number of your iPhone 13?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, the plan agreement number is APLCARE-7382910456 and the serial number is H3J7X0B9LY2C.",
+      "raw_text": "Sure, the plan agreement number is APLCARE-7382910456 and the serial number is H3J7X0B9LY2C."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Please describe the issue with your iPhone 13 in a bit more detail. Is it a hardware failure, screen damage, battery problem, or something else?",
+      "raw_text": "Thank you. Please describe the issue with your iPhone 13 in a bit more detail. Is it a hardware failure, screen damage, battery problem, or something else?"
+    },
+    {
+      "speaker": "customer",
+      "text": "It's just that the touchscreen isn't responding at all, and there's no sign of any damage or anything. It just suddenly stopped working. It's a bit frustrating because I've taken good care of it.",
+      "raw_text": "It's just that the touchscreen isn't responding at all, and there's no sign of any damage or anything. It just suddenly stopped working. It's a bit frustrating because I've taken good care of it."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the description. Can you tell me if you've noticed any error messages on the device, or if you've already tried any troubleshooting steps? Also, could you specify the iOS version you're currently using?",
+      "raw_text": "Thank you for the description. Can you tell me if you've noticed any error messages on the device, or if you've already tried any troubleshooting steps? Also, could you specify the iOS version you're currently using?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I haven't seen any error messages, and I haven't really tried fixing it myself. I'm not very tech-savvy, but I did make sure it wasn't just dirt or something on the screen. As for the iOS version, I'm not exactly sure, but I think it's the latest. I can check and get back to you if needed.",
+      "raw_text": "I haven't seen any error messages, and I haven't really tried fixing it myself. I'm not very tech-savvy, but I did make sure it wasn't just dirt or something on the screen. As for the iOS version, I'm not exactly sure, but I think it's the latest. I can check and get back to you if needed."
+    },
+    {
+      "speaker": "bot",
+      "text": "That's helpful, thank you. Please check your iOS version and let me know if it is up to date with the latest release. Once you have that information, we can proceed with the claim. Is there anything else you'd like to add or any other questions before we continue?",
+      "raw_text": "That's helpful, thank you. Please check your iOS version and let me know if it is up to date with the latest release. Once you have that information, we can proceed with the claim. Is there anything else you'd like to add or any other questions before we continue?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I will check that now. Just a moment. No, I don't have any other questions at the moment. Thanks for your help.",
+      "raw_text": "I will check that now. Just a moment. No, I don't have any other questions at the moment. Thanks for your help."
+    },
+    {
+      "speaker": "bot",
+      "text": "You're welcome. Once you've checked the iOS version, please let me know, and I'll guide you through the next steps. Your claim will be processed soon. Is there anything else I can assist you with today?",
+      "raw_text": "You're welcome. Once you've checked the iOS version, please let me know, and I'll guide you through the next steps. Your claim will be processed soon. Is there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all for now. Thanks again for your help. I'll get back to you once I find out about the iOS version. Have a good day.",
+      "raw_text": "No, that's all for now. Thanks again for your help. I'll get back to you once I find out about the iOS version. Have a good day."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. I look forward to hearing from you. Your claim will be processed once we have all the necessary information. Have a great day!",
+      "raw_text": "Thank you. I look forward to hearing from you. Your claim will be processed once we have all the necessary information. Have a great day!"
+    },
+    {
+      "speaker": "customer",
+      "text": "Thank you. I appreciate your assistance. Goodbye!",
+      "raw_text": "Thank you. I appreciate your assistance. Goodbye!"
+    },
+    {
+      "speaker": "bot",
+      "text": "",
+      "raw_text": "<END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

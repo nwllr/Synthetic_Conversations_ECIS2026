@@ -1,0 +1,110 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250926T142952Z-01",
+      "title": "Battery degradation post plan purchase with missing original purchase proof",
+      "description": "Customer reports battery capacity has declined 55% impacting usage. The AppleCare+ plan was purchased after the phone purchase, and the customer cannot provide the original iPhone purchase receipt.",
+      "claim_type": "battery_degradation_post_plan_purchase_no_proof",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery service for genuine degradation is covered without ADH fee."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "Apple will service battery capacity degradation of 50% or more during the Plan Term."
+        },
+        {
+          "section": "4.2 (viii)",
+          "snippet": "Plan does not apply to pre-existing conditions if Plan purchased after iPhone purchase."
+        },
+        {
+          "section": "7(i)",
+          "snippet": "Customer must provide the Plan’s original proof of purchase if requested."
+        }
+      ],
+      "reasoning": "Battery degradation over 50% is covered hardware service (3.1), but since the Plan was purchased post iPhone purchase and original iPhone receipt is missing, it creates tension per 4.2(viii) exclusion and 7(i) evidence requirement. Judgment depends on verifying coverage eligibility without original receipt. No ADH service fee applies as this is not an accidental damage claim. This case requires further verification steps with customer to clarify coverage status.",
+      "customer_data": {
+        "device": "iPhone 14 (128 GB)",
+        "plan_agreement_number": "APLCARE-5524683790",
+        "serial_number": "G7N2B5L9W3YV",
+        "phone_number": "+1-415-555-0134"
+      }
+    },
+    {
+      "id": "EC-20250926T142952Z-02",
+      "title": "Battery capacity claim shortly before Plan expiration with pending ADH claim",
+      "description": "Customer reports battery capacity depleted more than 50% near the end of the 24-month Plan Term and simultaneously has a recent unresolved ADH claim. The customer requests simultaneous service for both issues.",
+      "claim_type": "battery_and_ADH_overlap_edge_case",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "yes",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies for the ADH claim; battery service is covered at no charge. Determining whether ADH limit applies first affects approach."
+      },
+      "counts_toward_adh_limit": "ADH claim counts toward limit; battery capacity claim does not",
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "Apple will service battery capacity degradation of 50% or more during the Plan Term at no charge."
+        },
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage provides up to two service events during the Plan Term with a $49 service fee per claim."
+        },
+        {
+          "section": "2 When Coverage Begins and Ends",
+          "snippet": "Coverage ends 24 months from the retail purchase of the original iPhone."
+        }
+      ],
+      "reasoning": "The battery claim is fully covered if verified within the Plan Term without a service fee (3.1). Meanwhile, the unresolved ADH claim counts toward the two-event ADH limit and requires a service fee (3.2). Since both claims coincide near Plan expiry, processing must ensure eligibility for battery service while deciding if ADH service limits and fees affect handling. Apple must verify timing to confirm coverage within 24 months and consider if simultaneous hardware service for both issues is allowable under the policy.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-7865432109",
+        "serial_number": "D3HJ9QLM2T5F",
+        "phone_number": "+1-415-555-9823"
+      }
+    },
+    {
+      "id": "EC-20250926T142952Z-03",
+      "title": "Claim for accidental damage with altered serial number",
+      "description": "Customer submits an ADH claim for a cracked screen, but the Covered iPhone's serial number has been partially altered unofficially for cosmetic personalization purposes.",
+      "claim_type": "serial_number_alteration",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "yes",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Standard ADH service fee applies if claim is accepted."
+      },
+      "counts_toward_adh_limit": "if_approved",
+      "policy_references": [
+        {
+          "section": "4.2(iii)",
+          "snippet": "The Plan does not apply to an iPhone with a serial number that has been altered, defaced or removed, or has been modified to alter its functionality or capability without the written permission of the manufacturer."
+        },
+        {
+          "section": "3.2",
+          "snippet": "ADH coverage applies to operational or mechanical failure caused by an accident from handling."
+        }
+      ],
+      "reasoning": "The conflict arises because the damage claim shows evidence of an accidental damage event eligible under section 3.2, but the altered serial number violates section 4.2(iii), which exclude coverage for altered serial numbers unless authorized by Apple. Since the alteration was for cosmetic personalization without written permission, Apple must evaluate if the alteration prevents reliable identification or affects functionality to deny or accept the claim. Customer must provide device serial number and detailed accident description for assessment.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-9045721380",
+        "serial_number": "DX3F9-----M2C7",
+        "phone_number": "+1-415-555-2679"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

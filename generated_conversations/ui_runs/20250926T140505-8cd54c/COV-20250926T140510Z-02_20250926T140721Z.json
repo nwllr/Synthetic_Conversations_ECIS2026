@@ -1,0 +1,158 @@
+{
+  "id": "COV-20250926T140510Z-02_20250926T140721Z",
+  "created_at": "2025-09-26T14:07:21.200318+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 0.7,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "covered",
+  "scenario": {
+    "id": "COV-20250926T140510Z-02",
+    "title": "Liquid damage after coffee spill — touchscreen unresponsive",
+    "description": "Customer accidentally spills coffee on iPhone 13 mini during normal use. Touchscreen becomes completely unresponsive immediately after the incident.",
+    "claim_type": "accidental_damage_from_handling",
+    "ground_truth": "covered",
+    "service_fee": {
+      "applies": true,
+      "amount": 49,
+      "currency": "USD",
+      "notes": "Standard Accidental Damage from Handling (ADH) service fee is applicable."
+    },
+    "counts_toward_adh_limit": true,
+    "policy_references": [
+      {
+        "section": "3.2 Accidental Damage from Handling",
+        "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event (e.g., drops and liquid contact) that arises from your normal daily usage of the Covered iPhone as intended."
+      },
+      {
+        "section": "3.2 Accidental Damage from Handling",
+        "snippet": "You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim."
+      }
+    ],
+    "reasoning": "The failure is a direct result of unexpected and unintentional liquid contact occurring during normal daily usage. Section 3.2 explicitly includes liquid contact as an example of covered accidental damage from handling (ADH), subject to a $49 service fee and the ADH claim limit. No exclusion applies, and the device remains eligible for ADH coverage under policy limits.",
+    "customer_data": {
+      "device": "iPhone 13 mini (128 GB)",
+      "plan_agreement_number": "APLCARE-9871346261",
+      "serial_number": "X4YHJ6MNPQ1L",
+      "phone_number": "+1-415-555-0196"
+    }
+  },
+  "persona": {
+    "age": "61",
+    "ancestry": "Scottish",
+    "big five scores": {
+      "Agreeableness": "High",
+      "Conscientiousness": "Average",
+      "Extraversion": "Extremely High",
+      "Neuroticism": "Average",
+      "Openness": "Average"
+    },
+    "citizenship": "US Citizen",
+    "class of worker": "Private",
+    "defining quirks": "Passionate about art and creativity",
+    "detailed job description": "Assesses insurance claims, determines payouts, negotiates settlements",
+    "disability": "None",
+    "education": "Master's Degree",
+    "employment status": "Not in labor force",
+    "family presence and age": "No related children",
+    "health insurance": "Private",
+    "household language": "English",
+    "household type": "Married couple household, no children under 18",
+    "ideology": "Progressive",
+    "income": "111600",
+    "industry category": "Insurance",
+    "lifestyle": "Active and engaged, with a strong emphasis on community involvement",
+    "mannerisms": "Distinctive, melodic way of speaking",
+    "marital status": "Married",
+    "occupation category": "Claims Adjuster",
+    "personal time": "Creating art, reading, volunteering for social causes",
+    "place of birth": "Michigan",
+    "political views": "Liberal",
+    "race": "Two or More Races",
+    "religion": "Alternative belief system",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer accidentally spills coffee on iPhone 13 mini during normal use. Touchscreen becomes completely unresponsive immediately after the incident.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 13 mini (128 GB)\",\n  \"plan_agreement_number\": \"APLCARE-9871346261\",\n  \"serial_number\": \"X4YHJ6MNPQ1L\",\n  \"phone_number\": \"+1-415-555-0196\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"61\",\n  \"ancestry\": \"Scottish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"High\",\n    \"Conscientiousness\": \"Average\",\n    \"Extraversion\": \"Extremely High\",\n    \"Neuroticism\": \"Average\",\n    \"Openness\": \"Average\"\n  },\n  \"citizenship\": \"US Citizen\",\n  \"class of worker\": \"Private\",\n  \"defining quirks\": \"Passionate about art and creativity\",\n  \"detailed job description\": \"Assesses insurance claims, determines payouts, negotiates settlements\",\n  \"disability\": \"None\",\n  \"education\": \"Master's Degree\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"No related children\",\n  \"health insurance\": \"Private\",\n  \"household language\": \"English\",\n  \"household type\": \"Married couple household, no children under 18\",\n  \"ideology\": \"Progressive\",\n  \"income\": \"111600\",\n  \"industry category\": \"Insurance\",\n  \"lifestyle\": \"Active and engaged, with a strong emphasis on community involvement\",\n  \"mannerisms\": \"Distinctive, melodic way of speaking\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"Claims Adjuster\",\n  \"personal time\": \"Creating art, reading, volunteering for social causes\",\n  \"place of birth\": \"Michigan\",\n  \"political views\": \"Liberal\",\n  \"race\": \"Two or More Races\",\n  \"religion\": \"Alternative belief system\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Ah, greetings! I've had a wee mishap with my iPhone 13 mini—spilled some coffee on it, and now the touchscreen is completely unresponsive, like a blank canvas refusing to accept the brushstroke. I’d like to file a claim for repair or replacement under my AppleCare plan, if you please.",
+      "raw_text": "Ah, greetings! I've had a wee mishap with my iPhone 13 mini—spilled some coffee on it, and now the touchscreen is completely unresponsive, like a blank canvas refusing to accept the brushstroke. I’d like to file a claim for repair or replacement under my AppleCare plan, if you please."
+    },
+    {
+      "speaker": "bot",
+      "text": "I’m sorry to hear about the coffee spill on your iPhone 13 mini. To get started with your claim, could you please provide me with your Plan Agreement Number or your iPhone’s serial number? This helps us verify your coverage.",
+      "raw_text": "I’m sorry to hear about the coffee spill on your iPhone 13 mini. To get started with your claim, could you please provide me with your Plan Agreement Number or your iPhone’s serial number? This helps us verify your coverage."
+    },
+    {
+      "speaker": "customer",
+      "text": "Certainly! The Plan Agreement Number is APLCARE-9871346261. And the serial number of my iPhone 13 mini is X4YHJ6MNPQ1L. Hoping this information is clear as a bell!",
+      "raw_text": "Certainly! The Plan Agreement Number is APLCARE-9871346261. And the serial number of my iPhone 13 mini is X4YHJ6MNPQ1L. Hoping this information is clear as a bell!"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing the Plan Agreement Number and serial number. You mentioned the touchscreen is unresponsive after the coffee spill. Could you please describe any other symptoms or issues you have noticed with the device? For example, does it power on, show any error messages, or have other hardware problems?",
+      "raw_text": "Thank you for providing the Plan Agreement Number and serial number. You mentioned the touchscreen is unresponsive after the coffee spill. Could you please describe any other symptoms or issues you have noticed with the device? For example, does it power on, show any error messages, or have other hardware problems?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Thank you for asking so thoroughly. The device does power on, the screen lights up, but it simply won’t respond to any touch. No error messages appear, just a silent, unresponsive screen. It’s as if the soul of the device is momentarily lost, leaving me unable to interact with it. Quite frustrating, really.",
+      "raw_text": "Thank you for asking so thoroughly. The device does power on, the screen lights up, but it simply won’t respond to any touch. No error messages appear, just a silent, unresponsive screen. It’s as if the soul of the device is momentarily lost, leaving me unable to interact with it. Quite frustrating, really."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the detailed description. To better assist, could you please confirm the iOS version currently installed on your iPhone 13 mini? Also, have you connected any peripherals or accessories recently, or attempted any troubleshooting steps like restarting the device?",
+      "raw_text": "Thank you for the detailed description. To better assist, could you please confirm the iOS version currently installed on your iPhone 13 mini? Also, have you connected any peripherals or accessories recently, or attempted any troubleshooting steps like restarting the device?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Ah, the iOS version—I believe it’s running iOS 16.5. As for peripherals, no, I haven’t connected anything new recently. The coffee spill was quite sudden and caught me off guard. I did try a restart—holding the side button and the volume down—but the screen remained unresponsive afterward. No other troubleshooting steps, as I didn’t want to risk further damage.",
+      "raw_text": "Ah, the iOS version—I believe it’s running iOS 16.5. As for peripherals, no, I haven’t connected anything new recently. The coffee spill was quite sudden and caught me off guard. I did try a restart—holding the side button and the volume down—but the screen remained unresponsive afterward. No other troubleshooting steps, as I didn’t want to risk further damage."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for sharing that. Since this issue was caused by liquid damage, could you please provide more details about the accident? Specifically, where and when the coffee spill happened, and how it affected the phone? This will help us process your claim accurately.",
+      "raw_text": "Thank you for sharing that. Since this issue was caused by liquid damage, could you please provide more details about the accident? Specifically, where and when the coffee spill happened, and how it affected the phone? This will help us process your claim accurately."
+    },
+    {
+      "speaker": "customer",
+      "text": "Of course, I’d be happy to provide the details. The spill happened just yesterday afternoon while I was at my art studio, working on a new painting. I had my iPhone perched nearby, playing some music, when my cup of coffee slipped from my hand and splashed directly onto the phone. The screen immediately went dark and unresponsive, though the device still powered on. It was quite a shock, and I’ve been hoping to get it sorted swiftly so I can get back to my creative flow.",
+      "raw_text": "Of course, I’d be happy to provide the details. The spill happened just yesterday afternoon while I was at my art studio, working on a new painting. I had my iPhone perched nearby, playing some music, when my cup of coffee slipped from my hand and splashed directly onto the phone. The screen immediately went dark and unresponsive, though the device still powered on. It was quite a shock, and I’ve been hoping to get it sorted swiftly so I can get back to my creative flow."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the detailed accident description. That helps a lot. Do you happen to have any photos or other supporting evidence of the damage or the accident scene? This is optional but can assist in claim validation.",
+      "raw_text": "Thank you for the detailed accident description. That helps a lot. Do you happen to have any photos or other supporting evidence of the damage or the accident scene? This is optional but can assist in claim validation."
+    },
+    {
+      "speaker": "customer",
+      "text": "Ah, I do have a few photos taken right after the spill, showing the coffee on the phone and the immediate aftermath. I’d be glad to provide those to support the claim. Just let me know the best way to send them over.",
+      "raw_text": "Ah, I do have a few photos taken right after the spill, showing the coffee on the phone and the immediate aftermath. I’d be glad to provide those to support the claim. Just let me know the best way to send them over."
+    },
+    {
+      "speaker": "bot",
+      "text": "Great! I will note that you have photos available. When the claim is processed, you will receive instructions on how to submit any supporting evidence. For now, I have all the information needed to proceed with your claim for the liquid damage to your iPhone 13 mini. \n\nIs there anything else you would like to add or any other assistance you need?",
+      "raw_text": "Great! I will note that you have photos available. When the claim is processed, you will receive instructions on how to submit any supporting evidence. For now, I have all the information needed to proceed with your claim for the liquid damage to your iPhone 13 mini. \n\nIs there anything else you would like to add or any other assistance you need?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I appreciate your thoroughness and kindness throughout this process. No, I believe that covers everything for now. Thank you for helping me navigate this; it’s been a bit of a storm, but I’m hopeful for a smooth resolution. Looking forward to your instructions on the next steps. Have a wonderful day!",
+      "raw_text": "I appreciate your thoroughness and kindness throughout this process. No, I believe that covers everything for now. Thank you for helping me navigate this; it’s been a bit of a storm, but I’m hopeful for a smooth resolution. Looking forward to your instructions on the next steps. Have a wonderful day!"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for your kind words. Your claim will now be processed, and you will be notified as soon as there is an update. If you need any further assistance in the future, please don’t hesitate to reach out. Have a wonderful day!",
+      "raw_text": "Thank you for your kind words. Your claim will now be processed, and you will be notified as soon as there is an update. If you need any further assistance in the future, please don’t hesitate to reach out. Have a wonderful day! <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

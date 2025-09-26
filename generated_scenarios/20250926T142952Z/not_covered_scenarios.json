@@ -1,0 +1,39 @@
+{
+  "scenarios": [
+    {
+      "id": "NC-20250926T142952Z-01",
+      "title": "Damage from unauthorized repair attempt",
+      "description": "Customer attempted to self-repair the iPhone causing internal damage not covered by AppleCare+.",
+      "claim_type": "unauthorized_service_damage",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(ii)(d)",
+          "snippet": "The Plan does not apply to service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider (“AASP”)."
+        },
+        {
+          "section": "4.2(ii)(b)",
+          "snippet": "The Plan does not apply to damage caused by abuse, misuse, fire, earthquake or other external causes except as described in section 3.2."
+        }
+      ],
+      "reasoning": "Damage resulted from an unauthorized repair attempt violating section 4.2(ii)(d) which excludes coverage for service not performed by Apple or an AASP. Additionally, the resultant damage from improper handling is excluded by 4.2(ii)(b). No service fee applies since the claim is not valid under the Plan.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (256 GB)",
+        "plan_agreement_number": "APLCARE-9876543210",
+        "serial_number": "G7HYR9N0K3Q2",
+        "phone_number": "+1-415-555-0198"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

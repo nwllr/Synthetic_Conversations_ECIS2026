@@ -1,0 +1,153 @@
+{
+  "id": "EC-20250926T151944Z-02_20250926T152442Z",
+  "created_at": "2025-09-26T15:24:42.162112+00:00",
+  "model": "gpt-4.1-nano",
+  "temperature": 0.9,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20250926T151944Z-02",
+    "title": "Battery degradation claim shortly after unauthorized battery replacement",
+    "description": "Customer reports battery capacity has depleted over 50% from original specifications but previously had the battery replaced by a third-party repair service not authorized by Apple within the Plan Term.",
+    "claim_type": "battery_degradation",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "no",
+      "amount": 0,
+      "currency": "USD",
+      "notes": "Service fee does not apply for battery capacity claims under hardware service coverage."
+    },
+    "counts_toward_adh_limit": "no",
+    "policy_references": [
+      {
+        "section": "3.1 Hardware Service",
+        "snippet": "Coverage for battery capacity depleted 50% or more from original specifications."
+      },
+      {
+        "section": "4.2(ii)(d)",
+        "snippet": "Plan does not apply if service was performed by anyone other than Apple or an Apple Authorized Service Provider."
+      }
+    ],
+    "reasoning": "While section 3.1 covers battery capacity degradation claims, section 4.2(ii)(d) excludes coverage if prior service was unauthorized. This conflict requires judgment to determine eligibility since the battery was replaced by a third party, potentially causing the depletion. Apple will need customer confirmation, prior service records, and battery diagnostics to resolve coverage. No service fee applies if claim is approved under hardware service, but lack of authorized repair may deny coverage.",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (512 GB)",
+      "plan_agreement_number": "APLCARE-7593184265",
+      "serial_number": "G7J9L3V2Q1Y8",
+      "phone_number": "+1-415-555-0199"
+    }
+  },
+  "persona": {
+    "age": "49",
+    "ancestry": "Filipino",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Average",
+      "Extraversion": "Extremely High",
+      "Neuroticism": "Average",
+      "Openness": "Extremely High"
+    },
+    "citizenship": "Not a U.S. citizen",
+    "class of worker": "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+    "defining quirks": "Enjoys experimenting with traditional Filipino recipes",
+    "detailed job description": "Provides personal care assistance to patients at their homes",
+    "disability": "None",
+    "education": "Bachelor's degree",
+    "employment status": "Civilian employed, at work",
+    "family presence and age": "No related children",
+    "health insurance": "With health insurance coverage",
+    "household language": "Asian and Pacific Island languages",
+    "household type": "Married couple household, no children of the householder less than 18",
+    "ideology": "Social Justice",
+    "income": "60000.0",
+    "industry category": "MED-Home Health Care Services",
+    "lifestyle": "Active and community-oriented",
+    "mannerisms": "Often hums or sings softly while working",
+    "marital status": "Married",
+    "occupation category": "HLS-Personal Care Aides",
+    "personal time": "Spends free time cooking or volunteering",
+    "place of birth": "Philippines",
+    "political views": "Liberal",
+    "race": "Filipino alone",
+    "religion": "Other Christian",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer reports battery capacity has depleted over 50% from original specifications but previously had the battery replaced by a third-party repair service not authorized by Apple within the Plan Term.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-7593184265\",\n  \"serial_number\": \"G7J9L3V2Q1Y8\",\n  \"phone_number\": \"+1-415-555-0199\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"49\",\n  \"ancestry\": \"Filipino\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Average\",\n    \"Extraversion\": \"Extremely High\",\n    \"Neuroticism\": \"Average\",\n    \"Openness\": \"Extremely High\"\n  },\n  \"citizenship\": \"Not a U.S. citizen\",\n  \"class of worker\": \"Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions\",\n  \"defining quirks\": \"Enjoys experimenting with traditional Filipino recipes\",\n  \"detailed job description\": \"Provides personal care assistance to patients at their homes\",\n  \"disability\": \"None\",\n  \"education\": \"Bachelor's degree\",\n  \"employment status\": \"Civilian employed, at work\",\n  \"family presence and age\": \"No related children\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"Asian and Pacific Island languages\",\n  \"household type\": \"Married couple household, no children of the householder less than 18\",\n  \"ideology\": \"Social Justice\",\n  \"income\": \"60000.0\",\n  \"industry category\": \"MED-Home Health Care Services\",\n  \"lifestyle\": \"Active and community-oriented\",\n  \"mannerisms\": \"Often hums or sings softly while working\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"HLS-Personal Care Aides\",\n  \"personal time\": \"Spends free time cooking or volunteering\",\n  \"place of birth\": \"Philippines\",\n  \"political views\": \"Liberal\",\n  \"race\": \"Filipino alone\",\n  \"religion\": \"Other Christian\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hi there! I think my iPhone 14 Pro Max's battery isn't holding as much charge as it used to. It seems to have depleted over 50% from the original specs. I had a third-party repair done earlier, but I want to see if I can get it checked or replaced under my plan. Can you help with that?",
+      "raw_text": "Hi there! I think my iPhone 14 Pro Max's battery isn't holding as much charge as it used to. It seems to have depleted over 50% from the original specs. I had a third-party repair done earlier, but I want to see if I can get it checked or replaced under my plan. Can you help with that?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Certainly. To start, could you please provide your Plan Agreement Number or the Serial Number of your iPhone 14 Pro Max?",
+      "raw_text": "Certainly. To start, could you please provide your Plan Agreement Number or the Serial Number of your iPhone 14 Pro Max?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure! The Serial Number is G7J9L3V2Q1Y8. Let me know if you need anything else to proceed.",
+      "raw_text": "Sure! The Serial Number is G7J9L3V2Q1Y8. Let me know if you need anything else to proceed."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Please describe the symptoms or issue you're experiencing with your iPhone.",
+      "raw_text": "Thank you. Please describe the symptoms or issue you're experiencing with your iPhone."
+    },
+    {
+      "speaker": "customer",
+      "text": "My battery’s been draining way faster than normal. It used to last all day, now it’s barely a few hours before needing a charge. I know I had it replaced, but I’m worried it’s not performing as it should.",
+      "raw_text": "My battery’s been draining way faster than normal. It used to last all day, now it’s barely a few hours before needing a charge. I know I had it replaced, but I’m worried it’s not performing as it should."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for that information. Are you experiencing any error messages or specific issues related to the battery? Additionally, has your device been updated to the latest iOS version?",
+      "raw_text": "Thank you for that information. Are you experiencing any error messages or specific issues related to the battery? Additionally, has your device been updated to the latest iOS version?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No error messages, just the quick battery drain. I haven't checked if it's on the latest iOS, but I usually keep it updated. My main concern is that the battery doesn't seem to last like it used to, especially since it got replaced already.",
+      "raw_text": "No error messages, just the quick battery drain. I haven't checked if it's on the latest iOS, but I usually keep it updated. My main concern is that the battery doesn't seem to last like it used to, especially since it got replaced already."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for sharing that. Could you please let me know if you've performed any diagnostic tests or steps to troubleshoot the battery issue?",
+      "raw_text": "Thank you for sharing that. Could you please let me know if you've performed any diagnostic tests or steps to troubleshoot the battery issue?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I haven't done any detailed troubleshooting yet. Just noticed the fast draining, and thought I should check with you before trying anything myself. I figured it’s better to get it looked at under my plan.",
+      "raw_text": "I haven't done any detailed troubleshooting yet. Just noticed the fast draining, and thought I should check with you before trying anything myself. I figured it’s better to get it looked at under my plan."
+    },
+    {
+      "speaker": "bot",
+      "text": "Understood. Since your battery capacity has dropped more than 50%, and you're experiencing significant drain, your claim can be processed. Before I initiate the process, is there anything else you would like to share or any other questions you have?",
+      "raw_text": "Understood. Since your battery capacity has dropped more than 50%, and you're experiencing significant drain, your claim can be processed. Before I initiate the process, is there anything else you would like to share or any other questions you have?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Actually, I just want to clarify — my battery was replaced by a third-party repair service. Will that affect the claim process? I hope it’s still okay since I’m within the plan.",
+      "raw_text": "Actually, I just want to clarify — my battery was replaced by a third-party repair service. Will that affect the claim process? I hope it’s still okay since I’m within the plan."
+    },
+    {
+      "speaker": "bot",
+      "text": "Your claim will be processed, and you will be notified as soon as it is complete. Do you need any additional assistance before I proceed?",
+      "raw_text": "Your claim will be processed, and you will be notified as soon as it is complete. Do you need any additional assistance before I proceed?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all. Thank you for your help! I appreciate it. Looking forward to hearing from you soon.",
+      "raw_text": "No, that's all. Thank you for your help! I appreciate it. Looking forward to hearing from you soon. <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

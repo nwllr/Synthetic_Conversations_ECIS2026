@@ -1,0 +1,40 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20250926T131737Z-01",
+      "title": "Accidental liquid damage within plan term",
+      "description": "Customer dropped iPhone XR in water causing it to stop functioning. The claim is filed within the 24-month plan term, first ADH event for this device.",
+      "claim_type": "accidental_damage_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies for each ADH claim as stated in section 3.2"
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage applies to operational failure caused by unexpected and unintentional external events like liquid contact, subject to a $49 service fee per claim."
+        },
+        {
+          "section": "2. When Coverage Begins and Ends",
+          "snippet": "Coverage is valid within 24 months from original iPhone purchase date."
+        }
+      ],
+      "reasoning": "The liquid damage resulted from an accidental and unintentional external event during the 24-month coverage period. This is explicitly covered under section 3.2, which allows repair or replacement after payment of a $49 service fee. This is the first ADH claim, so it counts toward the two-event ADH limit.",
+      "customer_data": {
+        "device": "iPhone XR (64 GB)",
+        "plan_agreement_number": "APLCARE-7890123456",
+        "serial_number": "DX7RT5FG9H1J",
+        "phone_number": "+1-415-555-1234"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20250926T145544Z-01",
+      "title": "Accidental screen crack from a drop within plan term",
+      "description": "Customer’s iPhone 13 (512 GB) was accidentally dropped causing a cracked screen. The incident occurred within 18 months of plan purchase and this is the first ADH claim.",
+      "claim_type": "accidental_damage_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies for accidental damage claims as per policy section 3.2"
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "Apple covers accidental damage from handling during the plan term, subject to a $49 service fee and a maximum of two service events."
+        },
+        {
+          "section": "7. Your Responsibilities",
+          "snippet": "Customer must provide details of the accident and pay the service fee to receive coverage."
+        }
+      ],
+      "reasoning": "The cracked screen resulted from an unexpected and unintentional external event (a drop), which is covered under section 3.2. The claim is within the 24-month plan term and is the first ADH claim, so coverage applies. The $49 service fee applies as stated in section 3.2. Customer provided a detailed accident description and valid plan agreement number as required by section 7.",
+      "customer_data": {
+        "device": "iPhone 13 (512 GB)",
+        "plan_agreement_number": "APLCARE-7788990011",
+        "serial_number": "DX3K9L2M5Q7R",
+        "phone_number": "+1-415-555-2678"
+      }
+    },
+    {
+      "id": "COV-20250926T145544Z-02",
+      "title": "Liquid damage from accidental spill within plan term",
+      "description": "Customer's iPhone 13 Pro suffered liquid damage after an accidental spill of coffee during normal use within the 24-month plan term.",
+      "claim_type": "accidental_damage_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies for accidental damage claims as per section 3.2."
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "Coverage applies to operational failure caused by accidental damage from handling such as liquid contact, subject to a $49 service fee and a maximum of two service events."
+        },
+        {
+          "section": "7. Your Responsibilities",
+          "snippet": "Customer must provide details of the accident and pay the service fee to receive coverage."
+        }
+      ],
+      "reasoning": "The claim involves liquid damage from an accidental spill, which is an unexpected and unintentional external event covered under section 3.2. The claim is within the 24-month plan term and the customer agrees to pay the $49 service fee, fulfilling the requirements in section 7. ADH coverage counts toward the two-event limit.",
+      "customer_data": {
+        "device": "iPhone 13 Pro (256 GB)",
+        "plan_agreement_number": "APLCARE-7896541230",
+        "serial_number": "G6T9X2M4J8QW",
+        "phone_number": "+1-415-555-0199"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

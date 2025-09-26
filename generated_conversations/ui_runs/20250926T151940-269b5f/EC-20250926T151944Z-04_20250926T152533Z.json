@@ -1,0 +1,177 @@
+{
+  "id": "EC-20250926T151944Z-04_20250926T152533Z",
+  "created_at": "2025-09-26T15:25:33.322791+00:00",
+  "model": "gpt-4.1-nano",
+  "temperature": 0.9,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20250926T151944Z-04",
+    "title": "Claim for battery capacity depletion after unauthorized software modification",
+    "description": "Customer reports battery capacity depleted over 50% from original specification after installing unofficial software that modifies device performance and power management.",
+    "claim_type": "battery_degradation_software_modification",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "no",
+      "amount": 0,
+      "currency": "USD",
+      "notes": "No ADH service fee applies as claim is based on battery capacity rather than accidental damage."
+    },
+    "counts_toward_adh_limit": "no",
+    "policy_references": [
+      {
+        "section": "3.1 Hardware Service",
+        "snippet": "Coverage includes repair or exchange if battery capacity depleted 50% or more from original specifications."
+      },
+      {
+        "section": "4.2(ii)(c)",
+        "snippet": "Plan does not apply to damage caused by operating the Covered iPhone outside the permitted or intended uses described by the manufacturer."
+      },
+      {
+        "section": "4.2(iii)",
+        "snippet": "Plan does not apply to an iPhone with a serial number that has been modified to alter functionality or capability without written permission."
+      }
+    ],
+    "reasoning": "Battery capacity depletion is covered if due to defect or normal use (3.1), but here the unauthorized software modification alters device functionality and power management (4.2(ii)(c) and 4.2(iii)). This creates tension because while battery degradation threshold is met, the cause is an unsupported modification rather than a manufacturing defect. Apple must verify device software state and confirm no hardware defect unrelated to modification before approving the claim. Service fee does not apply as this is not an ADH claim, and claim does not count toward ADH limit. Customer input on software modification history and device diagnostics is needed to resolve coverage.",
+    "customer_data": {
+      "device": "iPhone 15 Pro Max (512 GB)",
+      "plan_agreement_number": "APLCARE-5214789630",
+      "serial_number": "G7Y2T9R6Q1X5",
+      "phone_number": "+1-415-555-0199"
+    }
+  },
+  "persona": {
+    "age": "45",
+    "ancestry": "Mexican",
+    "big five scores": {
+      "Agreeableness": "Extremely Low",
+      "Conscientiousness": "Average",
+      "Extraversion": "Extremely Low",
+      "Neuroticism": "Average",
+      "Openness": "High"
+    },
+    "citizenship": "U.S. citizen by naturalization",
+    "class of worker": "Private",
+    "defining quirks": "Enjoys collecting vintage items",
+    "detailed job description": "Takes care of household chores and children",
+    "disability": "None",
+    "education": "GED or alternative credential",
+    "employment status": "Not in labor force",
+    "family presence and age": "With related children 5 to 17 years only",
+    "health insurance": "With health insurance coverage",
+    "household language": "Spanish",
+    "household type": "Married couple household with children of the householder less than 18",
+    "ideology": "Conservative",
+    "income": "138900.0",
+    "industry category": "Homemaker",
+    "lifestyle": "Family-oriented and environmentally conscious",
+    "mannerisms": "Often lost in thought, tends to fidget when nervous",
+    "marital status": "Married",
+    "occupation category": "Homemaker",
+    "personal time": "Spends free time with family or gardening",
+    "place of birth": "Mexico",
+    "political views": "Republican",
+    "race": "Some Other Race alone",
+    "religion": "Protestant",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer reports battery capacity depleted over 50% from original specification after installing unofficial software that modifies device performance and power management.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 15 Pro Max (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-5214789630\",\n  \"serial_number\": \"G7Y2T9R6Q1X5\",\n  \"phone_number\": \"+1-415-555-0199\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"45\",\n  \"ancestry\": \"Mexican\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Extremely Low\",\n    \"Conscientiousness\": \"Average\",\n    \"Extraversion\": \"Extremely Low\",\n    \"Neuroticism\": \"Average\",\n    \"Openness\": \"High\"\n  },\n  \"citizenship\": \"U.S. citizen by naturalization\",\n  \"class of worker\": \"Private\",\n  \"defining quirks\": \"Enjoys collecting vintage items\",\n  \"detailed job description\": \"Takes care of household chores and children\",\n  \"disability\": \"None\",\n  \"education\": \"GED or alternative credential\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"With related children 5 to 17 years only\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"Spanish\",\n  \"household type\": \"Married couple household with children of the householder less than 18\",\n  \"ideology\": \"Conservative\",\n  \"income\": \"138900.0\",\n  \"industry category\": \"Homemaker\",\n  \"lifestyle\": \"Family-oriented and environmentally conscious\",\n  \"mannerisms\": \"Often lost in thought, tends to fidget when nervous\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"Homemaker\",\n  \"personal time\": \"Spends free time with family or gardening\",\n  \"place of birth\": \"Mexico\",\n  \"political views\": \"Republican\",\n  \"race\": \"Some Other Race alone\",\n  \"religion\": \"Protestant\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hi, I need to file a claim. My iPhone's battery is draining really fast after I installed some unofficial software that changes how the device works.",
+      "raw_text": "Hi, I need to file a claim. My iPhone's battery is draining really fast after I installed some unofficial software that changes how the device works."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. To start the claim process, could you please provide me with your Plan Agreement Number or the serial number of your iPhone?",
+      "raw_text": "Thank you for the information. To start the claim process, could you please provide me with your Plan Agreement Number or the serial number of your iPhone?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, the plan agreement number is APLCARE-5214789630 and the serial number is G7Y2T9R6Q1X5.",
+      "raw_text": "Sure, the plan agreement number is APLCARE-5214789630 and the serial number is G7Y2T9R6Q1X5."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Please describe the issue you're experiencing with your iPhone's battery.",
+      "raw_text": "Thank you. Please describe the issue you're experiencing with your iPhone's battery."
+    },
+    {
+      "speaker": "customer",
+      "text": "Like I said, the battery capacity is way lower than before, more than 50% gone from the original. I think it's because I installed that unofficial software. It’s messing with everything. I need this fixed.",
+      "raw_text": "Like I said, the battery capacity is way lower than before, more than 50% gone from the original. I think it's because I installed that unofficial software. It’s messing with everything. I need this fixed."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the description. Are you experiencing any other symptoms or issues besides the battery drain? For example, error messages, crashes, or other hardware problems?",
+      "raw_text": "Thank you for the description. Are you experiencing any other symptoms or issues besides the battery drain? For example, error messages, crashes, or other hardware problems?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, just the battery. It’s enough to ruin the phone though. I don’t want to keep replacing batteries or dealing with this. I just want it taken care of.",
+      "raw_text": "No, just the battery. It’s enough to ruin the phone though. I don’t want to keep replacing batteries or dealing with this. I just want it taken care of."
+    },
+    {
+      "speaker": "bot",
+      "text": "Understood. Have you tried updating your iOS to the latest version before proceeding?",
+      "raw_text": "Understood. Have you tried updating your iOS to the latest version before proceeding?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, I did update, but it didn't help. The battery still drains fast after I used that unofficial software. I think it's all tied together.",
+      "raw_text": "Yes, I did update, but it didn't help. The battery still drains fast after I used that unofficial software. I think it's all tied together."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the clarification. Since the issue started after installing unofficial software, it may be related to the software modification. Is your iPhone running the latest iOS version available?",
+      "raw_text": "Thank you for the clarification. Since the issue started after installing unofficial software, it may be related to the software modification. Is your iPhone running the latest iOS version available?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, it's the latest version I could find. I always keep it updated, but this problem just started recently. I really need this checked out.",
+      "raw_text": "Yes, it's the latest version I could find. I always keep it updated, but this problem just started recently. I really need this checked out."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for confirming. To complete your claim, I need to know if you have any supporting photos, logs, or other evidence related to this issue or the software installation. Would you be able to provide that?",
+      "raw_text": "Thank you for confirming. To complete your claim, I need to know if you have any supporting photos, logs, or other evidence related to this issue or the software installation. Would you be able to provide that?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I don’t have any pictures or logs, but I can tell you I installed some software from a site that wasn’t official. It’s likely the cause. You don’t need proof, just help me fix this.",
+      "raw_text": "I don’t have any pictures or logs, but I can tell you I installed some software from a site that wasn’t official. It’s likely the cause. You don’t need proof, just help me fix this."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing that information. I will now proceed with processing your claim. Is there anything else I can assist you with before we complete the process?",
+      "raw_text": "Thank you for providing that information. I will now proceed with processing your claim. Is there anything else I can assist you with before we complete the process?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all. Just please take care of this quickly. I rely on my phone for everything.",
+      "raw_text": "No, that's all. Just please take care of this quickly. I rely on my phone for everything."
+    },
+    {
+      "speaker": "bot",
+      "text": "Your claim will be processed, and you will be notified as soon as it is complete. Thank you for contacting AppleCare. Have a great day!",
+      "raw_text": "Your claim will be processed, and you will be notified as soon as it is complete. Thank you for contacting AppleCare. Have a great day!"
+    },
+    {
+      "speaker": "customer",
+      "text": "Thank you. Espero que todo salga bien. Adiós.",
+      "raw_text": "Thank you. Espero que todo salga bien. Adiós. <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

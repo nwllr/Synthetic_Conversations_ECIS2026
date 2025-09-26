@@ -6,43 +6,148 @@
   },
   "generated_on": "20250926",
   "generator": {
-    "model": "gpt-4.1-nano",
-    "temperature": 0.35,
+    "model": "gpt-4.1-mini",
+    "temperature": 0.9,
     "max_tokens": 2800,
-    "attempted_count": 1,
-    "slug": "20250926T123448Z"
+    "attempted_count": 4,
+    "slug": "20250926T151944Z"
   },
   "categories": {
     "edge_case": [
       {
-        "id": "EC-20250926T123448Z-01",
-        "title": "Multiple Damage Claims with Ambiguous Coverage",
-        "description": "Customer submits claims for both liquid damage and accidental drop on the same device within the Plan term, with conflicting policy interpretations about whether multiple Service Events exhaust ADH coverage.",
-        "claim_type": "multiple_damage_claims",
+        "id": "EC-20250926T151944Z-01",
+        "title": "Battery capacity degraded below threshold due to prior unauthorized repair",
+        "description": "Customer’s iPhone battery capacity has depleted more than 50%, but the device was previously repaired by a third party, not an Apple Authorized Service Provider, raising questions about coverage eligibility.",
+        "claim_type": "battery_degradation_with_unauthorized_repair",
         "ground_truth": "edge_case",
         "service_fee": {
-          "applies": "yes",
-          "amount": 49,
+          "applies": "no",
+          "amount": 0,
           "currency": "USD",
-          "notes": "Each ADH claim incurs a $49 fee; policy limits specify 2 Service Events, but ambiguity exists whether subsequent claims are covered if damage types overlap."
+          "notes": "Battery service for depletion over 50% is covered without service fee if eligible."
         },
-        "counts_toward_adh_limit": "if_approved",
+        "counts_toward_adh_limit": "no",
         "policy_references": [
           {
-            "section": "3.2 Accidental Damage from Handling",
-            "snippet": "ADH coverage applies to an operational or mechanical failure caused by an external event, with a limit of two Service Events during the Plan term."
+            "section": "3.1 Hardware Service",
+            "snippet": "Coverage includes repair or exchange if battery capacity depleted 50% or more from original specifications."
           },
           {
-            "section": "4.2 Hardware Service and ADH Coverage Area",
-            "snippet": "Coverage may be restricted to the original country of purchase; multiple damage claims outside this area may not be covered."
+            "section": "4.2(ii)(d)",
+            "snippet": "Plan does not apply if service was performed by anyone other than Apple or an Apple Authorized Service Provider."
+          },
+          {
+            "section": "7(iii)",
+            "snippet": "Customer must provide detailed information including serial number and history relevant to coverage evaluation."
           }
         ],
-        "reasoning": "The policy states a limit of two Service Events for ADH, but multiple claims for different damage types within the same period create tension about whether the limit resets or is cumulative, requiring clarification on damage classification and geographic coverage.",
+        "reasoning": "Battery replacement claim is valid per section 3.1 if capacity <50%. However, section 4.2(ii)(d) excludes coverage if unauthorized repair altered the device, creating tension. Detailed device history is required to determine if the earlier unauthorized repair disqualifies this claim or if battery degradation alone qualifies. The service fee does not apply to battery degradation claims. Apple must evaluate the device’s condition and repair history to exercise discretion.",
         "customer_data": {
           "device": "iPhone 14 Pro Max (512 GB)",
-          "plan_agreement_number": "APLCARE-987654321",
-          "serial_number": "F4L9Q2M8N7C4",
-          "phone_number": "+1-303-555-0199"
+          "plan_agreement_number": "APLCARE-5947382010",
+          "serial_number": "G6N4H9K2L1R7",
+          "phone_number": "+1-415-555-0199"
+        }
+      },
+      {
+        "id": "EC-20250926T151944Z-02",
+        "title": "Battery degradation claim shortly after unauthorized battery replacement",
+        "description": "Customer reports battery capacity has depleted over 50% from original specifications but previously had the battery replaced by a third-party repair service not authorized by Apple within the Plan Term.",
+        "claim_type": "battery_degradation",
+        "ground_truth": "edge_case",
+        "service_fee": {
+          "applies": "no",
+          "amount": 0,
+          "currency": "USD",
+          "notes": "Service fee does not apply for battery capacity claims under hardware service coverage."
+        },
+        "counts_toward_adh_limit": "no",
+        "policy_references": [
+          {
+            "section": "3.1 Hardware Service",
+            "snippet": "Coverage for battery capacity depleted 50% or more from original specifications."
+          },
+          {
+            "section": "4.2(ii)(d)",
+            "snippet": "Plan does not apply if service was performed by anyone other than Apple or an Apple Authorized Service Provider."
+          }
+        ],
+        "reasoning": "While section 3.1 covers battery capacity degradation claims, section 4.2(ii)(d) excludes coverage if prior service was unauthorized. This conflict requires judgment to determine eligibility since the battery was replaced by a third party, potentially causing the depletion. Apple will need customer confirmation, prior service records, and battery diagnostics to resolve coverage. No service fee applies if claim is approved under hardware service, but lack of authorized repair may deny coverage.",
+        "customer_data": {
+          "device": "iPhone 14 Pro Max (512 GB)",
+          "plan_agreement_number": "APLCARE-7593184265",
+          "serial_number": "G7J9L3V2Q1Y8",
+          "phone_number": "+1-415-555-0199"
+        }
+      },
+      {
+        "id": "EC-20250926T151944Z-03",
+        "title": "Claim for a defect discovered after plan purchase but device bought abroad",
+        "description": "Customer purchased an iPhone overseas without AppleCare+, then bought AppleCare+ after returning to the U.S. Shortly after, a hardware defect unrelated to accidental damage is reported. The defect arose before AppleCare+ purchase but was only discovered later.",
+        "claim_type": "pre_existing_condition_ambiguity",
+        "ground_truth": "edge_case",
+        "service_fee": {
+          "applies": "no",
+          "amount": 0,
+          "currency": "USD",
+          "notes": "No ADH claimed; service fee not applicable."
+        },
+        "counts_toward_adh_limit": "no",
+        "policy_references": [
+          {
+            "section": "3.1 Hardware Service",
+            "snippet": "Coverage applies to defects arising during the Plan Term."
+          },
+          {
+            "section": "4.2(viii)",
+            "snippet": "The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased the Plan after you purchased the Covered iPhone."
+          },
+          {
+            "section": "4.1",
+            "snippet": "Apple may restrict hardware service and ADH coverage to the Covered iPhone’s original Country of Purchase."
+          }
+        ],
+        "reasoning": "The defect likely qualifies as a pre-existing condition because it arose before the AppleCare+ plan was purchased (section 4.2(viii)), which typically excludes coverage. However, the device was purchased abroad and the plan was bought after return to the U.S., creating tension with country coverage restrictions in section 4.1. The defect is not accidental damage, so no service fee applies and ADH limits are unaffected. Verifying when the defect became apparent and the exact purchase dates is critical to apply the exclusion properly. Further customer data and proof of original purchase dates will be needed to resolve coverage eligibility.",
+        "customer_data": {
+          "device": "iPhone 14 Pro Max (512 GB)",
+          "plan_agreement_number": "APLCARE-5538792104",
+          "serial_number": "F7G9J2P1L3Q8",
+          "phone_number": "+1-415-555-2368"
+        }
+      },
+      {
+        "id": "EC-20250926T151944Z-04",
+        "title": "Claim for battery capacity depletion after unauthorized software modification",
+        "description": "Customer reports battery capacity depleted over 50% from original specification after installing unofficial software that modifies device performance and power management.",
+        "claim_type": "battery_degradation_software_modification",
+        "ground_truth": "edge_case",
+        "service_fee": {
+          "applies": "no",
+          "amount": 0,
+          "currency": "USD",
+          "notes": "No ADH service fee applies as claim is based on battery capacity rather than accidental damage."
+        },
+        "counts_toward_adh_limit": "no",
+        "policy_references": [
+          {
+            "section": "3.1 Hardware Service",
+            "snippet": "Coverage includes repair or exchange if battery capacity depleted 50% or more from original specifications."
+          },
+          {
+            "section": "4.2(ii)(c)",
+            "snippet": "Plan does not apply to damage caused by operating the Covered iPhone outside the permitted or intended uses described by the manufacturer."
+          },
+          {
+            "section": "4.2(iii)",
+            "snippet": "Plan does not apply to an iPhone with a serial number that has been modified to alter functionality or capability without written permission."
+          }
+        ],
+        "reasoning": "Battery capacity depletion is covered if due to defect or normal use (3.1), but here the unauthorized software modification alters device functionality and power management (4.2(ii)(c) and 4.2(iii)). This creates tension because while battery degradation threshold is met, the cause is an unsupported modification rather than a manufacturing defect. Apple must verify device software state and confirm no hardware defect unrelated to modification before approving the claim. Service fee does not apply as this is not an ADH claim, and claim does not count toward ADH limit. Customer input on software modification history and device diagnostics is needed to resolve coverage.",
+        "customer_data": {
+          "device": "iPhone 15 Pro Max (512 GB)",
+          "plan_agreement_number": "APLCARE-5214789630",
+          "serial_number": "G7Y2T9R6Q1X5",
+          "phone_number": "+1-415-555-0199"
         }
       }
     ]
