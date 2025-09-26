@@ -1,0 +1,40 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250926T111329Z-01",
+      "title": "Device fails after third accidental damage event within plan term",
+      "description": "Customer reports a third accidental damage incident (a drop resulting in a cracked screen and loss of touch functionality) during the AppleCare+ plan term, after already having two prior ADH claims approved and serviced. The customer requests another repair, citing that the plan term has not yet expired.",
+      "claim_type": "adh_limit_exceeded",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "not_applicable_if_denied",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee would apply if claim is accepted, but policy restricts to two ADH events."
+      },
+      "counts_toward_adh_limit": "not_applicable_if_denied",
+      "policy_references": [
+        {
+          "section": "3.2 ADH",
+          "snippet": "ADH coverage will expire and all of Apple’s obligations to you under this section 3.2 will be fulfilled in its entirety before the end of the Plan Term when Apple, as a result of ADH claims, has provided to you two (2) Service Events."
+        },
+        {
+          "section": "2. When Coverage Begins and Ends",
+          "snippet": "Coverage ends twenty-four (24) months from the date of retail purchase of your original iPhone ('Plan Term')."
+        }
+      ],
+      "reasoning": "The policy clearly limits ADH coverage to two events, but does not explicitly address what happens if a third accidental damage occurs within the plan term. The customer is within the time period of coverage but has exhausted the ADH event limit, creating a tension between the plan duration and the event cap. Apple would need to confirm the count of prior ADH claims and explain to the customer why further ADH service is not available, referencing Section 3.2.",
+      "customer_data": {
+        "device": "iPhone 14 Pro (128 GB)",
+        "plan_agreement_number": "APLCARE-4820135792",
+        "serial_number": "G6X2L9M3Q8V7",
+        "phone_number": "+1-415-555-0192"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

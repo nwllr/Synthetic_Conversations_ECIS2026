@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 
 type FormState = {
@@ -100,6 +100,1011 @@ type GeneratorEvent =
   | { type: "error"; data: WarningEntry }
   | { type: "done"; data: { runId: string; outputDir: string; total: number; generated: number; errors: number; stdout?: string; stderr?: string; conversations?: ConversationRecord[]; scenariosGenerated?: number; scenarios?: ScenarioRecord[] } }
   | { type: "fatal"; data: FatalPayload & { scenariosGenerated?: number; scenarios?: ScenarioRecord[] } };
+
+type EmbeddingCacheEntry = {
+  fingerprint: string;
+  vector: number[];
+};
+
+type EmbeddingItem = {
+  id: string;
+  label: string;
+  labelKey: string;
+  title: string;
+  description: string;
+  text: string;
+  fingerprint: string;
+};
+
+type EmbeddingApiResult = {
+  id: string;
+  embedding: number[];
+};
+
+type SemanticPoint = {
+  id: string;
+  label: string;
+  labelKey: string;
+  title: string;
+  description: string;
+  x: number;
+  y: number;
+};
+
+type NormalizedSemanticPoint = SemanticPoint & {
+  xPct: number;
+  yPct: number;
+};
+
+type EvaluationDashboardProps = {
+  scenarios: ScenarioRecord[];
+  conversations: ConversationRecord[];
+};
+
+type CoverageListProps = {
+  title: string;
+  total: number;
+  entries: CoverageGroup[];
+  formatter?: (label: string) => string;
+};
+
+type WordStatsBlockProps = {
+  title: string;
+  stats: WordStats;
+  itemCount: number;
+  extraDetails?: (string | undefined)[];
+};
+
+type SemanticLayoutState = {
+  loading: boolean;
+  error: string | null;
+  points: SemanticPoint[];
+  varianceExplained: number[];
+};
+
+type CoverageGroup = {
+  label: string;
+  count: number;
+  percentage: number;
+};
+
+type WordStats = {
+  totalTokens: number;
+  uniqueTokens: number;
+  lexicalDiversity: number;
+  averagePerItem: number;
+  medianPerItem: number;
+  entropy: number;
+  uniqueBigrams: number;
+  topTokens: { token: string; count: number }[];
+  topBigrams: { bigram: string; count: number }[];
+};
+
+const LABEL_COLOR_MAP: Record<string, string> = {
+  covered: "#2563eb",
+  not_covered: "#ef4444",
+  edge_case: "#f97316",
+};
+
+const LABEL_DISPLAY_MAP: Record<string, string> = {
+  covered: "Covered",
+  not_covered: "Not Covered",
+  edge_case: "Edge Case",
+};
+
+const WORD_STATS_EMPTY: WordStats = {
+  totalTokens: 0,
+  uniqueTokens: 0,
+  lexicalDiversity: 0,
+  averagePerItem: 0,
+  medianPerItem: 0,
+  entropy: 0,
+  uniqueBigrams: 0,
+  topTokens: [],
+  topBigrams: [],
+};
+
+const clamp01 = (value: number) => {
+  if (!Number.isFinite(value)) return 0;
+  if (value < 0) return 0;
+  if (value > 1) return 1;
+  return value;
+};
+
+const formatNumber = (value: number, fractionDigits = 1) => {
+  if (!Number.isFinite(value)) {
+    return (0).toFixed(fractionDigits);
+  }
+  return value.toFixed(fractionDigits);
+};
+
+const formatPercent = (value: number) => {
+  if (!Number.isFinite(value)) return "0%";
+  return `${(value * 100).toFixed(1)}%`;
+};
+
+const normalizeLabelKey = (value?: string) => {
+  if (!value) return "unlabeled";
+  const normalized = value
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+  return normalized || "unlabeled";
+};
+
+const humanizeKey = (value: string) => {
+  return value
+    .split(/[_\s]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+};
+
+const getLabelColor = (labelKey: string) => LABEL_COLOR_MAP[labelKey] ?? "#6b7280";
+
+const toDisplayLabel = (labelKey: string, fallback?: string) => LABEL_DISPLAY_MAP[labelKey] ?? fallback ?? humanizeKey(labelKey);
+
+const tokenizeWords = (text: string): string[] => {
+  if (!text) return [];
+  const matches = text.toLowerCase().match(/[a-z0-9']+/g);
+  return matches ? matches : [];
+};
+
+const computeMedian = (values: number[]): number => {
+  if (values.length === 0) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  if (sorted.length % 2 === 0) {
+    return (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+  return sorted[mid];
+};
+
+const computeEntropy = (counts: Map<string, number>, total: number): number => {
+  if (total <= 0) return 0;
+  let entropy = 0;
+  counts.forEach((count) => {
+    const probability = count / total;
+    if (probability > 0) {
+      entropy -= probability * Math.log2(probability);
+    }
+  });
+  return entropy;
+};
+
+const countsToArray = (counts: Map<string, number>, total: number): CoverageGroup[] => {
+  return Array.from(counts.entries())
+    .map(([label, count]) => ({
+      label,
+      count,
+      percentage: total > 0 ? count / total : 0,
+    }))
+    .sort((a, b) => b.count - a.count);
+};
+
+const computeWordStats = (texts: string[]): WordStats => {
+  if (!texts.length) {
+    return { ...WORD_STATS_EMPTY };
+  }
+
+  const tokenCounts = new Map<string, number>();
+  const bigramCounts = new Map<string, number>();
+  const lengths: number[] = [];
+  let totalTokens = 0;
+
+  texts.forEach((text) => {
+    const tokens = tokenizeWords(text);
+    lengths.push(tokens.length);
+    totalTokens += tokens.length;
+
+    tokens.forEach((token) => {
+      tokenCounts.set(token, (tokenCounts.get(token) ?? 0) + 1);
+    });
+
+    for (let idx = 0; idx < tokens.length - 1; idx += 1) {
+      const bigram = `${tokens[idx]} ${tokens[idx + 1]}`;
+      bigramCounts.set(bigram, (bigramCounts.get(bigram) ?? 0) + 1);
+    }
+  });
+
+  const uniqueTokens = tokenCounts.size;
+  const lexicalDiversity = totalTokens > 0 ? uniqueTokens / totalTokens : 0;
+  const averagePerItem = totalTokens / texts.length;
+  const medianPerItem = computeMedian(lengths);
+  const entropy = computeEntropy(tokenCounts, totalTokens);
+  const uniqueBigrams = bigramCounts.size;
+
+  const topTokens = Array.from(tokenCounts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8)
+    .map(([token, count]) => ({ token, count }));
+
+  const topBigrams = Array.from(bigramCounts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([bigram, count]) => ({ bigram, count }));
+
+  return {
+    totalTokens,
+    uniqueTokens,
+    lexicalDiversity,
+    averagePerItem,
+    medianPerItem,
+    entropy,
+    uniqueBigrams,
+    topTokens,
+    topBigrams,
+  };
+};
+
+function dotProduct(a: number[], b: number[]): number {
+  const length = Math.min(a.length, b.length);
+  let sum = 0;
+  for (let idx = 0; idx < length; idx += 1) {
+    sum += a[idx] * b[idx];
+  }
+  return sum;
+}
+
+function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardProps) {
+  const scenarioRecords = useMemo(
+    () => scenarios.filter((record): record is ScenarioRecord => Boolean(record?.scenario)),
+    [scenarios]
+  );
+  const conversationRecords = useMemo(
+    () => conversations.filter((record): record is ConversationRecord => Boolean(record)),
+    [conversations]
+  );
+
+  const embeddingCacheRef = useRef<Map<string, EmbeddingCacheEntry>>(new Map());
+  const [semanticState, setSemanticState] = useState<SemanticLayoutState>({
+    loading: false,
+    error: null,
+    points: [],
+    varianceExplained: [],
+  });
+
+  const embeddingItems = useMemo<EmbeddingItem[]>(() => {
+    return scenarioRecords
+      .map((record, idx) => {
+        const scenario = record?.scenario ?? {};
+        const scenarioId =
+          typeof scenario.id === "string" && scenario.id.trim()
+            ? scenario.id.trim()
+            : `Scenario-${typeof record.index === "number" ? record.index : idx}`;
+        const title =
+          typeof scenario.title === "string" && scenario.title.trim()
+            ? scenario.title.trim()
+            : "Untitled scenario";
+        const description = typeof scenario.description === "string" ? scenario.description : "";
+        const labelRaw = record.label ?? scenario.ground_truth ?? "Unlabeled";
+        const labelKey = normalizeLabelKey(typeof labelRaw === "string" ? labelRaw : String(labelRaw));
+        const segments: string[] = [title, description];
+        if (typeof scenario.reasoning === "string") segments.push(scenario.reasoning);
+        if (typeof scenario.claim_type === "string") segments.push(`Claim type: ${scenario.claim_type}`);
+        if (Array.isArray(scenario.policy_references)) {
+          scenario.policy_references.slice(0, 4).forEach((ref: any) => {
+            if (ref && typeof ref.snippet === "string" && ref.snippet.trim()) {
+              segments.push(ref.snippet);
+            }
+          });
+        }
+        const combined = segments.filter(Boolean).join(". ");
+        const truncated = combined.length > 8000 ? combined.slice(0, 8000) : combined;
+        return {
+          id: scenarioId,
+          label: typeof labelRaw === "string" ? labelRaw : String(labelRaw ?? "Unlabeled"),
+          labelKey,
+          title,
+          description,
+          text: truncated,
+          fingerprint: `${scenarioId}::${truncated}`,
+        };
+      })
+      .filter((item) => item.text.trim().length > 0);
+  }, [scenarioRecords]);
+
+  useEffect(() => {
+    if (scenarioRecords.length === 0) {
+      embeddingCacheRef.current.clear();
+      setSemanticState({ loading: false, error: null, points: [], varianceExplained: [] });
+    }
+  }, [scenarioRecords.length]);
+
+  useEffect(() => {
+    if (embeddingItems.length === 0) {
+      setSemanticState({ loading: false, error: null, points: [], varianceExplained: [] });
+      return;
+    }
+
+    const cache = embeddingCacheRef.current;
+    const missing = embeddingItems.filter((item) => {
+      const cached = cache.get(item.id);
+      return !cached || cached.fingerprint !== item.fingerprint;
+    });
+
+    if (missing.length === 0) {
+      const { points, varianceExplained } = buildSemanticPoints(embeddingItems, cache);
+      setSemanticState({ loading: false, error: null, points, varianceExplained });
+      return;
+    }
+
+    let cancelled = false;
+    const controller = new AbortController();
+
+    const fetchChunk = async (chunk: EmbeddingItem[]) => {
+      const response = await fetch("/api/scenario-embeddings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: chunk.map((item) => ({ id: item.id, text: item.text })),
+        }),
+        signal: controller.signal,
+      });
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || `Embedding request failed (${response.status})`);
+      }
+      const payload = await response.json();
+      const results = Array.isArray(payload?.results) ? (payload.results as EmbeddingApiResult[]) : [];
+      const chunkMap = new Map(chunk.map((item) => [item.id, item]));
+      results.forEach((result) => {
+        if (!result || typeof result.id !== "string" || !Array.isArray(result.embedding)) return;
+        const target = chunkMap.get(result.id);
+        if (!target) return;
+        cache.set(result.id, {
+          fingerprint: target.fingerprint,
+          vector: result.embedding,
+        });
+      });
+    };
+
+    const run = async () => {
+      try {
+        setSemanticState((prev) => ({ ...prev, loading: true, error: null }));
+        const CHUNK_SIZE = 64;
+        for (let start = 0; start < missing.length; start += CHUNK_SIZE) {
+          if (cancelled) return;
+          const chunk = missing.slice(start, start + CHUNK_SIZE);
+          await fetchChunk(chunk);
+        }
+        if (cancelled) return;
+        const { points, varianceExplained } = buildSemanticPoints(embeddingItems, cache);
+        setSemanticState({ loading: false, error: null, points, varianceExplained });
+      } catch (err: any) {
+        if (cancelled) return;
+        setSemanticState((prev) => ({
+          ...prev,
+          loading: false,
+          error: err?.message ?? "Failed to compute embeddings",
+        }));
+      }
+    };
+
+    run();
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
+  }, [embeddingItems]);
+
+  const normalizedPoints = useMemo<NormalizedSemanticPoint[]>(() => {
+    if (!semanticState.points.length) return [];
+    const xs = semanticState.points.map((point) => point.x);
+    const ys = semanticState.points.map((point) => point.y);
+    const xMin = Math.min(...xs);
+    const xMax = Math.max(...xs);
+    const yMin = Math.min(...ys);
+    const yMax = Math.max(...ys);
+    const xRange = xMax - xMin || 1;
+    const yRange = yMax - yMin || 1;
+    return semanticState.points.map((point) => ({
+      ...point,
+      xPct: ((point.x - xMin) / xRange) * 100,
+      yPct: (1 - (point.y - yMin) / yRange) * 100,
+    }));
+  }, [semanticState.points]);
+
+  const legendEntries = useMemo(
+    () =>
+      semanticState.points.length === 0
+        ? []
+        : Array.from(
+            semanticState.points.reduce((acc, point) => {
+              const current = acc.get(point.labelKey);
+              if (current) {
+                current.count += 1;
+              } else {
+                acc.set(point.labelKey, { label: point.label, count: 1 });
+              }
+              return acc;
+            }, new Map<string, { label: string; count: number }>())
+          )
+            .map(([labelKey, value]) => ({
+              labelKey,
+              label: value.label,
+              count: value.count,
+            }))
+            .sort((a, b) => b.count - a.count),
+    [semanticState.points]
+  );
+
+  const varianceSummary = useMemo(() => {
+    if (!semanticState.varianceExplained.length) return null;
+    const primary = clamp01(semanticState.varianceExplained[0] ?? 0);
+    const secondary = clamp01(semanticState.varianceExplained[1] ?? 0);
+    return `Variance: PC1 ${formatPercent(primary)}, PC2 ${formatPercent(secondary)}`;
+  }, [semanticState.varianceExplained]);
+
+  const coverageSummary = useMemo(() => {
+    const labelCounts = new Map<string, number>();
+    const claimCounts = new Map<string, number>();
+    const serviceCounts = new Map<string, number>();
+
+    scenarioRecords.forEach((record) => {
+      const scenario = record.scenario ?? {};
+      const labelKey = normalizeLabelKey(record.label ?? scenario.ground_truth ?? "unlabeled");
+      labelCounts.set(labelKey, (labelCounts.get(labelKey) ?? 0) + 1);
+
+      const claimType =
+        typeof scenario.claim_type === "string" && scenario.claim_type.trim()
+          ? scenario.claim_type.trim()
+          : "Unspecified";
+      claimCounts.set(claimType, (claimCounts.get(claimType) ?? 0) + 1);
+
+      const serviceState = scenario?.service_fee?.applies;
+      let serviceKey = "unspecified";
+      if (typeof serviceState === "boolean") {
+        serviceKey = serviceState ? "service fee applies" : "service fee waived";
+      } else if (typeof serviceState === "string" && serviceState.trim()) {
+        serviceKey = serviceState.trim();
+      }
+      serviceCounts.set(serviceKey, (serviceCounts.get(serviceKey) ?? 0) + 1);
+    });
+
+    const personaCounts = new Map<string, number>();
+    const conversationLengths: number[] = [];
+    let endedWithinLimit = 0;
+
+    conversationRecords.forEach((conversation) => {
+      const length = Array.isArray(conversation.messages) ? conversation.messages.length : 0;
+      if (length > 0) {
+        conversationLengths.push(length);
+      }
+      if (conversation.ended_within_turn_limit) {
+        endedWithinLimit += 1;
+      }
+      const persona = conversation.persona ?? {};
+      const personaLabel =
+        typeof persona.name === "string" && persona.name.trim()
+          ? persona.name.trim()
+          : typeof persona["occupation category"] === "string" && persona["occupation category"].trim()
+          ? persona["occupation category"].trim()
+          : typeof persona.occupation === "string" && persona.occupation.trim()
+          ? persona.occupation.trim()
+          : undefined;
+      if (personaLabel) {
+        personaCounts.set(personaLabel, (personaCounts.get(personaLabel) ?? 0) + 1);
+      }
+    });
+
+    const averageTurns =
+      conversationLengths.length > 0
+        ? conversationLengths.reduce((sum, value) => sum + value, 0) / conversationLengths.length
+        : 0;
+
+    return {
+      totalScenarios: scenarioRecords.length,
+      totalConversations: conversationRecords.length,
+      labels: countsToArray(labelCounts, scenarioRecords.length),
+      claimTypes: countsToArray(claimCounts, scenarioRecords.length),
+      serviceStates: countsToArray(serviceCounts, scenarioRecords.length),
+      personaOccupations: countsToArray(personaCounts, conversationRecords.length),
+      endedWithinLimit,
+      averageTurns,
+      medianTurns: computeMedian(conversationLengths),
+    };
+  }, [scenarioRecords, conversationRecords]);
+
+  const scenarioTexts = useMemo(() => {
+    return scenarioRecords
+      .map((record) => {
+        const scenario = record.scenario ?? {};
+        const parts: string[] = [];
+        if (typeof scenario.title === "string") parts.push(scenario.title);
+        if (typeof scenario.description === "string") parts.push(scenario.description);
+        if (typeof scenario.reasoning === "string") parts.push(scenario.reasoning);
+        return parts.filter(Boolean).join(" ");
+      })
+      .filter((text) => text.trim().length > 0);
+  }, [scenarioRecords]);
+
+  const conversationTexts = useMemo(() => {
+    const texts: string[] = [];
+    conversationRecords.forEach((conversation) => {
+      conversation.messages?.forEach((message) => {
+        const candidate = message?.text ?? message?.raw_text;
+        if (typeof candidate === "string" && candidate.trim()) {
+          texts.push(candidate);
+        }
+      });
+    });
+    return texts;
+  }, [conversationRecords]);
+
+  const scenarioWordStats = useMemo(() => computeWordStats(scenarioTexts), [scenarioTexts]);
+  const conversationWordStats = useMemo(() => computeWordStats(conversationTexts), [conversationTexts]);
+
+  const uniqueOpenings = useMemo(() => {
+    const openings = new Set<string>();
+    conversationRecords.forEach((conversation) => {
+      const first = conversation.messages?.[0]?.text;
+      if (typeof first === "string" && first.trim()) {
+        openings.add(first.trim());
+      }
+    });
+    return openings.size;
+  }, [conversationRecords]);
+
+  if (!scenarioRecords.length) {
+    return null;
+  }
+
+  return (
+    <section
+      style={{
+        marginTop: 32,
+        padding: 24,
+        border: "1px solid #e2e8f0",
+        borderRadius: 12,
+        background: "#f8fafc",
+      }}
+    >
+      <h2 style={{ marginTop: 0, marginBottom: 12 }}>Automatic Evaluation</h2>
+      <p style={{ marginTop: 0, marginBottom: 24, color: "#475569", maxWidth: 760 }}>
+        Quick analytics over the latest run to understand semantic coverage, taxonomy balance, and language variety across the generated assets.
+      </p>
+
+      <div style={{ display: "grid", gap: 24 }}>
+        <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: 20, background: "#ffffff" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              flexWrap: "wrap",
+              gap: 12,
+            }}
+          >
+            <h3 style={{ margin: 0 }}>Semantic Layout</h3>
+            <span style={{ fontSize: 13, color: "#64748b" }}>
+              {semanticState.loading ? "Computing embeddings…" : `${semanticState.points.length} scenarios`}
+            </span>
+          </div>
+          <p style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
+            Embeds scenario narratives and projects them into a two-dimensional map so you can spot dense clusters or outliers at a glance.
+          </p>
+
+          <div
+            style={{
+              position: "relative",
+              height: 320,
+              border: "1px dashed #cbd5f5",
+              borderRadius: 12,
+              background: "#f8fafc",
+              marginTop: 12,
+            }}
+          >
+            {semanticState.error ? (
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#b91c1c",
+                  fontSize: 13,
+                  padding: 16,
+                  textAlign: "center",
+                }}
+              >
+                {semanticState.error}
+              </div>
+            ) : normalizedPoints.length === 0 ? (
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#94a3b8",
+                  fontSize: 13,
+                }}
+              >
+                Waiting for embeddings…
+              </div>
+            ) : (
+              normalizedPoints.map((point) => (
+                <div
+                  key={point.id}
+                  title={`${point.title} • ${toDisplayLabel(point.labelKey, point.label)}`}
+                  style={{
+                    position: "absolute",
+                    left: `calc(${point.xPct}% - 6px)`,
+                    top: `calc(${point.yPct}% - 6px)`,
+                    width: 12,
+                    height: 12,
+                    borderRadius: "50%",
+                    background: getLabelColor(point.labelKey),
+                    border: "1px solid rgba(15,23,42,0.2)",
+                    boxShadow: "0 1px 3px rgba(15,23,42,0.25)",
+                  }}
+                />
+              ))
+            )}
+          </div>
+
+          <div style={{ marginTop: 12, display: "flex", flexWrap: "wrap", gap: 16, fontSize: 12, color: "#475569" }}>
+            {varianceSummary && <span>{varianceSummary}</span>}
+            {normalizedPoints.length < 2 && !semanticState.error && (
+              <span style={{ color: "#94a3b8" }}>Generate at least two scenarios to see the relative layout.</span>
+            )}
+          </div>
+
+          {legendEntries.length > 0 && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 16, marginTop: 14 }}>
+              {legendEntries.map((entry) => (
+                <div
+                  key={entry.labelKey}
+                  style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#475569" }}
+                >
+                  <span
+                    style={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      background: getLabelColor(entry.labelKey),
+                      display: "inline-block",
+                    }}
+                  />
+                  <span>
+                    {toDisplayLabel(entry.labelKey, entry.label)} ({entry.count})
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: 20, background: "#ffffff" }}>
+          <h3 style={{ marginTop: 0 }}>Coverage Dashboard</h3>
+          <p style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
+            Distribution across policy labels, claim types, and service fee states. Helps surface blind spots in the generated batch.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: 16,
+              marginTop: 16,
+            }}
+          >
+            <CoverageList
+              title="Scenario Labels"
+              total={coverageSummary.totalScenarios}
+              entries={coverageSummary.labels}
+              formatter={(label) => toDisplayLabel(label)}
+            />
+            <CoverageList
+              title="Claim Types"
+              total={coverageSummary.totalScenarios}
+              entries={coverageSummary.claimTypes}
+              formatter={(label) => humanizeKey(label)}
+            />
+            <CoverageList
+              title="Service Fee State"
+              total={coverageSummary.totalScenarios}
+              entries={coverageSummary.serviceStates}
+              formatter={(label) => humanizeKey(label)}
+            />
+          </div>
+
+          <div style={{ marginTop: 20 }}>
+            <h4 style={{ margin: "0 0 8px", fontSize: 14, color: "#0f172a" }}>Conversation Highlights</h4>
+            {coverageSummary.totalConversations === 0 ? (
+              <p style={{ fontSize: 13, color: "#94a3b8" }}>No simulated conversations yet.</p>
+            ) : (
+              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: "#475569", display: "grid", gap: 4 }}>
+                <li>Conversations: {coverageSummary.totalConversations}</li>
+                <li>
+                  Average turns: {formatNumber(coverageSummary.averageTurns, 1)} · Median: {formatNumber(coverageSummary.medianTurns, 0)}
+                </li>
+                <li>
+                  Stayed within turn limit: {coverageSummary.endedWithinLimit} (
+                  {formatPercent(
+                    coverageSummary.totalConversations
+                      ? coverageSummary.endedWithinLimit / coverageSummary.totalConversations
+                      : 0
+                  )}
+                  )
+                </li>
+                {coverageSummary.personaOccupations.slice(0, 3).map((entry) => (
+                  <li key={entry.label}>
+                    Persona signal: {entry.label} — {entry.count}
+                    {coverageSummary.totalConversations ? ` (${formatPercent(entry.percentage)})` : ""}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+
+        <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: 20, background: "#ffffff" }}>
+          <h3 style={{ marginTop: 0 }}>Linguistic Variety</h3>
+          <p style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
+            Lexical diversity, n-gram reuse, and other lightweight signals to ensure the content stays fresh.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: 16,
+              marginTop: 16,
+            }}
+          >
+            <WordStatsBlock title="Scenario Narratives" stats={scenarioWordStats} itemCount={scenarioRecords.length} />
+            <WordStatsBlock
+              title="Conversation Messages"
+              stats={conversationWordStats}
+              itemCount={conversationTexts.length}
+              extraDetails={[
+                coverageSummary.totalConversations ? `Avg turns: ${formatNumber(coverageSummary.averageTurns, 1)}` : undefined,
+                `Distinct openings: ${uniqueOpenings}`,
+              ]}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CoverageList({ title, total, entries, formatter }: CoverageListProps) {
+  const displayEntries = entries.slice(0, 5);
+  return (
+    <div>
+      <div style={{ fontWeight: 600, fontSize: 13, color: "#0f172a" }}>{title}</div>
+      {displayEntries.length === 0 ? (
+        <p style={{ fontSize: 12, color: "#94a3b8", marginTop: 4 }}>No data yet.</p>
+      ) : (
+        <ul style={{ margin: "8px 0 0", paddingLeft: 18, fontSize: 12, color: "#475569", display: "grid", gap: 4 }}>
+          {displayEntries.map((entry) => (
+            <li key={`${title}-${entry.label}`}>
+              {formatter ? formatter(entry.label) : entry.label}
+              {" "}— {entry.count}
+              {total > 0 ? ` (${formatPercent(entry.percentage)})` : ""}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function WordStatsBlock({ title, stats, itemCount, extraDetails }: WordStatsBlockProps) {
+  const topTokens = stats.topTokens.slice(0, 6);
+  const topBigrams = stats.topBigrams.slice(0, 3);
+
+  return (
+    <div>
+      <div style={{ fontWeight: 600, fontSize: 13, color: "#0f172a" }}>{title}</div>
+      <ul style={{ margin: "8px 0 0", paddingLeft: 18, fontSize: 12, color: "#475569", display: "grid", gap: 4 }}>
+        <li>Items: {itemCount}</li>
+        <li>
+          Words: {stats.totalTokens} · Unique: {stats.uniqueTokens}
+        </li>
+        <li>Lexical diversity: {formatPercent(stats.lexicalDiversity)}</li>
+        <li>Median length: {formatNumber(stats.medianPerItem, 0)} words</li>
+        <li>Entropy: {formatNumber(stats.entropy, 2)} bits</li>
+      </ul>
+
+      {extraDetails?.filter(Boolean).length ? (
+        <ul style={{ margin: "8px 0 0", paddingLeft: 18, fontSize: 12, color: "#475569", display: "grid", gap: 4 }}>
+          {extraDetails
+            .filter(Boolean)
+            .map((detail) => (
+              <li key={detail}>{detail}</li>
+            ))}
+        </ul>
+      ) : null}
+
+      {topTokens.length > 0 && (
+        <div style={{ marginTop: 10, fontSize: 12, color: "#475569" }}>
+          <span style={{ fontWeight: 600 }}>Top tokens:</span>{" "}
+          {topTokens.map((item) => `${item.token} (${item.count})`).join(", ")}
+        </div>
+      )}
+
+      {topBigrams.length > 0 && (
+        <div style={{ marginTop: 6, fontSize: 12, color: "#475569" }}>
+          <span style={{ fontWeight: 600 }}>Top bigrams:</span>{" "}
+          {topBigrams.map((item) => `${item.bigram} (${item.count})`).join(", ")}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function vectorNorm(values: number[]): number {
+  let sum = 0;
+  for (let idx = 0; idx < values.length; idx += 1) {
+    sum += values[idx] * values[idx];
+  }
+  return Math.sqrt(sum);
+}
+
+function principalComponent(vectors: number[][]): { component: number[]; eigenvalue: number } | null {
+  if (vectors.length === 0) return null;
+  const dimension = vectors[0]?.length ?? 0;
+  if (dimension === 0) return null;
+
+  let component = Array.from({ length: dimension }, () => Math.random() - 0.5);
+  let norm = vectorNorm(component);
+  if (norm === 0) {
+    component[0] = 1;
+    norm = 1;
+  }
+  component = component.map((value) => value / norm);
+
+  const maxIterations = 80;
+  const tolerance = 1e-6;
+
+  for (let iteration = 0; iteration < maxIterations; iteration += 1) {
+    const next = new Array(dimension).fill(0);
+    for (let rowIdx = 0; rowIdx < vectors.length; rowIdx += 1) {
+      const row = vectors[rowIdx];
+      const projection = dotProduct(row, component);
+      for (let dimIdx = 0; dimIdx < dimension; dimIdx += 1) {
+        next[dimIdx] += row[dimIdx] * projection;
+      }
+    }
+
+    const nextNorm = vectorNorm(next);
+    if (nextNorm === 0) {
+      return null;
+    }
+
+    const normalizedNext = next.map((value) => value / nextNorm);
+    let diff = 0;
+    for (let dimIdx = 0; dimIdx < dimension; dimIdx += 1) {
+      const delta = normalizedNext[dimIdx] - component[dimIdx];
+      diff += delta * delta;
+    }
+
+    component = normalizedNext;
+
+    if (diff < tolerance) {
+      break;
+    }
+  }
+
+  const firstNonZero = component.findIndex((value) => Math.abs(value) > 1e-8);
+  if (firstNonZero >= 0 && component[firstNonZero] < 0) {
+    component = component.map((value) => -value);
+  }
+
+  const projections = vectors.map((row) => dotProduct(row, component));
+  const eigenvalueNumerator = projections.reduce((sum, value) => sum + value * value, 0);
+  const eigenvalue = eigenvalueNumerator / Math.max(1, vectors.length - 1);
+
+  return { component, eigenvalue };
+}
+
+function computePca2D(vectors: number[][]): { coords: { x: number; y: number }[]; varianceExplained: number[] } {
+  if (!vectors.length) {
+    return { coords: [], varianceExplained: [] };
+  }
+
+  const dimension = vectors[0]?.length ?? 0;
+  if (dimension === 0) {
+    return { coords: vectors.map(() => ({ x: 0, y: 0 })), varianceExplained: [] };
+  }
+
+  const means = new Array(dimension).fill(0);
+  vectors.forEach((vector) => {
+    for (let idx = 0; idx < dimension; idx += 1) {
+      means[idx] += vector[idx];
+    }
+  });
+  for (let idx = 0; idx < dimension; idx += 1) {
+    means[idx] /= vectors.length;
+  }
+
+  const centered = vectors.map((vector) => {
+    const row = new Array(dimension);
+    for (let idx = 0; idx < dimension; idx += 1) {
+      row[idx] = vector[idx] - means[idx];
+    }
+    return row;
+  });
+
+  const totalVarianceNumerator = centered.reduce(
+    (sum, row) => sum + row.reduce((rowSum, value) => rowSum + value * value, 0),
+    0
+  );
+  const varianceDenominator = Math.max(1, vectors.length - 1);
+  const totalVariance = totalVarianceNumerator / varianceDenominator;
+
+  const working = centered.map((row) => row.slice());
+  const components: number[][] = [];
+  const eigenvalues: number[] = [];
+
+  for (let rank = 0; rank < 2; rank += 1) {
+    const result = principalComponent(working);
+    if (!result) break;
+    const { component, eigenvalue } = result;
+    components.push(component);
+    eigenvalues.push(eigenvalue);
+
+    for (let rowIdx = 0; rowIdx < working.length; rowIdx += 1) {
+      const projection = dotProduct(working[rowIdx], component);
+      for (let dimIdx = 0; dimIdx < dimension; dimIdx += 1) {
+        working[rowIdx][dimIdx] -= projection * component[dimIdx];
+      }
+    }
+  }
+
+  const coords = centered.map((row) => {
+    const x = components[0] ? dotProduct(row, components[0]) : 0;
+    const y = components[1] ? dotProduct(row, components[1]) : 0;
+    return { x, y };
+  });
+
+  const varianceExplained = totalVariance === 0 ? eigenvalues.map(() => 0) : eigenvalues.map((value) => value / totalVariance);
+
+  return { coords, varianceExplained };
+}
+
+function buildSemanticPoints(
+  items: EmbeddingItem[],
+  cache: Map<string, EmbeddingCacheEntry>
+): { points: SemanticPoint[]; varianceExplained: number[] } {
+  const itemsWithVectors = items
+    .map((item) => {
+      const cached = cache.get(item.id);
+      if (!cached || cached.fingerprint !== item.fingerprint || !Array.isArray(cached.vector)) {
+        return null;
+      }
+      return { item, vector: cached.vector };
+    })
+    .filter((entry): entry is { item: EmbeddingItem; vector: number[] } => Boolean(entry));
+
+  if (!itemsWithVectors.length) {
+    return { points: [], varianceExplained: [] };
+  }
+
+  const vectors = itemsWithVectors.map((entry) => entry.vector);
+  const { coords, varianceExplained } = computePca2D(vectors);
+
+  const points: SemanticPoint[] = itemsWithVectors.map((entry, idx) => ({
+    id: entry.item.id,
+    label: entry.item.label,
+    labelKey: entry.item.labelKey,
+    title: entry.item.title,
+    description: entry.item.description,
+    x: coords[idx]?.x ?? 0,
+    y: coords[idx]?.y ?? 0,
+  }));
+
+  return { points, varianceExplained };
+}
 
 const initialForm: FormState = {
   covered: "2",
@@ -951,6 +1956,11 @@ export default function GenerationPipelinePage() {
           )}
         </section>
       )}
+
+      {scenarioCount > 0 && (
+        <EvaluationDashboard scenarios={scenarios} conversations={conversations} />
+      )}
+
     </div>
   );
 }

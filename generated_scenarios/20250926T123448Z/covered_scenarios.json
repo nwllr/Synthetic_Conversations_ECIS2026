@@ -1,0 +1,63 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20250926T123448Z-01",
+      "title": "Screen Damage Due to Accidental Drop",
+      "description": "Customer reports cracked screen after accidental drop within 6 months of purchase; no prior damage or misuse.",
+      "claim_type": "accidental_damage",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies per ADH claim, as specified in policy section 3.2."
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "Apple will repair or replace the device following a valid ADH claim, with a service fee of $49 per claim."
+        }
+      ],
+      "reasoning": "The claim involves accidental damage caused by an external event (drop), which is explicitly covered under section 3.2, provided the customer has not exceeded two ADH claims during the Plan term.",
+      "customer_data": {
+        "device": "iPhone 13 Pro (512 GB)",
+        "plan_agreement_number": "APLCARE-987654321",
+        "serial_number": "F4LQW0H8N72Q",
+        "phone_number": "+1-202-555-0111"
+      }
+    },
+    {
+      "id": "COV-20250926T123448Z-02",
+      "title": "Battery Capacity Depletion",
+      "description": "Battery capacity has decreased to 45% of original after 14 months, exceeding the 50% threshold for coverage.",
+      "claim_type": "battery_depletion",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery depletion beyond 50% is covered under section 3.1 without service fee."
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "Battery capacity depleted fifty percent or more from original specifications qualifies for service at no charge."
+        }
+      ],
+      "reasoning": "The battery's capacity has declined to below 50%, which is explicitly covered under section 3.1, making the customer eligible for free replacement or repair of the battery.",
+      "customer_data": {
+        "device": "iPhone 12 (128 GB)",
+        "plan_agreement_number": "APLCARE-123456789",
+        "serial_number": "C3ZP1Q5KD8R",
+        "phone_number": "+1-202-555-0122"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-nano",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

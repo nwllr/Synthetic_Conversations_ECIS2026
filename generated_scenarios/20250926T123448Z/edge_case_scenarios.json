@@ -1,0 +1,40 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20250926T123448Z-01",
+      "title": "Multiple Damage Claims with Ambiguous Coverage",
+      "description": "Customer submits claims for both liquid damage and accidental drop on the same device within the Plan term, with conflicting policy interpretations about whether multiple Service Events exhaust ADH coverage.",
+      "claim_type": "multiple_damage_claims",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "yes",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Each ADH claim incurs a $49 fee; policy limits specify 2 Service Events, but ambiguity exists whether subsequent claims are covered if damage types overlap."
+      },
+      "counts_toward_adh_limit": "if_approved",
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage applies to an operational or mechanical failure caused by an external event, with a limit of two Service Events during the Plan term."
+        },
+        {
+          "section": "4.2 Hardware Service and ADH Coverage Area",
+          "snippet": "Coverage may be restricted to the original country of purchase; multiple damage claims outside this area may not be covered."
+        }
+      ],
+      "reasoning": "The policy states a limit of two Service Events for ADH, but multiple claims for different damage types within the same period create tension about whether the limit resets or is cumulative, requiring clarification on damage classification and geographic coverage.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-987654321",
+        "serial_number": "F4L9Q2M8N7C4",
+        "phone_number": "+1-303-555-0199"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-nano",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

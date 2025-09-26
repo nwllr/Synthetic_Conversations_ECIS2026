@@ -6,19 +6,19 @@
   },
   "generated_on": "20250926",
   "generator": {
-    "model": "gpt-4.1",
+    "model": "gpt-4.1-nano",
     "temperature": 0.35,
     "max_tokens": 2800,
     "attempted_count": 1,
-    "slug": "20250926T073947Z"
+    "slug": "20250926T123448Z"
   },
   "categories": {
     "not_covered": [
       {
-        "id": "NC-20250926T073947Z-01",
-        "title": "Damage from unauthorized repair attempt",
-        "description": "Customer attempted to replace the iPhone battery themselves, causing internal damage. Device no longer powers on after the repair attempt.",
-        "claim_type": "unauthorized_repair_damage",
+        "id": "NC-20250926T123448Z-01",
+        "title": "Device Damage Due to Unauthorized Modification",
+        "description": "Customer reports the iPhone has been physically altered or tampered with, resulting in malfunction.",
+        "claim_type": "hardware_damage",
         "ground_truth": "not_covered",
         "service_fee": {
           "applies": false,
@@ -28,20 +28,16 @@
         "counts_toward_adh_limit": false,
         "policy_references": [
           {
-            "section": "4.2(ii)(d)",
-            "snippet": "The Plan does not apply to damage caused by service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider (AASP)."
-          },
-          {
-            "section": "Important notice",
-            "snippet": "Do not open the Covered iPhone. Opening the Covered iPhone may cause damage that is not covered by this Plan."
+            "section": "4.2(iii)",
+            "snippet": "The Plan does not apply to an iPhone that has been modified to alter its functionality or capability without the written permission of the manufacturer."
           }
         ],
-        "reasoning": "The damage was caused by an unauthorized repair attempt, which is explicitly excluded from coverage under section 4.2(ii)(d). The policy also warns that opening the device may void coverage for resulting damage. No service fee applies and this does not count toward any accidental damage limits.",
+        "reasoning": "The device has been modified without authorization, which is explicitly excluded under section 4.2(iii). Therefore, the claim is not covered.",
         "customer_data": {
           "device": "iPhone 12 Pro (256 GB)",
-          "plan_agreement_number": "APLCARE-9988776655",
-          "serial_number": "G6Y8L2W9T3Q1",
-          "phone_number": "+1-415-555-0182"
+          "plan_agreement_number": "APLCARE-9876543210",
+          "serial_number": "C6L7N2K8R5T9",
+          "phone_number": "+1-202-555-0123"
         }
       }
     ]

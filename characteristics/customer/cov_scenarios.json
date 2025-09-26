@@ -6,43 +6,66 @@
   },
   "generated_on": "20250926",
   "generator": {
-    "model": "gpt-4.1",
+    "model": "gpt-4.1-nano",
     "temperature": 0.35,
     "max_tokens": 2800,
-    "attempted_count": 1,
-    "slug": "20250926T073947Z"
+    "attempted_count": 2,
+    "slug": "20250926T123448Z"
   },
   "categories": {
     "covered": [
       {
-        "id": "COV-20250926T073947Z-01",
-        "title": "Cracked screen from accidental drop — first ADH claim",
-        "description": "Customer accidentally drops their iPhone 15 on concrete, resulting in a cracked front display. This is the first accidental damage from handling (ADH) claim during the plan term.",
-        "claim_type": "accidental_damage_handling",
+        "id": "COV-20250926T123448Z-01",
+        "title": "Screen Damage Due to Accidental Drop",
+        "description": "Customer reports cracked screen after accidental drop within 6 months of purchase; no prior damage or misuse.",
+        "claim_type": "accidental_damage",
         "ground_truth": "covered",
         "service_fee": {
           "applies": true,
           "amount": 49,
           "currency": "USD",
-          "notes": "Standard ADH service fee applies for screen damage"
+          "notes": "Service fee applies per ADH claim, as specified in policy section 3.2."
         },
         "counts_toward_adh_limit": true,
         "policy_references": [
           {
             "section": "3.2 Accidental Damage from Handling",
-            "snippet": "If during the Plan Term you submit a valid claim notifying Apple that the Covered iPhone has failed due to accidental damage from handling ('ADH'), Apple will subject to the service fee described below either (i) repair the defect... or (ii) exchange the Covered iPhone..."
-          },
-          {
-            "section": "3.2 Accidental Damage from Handling",
-            "snippet": "You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim..."
+            "snippet": "Apple will repair or replace the device following a valid ADH claim, with a service fee of $49 per claim."
           }
         ],
-        "reasoning": "The cracked screen is a result of an unexpected and unintentional external event, which qualifies as accidental damage from handling under section 3.2. The claim is within the plan term and is the first ADH event, so coverage applies subject to the $49 service fee and the two-claim ADH limit.",
+        "reasoning": "The claim involves accidental damage caused by an external event (drop), which is explicitly covered under section 3.2, provided the customer has not exceeded two ADH claims during the Plan term.",
         "customer_data": {
-          "device": "iPhone 15 (128 GB)",
-          "plan_agreement_number": "APLCARE-9876543210",
-          "serial_number": "G6TQK1X9L4PW",
-          "phone_number": "+1-415-555-0198"
+          "device": "iPhone 13 Pro (512 GB)",
+          "plan_agreement_number": "APLCARE-987654321",
+          "serial_number": "F4LQW0H8N72Q",
+          "phone_number": "+1-202-555-0111"
+        }
+      },
+      {
+        "id": "COV-20250926T123448Z-02",
+        "title": "Battery Capacity Depletion",
+        "description": "Battery capacity has decreased to 45% of original after 14 months, exceeding the 50% threshold for coverage.",
+        "claim_type": "battery_depletion",
+        "ground_truth": "covered",
+        "service_fee": {
+          "applies": false,
+          "amount": 0,
+          "currency": "USD",
+          "notes": "Battery depletion beyond 50% is covered under section 3.1 without service fee."
+        },
+        "counts_toward_adh_limit": false,
+        "policy_references": [
+          {
+            "section": "3.1 Hardware Service",
+            "snippet": "Battery capacity depleted fifty percent or more from original specifications qualifies for service at no charge."
+          }
+        ],
+        "reasoning": "The battery's capacity has declined to below 50%, which is explicitly covered under section 3.1, making the customer eligible for free replacement or repair of the battery.",
+        "customer_data": {
+          "device": "iPhone 12 (128 GB)",
+          "plan_agreement_number": "APLCARE-123456789",
+          "serial_number": "C3ZP1Q5KD8R",
+          "phone_number": "+1-202-555-0122"
         }
       }
     ]

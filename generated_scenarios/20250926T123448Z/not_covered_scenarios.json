@@ -1,0 +1,35 @@
+{
+  "scenarios": [
+    {
+      "id": "NC-20250926T123448Z-01",
+      "title": "Device Damage Due to Unauthorized Modification",
+      "description": "Customer reports the iPhone has been physically altered or tampered with, resulting in malfunction.",
+      "claim_type": "hardware_damage",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(iii)",
+          "snippet": "The Plan does not apply to an iPhone that has been modified to alter its functionality or capability without the written permission of the manufacturer."
+        }
+      ],
+      "reasoning": "The device has been modified without authorization, which is explicitly excluded under section 4.2(iii). Therefore, the claim is not covered.",
+      "customer_data": {
+        "device": "iPhone 12 Pro (256 GB)",
+        "plan_agreement_number": "APLCARE-9876543210",
+        "serial_number": "C6L7N2K8R5T9",
+        "phone_number": "+1-202-555-0123"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-nano",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

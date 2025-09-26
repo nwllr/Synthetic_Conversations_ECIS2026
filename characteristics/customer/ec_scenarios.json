@@ -6,43 +6,43 @@
   },
   "generated_on": "20250926",
   "generator": {
-    "model": "gpt-4.1",
+    "model": "gpt-4.1-nano",
     "temperature": 0.35,
     "max_tokens": 2800,
     "attempted_count": 1,
-    "slug": "20250926T073947Z"
+    "slug": "20250926T123448Z"
   },
   "categories": {
     "edge_case": [
       {
-        "id": "EC-20250926T073947Z-01",
-        "title": "Claim for ADH after third-party screen replacement",
-        "description": "Customer requests accidental damage coverage for a cracked screen, but the iPhone previously had its display replaced by a non-Apple repair shop.",
-        "claim_type": "adh_with_prior_unauthorized_repair",
+        "id": "EC-20250926T123448Z-01",
+        "title": "Multiple Damage Claims with Ambiguous Coverage",
+        "description": "Customer submits claims for both liquid damage and accidental drop on the same device within the Plan term, with conflicting policy interpretations about whether multiple Service Events exhaust ADH coverage.",
+        "claim_type": "multiple_damage_claims",
         "ground_truth": "edge_case",
         "service_fee": {
-          "applies": "maybe",
+          "applies": "yes",
           "amount": 49,
           "currency": "USD",
-          "notes": "Fee applies if claim is accepted; claim may be denied due to prior unauthorized repair."
+          "notes": "Each ADH claim incurs a $49 fee; policy limits specify 2 Service Events, but ambiguity exists whether subsequent claims are covered if damage types overlap."
         },
         "counts_toward_adh_limit": "if_approved",
         "policy_references": [
           {
-            "section": "4.2(ii)(d)",
-            "snippet": "The Plan does not apply to service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider (AASP)."
+            "section": "3.2 Accidental Damage from Handling",
+            "snippet": "ADH coverage applies to an operational or mechanical failure caused by an external event, with a limit of two Service Events during the Plan term."
           },
           {
-            "section": "3.2 ADH",
-            "snippet": "ADH coverage applies to operational or mechanical failure caused by an accident from handling that arises from your normal daily usage."
+            "section": "4.2 Hardware Service and ADH Coverage Area",
+            "snippet": "Coverage may be restricted to the original country of purchase; multiple damage claims outside this area may not be covered."
           }
         ],
-        "reasoning": "The policy excludes coverage for devices serviced by non-Apple/non-AASP providers (4.2(ii)(d)), but the accidental damage itself is eligible under ADH (3.2) if the prior repair did not cause the current failure. Apple must determine if the unauthorized display replacement contributed to the current damage or if the new damage is unrelated. This creates an edge case requiring judgment.",
+        "reasoning": "The policy states a limit of two Service Events for ADH, but multiple claims for different damage types within the same period create tension about whether the limit resets or is cumulative, requiring clarification on damage classification and geographic coverage.",
         "customer_data": {
-          "device": "iPhone 14 Pro (128 GB)",
-          "plan_agreement_number": "APLCARE-5501983124",
-          "serial_number": "D1F7K9L2S8Q4",
-          "phone_number": "+1-415-555-0193"
+          "device": "iPhone 14 Pro Max (512 GB)",
+          "plan_agreement_number": "APLCARE-987654321",
+          "serial_number": "F4L9Q2M8N7C4",
+          "phone_number": "+1-303-555-0199"
         }
       }
     ]

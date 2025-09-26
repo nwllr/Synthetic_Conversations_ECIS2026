@@ -1,0 +1,153 @@
+{
+  "id": "EC-20250926T111329Z-01_20250926T111508Z",
+  "created_at": "2025-09-26T11:15:08.596125+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 0.7,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20250926T111329Z-01",
+    "title": "Device fails after third accidental damage event within plan term",
+    "description": "Customer reports a third accidental damage incident (a drop resulting in a cracked screen and loss of touch functionality) during the AppleCare+ plan term, after already having two prior ADH claims approved and serviced. The customer requests another repair, citing that the plan term has not yet expired.",
+    "claim_type": "adh_limit_exceeded",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "not_applicable_if_denied",
+      "amount": 49,
+      "currency": "USD",
+      "notes": "Service fee would apply if claim is accepted, but policy restricts to two ADH events."
+    },
+    "counts_toward_adh_limit": "not_applicable_if_denied",
+    "policy_references": [
+      {
+        "section": "3.2 ADH",
+        "snippet": "ADH coverage will expire and all of Apple’s obligations to you under this section 3.2 will be fulfilled in its entirety before the end of the Plan Term when Apple, as a result of ADH claims, has provided to you two (2) Service Events."
+      },
+      {
+        "section": "2. When Coverage Begins and Ends",
+        "snippet": "Coverage ends twenty-four (24) months from the date of retail purchase of your original iPhone ('Plan Term')."
+      }
+    ],
+    "reasoning": "The policy clearly limits ADH coverage to two events, but does not explicitly address what happens if a third accidental damage occurs within the plan term. The customer is within the time period of coverage but has exhausted the ADH event limit, creating a tension between the plan duration and the event cap. Apple would need to confirm the count of prior ADH claims and explain to the customer why further ADH service is not available, referencing Section 3.2.",
+    "customer_data": {
+      "device": "iPhone 14 Pro (128 GB)",
+      "plan_agreement_number": "APLCARE-4820135792",
+      "serial_number": "G6X2L9M3Q8V7",
+      "phone_number": "+1-415-555-0192"
+    }
+  },
+  "persona": {
+    "age": "53",
+    "ancestry": "English",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Average",
+      "Extraversion": "Low",
+      "Neuroticism": "Average",
+      "Openness": "High"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+    "defining quirks": "Enjoys collecting vintage coins",
+    "detailed job description": "Responsible for protecting an organization's computers, networks and data against threats, such as security breaches, computer viruses or attacks by cyber-criminals",
+    "disability": "None",
+    "education": "Bachelor's degree",
+    "employment status": "Civilian employed, at work",
+    "family presence and age": "With related children 5 to 17 years only",
+    "health insurance": "With health insurance coverage",
+    "household language": "Spanish",
+    "household type": "Married couple household with children of the householder less than 18",
+    "ideology": "Moderate",
+    "income": "187500.0",
+    "industry category": "FIN-Securities, Commodities, Funds, Trusts, And Other Financial Investments",
+    "lifestyle": "Active and family-oriented",
+    "mannerisms": "Often uses hand gestures while speaking",
+    "marital status": "Married",
+    "occupation category": "CMM-Information Security Analysts",
+    "personal time": "Spends free time with family or hiking",
+    "place of birth": "North Carolina/NC",
+    "political views": "Independent",
+    "race": "White alone",
+    "religion": "Religiously Unaffiliated",
+    "sex": "Male",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer reports a third accidental damage incident (a drop resulting in a cracked screen and loss of touch functionality) during the AppleCare+ plan term, after already having two prior ADH claims approved and serviced. The customer requests another repair, citing that the plan term has not yet expired.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro (128 GB)\",\n  \"plan_agreement_number\": \"APLCARE-4820135792\",\n  \"serial_number\": \"G6X2L9M3Q8V7\",\n  \"phone_number\": \"+1-415-555-0192\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"53\",\n  \"ancestry\": \"English\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Average\",\n    \"Extraversion\": \"Low\",\n    \"Neuroticism\": \"Average\",\n    \"Openness\": \"High\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions\",\n  \"defining quirks\": \"Enjoys collecting vintage coins\",\n  \"detailed job description\": \"Responsible for protecting an organization's computers, networks and data against threats, such as security breaches, computer viruses or attacks by cyber-criminals\",\n  \"disability\": \"None\",\n  \"education\": \"Bachelor's degree\",\n  \"employment status\": \"Civilian employed, at work\",\n  \"family presence and age\": \"With related children 5 to 17 years only\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"Spanish\",\n  \"household type\": \"Married couple household with children of the householder less than 18\",\n  \"ideology\": \"Moderate\",\n  \"income\": \"187500.0\",\n  \"industry category\": \"FIN-Securities, Commodities, Funds, Trusts, And Other Financial Investments\",\n  \"lifestyle\": \"Active and family-oriented\",\n  \"mannerisms\": \"Often uses hand gestures while speaking\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"CMM-Information Security Analysts\",\n  \"personal time\": \"Spends free time with family or hiking\",\n  \"place of birth\": \"North Carolina/NC\",\n  \"political views\": \"Independent\",\n  \"race\": \"White alone\",\n  \"religion\": \"Religiously Unaffiliated\",\n  \"sex\": \"Male\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hello, I need to file a claim for my iPhone 14 Pro. Unfortunately, I dropped it and the screen cracked, and now the touch functionality is all messed up. This is actually the third time I've had accidental damage like this during my AppleCare+ plan term. I know I already had two repairs done, but the plan hasn't expired yet, so I'd like to request another repair. Can you help me with that?",
+      "raw_text": "Hello, I need to file a claim for my iPhone 14 Pro. Unfortunately, I dropped it and the screen cracked, and now the touch functionality is all messed up. This is actually the third time I've had accidental damage like this during my AppleCare+ plan term. I know I already had two repairs done, but the plan hasn't expired yet, so I'd like to request another repair. Can you help me with that?"
+    },
+    {
+      "speaker": "bot",
+      "text": "I can definitely help you with that. To get started, could you please provide me with your Plan Agreement Number or your iPhone 14 Pro's serial number? This will help me validate your coverage eligibility.",
+      "raw_text": "I can definitely help you with that. To get started, could you please provide me with your Plan Agreement Number or your iPhone 14 Pro's serial number? This will help me validate your coverage eligibility."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, my Plan Agreement Number is APLCARE-4820135792. The serial number of my iPhone 14 Pro is G6X2L9M3Q8V7. Let me know if you need any other details.",
+      "raw_text": "Sure, my Plan Agreement Number is APLCARE-4820135792. The serial number of my iPhone 14 Pro is G6X2L9M3Q8V7. Let me know if you need any other details."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing your Plan Agreement Number and serial number. Could you please describe the issue you're experiencing with your iPhone 14 Pro in a bit more detail? You mentioned the screen is cracked and touch functionality is affected—anything else you've noticed?",
+      "raw_text": "Thank you for providing your Plan Agreement Number and serial number. Could you please describe the issue you're experiencing with your iPhone 14 Pro in a bit more detail? You mentioned the screen is cracked and touch functionality is affected—anything else you've noticed?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yeah, the screen got cracked pretty bad from the drop, and now the touch doesn't respond at all in some areas, which makes it really hard to use. The display itself still shows up, but tapping or swiping just doesn’t work right. No other issues noticed so far, just the touch problem due to the cracked screen.",
+      "raw_text": "Yeah, the screen got cracked pretty bad from the drop, and now the touch doesn't respond at all in some areas, which makes it really hard to use. The display itself still shows up, but tapping or swiping just doesn’t work right. No other issues noticed so far, just the touch problem due to the cracked screen."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for the detailed description. To help with diagnostics, can you tell me the exact iOS version your iPhone 14 Pro is currently running? Also, have you connected any accessories or peripherals to it recently, or seen any error messages? Have you tried any troubleshooting steps like restarting or resetting the device?",
+      "raw_text": "Thanks for the detailed description. To help with diagnostics, can you tell me the exact iOS version your iPhone 14 Pro is currently running? Also, have you connected any accessories or peripherals to it recently, or seen any error messages? Have you tried any troubleshooting steps like restarting or resetting the device?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I'm running iOS 17.0 on it. I haven't connected any new accessories recently or seen any error messages related to this issue. I did try restarting the phone a couple of times, but it didn’t fix the touch problem. I haven’t done any resets yet since the screen is pretty cracked and I want to get it repaired first before messing with settings.",
+      "raw_text": "I'm running iOS 17.0 on it. I haven't connected any new accessories recently or seen any error messages related to this issue. I did try restarting the phone a couple of times, but it didn’t fix the touch problem. I haven’t done any resets yet since the screen is pretty cracked and I want to get it repaired first before messing with settings."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for confirming those details. Since this is accidental damage from a drop, could you please provide more information about the accident? For example, where and when did the drop happen, and how exactly did it occur? This helps us process the claim accurately.",
+      "raw_text": "Thanks for confirming those details. Since this is accidental damage from a drop, could you please provide more information about the accident? For example, where and when did the drop happen, and how exactly did it occur? This helps us process the claim accurately."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure. I dropped the phone yesterday afternoon while I was hiking with my family. I was holding it in one hand and slipped on a rock, so the phone fell onto a gravel path. The impact cracked the screen and messed up the touch functionality. It was an unfortunate accident, but the phone was definitely in my hand when it happened.",
+      "raw_text": "Sure. I dropped the phone yesterday afternoon while I was hiking with my family. I was holding it in one hand and slipped on a rock, so the phone fell onto a gravel path. The impact cracked the screen and messed up the touch functionality. It was an unfortunate accident, but the phone was definitely in my hand when it happened."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the accident details. Since this is your third accidental damage claim under this plan, I will proceed with filing your claim for the cracked screen and touch issues. Is there anything else you would like to mention or ask before I submit the claim?",
+      "raw_text": "Thank you for the accident details. Since this is your third accidental damage claim under this plan, I will proceed with filing your claim for the cracked screen and touch issues. Is there anything else you would like to mention or ask before I submit the claim?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that covers everything. I just want to make sure the repair can be done quickly because I rely on my phone for work and family communication. Thank you for your help. Please go ahead and submit the claim.",
+      "raw_text": "No, that covers everything. I just want to make sure the repair can be done quickly because I rely on my phone for work and family communication. Thank you for your help. Please go ahead and submit the claim."
+    },
+    {
+      "speaker": "bot",
+      "text": "Your claim for the iPhone 14 Pro screen damage will be processed promptly. If you need any further assistance or updates on the repair, don’t hesitate to reach out. Is there anything else I can assist you with today?",
+      "raw_text": "Your claim for the iPhone 14 Pro screen damage will be processed promptly. If you need any further assistance or updates on the repair, don’t hesitate to reach out. Is there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that will be all for now. Thanks again for your help. Have a great day!",
+      "raw_text": "No, that will be all for now. Thanks again for your help. Have a great day! <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}
