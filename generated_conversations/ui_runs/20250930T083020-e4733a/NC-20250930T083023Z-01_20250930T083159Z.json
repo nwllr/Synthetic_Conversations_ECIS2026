@@ -1,0 +1,138 @@
+{
+  "id": "NC-20250930T083023Z-01_20250930T083159Z",
+  "created_at": "2025-09-30T08:31:59.491472+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 1.0,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "not_covered",
+  "scenario": {
+    "id": "NC-20250930T083023Z-01",
+    "title": "Damage due to unauthorized repair",
+    "description": "Customer's iPhone experienced display malfunction after an unauthorized third-party repair attempt.",
+    "claim_type": "hardware_damage",
+    "ground_truth": "not_covered",
+    "service_fee": {
+      "applies": false,
+      "amount": 0,
+      "currency": "USD"
+    },
+    "counts_toward_adh_limit": false,
+    "policy_references": [
+      {
+        "section": "4.2(ii)(d)",
+        "snippet": "The Plan does not apply to service performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider."
+      }
+    ],
+    "reasoning": "The damage resulted from unauthorized service not performed by Apple or an AASP, rendering the claim invalid under exclusion 4.2(ii)(d). No service fee applies as coverage is denied.",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (256 GB)",
+      "plan_agreement_number": "APLCARE-9988776655",
+      "serial_number": "DX3V9Q2JFTLM",
+      "phone_number": "+1-415-555-2763"
+    }
+  },
+  "persona": {
+    "age": "22",
+    "ancestry": "Native Hawaiian",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "High",
+      "Extraversion": "High",
+      "Neuroticism": "Low",
+      "Openness": "High"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+    "defining quirks": "Passionate about nature conservation",
+    "detailed job description": "Oversees the work of non-retail sales workers",
+    "disability": "With a disability",
+    "education": "1 or more years of college credit, no degree",
+    "employment status": "Civilian employed, at work",
+    "family presence and age": "No family",
+    "health insurance": "With health insurance coverage",
+    "household language": "Spanish",
+    "household type": "Cohabiting couple household, no children of the householder less than 18",
+    "ideology": "Progressive",
+    "income": "52000.0",
+    "industry category": "FIN-Commercial, Industrial, And Other Intangible Assets Rental And Leasing",
+    "lifestyle": "Active and community-oriented",
+    "mannerisms": "Detail-oriented and meticulous",
+    "marital status": "Never married or under 15 years old",
+    "occupation category": "SAL-First-Line Supervisors Of Non-Retail Sales Workers",
+    "personal time": "Spends free time in nature or doing activities that promote peace and justice",
+    "place of birth": "California/CA",
+    "political views": "Democrat",
+    "race": "Native Hawaiian alone",
+    "religion": "Religiously Unaffiliated",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer's iPhone experienced display malfunction after an unauthorized third-party repair attempt.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (256 GB)\",\n  \"plan_agreement_number\": \"APLCARE-9988776655\",\n  \"serial_number\": \"DX3V9Q2JFTLM\",\n  \"phone_number\": \"+1-415-555-2763\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"22\",\n  \"ancestry\": \"Native Hawaiian\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"High\",\n    \"Extraversion\": \"High\",\n    \"Neuroticism\": \"Low\",\n    \"Openness\": \"High\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions\",\n  \"defining quirks\": \"Passionate about nature conservation\",\n  \"detailed job description\": \"Oversees the work of non-retail sales workers\",\n  \"disability\": \"With a disability\",\n  \"education\": \"1 or more years of college credit, no degree\",\n  \"employment status\": \"Civilian employed, at work\",\n  \"family presence and age\": \"No family\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"Spanish\",\n  \"household type\": \"Cohabiting couple household, no children of the householder less than 18\",\n  \"ideology\": \"Progressive\",\n  \"income\": \"52000.0\",\n  \"industry category\": \"FIN-Commercial, Industrial, And Other Intangible Assets Rental And Leasing\",\n  \"lifestyle\": \"Active and community-oriented\",\n  \"mannerisms\": \"Detail-oriented and meticulous\",\n  \"marital status\": \"Never married or under 15 years old\",\n  \"occupation category\": \"SAL-First-Line Supervisors Of Non-Retail Sales Workers\",\n  \"personal time\": \"Spends free time in nature or doing activities that promote peace and justice\",\n  \"place of birth\": \"California/CA\",\n  \"political views\": \"Democrat\",\n  \"race\": \"Native Hawaiian alone\",\n  \"religion\": \"Religiously Unaffiliated\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hi there! I need to file a claim for my iPhone 14 Pro Max. The display is malfunctioning after I had an unauthorized third-party repair attempt. Could you please help me with the next steps?",
+      "raw_text": "Hi there! I need to file a claim for my iPhone 14 Pro Max. The display is malfunctioning after I had an unauthorized third-party repair attempt. Could you please help me with the next steps?"
+    },
+    {
+      "speaker": "bot",
+      "text": "I’m here to help with your claim. Could you please provide the Plan Agreement Number or your iPhone 14 Pro Max’s serial number to verify your coverage?",
+      "raw_text": "I’m here to help with your claim. Could you please provide the Plan Agreement Number or your iPhone 14 Pro Max’s serial number to verify your coverage?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, my Plan Agreement Number is APLCARE-9988776655, and the serial number of my iPhone is DX3V9Q2JFTLM. Let me know if you need any other info.",
+      "raw_text": "Sure, my Plan Agreement Number is APLCARE-9988776655, and the serial number of my iPhone is DX3V9Q2JFTLM. Let me know if you need any other info."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the details. Could you please describe the symptoms or issues you’re experiencing with the display? For example, is the screen cracked, unresponsive, flickering, or showing other problems?",
+      "raw_text": "Thank you for the details. Could you please describe the symptoms or issues you’re experiencing with the display? For example, is the screen cracked, unresponsive, flickering, or showing other problems?"
+    },
+    {
+      "speaker": "customer",
+      "text": "The screen flickers sometimes and occasionally becomes unresponsive to touch. There's no crack, but the colors seem off and the display jitters randomly. It's been acting this way ever since the repair someone else did outside your authorized service centers. I’m pretty certain that caused it.",
+      "raw_text": "The screen flickers sometimes and occasionally becomes unresponsive to touch. There's no crack, but the colors seem off and the display jitters randomly. It's been acting this way ever since the repair someone else did outside your authorized service centers. I’m pretty certain that caused it."
+    },
+    {
+      "speaker": "bot",
+      "text": "I understand, thank you for the description. To better assist, could you please confirm the iPhone model, the iOS version currently installed, any peripherals you have attached, any error messages you've seen, and any troubleshooting steps you've already tried?",
+      "raw_text": "I understand, thank you for the description. To better assist, could you please confirm the iPhone model, the iOS version currently installed, any peripherals you have attached, any error messages you've seen, and any troubleshooting steps you've already tried?"
+    },
+    {
+      "speaker": "customer",
+      "text": "I have the iPhone 14 Pro Max with 256 GB. The iOS version is currently 17.2. No peripherals or accessories are attached now. No error messages have appeared on the screen. As for troubleshooting, I’ve tried restarting the phone multiple times and performing a soft reset, but the flickering and unresponsiveness persist.",
+      "raw_text": "I have the iPhone 14 Pro Max with 256 GB. The iOS version is currently 17.2. No peripherals or accessories are attached now. No error messages have appeared on the screen. As for troubleshooting, I’ve tried restarting the phone multiple times and performing a soft reset, but the flickering and unresponsiveness persist."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for the information. Since the issue followed an unauthorized repair, could you please provide details about where, when, and how the repair attempt was made? This will help us document the situation accurately.",
+      "raw_text": "Thanks for the information. Since the issue followed an unauthorized repair, could you please provide details about where, when, and how the repair attempt was made? This will help us document the situation accurately."
+    },
+    {
+      "speaker": "customer",
+      "text": "Certainly. The repair was attempted at a local shop not authorized by Apple, about two weeks ago. I took it there because I was in a hurry, but shortly after I noticed the display problems starting. They tried to fix a different issue with the screen, but it seems like something went wrong during their repair. I'd really appreciate your help to get this resolved properly.",
+      "raw_text": "Certainly. The repair was attempted at a local shop not authorized by Apple, about two weeks ago. I took it there because I was in a hurry, but shortly after I noticed the display problems starting. They tried to fix a different issue with the screen, but it seems like something went wrong during their repair. I'd really appreciate your help to get this resolved properly."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for sharing the accident details related to the unauthorized repair attempt. I will now proceed to process your claim based on the information provided. Is there anything else you need assistance with today?",
+      "raw_text": "Thank you for sharing the accident details related to the unauthorized repair attempt. I will now proceed to process your claim based on the information provided. Is there anything else you need assistance with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that’s all for now. Thanks a lot for your help and for walking me through the claim process. I look forward to hearing from you soon about the next steps. Have a great day!",
+      "raw_text": "No, that’s all for now. Thanks a lot for your help and for walking me through the claim process. I look forward to hearing from you soon about the next steps. Have a great day!<END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

@@ -1,0 +1,69 @@
+{
+  "scenarios": [
+    {
+      "id": "NC-20250930T082136Z-01",
+      "title": "Damage caused by unauthorized repair attempt",
+      "description": "Customer attempted to fix rear camera lens at an independent repair shop, resulting in further damage to the camera module.",
+      "claim_type": "unauthorized_service_damage",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(ii)(d)",
+          "snippet": "The Plan does not apply to service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider ('AASP')."
+        },
+        {
+          "section": "4.2(ii)(b)",
+          "snippet": "The Plan does not apply to damage caused by abuse, misuse, or other external causes except as described under accidental damage from handling."
+        }
+      ],
+      "reasoning": "The damage was incurred during an unauthorized repair attempt by a third party, excluding coverage under section 4.2(ii)(d). Additionally, the resultant damage from misuse is excluded per section 4.2(ii)(b). No service fee applies as the claim is not covered and does not count toward ADH limits.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (256 GB)",
+        "plan_agreement_number": "APLCARE-9812736450",
+        "serial_number": "G6Y8M2XQ5P7W",
+        "phone_number": "+1-415-555-0199"
+      }
+    },
+    {
+      "id": "NC-20250930T082136Z-02",
+      "title": "Damage from unauthorized software modification",
+      "description": "The iPhone ceased to function after the customer installed unauthorized third-party software that modified system behavior.",
+      "claim_type": "software_modification_damage",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(iii)",
+          "snippet": "The Plan does not apply to an iPhone that has been modified to alter its functionality or capability without written permission of the manufacturer."
+        },
+        {
+          "section": "4.3(iii)",
+          "snippet": "The Plan does not cover issues caused by third-party products or their effects on the Covered iPhone or software."
+        }
+      ],
+      "reasoning": "The claim involves damage caused by unauthorized software modification, which is excluded under sections 4.2(iii) and 4.3(iii). Therefore, the Plan does not cover repair or replacement and no service fee applies.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (256 GB)",
+        "plan_agreement_number": "APLCARE-9876543210",
+        "serial_number": "GHT5R9P2L4K8",
+        "phone_number": "+1-415-555-0198"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

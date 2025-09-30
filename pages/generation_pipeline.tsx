@@ -844,9 +844,9 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
       }}
     >
       <h2 style={{ marginTop: 0, marginBottom: 12 }}>Automatic Evaluation</h2>
-      <p style={{ marginTop: 0, marginBottom: 24, color: "#475569", maxWidth: 760 }}>
-        Quick analytics over the latest run to understand semantic coverage, taxonomy balance, and language variety across the generated assets.
-      </p>
+      {/* <p style={{ marginTop: 0, marginBottom: 24, color: "#475569", maxWidth: 760 }}>
+        Overview
+      </p> */}
 
       <div style={{ display: "grid", gap: 24 }}>
         <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: 20, background: "#ffffff" }}>
@@ -864,9 +864,9 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
               {semanticState.loading ? "Computing embeddings…" : `${semanticState.points.length} scenarios`}
             </span>
           </div>
-          <p style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
+          {/* <p style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
             UMAP embeds scenario narratives and projects them into a two-dimensional map so you can spot dense clusters or outliers at a glance.
-          </p>
+          </p> */}
 
           <div
             style={{
@@ -1003,9 +1003,9 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
 
         <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: 20, background: "#ffffff" }}>
           <h3 style={{ marginTop: 0 }}>Coverage Dashboard</h3>
-          <p style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
+          {/* <p style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
             Distribution across policy labels, claim types, and service fee states. Helps surface blind spots in the generated batch.
-          </p>
+          </p> */}
 
           <div
             style={{
@@ -1067,9 +1067,9 @@ function EvaluationDashboard({ scenarios, conversations }: EvaluationDashboardPr
 
         <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: 20, background: "#ffffff" }}>
           <h3 style={{ marginTop: 0 }}>Linguistic Variety</h3>
-          <p style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
+          {/* <p style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>
             Lexical diversity, n-gram reuse, and other lightweight signals to ensure the content stays fresh.
-          </p>
+          </p> */}
 
           <div
             style={{
@@ -1508,10 +1508,10 @@ export default function GenerationPipelinePage() {
       <header style={{ marginBottom: 24 }}>
         <h1 style={{ margin: 0 }}>Scenario Generation Pipeline</h1>
         <p style={{ margin: "8px 0 0", color: "#475569" }}>
-          Generate fresh scenarios and automatically simulate one conversation per scenario.
+          Generate new scenarios and automatically simulate one conversation per scenario.
         </p>
         <p style={{ margin: "4px 0 0", color: "#64748b" }}>
-          Need the conversation-only runner? Visit <Link href="/python-generator">/python-generator</Link>.
+          Previous versions: <Link href="/python-generator">/python-generator</Link> and <Link href="/">/</Link>.
         </p>
       </header>
 

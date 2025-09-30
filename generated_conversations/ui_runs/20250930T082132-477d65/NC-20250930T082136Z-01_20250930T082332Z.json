@@ -1,0 +1,157 @@
+{
+  "id": "NC-20250930T082136Z-01_20250930T082332Z",
+  "created_at": "2025-09-30T08:23:32.689821+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 1.0,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "not_covered",
+  "scenario": {
+    "id": "NC-20250930T082136Z-01",
+    "title": "Damage caused by unauthorized repair attempt",
+    "description": "Customer attempted to fix rear camera lens at an independent repair shop, resulting in further damage to the camera module.",
+    "claim_type": "unauthorized_service_damage",
+    "ground_truth": "not_covered",
+    "service_fee": {
+      "applies": false,
+      "amount": 0,
+      "currency": "USD"
+    },
+    "counts_toward_adh_limit": false,
+    "policy_references": [
+      {
+        "section": "4.2(ii)(d)",
+        "snippet": "The Plan does not apply to service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider ('AASP')."
+      },
+      {
+        "section": "4.2(ii)(b)",
+        "snippet": "The Plan does not apply to damage caused by abuse, misuse, or other external causes except as described under accidental damage from handling."
+      }
+    ],
+    "reasoning": "The damage was incurred during an unauthorized repair attempt by a third party, excluding coverage under section 4.2(ii)(d). Additionally, the resultant damage from misuse is excluded per section 4.2(ii)(b). No service fee applies as the claim is not covered and does not count toward ADH limits.",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (256 GB)",
+      "plan_agreement_number": "APLCARE-9812736450",
+      "serial_number": "G6Y8M2XQ5P7W",
+      "phone_number": "+1-415-555-0199"
+    }
+  },
+  "persona": {
+    "age": "61",
+    "ancestry": "European",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Average",
+      "Extraversion": "Extremely Low",
+      "Neuroticism": "Extremely Low",
+      "Openness": "Extremely High"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Federal government employee",
+    "defining quirks": "Enjoys learning about different cultures",
+    "detailed job description": "Provides patient care and educates patients about various health conditions",
+    "disability": "None",
+    "education": "Associate's degree",
+    "employment status": "Civilian employed, at work",
+    "family presence and age": "No family",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Female householder, no spouse/partner present, living alone",
+    "ideology": "Moderate",
+    "income": "94000.0",
+    "industry category": "MED-General Medical And Surgical Hospitals, And Specialty (Except Psychiatric And Substance Abuse) Hospitals",
+    "lifestyle": "Healthy and active",
+    "mannerisms": "Often seen with a pair of reading glasses",
+    "marital status": "Widowed",
+    "occupation category": "MED-Registered Nurses",
+    "personal time": "Spends free time reading or gardening",
+    "place of birth": "Maryland/MD",
+    "political views": "Independent",
+    "race": "White alone",
+    "religion": "Religiously Unaffiliated",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer attempted to fix rear camera lens at an independent repair shop, resulting in further damage to the camera module.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (256 GB)\",\n  \"plan_agreement_number\": \"APLCARE-9812736450\",\n  \"serial_number\": \"G6Y8M2XQ5P7W\",\n  \"phone_number\": \"+1-415-555-0199\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"61\",\n  \"ancestry\": \"European\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Average\",\n    \"Extraversion\": \"Extremely Low\",\n    \"Neuroticism\": \"Extremely Low\",\n    \"Openness\": \"Extremely High\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Federal government employee\",\n  \"defining quirks\": \"Enjoys learning about different cultures\",\n  \"detailed job description\": \"Provides patient care and educates patients about various health conditions\",\n  \"disability\": \"None\",\n  \"education\": \"Associate's degree\",\n  \"employment status\": \"Civilian employed, at work\",\n  \"family presence and age\": \"No family\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Female householder, no spouse/partner present, living alone\",\n  \"ideology\": \"Moderate\",\n  \"income\": \"94000.0\",\n  \"industry category\": \"MED-General Medical And Surgical Hospitals, And Specialty (Except Psychiatric And Substance Abuse) Hospitals\",\n  \"lifestyle\": \"Healthy and active\",\n  \"mannerisms\": \"Often seen with a pair of reading glasses\",\n  \"marital status\": \"Widowed\",\n  \"occupation category\": \"MED-Registered Nurses\",\n  \"personal time\": \"Spends free time reading or gardening\",\n  \"place of birth\": \"Maryland/MD\",\n  \"political views\": \"Independent\",\n  \"race\": \"White alone\",\n  \"religion\": \"Religiously Unaffiliated\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hello, I need to file a claim for my iPhone 14 Pro Max. I tried to get the rear camera lens fixed at a repair shop outside of AppleCare's network, but it seems they caused more damage to the camera module. I would like to understand the process for getting this repaired under my plan.",
+      "raw_text": "Hello, I need to file a claim for my iPhone 14 Pro Max. I tried to get the rear camera lens fixed at a repair shop outside of AppleCare's network, but it seems they caused more damage to the camera module. I would like to understand the process for getting this repaired under my plan."
+    },
+    {
+      "speaker": "bot",
+      "text": "To get started with your claim, could you please provide me with your Plan Agreement Number or your iPhone 14 Pro Max's serial number? This is necessary to verify your coverage eligibility.",
+      "raw_text": "To get started with your claim, could you please provide me with your Plan Agreement Number or your iPhone 14 Pro Max's serial number? This is necessary to verify your coverage eligibility."
+    },
+    {
+      "speaker": "customer",
+      "text": "Certainly, my Plan Agreement Number is APLCARE-9812736450, and the serial number of my iPhone 14 Pro Max is G6Y8M2XQ5P7W. Please let me know the next steps for the claim.",
+      "raw_text": "Certainly, my Plan Agreement Number is APLCARE-9812736450, and the serial number of my iPhone 14 Pro Max is G6Y8M2XQ5P7W. Please let me know the next steps for the claim."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing that information. Could you please describe the issue you're experiencing with the rear camera lens and the additional damage caused by the repair shop? This helps us understand the nature of the problem.",
+      "raw_text": "Thank you for providing that information. Could you please describe the issue you're experiencing with the rear camera lens and the additional damage caused by the repair shop? This helps us understand the nature of the problem."
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, the issue started with the rear camera lens being cracked, so I took it to an independent repair shop to get it changed. However, after the repair, the camera module itself seemed not to function properly—the focus is off, and the image quality is blurry. It looks like the repair shop might have caused further damage when they replaced the lens, unfortunately. I'd like to see if this can be repaired properly under my AppleCare plan.",
+      "raw_text": "Yes, the issue started with the rear camera lens being cracked, so I took it to an independent repair shop to get it changed. However, after the repair, the camera module itself seemed not to function properly—the focus is off, and the image quality is blurry. It looks like the repair shop might have caused further damage when they replaced the lens, unfortunately. I'd like to see if this can be repaired properly under my AppleCare plan."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the details. To better assist you, could you please answer a few diagnostic questions? What iOS version is your iPhone currently running? Are there any error messages on your device related to the camera? Have you connected any external peripherals to your iPhone recently? Lastly, have you tried any troubleshooting steps like restarting the device or resetting settings?",
+      "raw_text": "Thank you for the details. To better assist you, could you please answer a few diagnostic questions? What iOS version is your iPhone currently running? Are there any error messages on your device related to the camera? Have you connected any external peripherals to your iPhone recently? Lastly, have you tried any troubleshooting steps like restarting the device or resetting settings?"
+    },
+    {
+      "speaker": "customer",
+      "text": "My iPhone is currently running iOS version 17.0. There aren’t any specific error messages related to the camera appearing, but the camera app just doesn't focus correctly and the images are blurry. I haven't connected any external devices or peripherals recently. I have tried restarting the iPhone a couple of times, but it didn't improve the camera function. I have not reset any settings yet, as I wanted to see what options there are through the claim process first.",
+      "raw_text": "My iPhone is currently running iOS version 17.0. There aren’t any specific error messages related to the camera appearing, but the camera app just doesn't focus correctly and the images are blurry. I haven't connected any external devices or peripherals recently. I have tried restarting the iPhone a couple of times, but it didn't improve the camera function. I have not reset any settings yet, as I wanted to see what options there are through the claim process first."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. Since the issue seems related to physical damage possibly caused by the repair shop, could you please provide details about the accident or event when the damage to the camera module may have occurred? For example, where and when did the repair happen and any notable circumstances during the repair. This will help us understand the cause for the claim.",
+      "raw_text": "Thank you for the information. Since the issue seems related to physical damage possibly caused by the repair shop, could you please provide details about the accident or event when the damage to the camera module may have occurred? For example, where and when did the repair happen and any notable circumstances during the repair. This will help us understand the cause for the claim."
+    },
+    {
+      "speaker": "customer",
+      "text": "The repair was done about two weeks ago at a small local repair shop outside of the Apple network. I took my phone there because the rear camera lens was cracked from a minor drop. During the repair, I didn’t witness anything unusual, but when I got my phone back, the camera quality was clearly worse—the focus is off, and the images are blurry as I mentioned before. I suspect they might have damaged the camera module while replacing the lens. It wasn't an accident on my part after the repair, just the result of their work. I hope this gives you enough context for the claim.",
+      "raw_text": "The repair was done about two weeks ago at a small local repair shop outside of the Apple network. I took my phone there because the rear camera lens was cracked from a minor drop. During the repair, I didn’t witness anything unusual, but when I got my phone back, the camera quality was clearly worse—the focus is off, and the images are blurry as I mentioned before. I suspect they might have damaged the camera module while replacing the lens. It wasn't an accident on my part after the repair, just the result of their work. I hope this gives you enough context for the claim."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the accident details. As a last step, could you please confirm if you have any photos or supporting evidence showing the condition of your iPhone before and after the repair? This helps in validating the claim related to accidental damage.",
+      "raw_text": "Thank you for the accident details. As a last step, could you please confirm if you have any photos or supporting evidence showing the condition of your iPhone before and after the repair? This helps in validating the claim related to accidental damage."
+    },
+    {
+      "speaker": "customer",
+      "text": "I do have some photos taken before I brought the phone in for repair that clearly show the cracked rear lens, but I didn’t think to take pictures immediately afterward. However, I do have some recent photos showing the blurry image and focus issues from the damaged camera module. Would those work as supporting evidence for the claim?",
+      "raw_text": "I do have some photos taken before I brought the phone in for repair that clearly show the cracked rear lens, but I didn’t think to take pictures immediately afterward. However, I do have some recent photos showing the blurry image and focus issues from the damaged camera module. Would those work as supporting evidence for the claim?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Yes, the photos showing the blurry image and focus issues after the repair will be helpful as supporting evidence. With the information you've provided, we will now proceed to process your claim. Is there anything else I can assist you with today?",
+      "raw_text": "Yes, the photos showing the blurry image and focus issues after the repair will be helpful as supporting evidence. With the information you've provided, we will now proceed to process your claim. Is there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that will be all for now. I appreciate your help in getting this started. Please let me know if you need anything else from me. Thank you for your assistance!",
+      "raw_text": "No, that will be all for now. I appreciate your help in getting this started. Please let me know if you need anything else from me. Thank you for your assistance!"
+    },
+    {
+      "speaker": "bot",
+      "text": "You're very welcome! Your claim will be processed, and you'll be notified as soon as the next steps are available. Have a great day!",
+      "raw_text": "You're very welcome! Your claim will be processed, and you'll be notified as soon as the next steps are available. Have a great day! <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

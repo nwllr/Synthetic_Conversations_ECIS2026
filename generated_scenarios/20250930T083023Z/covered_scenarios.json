@@ -1,0 +1,67 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20250930T083023Z-01",
+      "title": "Accidental liquid damage to the screen",
+      "description": "Within 20 months of purchase, the iPhone was accidentally submerged in water causing screen failure.",
+      "claim_type": "accidental_damage",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies for ADH claims as specified in section 3.2"
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "Coverage includes accidental damage from handling resulting from unexpected external events such as liquid contact, with a $49 service fee per claim."
+        },
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "Coverage expires after two (2) Service Events; this claim counts toward that limit."
+        }
+      ],
+      "reasoning": "The claim is covered under section 3.2 since liquid contact caused an operational failure within the plan term. The $49 service fee applies. This claim counts toward the two-claim ADH limit stated in section 3.2.",
+      "customer_data": {
+        "device": "iPhone 13 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-7758493021",
+        "serial_number": "DX7E4YU91P03",
+        "phone_number": "+1-415-555-0199"
+      }
+    },
+    {
+      "id": "COV-20250930T083023Z-02",
+      "title": "Camera malfunction due to manufacturing defect",
+      "description": "Within the 24-month plan term, the rear camera of the iPhone 13 Mini fails to focus and capture images properly without any accidental damage event.",
+      "claim_type": "hardware_defect",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD",
+        "notes": "No service fee applies for hardware defects as per policy"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "If during the Plan Term, you submit a valid claim by notifying Apple that a defect in materials and workmanship has arisen in the Covered iPhone, Apple will repair or exchange the device at no charge."
+        }
+      ],
+      "reasoning": "The camera malfunction is caused by a manufacturing defect within the plan term, therefore covered under section 3.1 Hardware Service. No accidental damage is reported, so no service fee or ADH service event limit applies.",
+      "customer_data": {
+        "device": "iPhone 13 Mini (256 GB)",
+        "plan_agreement_number": "APLCARE-8745629013",
+        "serial_number": "G0H2L9K3MN5Q",
+        "phone_number": "+1-415-555-0199"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

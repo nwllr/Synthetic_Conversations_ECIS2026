@@ -4,138 +4,72 @@
     "region": "US & Canada",
     "plan_term_months": 24
   },
-  "generated_on": "20250926",
+  "generated_on": "20250930",
   "generator": {
     "model": "gpt-4.1-mini",
-    "temperature": 0.9,
+    "temperature": 1.0,
     "max_tokens": 2800,
-    "attempted_count": 4,
-    "slug": "20250926T151944Z"
+    "attempted_count": 2,
+    "slug": "20250930T083023Z"
   },
   "categories": {
     "covered": [
       {
-        "id": "COV-20250926T151944Z-01",
-        "title": "Accidental liquid damage repair within plan term",
-        "description": "The customer reports that their iPhone 13 Pro was accidentally exposed to water causing it to malfunction. The incident occurred within 24 months of plan purchase and the device has not previously used any ADH claims.",
-        "claim_type": "accidental_damage_handling",
+        "id": "COV-20250930T083023Z-01",
+        "title": "Accidental liquid damage to the screen",
+        "description": "Within 20 months of purchase, the iPhone was accidentally submerged in water causing screen failure.",
+        "claim_type": "accidental_damage",
         "ground_truth": "covered",
         "service_fee": {
           "applies": true,
           "amount": 49,
           "currency": "USD",
-          "notes": "Service fee applies per section 3.2 for each ADH claim"
+          "notes": "Service fee applies for ADH claims as specified in section 3.2"
         },
         "counts_toward_adh_limit": true,
         "policy_references": [
           {
             "section": "3.2 Accidental Damage from Handling",
-            "snippet": "Apple covers operational failure from accidental damage such as liquid contact, subject to a $49 service fee per claim and maximum 2 Service Events during the Plan Term."
+            "snippet": "Coverage includes accidental damage from handling resulting from unexpected external events such as liquid contact, with a $49 service fee per claim."
           },
           {
-            "section": "2. When Coverage Begins and Ends",
-            "snippet": "Coverage is valid within 24 months of the original retail purchase date of the iPhone."
+            "section": "3.2 Accidental Damage from Handling",
+            "snippet": "Coverage expires after two (2) Service Events; this claim counts toward that limit."
           }
         ],
-        "reasoning": "The accidental liquid damage occurred within the 24-month Plan Term and is an unexpected external event covered under section 3.2. The claim is valid as this is the first ADH claim and a $49 service fee applies. The device qualifies for repair or replacement under the accidental damage coverage.",
+        "reasoning": "The claim is covered under section 3.2 since liquid contact caused an operational failure within the plan term. The $49 service fee applies. This claim counts toward the two-claim ADH limit stated in section 3.2.",
         "customer_data": {
-          "device": "iPhone 13 Pro (512 GB)",
-          "plan_agreement_number": "APLCARE-8374619203",
-          "serial_number": "DNPQW7H3L5MF",
+          "device": "iPhone 13 Pro Max (512 GB)",
+          "plan_agreement_number": "APLCARE-7758493021",
+          "serial_number": "DX7E4YU91P03",
           "phone_number": "+1-415-555-0199"
         }
       },
       {
-        "id": "COV-20250926T151944Z-02",
-        "title": "Speaker malfunction without accidental damage within plan term",
-        "description": "Customer’s iPhone 13 speaker stopped producing sound after 10 months of use with no accidental damage involved.",
+        "id": "COV-20250930T083023Z-02",
+        "title": "Camera malfunction due to manufacturing defect",
+        "description": "Within the 24-month plan term, the rear camera of the iPhone 13 Mini fails to focus and capture images properly without any accidental damage event.",
         "claim_type": "hardware_defect",
         "ground_truth": "covered",
         "service_fee": {
           "applies": false,
           "amount": 0,
           "currency": "USD",
-          "notes": "No service fee for hardware defects under section 3.1"
+          "notes": "No service fee applies for hardware defects as per policy"
         },
         "counts_toward_adh_limit": false,
         "policy_references": [
           {
             "section": "3.1 Hardware Service",
-            "snippet": "If during the Plan Term, a defect in materials and workmanship arises, Apple will repair or exchange the Covered iPhone at no charge."
-          },
-          {
-            "section": "2. When Coverage Begins and Ends",
-            "snippet": "Coverage is valid for 24 months from the original retail purchase date of the iPhone."
+            "snippet": "If during the Plan Term, you submit a valid claim by notifying Apple that a defect in materials and workmanship has arisen in the Covered iPhone, Apple will repair or exchange the device at no charge."
           }
         ],
-        "reasoning": "The failure is due to a hardware defect occurring within the 24-month plan term with no accidental damage involved, making it eligible for repair or replacement without a service fee as per section 3.1.",
+        "reasoning": "The camera malfunction is caused by a manufacturing defect within the plan term, therefore covered under section 3.1 Hardware Service. No accidental damage is reported, so no service fee or ADH service event limit applies.",
         "customer_data": {
-          "device": "iPhone 13 (128 GB)",
-          "plan_agreement_number": "APLCARE-7583920146",
-          "serial_number": "G7Y8N0X2Q5KL",
-          "phone_number": "+1-415-555-0198"
-        }
-      },
-      {
-        "id": "COV-20250926T151944Z-03",
-        "title": "Front camera fails due to manufacturing defect within plan term",
-        "description": "Customer reports that the iPhone 13 front camera stopped functioning properly 14 months after purchase, with no accidental damage or external causes.",
-        "claim_type": "hardware_defect",
-        "ground_truth": "covered",
-        "service_fee": {
-          "applies": false,
-          "amount": 0,
-          "currency": "USD",
-          "notes": "No service fee applies for defects in materials and workmanship"
-        },
-        "counts_toward_adh_limit": false,
-        "policy_references": [
-          {
-            "section": "3.1 Hardware Service",
-            "snippet": "If during the Plan Term, a defect in materials and workmanship has arisen in the Covered iPhone, Apple will repair or exchange the device at no charge."
-          },
-          {
-            "section": "2. When Coverage Begins and Ends",
-            "snippet": "Coverage ends twenty-four (24) months from the date of retail purchase of your original iPhone (Plan Term)."
-          }
-        ],
-        "reasoning": "The front camera failure is a defect arising within the 24-month plan term and not caused by accidental damage, triggering coverage under section 3.1. Since this is a hardware defect claim, no service fee applies as per policy terms.",
-        "customer_data": {
-          "device": "iPhone 13 (128 GB)",
-          "plan_agreement_number": "APLCARE-8374659201",
-          "serial_number": "G7R8X0TYPL9Q",
-          "phone_number": "+1-415-555-2763"
-        }
-      },
-      {
-        "id": "COV-20250926T151944Z-04",
-        "title": "Touchscreen stops responding due to hardware defect within plan term",
-        "description": "The iPhone touchscreen has become unresponsive with no evidence of accidental damage, reported 20 months after purchase.",
-        "claim_type": "hardware_defect",
-        "ground_truth": "covered",
-        "service_fee": {
-          "applies": false,
-          "amount": 0,
-          "currency": "USD",
-          "notes": "No service fee applies for non-ADH hardware defects"
-        },
-        "counts_toward_adh_limit": false,
-        "policy_references": [
-          {
-            "section": "3.1 Hardware Service",
-            "snippet": "If during the Plan Term, a defect in materials and workmanship has arisen in the Covered iPhone, Apple will repair or exchange the device at no charge."
-          },
-          {
-            "section": "2. When Coverage Begins and Ends",
-            "snippet": "Coverage ends twenty-four (24) months from the date of retail purchase of the original iPhone."
-          }
-        ],
-        "reasoning": "The touchscreen failure is a defect in materials or workmanship arising during the 24-month Plan Term and is not caused by accidental damage, so it is fully covered with no service fee as per section 3.1 and 2.",
-        "customer_data": {
-          "device": "iPhone 13 (512 GB)",
-          "plan_agreement_number": "APLCARE-7382910456",
-          "serial_number": "H3J7X0B9LY2C",
-          "phone_number": "+1-415-555-0198"
+          "device": "iPhone 13 Mini (256 GB)",
+          "plan_agreement_number": "APLCARE-8745629013",
+          "serial_number": "G0H2L9K3MN5Q",
+          "phone_number": "+1-415-555-0199"
         }
       }
     ]
