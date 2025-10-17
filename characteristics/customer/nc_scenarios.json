@@ -4,21 +4,21 @@
     "region": "US & Canada",
     "plan_term_months": 24
   },
-  "generated_on": "20250930",
+  "generated_on": "20251017",
   "generator": {
     "model": "gpt-4.1-mini",
     "temperature": 1.0,
     "max_tokens": 2800,
     "attempted_count": 2,
-    "slug": "20250930T083023Z"
+    "slug": "20251017T112101Z"
   },
   "categories": {
     "not_covered": [
       {
-        "id": "NC-20250930T083023Z-01",
-        "title": "Damage due to unauthorized repair",
-        "description": "Customer's iPhone experienced display malfunction after an unauthorized third-party repair attempt.",
-        "claim_type": "hardware_damage",
+        "id": "NC-20251017T112101Z-01",
+        "title": "Claim denied due to altered serial number",
+        "description": "The iPhone presented for service has a serial number that has been physically altered by the customer, rendering it invalid and inconsistent with Apple's records.",
+        "claim_type": "hardware_service",
         "ground_truth": "not_covered",
         "service_fee": {
           "applies": false,
@@ -28,42 +28,52 @@
         "counts_toward_adh_limit": false,
         "policy_references": [
           {
-            "section": "4.2(ii)(d)",
-            "snippet": "The Plan does not apply to service performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider."
+            "section": "4.2(iii)",
+            "snippet": "The Plan does not apply to an iPhone with a serial number that has been altered, defaced, removed, or modified to alter its functionality or capability without the manufacturer's permission."
           }
         ],
-        "reasoning": "The damage resulted from unauthorized service not performed by Apple or an AASP, rendering the claim invalid under exclusion 4.2(ii)(d). No service fee applies as coverage is denied.",
-        "customer_data": {
-          "device": "iPhone 14 Pro Max (256 GB)",
-          "plan_agreement_number": "APLCARE-9988776655",
-          "serial_number": "DX3V9Q2JFTLM",
-          "phone_number": "+1-415-555-2763"
-        }
-      },
-      {
-        "id": "NC-20250930T083023Z-02",
-        "title": "Damage from intentional reckless conduct",
-        "description": "Customer intentionally exposed the iPhone to extreme heat causing screen and battery damage.",
-        "claim_type": "intentional_damage",
-        "ground_truth": "not_covered",
-        "service_fee": {
-          "applies": false,
-          "amount": 0,
-          "currency": "USD"
-        },
-        "counts_toward_adh_limit": false,
-        "policy_references": [
-          {
-            "section": "4.2(ii)(b)",
-            "snippet": "The Plan does not apply to damage caused by abuse, misuse, fire, earthquake or other external causes except as described in section 3.2."
-          }
-        ],
-        "reasoning": "The damage resulted from intentional reckless conduct (extreme heat exposure), which qualifies as misuse and is excluded under section 4.2(ii)(b). Therefore, the claim is not covered, no service fee applies, and it does not count toward the ADH limit.",
+        "reasoning": "The claim is denied because the iPhone's serial number has been altered, which is explicitly excluded under section 4.2(iii). This voids coverage and no service fee applies. Apple's policy requires an unaltered serial number to establish eligibility.",
         "customer_data": {
           "device": "iPhone 14 Pro Max (256 GB)",
           "plan_agreement_number": "APLCARE-9876543210",
-          "serial_number": "G4H8K9L2M7P5",
-          "phone_number": "+1-415-555-0198"
+          "serial_number": "X1Y2Z3-ALTERED",
+          "phone_number": "+1-415-555-2678"
+        },
+        "metadata": {
+          "policy_anchor_id": "sec4-2-serial-number",
+          "policy_anchor_section": "4.2(iii)",
+          "policy_anchor_intent": "exclusion"
+        }
+      },
+      {
+        "id": "NC-20251017T112101Z-02",
+        "title": "Pre-existing hardware defect with late Plan purchase",
+        "description": "Customer reported a malfunctioning camera on their iPhone XS that was present before purchasing the AppleCare+ Plan a month later.",
+        "claim_type": "hardware_defect",
+        "ground_truth": "not_covered",
+        "service_fee": {
+          "applies": false,
+          "amount": 0,
+          "currency": "USD"
+        },
+        "counts_toward_adh_limit": false,
+        "policy_references": [
+          {
+            "section": "4.2(viii)",
+            "snippet": "The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased the Plan after you purchased the device."
+          }
+        ],
+        "reasoning": "The defect is a pre-existing condition identified prior to purchasing the AppleCare+ Plan, which is explicitly excluded from coverage per section 4.2(viii). As such, no service fee applies because the claim is denied on eligibility grounds.",
+        "customer_data": {
+          "device": "iPhone XS (256 GB)",
+          "plan_agreement_number": "APLCARE-8723649110",
+          "serial_number": "DX4HV5K9MF7R",
+          "phone_number": "+1-415-555-1234"
+        },
+        "metadata": {
+          "policy_anchor_id": "sec4-2-preexisting-condition",
+          "policy_anchor_section": "4.2(viii)",
+          "policy_anchor_intent": "exclusion"
         }
       }
     ]

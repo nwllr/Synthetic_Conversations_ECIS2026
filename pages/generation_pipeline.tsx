@@ -3,6 +3,7 @@ import Link from "next/link";
 import policyAnchorsJson from "../policy/policy_anchors.json";
 
 type FormState = {
+  apiKey: string;
   covered: string;
   notCovered: string;
   edgeCase: string;
@@ -152,6 +153,7 @@ type PolicyAnchor = {
   section: string;
   title: string;
   snippet: string;
+  intent?: string;
 };
 
 type CoverageListProps = {
@@ -1164,6 +1166,7 @@ function WordStatsBlock({ title, stats, itemCount, extraDetails }: WordStatsBloc
 
 
 const initialForm: FormState = {
+  apiKey: "",
   covered: "2",
   notCovered: "1",
   edgeCase: "1",
@@ -1246,6 +1249,12 @@ export default function GenerationPipelinePage() {
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
+    const apiKey = form.apiKey.trim();
+    if (!apiKey) {
+      setError("Enter an OpenAI API key.");
+      return;
+    }
+
     const coveredCount = Math.max(0, Math.floor(parseNumber(form.covered) ?? 0));
     const notCoveredCount = Math.max(0, Math.floor(parseNumber(form.notCovered) ?? 0));
     const edgeCaseCount = Math.max(0, Math.floor(parseNumber(form.edgeCase) ?? 0));
@@ -1269,6 +1278,7 @@ export default function GenerationPipelinePage() {
     setFatalDetail(null);
 
     const payload = {
+      apiKey,
       counts: {
         covered: coveredCount,
         notCovered: notCoveredCount,
@@ -1517,6 +1527,23 @@ export default function GenerationPipelinePage() {
 
       <section style={{ padding: 24, border: "1px solid #e2e8f0", borderRadius: 12, marginBottom: 24 }}>
         <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: 24 }}>
+            <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>
+              <span style={{ fontWeight: 600 }}>OpenAI API key</span>
+              <input
+                type="password"
+                autoComplete="off"
+                value={form.apiKey}
+                onChange={(e) => updateField("apiKey", e.target.value)}
+                placeholder="sk-..."
+                style={{ marginTop: 6, padding: 8 }}
+              />
+            </label>
+            <p style={{ margin: "8px 0 0", fontSize: 12, color: "#64748b" }}>
+              The key is used only for this session to call the generation pipeline.
+            </p>
+          </div>
+
           <h2 style={{ marginTop: 0, fontSize: 18 }}>Scenarios</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
             <label style={{ display: "flex", flexDirection: "column", fontSize: 14 }}>

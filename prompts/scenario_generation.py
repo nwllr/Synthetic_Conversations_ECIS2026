@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import random
 import textwrap
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -19,6 +20,7 @@ except ImportError:  # pragma: no cover - handled at call sites
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_POLICY_PATH = REPO_ROOT / "policy" / "applecareplus.txt"
+DEFAULT_POLICY_ANCHORS_PATH = REPO_ROOT / "policy" / "policy_anchors.json"
 DEFAULT_FEWSHOT_PATH = REPO_ROOT / "prompts" / "scenario_fewshots.json"
 DEFAULT_BASE_SCENARIO_PATH = REPO_ROOT / "characteristics" / "customer" / "scenario.json"
 DEFAULT_ARCHIVE_ROOT = REPO_ROOT / "generated_scenarios"
@@ -104,6 +106,22 @@ def _load_fewshot(path: Path = DEFAULT_FEWSHOT_PATH) -> Mapping[str, Mapping[str
     return out
 
 
+def _load_policy_anchors(path: Path = DEFAULT_POLICY_ANCHORS_PATH) -> List[Mapping[str, Any]]:
+    if not path.exists():
+        return []
+    data = _load_json(path)
+    if not isinstance(data, list):
+        raise ScenarioGenerationError("Policy anchors file must contain a list")
+    anchors: List[Mapping[str, Any]] = []
+    for entry in data:
+        if not isinstance(entry, Mapping):
+            continue
+        if not entry.get("id") or not entry.get("section") or not entry.get("snippet"):
+            continue
+        anchors.append(dict(entry))
+    return anchors
+
+
 def _build_prompt(
     *,
     label: ScenarioLabel,
@@ -111,6 +129,7 @@ def _build_prompt(
     fewshot: Mapping[str, Any],
     policy_text: str,
     previous_summaries: Sequence[str],
+    policy_anchor: Optional[Mapping[str, Any]] = None,
 ) -> Tuple[str, str]:
     prefix = LABEL_TO_PREFIX[label]
     label_ground_truth = LABEL_TO_GROUND_TRUTH[label]
@@ -122,6 +141,27 @@ def _build_prompt(
         limited = list(previous_summaries[-10:])
         bullet_points = "\n".join(f"- {summary}" for summary in limited)
         context_hint = f"Previously generated scenarios for this label (avoid overlap):\n{bullet_points}\n"
+
+    anchor_block = ""
+    anchor_requirement = ""
+    if policy_anchor:
+        anchor_section = policy_anchor.get("section", "?")
+        anchor_snippet = policy_anchor.get("snippet", "").strip()
+        anchor_intent = policy_anchor.get("intent")
+        intent_text = f" (intent: {anchor_intent})" if anchor_intent else ""
+        anchor_block = textwrap.dedent(
+            f"""
+            Primary policy anchor to emphasize{intent_text}:
+            Section {anchor_section}
+            "{anchor_snippet}
+            """
+        ).strip()
+        anchor_requirement = textwrap.dedent(
+            """
+            - The scenario must hinge on the primary policy anchor above. Cite it explicitly in policy_references and weave it naturally into the description and reasoning.
+            - You may reference additional sections from the full policy as needed, but the anchor should clearly influence the outcome.
+            """
+        ).strip()
 
     system_prompt = textwrap.dedent(
         f"""
@@ -144,11 +184,14 @@ def _build_prompt(
         - Policy references must be an array of objects with section and snippet.
         - customer_data should include realistic values for device, plan_agreement_number (or "Unknown"), serial_number (or "Unknown"), and phone_number (use realistic formatting).
         - Tie the reasoning back to concrete policy clauses and mention service fees or limits where relevant.
+        {anchor_requirement}
         - Avoid repeating themes, devices, or fact patterns from previously generated scenarios in this run.
         - Output JSON only; no prose, no code fences.
 
         Style guidance for this label:
         {instructions or 'N/A'}
+
+        {anchor_block}
 
         {context_hint}
         
@@ -262,6 +305,7 @@ class ScenarioGenerator:
         self.fewshot = _load_fewshot(fewshot_path)
         self.policy_metadata = _load_policy_metadata(base_metadata_path)
         self.archive_root = archive_root
+        self.policy_anchors = _load_policy_anchors()
 
     def generate(
         self,
@@ -304,7 +348,10 @@ class ScenarioGenerator:
             total_for_label = count
             raw_runs: List[Mapping[str, Any]] = []
 
+            anchor_sequence = self._prepare_anchor_sequence(count)
+
             for idx in range(1, count + 1):
+                policy_anchor = anchor_sequence[idx - 1] if anchor_sequence else None
                 scenario_id = f"{LABEL_TO_PREFIX[label]}-{slug}-{idx:02d}"
                 system_prompt, user_prompt = _build_prompt(
                     label=label,
@@ -312,11 +359,13 @@ class ScenarioGenerator:
                     fewshot=self.fewshot[label],
                     policy_text=self.policy_text,
                     previous_summaries=previous_summaries,
+                    policy_anchor=policy_anchor,
                 )
                 prompts_record = {
                     "system": system_prompt,
                     "user": user_prompt,
                     "previous_summaries": list(previous_summaries[-5:]),
+                    "policy_anchor": policy_anchor,
                 }
                 attempt = 0
                 response_text: Optional[str] = None
@@ -355,6 +404,7 @@ class ScenarioGenerator:
                             new_id=scenario_id,
                         )
                         _validate_scenario(label, normalized)
+                        self._attach_anchor_metadata(normalized, policy_anchor)
                         label_records.append(normalized)
                         summary = _summarize_for_context(normalized)
                         if summary:
@@ -400,6 +450,54 @@ class ScenarioGenerator:
             archive_dir=archive_dir,
             settings=settings,
         )
+
+    def _prepare_anchor_sequence(self, total_count: int) -> List[Optional[Mapping[str, Any]]]:
+        if total_count <= 0:
+            return []
+        if not self.policy_anchors:
+            return [None] * total_count
+
+        anchors = list(self.policy_anchors)
+        random.shuffle(anchors)
+        sequence: List[Mapping[str, Any]] = []
+        while len(sequence) < total_count:
+            random.shuffle(anchors)
+            sequence.extend(anchors)
+        return sequence[:total_count]
+
+    @staticmethod
+    def _attach_anchor_metadata(
+        scenario: MutableMapping[str, Any],
+        policy_anchor: Optional[Mapping[str, Any]],
+    ) -> None:
+        if not policy_anchor:
+            return
+
+        metadata = scenario.get("metadata")
+        if not isinstance(metadata, MutableMapping):
+            metadata = {}
+            scenario["metadata"] = metadata
+
+        metadata["policy_anchor_id"] = policy_anchor.get("id")
+        metadata["policy_anchor_section"] = policy_anchor.get("section")
+        if policy_anchor.get("intent"):
+            metadata["policy_anchor_intent"] = policy_anchor.get("intent")
+
+        secondary_sections: List[str] = []
+        references = scenario.get("policy_references")
+        if isinstance(references, Sequence):
+            for ref in references:
+                if not isinstance(ref, Mapping):
+                    continue
+                section = str(ref.get("section") or "").strip()
+                if not section:
+                    continue
+                if section == policy_anchor.get("section"):
+                    continue
+                if section not in secondary_sections:
+                    secondary_sections.append(section)
+        if secondary_sections:
+            metadata["secondary_policy_sections"] = secondary_sections
 
     def _write_outputs(
         self,

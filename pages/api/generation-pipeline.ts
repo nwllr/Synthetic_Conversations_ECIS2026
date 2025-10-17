@@ -11,6 +11,7 @@ interface ScenarioCountsPayload {
 }
 
 interface GenerationPipelineRequest {
+  apiKey?: string;
   counts?: ScenarioCountsPayload;
   scenarioModel?: string;
   scenarioTemperature?: number;
@@ -52,11 +53,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const body = (req.body ?? {}) as GenerationPipelineRequest;
+  const apiKey = typeof body.apiKey === "string" ? body.apiKey.trim() : "";
   const counts = body.counts ?? {};
   const covered = toPositiveInt(counts.covered, 0);
   const notCovered = toPositiveInt(counts.notCovered, 0);
   const edgeCase = toPositiveInt(counts.edgeCase, 0);
   const total = covered + notCovered + edgeCase;
+
+  if (!apiKey) {
+    res.status(400).json({ error: "Provide an OpenAI API key." });
+    return;
+  }
 
   if (total <= 0) {
     res.status(400).json({ error: "Provide at least one scenario to generate." });
@@ -156,7 +163,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const child = spawn("python3", args, {
     cwd: process.cwd(),
-    env: process.env,
+    env: {
+      ...process.env,
+      OPENAI_API_KEY: apiKey,
+    },
   });
 
   const processStdoutLine = (line: string) => {

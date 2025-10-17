@@ -2,73 +2,99 @@
   {
     "id": "sec3-1-hardware-defect",
     "section": "3.1",
-    "title": "Hardware defect",
-    "snippet": "If during the Plan Term you submit a valid claim notifying Apple that a defect in materials and workmanship has arisen in the Covered iPhone, Apple will either repair the defect at no charge or exchange the Covered iPhone with a replacement that is new or equivalent to new in performance and reliability."
+    "title": "Hardware defect or battery depletion remedy",
+    "snippet": "If during the Plan Term you submit a valid claim notifying Apple that a defect in materials and workmanship has arisen in the Covered iPhone or the capacity of the Covered iPhone's battery has depleted fifty (50%) percent or more from its original specifications, Apple will either repair the defect at no charge or exchange the Covered iPhone with a replacement that is new or equivalent to new in performance and reliability.",
+    "intent": "coverage_requirement"
   },
   {
-    "id": "sec3-1-hardware-defect",
-    "section": "3.1",
-    "title": "Battery depletion",
-    "snippet": "If during the Plan Term you submit a valid claim notifying Apple that the capacity of the Covered iPhone's battery has depleted fifty (50%) percent or more from its original specifications, Apple will either repair the defect at no charge or exchange the Covered iPhone with a replacement that is new or equivalent to new in performance and reliability."
+    "id": "sec3-2-service-event-limit",
+    "section": "3.2",
+    "title": "Limit of two ADH service events",
+    "snippet": "ADH coverage will expire and all of Apple's obligations to you under this section 3.2 will be fulfilled before the end of the Plan Term when Apple, as a result of ADH claims, has provided to you two (2) Service Events.",
+    "intent": "coverage_limit"
   },
   {
     "id": "sec3-2-adh-definition",
     "section": "3.2",
-    "title": "Accidental damage from handling",
-    "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event, such as drops or liquid contact, that arises from normal daily usage of the Covered iPhone."
+    "title": "Definition of accidental damage from handling",
+    "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event, such as drops or liquid contact, that arises from normal daily usage of the Covered iPhone.",
+    "intent": "coverage_requirement"
+  },
+  {
+    "id": "sec3-2-adh-exclusions",
+    "section": "3.2",
+    "title": "Situations excluded from ADH coverage",
+    "snippet": "ADH coverage does not include protection against normal wear and tear, theft, misplacement, reckless, abusive, willful, or intentional conduct, nor any other act excluded in section 4.2, nor damage that arises from those excluded conditions.",
+    "intent": "exclusion"
+  },
+  {
+    "id": "sec3-2-service-fee",
+    "section": "3.2",
+    "title": "Service fee and information requirement",
+    "snippet": "You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim and may be asked to explain where and when the accident occurred; a claim will be denied if you fail to pay the service fee or provide the requested information.",
+    "intent": "claim_condition"
   },
   {
     "id": "sec4-2-installation-exclusion",
     "section": "4.2(i)",
-    "title": "Installation and loaner equipment",
-    "snippet": "The Plan does not apply to installation, removal, or disposal of the Covered iPhone, or to the provision of equipment while the Covered iPhone is being serviced."
+    "title": "Installation and loaner equipment not covered",
+    "snippet": "The Plan does not apply to installation, removal, or disposal of the Covered iPhone, or to the provision of equipment while the Covered iPhone is being serviced.",
+    "intent": "exclusion"
   },
   {
     "id": "sec4-2-external-causes",
     "section": "4.2(ii)(a-c)",
     "title": "Damage from external causes or misuse",
-    "snippet": "The Plan does not apply to damage caused by a product that is not the Covered iPhone, by abuse, misuse, fire, earthquake, or other external causes except as described in section 3.2, or by operating the Covered iPhone outside the permitted or intended uses described by the manufacturer."
+    "snippet": "The Plan does not apply to damage caused by a product that is not the Covered iPhone, by abuse, misuse, fire, earthquake, or other external causes except as described in section 3.2, or by operating the Covered iPhone outside the permitted or intended uses described by the manufacturer.",
+    "intent": "exclusion"
   },
   {
     "id": "sec4-2-unauthorized-repair",
     "section": "4.2(ii)(d)",
-    "title": "Unauthorized service",
-    "snippet": "The Plan does not apply to damage caused by service, including upgrades or expansions, when the work was performed by anyone who is not an Apple representative or an Apple Authorized Service Provider."
+    "title": "Unauthorized service exclusion",
+    "snippet": "The Plan does not apply to damage caused by service, including upgrades or expansions, when the work was performed by anyone who is not an Apple representative or an Apple Authorized Service Provider.",
+    "intent": "exclusion"
   },
   {
     "id": "sec4-2-serial-number",
     "section": "4.2(iii)",
-    "title": "Serial number tampering",
-    "snippet": "The Plan does not apply to an iPhone with a serial number that has been altered, defaced, removed, or modified to alter its functionality or capability without the manufacturer's permission."
+    "title": "Serial number tampering exclusion",
+    "snippet": "The Plan does not apply to an iPhone with a serial number that has been altered, defaced, removed, or modified to alter its functionality or capability without the manufacturer's permission.",
+    "intent": "exclusion"
   },
   {
     "id": "sec4-2-loss-theft",
     "section": "4.2(iv)",
-    "title": "Loss or theft",
-    "snippet": "The Plan does not apply to a Covered iPhone that has been lost or stolen; coverage only applies to a device that is returned to Apple in its entirety."
+    "title": "Loss or theft exclusion",
+    "snippet": "The Plan does not apply to a Covered iPhone that has been lost or stolen; coverage only applies to a device that is returned to Apple in its entirety.",
+    "intent": "exclusion"
   },
   {
     "id": "sec4-2-cosmetic-damage",
     "section": "4.2(v)",
-    "title": "Cosmetic damage",
-    "snippet": "The Plan does not apply to cosmetic damage to the Covered iPhone, including scratches and dents, when the functionality of the device is not otherwise affected."
+    "title": "Cosmetic damage exclusion",
+    "snippet": "The Plan does not apply to cosmetic damage to the Covered iPhone, including scratches and dents, when the functionality of the device is not otherwise affected.",
+    "intent": "exclusion"
   },
   {
     "id": "sec4-2-preventative-maintenance",
     "section": "4.2(vi)",
-    "title": "Preventative maintenance",
-    "snippet": "The Plan does not apply to preventative maintenance on the Covered iPhone."
+    "title": "Preventative maintenance exclusion",
+    "snippet": "The Plan does not apply to preventative maintenance on the Covered iPhone.",
+    "intent": "exclusion"
   },
   {
     "id": "sec4-2-normal-wear",
     "section": "4.2(vii)",
-    "title": "Normal wear and aging",
-    "snippet": "The Plan does not apply to defects caused by normal wear and tear or that are otherwise due to normal aging of the product."
+    "title": "Normal wear and aging exclusion",
+    "snippet": "The Plan does not apply to defects caused by normal wear and tear or that are otherwise due to normal aging of the product.",
+    "intent": "exclusion"
   },
   {
     "id": "sec4-2-preexisting-condition",
     "section": "4.2(viii)",
-    "title": "Pre-existing condition",
-    "snippet": "The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased the Plan after you purchased the device."
+    "title": "Pre-existing condition exclusion",
+    "snippet": "The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased the Plan after you purchased the device.",
+    "intent": "exclusion"
   }
 ]

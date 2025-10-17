@@ -1,0 +1,71 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20251017T103420Z-01",
+      "title": "Claim for pre-existing battery issue after delayed AppleCare+ purchase",
+      "description": "Customer purchases AppleCare+ six months after buying their iPhone and immediately files a claim for a battery that has already degraded below 50% capacity.",
+      "claim_type": "pre_existing_condition_battery",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Battery service is normally covered without a fee, but pre-existing conditions are excluded."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1 Hardware Service",
+          "snippet": "If during the Plan Term, you submit a valid claim ... the capacity of the Covered iPhone’s battery to hold an electrical charge has depleted fifty (50%) percent or more ... Apple will ... repair ... or ... exchange the Covered iPhone."
+        },
+        {
+          "section": "4.2(viii)",
+          "snippet": "The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased the Plan after you purchased the Covered iPhone."
+        }
+      ],
+      "reasoning": "While battery degradation below 50% is normally covered under section 3.1, section 4.2(viii) explicitly excludes pre-existing conditions if AppleCare+ is purchased after the device. The policy does not define how to determine if a battery issue is pre-existing at the time of plan purchase, creating an edge case. Apple would need to verify battery health history or usage data to adjudicate the claim.",
+      "customer_data": {
+        "device": "iPhone 14 (128 GB)",
+        "plan_agreement_number": "APLCARE-7564932011",
+        "serial_number": "F2L9Q8M7N1B4",
+        "phone_number": "+1-415-555-0199"
+      }
+    },
+    {
+      "id": "EC-20251017T103420Z-02",
+      "title": "Claim for ADH after device repaired by non-authorized provider",
+      "description": "Customer seeks AppleCare+ accidental damage coverage after having a cracked screen repaired by a non-Apple provider, then experiencing touchscreen malfunction.",
+      "claim_type": "post_third_party_repair_ADH",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "uncertain",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Fee applies only if claim is accepted as valid ADH despite prior third-party repair."
+      },
+      "counts_toward_adh_limit": "if_approved",
+      "policy_references": [
+        {
+          "section": "3.2 ADH",
+          "snippet": "If during the Plan Term you submit a valid claim notifying Apple that the Covered iPhone has failed due to accidental damage from handling ('ADH'), Apple will ... repair or exchange the Covered iPhone."
+        },
+        {
+          "section": "4.2(ii)(d)",
+          "snippet": "The Plan does not apply to service (including upgrades and expansions) if such was performed by anyone who is not a representative of Apple or an Apple Authorized Service Provider ('AASP')."
+        }
+      ],
+      "reasoning": "The claim is for accidental damage, which is generally covered (3.2), but the device was previously serviced by a non-authorized provider, which is excluded (4.2(ii)(d)). The malfunction may be due to the third-party repair or to the original accident. Determining eligibility requires judgment on whether the current failure is directly caused by the unauthorized repair or is a new, unrelated ADH event. Apple would need to assess the device and possibly request documentation of both the accident and the repair.",
+      "customer_data": {
+        "device": "iPhone 14 Pro (128 GB)",
+        "plan_agreement_number": "APLCARE-5678923451",
+        "serial_number": "X2Y5L9P7Q8R3",
+        "phone_number": "+1-415-555-0196"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}
