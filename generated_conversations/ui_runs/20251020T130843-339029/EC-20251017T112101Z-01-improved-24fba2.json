@@ -1,0 +1,168 @@
+{
+  "id": "EC-20251017T112101Z-01-improved-24fba2",
+  "created_at": "2025-10-20T13:10:44.476Z",
+  "model": "gpt-4.1-nano",
+  "temperature": 1,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20251017T112101Z-01",
+    "title": "Claim for iPhone Recovered After Theft With Third-Party Repairs",
+    "description": "Customer reported their iPhone stolen and filed a claim under AppleCare+. The device was recovered and returned to Apple, but during the period it was missing, the device had undergone unauthorized third-party repairs, including a non-genuine battery replacement and a screen repair, as evidenced by internal diagnostics and physical inspection. The device is otherwise complete and functional, though the replaced parts are non-Apple components.",
+    "claim_type": "lost_or_stolen_edge_case",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "no",
+      "amount": 0,
+      "currency": "USD",
+      "notes": "No ADH service fee applies as coverage excludes lost or stolen devices and incomplete returns."
+    },
+    "counts_toward_adh_limit": "no",
+    "policy_references": [
+      {
+        "section": "4.2(iv)",
+        "snippet": "The Plan does not apply to a Covered iPhone that has been lost or stolen; coverage only applies to a device that is returned to Apple in its entirety."
+      },
+      {
+        "section": "3.2",
+        "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an unexpected and unintentional external event on a device returned intact."
+      }
+    ],
+    "reasoning": "Section 4.2(iv) explicitly excludes coverage for devices reported lost or stolen even if later returned; moreover, the returned device must be complete. The missing components here mean the iPhone is not returned in its entirety. Thus, despite recovery, the claim is excluded. ADH coverage and associated $49 fee do not apply as the damage is not from accidental handling but from incomplete return after theft. The case requires verifying device completeness and claim history per Section 4.2(iv).",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (512 GB)",
+      "plan_agreement_number": "APLCARE-8745632100",
+      "serial_number": "F4R7D8C9K2M1",
+      "phone_number": "+1-415-555-2890"
+    },
+    "metadata": {
+      "policy_anchor_id": "sec4-2-loss-theft",
+      "policy_anchor_section": "4.2(iv)",
+      "policy_anchor_intent": "exclusion",
+      "secondary_policy_sections": [
+        "3.2"
+      ]
+    },
+    "adjustments": "Changed scenario so that the device is returned complete, but with third-party parts installed during the period it was out of the customer's possession.",
+    "risk_analysis": "This scenario is closer to the policy boundary because the iPhone is returned in its entirety, satisfying the completeness requirement of Section 4.2(iv), but introduces ambiguity regarding coverage due to unauthorized third-party repairs. While policy Section 4.2(ii) and (iii) generally exclude coverage for damage caused by unauthorized service or modified devices, the fact that the repairs occurred while the device was outside the customer's control (i.e., during theft) creates uncertainty over whether the exclusion should apply. This raises nuanced questions regarding customer responsibility and the intent of the exclusions when the device was not in the customer's custody."
+  },
+  "persona": {
+    "age": "67",
+    "ancestry": "Irish",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Extremely Low",
+      "Extraversion": "Average",
+      "Neuroticism": "Extremely High",
+      "Openness": "Extremely Low"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+    "defining quirks": "Enjoys bird watching",
+    "detailed job description": "Provided administrative support in a legal firm",
+    "disability": "None",
+    "education": "1 or more years of college credit, no degree",
+    "employment status": "Not in labor force",
+    "family presence and age": "No family",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Female householder, no spouse/partner present, living alone",
+    "ideology": "Liberal",
+    "income": "62300.0",
+    "industry category": "PRF-Legal Services",
+    "lifestyle": "Quiet and solitary",
+    "mannerisms": "Often frowns when concentrating",
+    "marital status": "Divorced",
+    "occupation category": "OFF-Secretaries And Administrative Assistants, Except Legal, Medical, And Executive",
+    "personal time": "Spends free time in nature or reading",
+    "place of birth": "Virginia/VA",
+    "political views": "Democrat",
+    "race": "White alone",
+    "religion": "Religiously Unaffiliated",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario title:\nClaim for iPhone Recovered After Theft With Third-Party Repairs\n\nScenario description:\nCustomer reported their iPhone stolen and filed a claim under AppleCare+. The device was recovered and returned to Apple, but during the period it was missing, the device had undergone unauthorized third-party repairs, including a non-genuine battery replacement and a screen repair, as evidenced by internal diagnostics and physical inspection. The device is otherwise complete and functional, though the replaced parts are non-Apple components.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-8745632100\",\n  \"serial_number\": \"F4R7D8C9K2M1\",\n  \"phone_number\": \"+1-415-555-2890\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"67\",\n  \"ancestry\": \"Irish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Extremely Low\",\n    \"Extraversion\": \"Average\",\n    \"Neuroticism\": \"Extremely High\",\n    \"Openness\": \"Extremely Low\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions\",\n  \"defining quirks\": \"Enjoys bird watching\",\n  \"detailed job description\": \"Provided administrative support in a legal firm\",\n  \"disability\": \"None\",\n  \"education\": \"1 or more years of college credit, no degree\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"No family\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Female householder, no spouse/partner present, living alone\",\n  \"ideology\": \"Liberal\",\n  \"income\": \"62300.0\",\n  \"industry category\": \"PRF-Legal Services\",\n  \"lifestyle\": \"Quiet and solitary\",\n  \"mannerisms\": \"Often frowns when concentrating\",\n  \"marital status\": \"Divorced\",\n  \"occupation category\": \"OFF-Secretaries And Administrative Assistants, Except Legal, Medical, And Executive\",\n  \"personal time\": \"Spends free time in nature or reading\",\n  \"place of birth\": \"Virginia/VA\",\n  \"political views\": \"Democrat\",\n  \"race\": \"White alone\",\n  \"religion\": \"Religiously Unaffiliated\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hi, I need to file a claim. My iPhone 14 Pro Max got stolen but I got it back now. During the time it was missing, some repair work was done by a third party. Can you help me with that?",
+      "raw_text": "Hi, I need to file a claim. My iPhone 14 Pro Max got stolen but I got it back now. During the time it was missing, some repair work was done by a third party. Can you help me with that?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Certainly. To begin, could you please provide your Plan Agreement Number or the serial number of your iPhone?",
+      "raw_text": "Certainly. To begin, could you please provide your Plan Agreement Number or the serial number of your iPhone?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, I've got the serial number here: F4R7D8C9K2M1.",
+      "raw_text": "Sure, I've got the serial number here: F4R7D8C9K2M1."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Could you please describe the issue or what happened with your iPhone 14 Pro Max?",
+      "raw_text": "Thank you. Could you please describe the issue or what happened with your iPhone 14 Pro Max?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Well, like I said, it was stolen, but it's been recovered now. When it was missing, someone else repaired it, and I found out later they put in non-genuine parts, like a battery and screen. It's working okay, but I want to make sure everything is covered.",
+      "raw_text": "Well, like I said, it was stolen, but it's been recovered now. When it was missing, someone else repaired it, and I found out later they put in non-genuine parts, like a battery and screen. It's working okay, but I want to make sure everything is covered."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the details. Was the problem due to hardware failure, damage, or was it just the replacement parts that concern you?",
+      "raw_text": "Thank you for the details. Was the problem due to hardware failure, damage, or was it just the replacement parts that concern you?"
+    },
+    {
+      "speaker": "customer",
+      "text": "It's mostly the replacement parts—they're not original Apple parts, and that worries me a bit. I want to be sure my coverage takes that into account.",
+      "raw_text": "It's mostly the replacement parts—they're not original Apple parts, and that worries me a bit. I want to be sure my coverage takes that into account."
+    },
+    {
+      "speaker": "bot",
+      "text": "Understood. Did any accidents, such as drops or liquid damage, occur during the time your device was missing or during the repair process? If so, please provide details.",
+      "raw_text": "Understood. Did any accidents, such as drops or liquid damage, occur during the time your device was missing or during the repair process? If so, please provide details."
+    },
+    {
+      "speaker": "customer",
+      "text": "No, nothing like that happened. It was just missing, and then repaired later with the non-Genuine parts. I didn't drop it or spill anything.",
+      "raw_text": "No, nothing like that happened. It was just missing, and then repaired later with the non-Genuine parts. I didn't drop it or spill anything."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for clarifying. Since your concern involves third-party repairs and non-Genuine parts, we will need to review your claim accordingly. The claim will be processed, and you will be notified as soon as it is complete. Is there anything else I can assist you with before we conclude?",
+      "raw_text": "Thank you for clarifying. Since your concern involves third-party repairs and non-Genuine parts, we will need to review your claim accordingly. The claim will be processed, and you will be notified as soon as it is complete. Is there anything else I can assist you with before we conclude?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all for now. I just want to get this sorted out. Thanks.",
+      "raw_text": "No, that's all for now. I just want to get this sorted out. Thanks."
+    },
+    {
+      "speaker": "bot",
+      "text": "You're welcome. Your claim is now being processed. If you need any further assistance, feel free to reach out. Have a great day!",
+      "raw_text": "You're welcome. Your claim is now being processed. If you need any further assistance, feel free to reach out. Have a great day!"
+    },
+    {
+      "speaker": "customer",
+      "text": "Thank you, I will. Bye.",
+      "raw_text": "Thank you, I will. Bye."
+    },
+    {
+      "speaker": "bot",
+      "text": "<END>",
+      "raw_text": "<END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}
