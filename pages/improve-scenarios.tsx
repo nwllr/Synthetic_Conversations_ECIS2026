@@ -80,6 +80,7 @@ const ImproveScenariosPage: React.FC = () => {
   const [groundTruthFilter, setGroundTruthFilter] = useState<GroundTruthFilter>("edge_case");
   const [selectedByRun, setSelectedByRun] = useState<Record<string, string[]>>({});
   const [apiKey, setApiKey] = useState<string>("");
+  const [scoringModel, setScoringModel] = useState<string>("gpt-4.1-mini");
   const [checking, setChecking] = useState<boolean>(false);
   const [checkError, setCheckError] = useState<string | null>(null);
   const [checkResults, setCheckResults] = useState<DifficultyResult[]>([]);
@@ -232,6 +233,10 @@ const ImproveScenariosPage: React.FC = () => {
       setCheckError("Provide an OpenAI API key.");
       return;
     }
+    if (!scoringModel.trim()) {
+      setCheckError("Provide a scoring model.");
+      return;
+    }
 
     setChecking(true);
     setCheckError(null);
@@ -239,7 +244,7 @@ const ImproveScenariosPage: React.FC = () => {
       const response = await fetch("/api/improve-scenarios/check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filePaths: currentSelections, apiKey: apiKey.trim() }),
+        body: JSON.stringify({ filePaths: currentSelections, apiKey: apiKey.trim(), model: scoringModel.trim() }),
       });
       if (!response.ok) {
         const message = await response.text();
@@ -248,13 +253,13 @@ const ImproveScenariosPage: React.FC = () => {
       const data: DifficultyResponse = await response.json();
       setCheckResults(data.results ?? []);
       setCheckWarnings(data.warnings ?? []);
-      setLastCheckedModel(data.model ?? null);
+      setLastCheckedModel(data.model ?? scoringModel.trim() ?? null);
     } catch (err: any) {
       setCheckError(err?.message ?? "Unknown error");
     } finally {
       setChecking(false);
     }
-  }, [apiKey, currentSelections]);
+  }, [apiKey, currentSelections, scoringModel]);
 
   const formatLogProbability = useCallback((value: number | null) => {
     if (value === null || Number.isNaN(value)) return "—";
@@ -322,6 +327,24 @@ const ImproveScenariosPage: React.FC = () => {
                 autoComplete="off"
               />
               <small style={{ color: "#555", marginTop: "0.25rem" }}>Required to evaluate difficulty.</small>
+            </label>
+
+            <label style={{ display: "flex", flexDirection: "column", minWidth: "220px", flex: "1 1 220px" }}>
+              <span style={{ fontWeight: 500, marginBottom: "0.25rem" }}>Scoring model</span>
+              <input
+                type="text"
+                value={scoringModel}
+                onChange={(event) => setScoringModel(event.target.value)}
+                list="scoring-model-options"
+                style={{ padding: "0.5rem" }}
+              />
+              <datalist id="scoring-model-options">
+                <option value="gpt-4.1-mini" />
+                <option value="gpt-4.1" />
+                <option value="gpt-4.1-turbo" />
+                <option value="o4-mini" />
+              </datalist>
+              <small style={{ color: "#555", marginTop: "0.25rem" }}>Defaults to gpt-4.1-mini; override as needed.</small>
             </label>
           </div>
 
