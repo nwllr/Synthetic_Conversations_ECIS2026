@@ -1,0 +1,173 @@
+{
+  "id": "EC-20251017T112101Z-03-improved-1-897837",
+  "created_at": "2025-10-20T16:13:36.532Z",
+  "model": "gpt-4.1-nano",
+  "temperature": 1,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20251017T112101Z-03",
+    "title": "Battery Capacity Near Threshold with Persistent Shutdowns and Recent Software Updates",
+    "description": "Customer’s Covered iPhone’s battery capacity has depleted 49% from original specifications during the Plan Term, just below the 50% depletion threshold stipulated in Section 3.1 for free repair or replacement. The customer reports frequent shutdowns that occur even after multiple recent iOS updates, which may indicate underlying hardware issues rather than battery aging alone. The device has also been intermittently unresponsive during use, but diagnostics show no clear manufacturing defect. This raises an ambiguous question whether the behavior qualifies as a defect in materials and workmanship or is a combination of normal wear and software factors.",
+    "claim_type": "battery_depletion_threshold_edge",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "no",
+      "amount": 0,
+      "currency": "USD",
+      "notes": "No service fee applies as battery degradation falls below 50% threshold for free coverage under 3.1."
+    },
+    "counts_toward_adh_limit": "no",
+    "policy_references": [
+      {
+        "section": "3.1",
+        "snippet": "If during the Plan Term you submit a valid claim notifying Apple that a defect in materials and workmanship has arisen in the Covered iPhone or the capacity of the Covered iPhone's battery has depleted fifty (50%) percent or more from its original specifications, Apple will either repair the defect at no charge or exchange the Covered iPhone..."
+      },
+      {
+        "section": "4.2(vii)",
+        "snippet": "The Plan does not apply to defects caused by normal wear and tear or which is otherwise due to normal aging of the product."
+      },
+      {
+        "section": "7(ii)",
+        "snippet": "You will provide information about the symptoms and causes of the issues with the Covered iPhone."
+      }
+    ],
+    "reasoning": "Because Section 3.1 requires ≥50% battery capacity depletion for coverage, and the degradation is reported at 48%, this case falls into an ambiguous zone. The intermittent shutdowns raise a question if a defect in workmanship exists independently of capacity metrics. However, Section 4.2(vii) excludes coverage for normal aging, creating tension. To resolve, Apple must evaluate detailed diagnostics per Section 7(ii) to decide if this is a defect or normal wear. As it is not a clear defect nor meets the numeric threshold, coverage determination requires judgment.",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (512 GB)",
+      "plan_agreement_number": "APLCARE-2025101799",
+      "serial_number": "F2N9W4P7M8Q3",
+      "phone_number": "+1-408-555-7760"
+    },
+    "metadata": {
+      "policy_anchor_id": "sec3-1-hardware-defect",
+      "policy_anchor_section": "3.1",
+      "policy_anchor_intent": "coverage_requirement",
+      "secondary_policy_sections": [
+        "4.2(vii)",
+        "7(ii)"
+      ]
+    },
+    "adjustments": "Increased battery depletion from 48% to 49%, added weight to frequent shutdowns post recent OS updates, noted intermittent unresponsiveness, and diagnostic ambiguity regarding defect.",
+    "risk_analysis": "By moving the battery degradation closer to the 50% threshold and introducing persistent shutdowns that continue after recent software updates, along with intermittent unresponsiveness and inconclusive diagnostics, the claim edges closer to qualifying as a defect under Section 3.1. However, the lack of definitive evidence of a manufacturing defect and the role of normal aging/software factors creates a borderline scenario requiring nuanced judgment."
+  },
+  "persona": {
+    "age": "78",
+    "ancestry": "Scottish",
+    "big five scores": {
+      "Agreeableness": "High",
+      "Conscientiousness": "Extremely High",
+      "Extraversion": "High",
+      "Neuroticism": "Low",
+      "Openness": "High"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+    "defining quirks": "Enjoys knitting and often gifts her creations to friends and family",
+    "detailed job description": "Provided basic medical care and assisted with daily activities for patients in a nursing home",
+    "disability": "None",
+    "education": "1 or more years of college credit, no degree",
+    "employment status": "Not in labor force",
+    "family presence and age": "No family",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Cohabiting couple household, no children of the householder less than 18",
+    "ideology": "Conservative",
+    "income": "85100.0",
+    "industry category": "MED-Nursing Care Facilities (Skilled Nursing Facilities)",
+    "lifestyle": "Quiet and peaceful, enjoys simple pleasures",
+    "mannerisms": "Often hums old Scottish tunes",
+    "marital status": "Divorced",
+    "occupation category": "MED-Licensed Practical And Licensed Vocational Nurses",
+    "personal time": "Spends free time knitting, reading, or tending to her garden",
+    "place of birth": "New York/NY",
+    "political views": "Republican",
+    "race": "White alone",
+    "religion": "Catholic",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario title:\nBattery Capacity Near Threshold with Persistent Shutdowns and Recent Software Updates\n\nScenario description:\nCustomer’s Covered iPhone’s battery capacity has depleted 49% from original specifications during the Plan Term, just below the 50% depletion threshold stipulated in Section 3.1 for free repair or replacement. The customer reports frequent shutdowns that occur even after multiple recent iOS updates, which may indicate underlying hardware issues rather than battery aging alone. The device has also been intermittently unresponsive during use, but diagnostics show no clear manufacturing defect. This raises an ambiguous question whether the behavior qualifies as a defect in materials and workmanship or is a combination of normal wear and software factors.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-2025101799\",\n  \"serial_number\": \"F2N9W4P7M8Q3\",\n  \"phone_number\": \"+1-408-555-7760\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"78\",\n  \"ancestry\": \"Scottish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"High\",\n    \"Conscientiousness\": \"Extremely High\",\n    \"Extraversion\": \"High\",\n    \"Neuroticism\": \"Low\",\n    \"Openness\": \"High\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions\",\n  \"defining quirks\": \"Enjoys knitting and often gifts her creations to friends and family\",\n  \"detailed job description\": \"Provided basic medical care and assisted with daily activities for patients in a nursing home\",\n  \"disability\": \"None\",\n  \"education\": \"1 or more years of college credit, no degree\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"No family\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Cohabiting couple household, no children of the householder less than 18\",\n  \"ideology\": \"Conservative\",\n  \"income\": \"85100.0\",\n  \"industry category\": \"MED-Nursing Care Facilities (Skilled Nursing Facilities)\",\n  \"lifestyle\": \"Quiet and peaceful, enjoys simple pleasures\",\n  \"mannerisms\": \"Often hums old Scottish tunes\",\n  \"marital status\": \"Divorced\",\n  \"occupation category\": \"MED-Licensed Practical And Licensed Vocational Nurses\",\n  \"personal time\": \"Spends free time knitting, reading, or tending to her garden\",\n  \"place of birth\": \"New York/NY\",\n  \"political views\": \"Republican\",\n  \"race\": \"White alone\",\n  \"religion\": \"Catholic\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hello there. I have an iPhone 14 Pro Max that’s been acting up lately. It keeps shutting down randomly, even after I updated the software a few times. I also noticed the battery's capacity has gone down quite a bit, just below the 50% mark. I’d like to see if I can get it checked out or replaced.",
+      "raw_text": "Hello there. I have an iPhone 14 Pro Max that’s been acting up lately. It keeps shutting down randomly, even after I updated the software a few times. I also noticed the battery's capacity has gone down quite a bit, just below the 50% mark. I’d like to see if I can get it checked out or replaced."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. To start your claim, could you please provide your Plan Agreement Number or the serial number of your iPhone 14 Pro Max?",
+      "raw_text": "Thank you for the information. To start your claim, could you please provide your Plan Agreement Number or the serial number of your iPhone 14 Pro Max?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, my Plan Agreement Number is APLCARE-2025101799. That's also the number I use for all my records.",
+      "raw_text": "Sure, my Plan Agreement Number is APLCARE-2025101799. That's also the number I use for all my records."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Now, could you please describe the issue you're experiencing with your iPhone in more detail?",
+      "raw_text": "Thank you. Now, could you please describe the issue you're experiencing with your iPhone in more detail?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Of course. Like I said, the phone’s shutting down unexpectedly a lot, even after I’ve done the latest updates. It sometimes just freezes or doesn't respond at all. I’ve been careful with it, but I think the battery's lost power from use over the years. It's frustrating, and I’d really appreciate some help.",
+      "raw_text": "Of course. Like I said, the phone’s shutting down unexpectedly a lot, even after I’ve done the latest updates. It sometimes just freezes or doesn't respond at all. I’ve been careful with it, but I think the battery's lost power from use over the years. It's frustrating, and I’d really appreciate some help."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the detailed description. To help us proceed, may I ask if your iPhone model is exactly the iPhone 14 Pro Max, and what iOS version is currently installed? Also, are there any peripherals attached when these issues occur?",
+      "raw_text": "Thank you for the detailed description. To help us proceed, may I ask if your iPhone model is exactly the iPhone 14 Pro Max, and what iOS version is currently installed? Also, are there any peripherals attached when these issues occur?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, it's an iPhone 14 Pro Max, with 512GB storage. I'm using the latest iOS version, the newest update I downloaded just last week. No peripherals are attached when the issues happen—just the phone itself. Thanks for checking.",
+      "raw_text": "Yes, it's an iPhone 14 Pro Max, with 512GB storage. I'm using the latest iOS version, the newest update I downloaded just last week. No peripherals are attached when the issues happen—just the phone itself. Thanks for checking."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. Since you've mentioned battery concerns and software updates, I need to confirm whether your battery capacity has dropped below 50%. Have you had a battery diagnostics test done, or do you know if the capacity is under that threshold?",
+      "raw_text": "Thank you for the information. Since you've mentioned battery concerns and software updates, I need to confirm whether your battery capacity has dropped below 50%. Have you had a battery diagnostics test done, or do you know if the capacity is under that threshold?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, I checked. The battery capacity has depleted about 49% from the original specs, so it’s just below the 50% mark. That’s why I’m worried—it's right on the edge, and the shutdowns are happening a lot more lately. I think it’s more than just normal wear.",
+      "raw_text": "Yes, I checked. The battery capacity has depleted about 49% from the original specs, so it’s just below the 50% mark. That’s why I’m worried—it's right on the edge, and the shutdowns are happening a lot more lately. I think it’s more than just normal wear."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for confirming. Based on the symptoms and battery information, I will proceed with your claim. Do you have any accident details you’d like to share, such as if the device was dropped or exposed to liquid, or should I move forward without that information?",
+      "raw_text": "Thank you for confirming. Based on the symptoms and battery information, I will proceed with your claim. Do you have any accident details you’d like to share, such as if the device was dropped or exposed to liquid, or should I move forward without that information?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Oh no, nothing like that. I take good care of my phone. No drops, no water damage, just these sudden shut downs and slow response lately. Think it might be a hardware issue beyond just the battery wear.",
+      "raw_text": "Oh no, nothing like that. I take good care of my phone. No drops, no water damage, just these sudden shut downs and slow response lately. Think it might be a hardware issue beyond just the battery wear."
+    },
+    {
+      "speaker": "bot",
+      "text": "Understood. I will now process your claim. Is there anything else I can assist you with before I do?",
+      "raw_text": "Understood. I will now process your claim. Is there anything else I can assist you with before I do?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all. I appreciate your help. I hope I can get this sorted out quickly. Thank you.",
+      "raw_text": "No, that's all. I appreciate your help. I hope I can get this sorted out quickly. Thank you."
+    },
+    {
+      "speaker": "bot",
+      "text": "You're welcome. Your claim will now be processed. You will receive a notification once it has been reviewed. If you need any further assistance in the future, feel free to contact us. Have a great day!",
+      "raw_text": "You're welcome. Your claim will now be processed. You will receive a notification once it has been reviewed. If you need any further assistance in the future, feel free to contact us. Have a great day! <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

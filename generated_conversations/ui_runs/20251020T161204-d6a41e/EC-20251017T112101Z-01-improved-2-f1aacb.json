@@ -1,0 +1,163 @@
+{
+  "id": "EC-20251017T112101Z-01-improved-2-f1aacb",
+  "created_at": "2025-10-20T16:12:47.473Z",
+  "model": "gpt-4.1-nano",
+  "temperature": 1,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20251017T112101Z-01",
+    "title": "Claim for iPhone Reported Stolen but Later Recovered with Battery and Screen Replaced by Authorized Service",
+    "description": "Customer reported their iPhone stolen and filed a claim under AppleCare+. The device was later recovered missing the original battery, which was replaced by an Apple Authorized Service Provider (AASP) with an official Apple battery, and the screen assembly previously damaged was also replaced by an AASP with a genuine Apple screen. The iPhone powers on and is fully operational with all original components restored, but with a replacement battery and screen not original to the initial device. Minor cosmetic scratches unrelated to the theft were also present.",
+    "claim_type": "lost_or_stolen_edge_case",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "no",
+      "amount": 0,
+      "currency": "USD",
+      "notes": "No ADH service fee applies as coverage excludes lost or stolen devices and incomplete returns."
+    },
+    "counts_toward_adh_limit": "no",
+    "policy_references": [
+      {
+        "section": "4.2(iv)",
+        "snippet": "The Plan does not apply to a Covered iPhone that has been lost or stolen; coverage only applies to a device that is returned to Apple in its entirety."
+      },
+      {
+        "section": "3.2",
+        "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an unexpected and unintentional external event on a device returned intact."
+      }
+    ],
+    "reasoning": "Section 4.2(iv) explicitly excludes coverage for devices reported lost or stolen even if later returned; moreover, the returned device must be complete. The missing components here mean the iPhone is not returned in its entirety. Thus, despite recovery, the claim is excluded. ADH coverage and associated $49 fee do not apply as the damage is not from accidental handling but from incomplete return after theft. The case requires verifying device completeness and claim history per Section 4.2(iv).",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (512 GB)",
+      "plan_agreement_number": "APLCARE-8745632100",
+      "serial_number": "F4R7D8C9K2M1",
+      "phone_number": "+1-415-555-2890"
+    },
+    "metadata": {
+      "policy_anchor_id": "sec4-2-loss-theft",
+      "policy_anchor_section": "4.2(iv)",
+      "policy_anchor_intent": "exclusion",
+      "secondary_policy_sections": [
+        "3.2"
+      ]
+    },
+    "adjustments": "Changed the third-party compatible battery to an official Apple battery replaced by AASP; replaced the screen with a genuine Apple screen via AASP repair; device fully operational with restored original functionality except replaced parts; added minor unrelated cosmetic scratches.",
+    "risk_analysis": "By introducing official Apple-part replacements performed by authorized service for missing components, the device is closer to being ‘returned in its entirety’ functionally and in terms of authorized repair, though original parts are missing. The coverage exclusion for lost or stolen devices remains, but restoration efforts by authorized repair introduce ambiguity about completeness and whether the condition meets the policy’s intent. Cosmetic scratches add complexity on what constitutes operational integrity versus minor damage, making coverage decision less clear-cut."
+  },
+  "persona": {
+    "age": "67",
+    "ancestry": "Irish",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Extremely Low",
+      "Extraversion": "Average",
+      "Neuroticism": "Extremely High",
+      "Openness": "Extremely Low"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+    "defining quirks": "Enjoys bird watching",
+    "detailed job description": "Provided administrative support in a legal firm",
+    "disability": "None",
+    "education": "1 or more years of college credit, no degree",
+    "employment status": "Not in labor force",
+    "family presence and age": "No family",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Female householder, no spouse/partner present, living alone",
+    "ideology": "Liberal",
+    "income": "62300.0",
+    "industry category": "PRF-Legal Services",
+    "lifestyle": "Quiet and solitary",
+    "mannerisms": "Often frowns when concentrating",
+    "marital status": "Divorced",
+    "occupation category": "OFF-Secretaries And Administrative Assistants, Except Legal, Medical, And Executive",
+    "personal time": "Spends free time in nature or reading",
+    "place of birth": "Virginia/VA",
+    "political views": "Democrat",
+    "race": "White alone",
+    "religion": "Religiously Unaffiliated",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario title:\nClaim for iPhone Reported Stolen but Later Recovered with Battery and Screen Replaced by Authorized Service\n\nScenario description:\nCustomer reported their iPhone stolen and filed a claim under AppleCare+. The device was later recovered missing the original battery, which was replaced by an Apple Authorized Service Provider (AASP) with an official Apple battery, and the screen assembly previously damaged was also replaced by an AASP with a genuine Apple screen. The iPhone powers on and is fully operational with all original components restored, but with a replacement battery and screen not original to the initial device. Minor cosmetic scratches unrelated to the theft were also present.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-8745632100\",\n  \"serial_number\": \"F4R7D8C9K2M1\",\n  \"phone_number\": \"+1-415-555-2890\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"67\",\n  \"ancestry\": \"Irish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Extremely Low\",\n    \"Extraversion\": \"Average\",\n    \"Neuroticism\": \"Extremely High\",\n    \"Openness\": \"Extremely Low\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions\",\n  \"defining quirks\": \"Enjoys bird watching\",\n  \"detailed job description\": \"Provided administrative support in a legal firm\",\n  \"disability\": \"None\",\n  \"education\": \"1 or more years of college credit, no degree\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"No family\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Female householder, no spouse/partner present, living alone\",\n  \"ideology\": \"Liberal\",\n  \"income\": \"62300.0\",\n  \"industry category\": \"PRF-Legal Services\",\n  \"lifestyle\": \"Quiet and solitary\",\n  \"mannerisms\": \"Often frowns when concentrating\",\n  \"marital status\": \"Divorced\",\n  \"occupation category\": \"OFF-Secretaries And Administrative Assistants, Except Legal, Medical, And Executive\",\n  \"personal time\": \"Spends free time in nature or reading\",\n  \"place of birth\": \"Virginia/VA\",\n  \"political views\": \"Democrat\",\n  \"race\": \"White alone\",\n  \"religion\": \"Religiously Unaffiliated\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hi, I need to file a claim. My iPhone was reported stolen but I got it back later. The battery and screen were replaced by an authorized service place, though. Can you help me with this?",
+      "raw_text": "Hi, I need to file a claim. My iPhone was reported stolen but I got it back later. The battery and screen were replaced by an authorized service place, though. Can you help me with this?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Certainly. To begin, could you please provide me with your Plan Agreement Number or the serial number of your iPhone?",
+      "raw_text": "Certainly. To begin, could you please provide me with your Plan Agreement Number or the serial number of your iPhone?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, the plan agreement number is APLCARE-8745632100 and the serial number is F4R7D8C9K2M1.",
+      "raw_text": "Sure, the plan agreement number is APLCARE-8745632100 and the serial number is F4R7D8C9K2M1."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Could you please describe the issue or symptoms you experienced with your iPhone?",
+      "raw_text": "Thank you. Could you please describe the issue or symptoms you experienced with your iPhone?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Well, like I said, it was stolen but then I got it back. It looks the same, but I noticed the battery isn't the original one anymore, and some scratches on the screen. It works fine now, but I want to know if I can get it fixed or what I should do.",
+      "raw_text": "Well, like I said, it was stolen but then I got it back. It looks the same, but I noticed the battery isn't the original one anymore, and some scratches on the screen. It works fine now, but I want to know if I can get it fixed or what I should do."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the details. To better understand the situation, could you specify the iPhone model and iOS version you are using? Also, are there any error messages or specific issues besides the scratches and non-original battery?",
+      "raw_text": "Thank you for the details. To better understand the situation, could you specify the iPhone model and iOS version you are using? Also, are there any error messages or specific issues besides the scratches and non-original battery?"
+    },
+    {
+      "speaker": "customer",
+      "text": "It's an iPhone 14 Pro Max with 512 GB. I don't remember the exact iOS version, but it should be up to date now. No error messages, just the scratches and the replaced battery that isn't original anymore. I'm mostly worried about if this is covered or what I need to do next.",
+      "raw_text": "It's an iPhone 14 Pro Max with 512 GB. I don't remember the exact iOS version, but it should be up to date now. No error messages, just the scratches and the replaced battery that isn't original anymore. I'm mostly worried about if this is covered or what I need to do next."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. Since the battery was replaced and the device was involved in this incident, I will proceed with documenting the details. Before that, do you have any supporting photos or logs related to the device's condition or the event?",
+      "raw_text": "Thank you for the information. Since the battery was replaced and the device was involved in this incident, I will proceed with documenting the details. Before that, do you have any supporting photos or logs related to the device's condition or the event?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, I don’t have any photos or logs. I just want to make sure I understand what I need to do now. It’s the same phone, just with a new battery and some scratches, right?",
+      "raw_text": "No, I don’t have any photos or logs. I just want to make sure I understand what I need to do now. It’s the same phone, just with a new battery and some scratches, right?"
+    },
+    {
+      "speaker": "bot",
+      "text": "That's correct. Your device has been repaired with a non-original battery and has some scratches. I will now process your claim based on these details. Is there anything else you'd like to add or ask before I proceed?",
+      "raw_text": "That's correct. Your device has been repaired with a non-original battery and has some scratches. I will now process your claim based on these details. Is there anything else you'd like to add or ask before I proceed?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all. I just want to make sure I get the right info, and hopefully, I can get some guidance on fixing it if needed. Thanks.",
+      "raw_text": "No, that's all. I just want to make sure I get the right info, and hopefully, I can get some guidance on fixing it if needed. Thanks."
+    },
+    {
+      "speaker": "bot",
+      "text": "Your claim will now be processed. You will be notified as soon as it is complete. Is there anything else I can assist you with today?",
+      "raw_text": "Your claim will now be processed. You will be notified as soon as it is complete. Is there anything else I can assist you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all. Thank you for your help. I appreciate it.",
+      "raw_text": "No, that's all. Thank you for your help. I appreciate it. <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

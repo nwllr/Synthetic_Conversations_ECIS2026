@@ -666,10 +666,56 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (aborted) break;
     }
 
+    let summaryRelativePath: string | null = null;
+    try {
+      const summary = {
+        generatedAt: new Date().toISOString(),
+        runDirectory,
+        scoringModel,
+        improvementModel: rewriteModel,
+        confidenceThreshold,
+        maxIterations,
+        aborted,
+        scenarios: results.map((result) => ({
+          filePath: result.filePath,
+          originalConversationId: result.originalConversationId ?? null,
+          newConversationPath: result.newConversationPath ?? null,
+          reachedThreshold: result.reachedThreshold,
+          appliedIteration: result.appliedIteration,
+          decision: result.difficulty?.decision ?? null,
+          maxProbability: confidenceFromDifficulty(result.difficulty),
+          logProbabilities: result.difficulty?.logProbabilities ?? null,
+          probabilities: result.difficulty?.probabilities ?? null,
+          finalRawRewrite: result.rawRewrite ?? null,
+          finalRewritePrompt: result.rewritePrompt ?? null,
+          attempts: (result.attempts ?? []).map((attempt) => ({
+            iteration: attempt.iteration,
+            conversationPath: attempt.conversationPath ?? null,
+            decision: attempt.difficulty?.decision ?? null,
+            maxProbability: confidenceFromDifficulty(attempt.difficulty),
+            logProbabilities: attempt.difficulty?.logProbabilities ?? null,
+            probabilities: attempt.difficulty?.probabilities ?? null,
+            error: attempt.error ?? null,
+            rawRewrite: attempt.rawRewrite ?? null,
+            rewritePrompt: attempt.rewritePrompt ?? null,
+          })),
+        })),
+      };
+
+      const summaryPath = path.join(OUTPUT_ROOT, runDir, "scoring-summary.json");
+      await fs.writeFile(summaryPath, `${JSON.stringify(summary, null, 2)}\n`, "utf-8");
+      summaryRelativePath = path.relative(process.cwd(), summaryPath).replace(/\\/g, "/");
+    } catch (summaryErr: any) {
+      const message = summaryErr?.message ?? String(summaryErr);
+      warnings.push(`Failed to write scoring summary: ${message}`);
+      writeEvent("warning", { message: `Failed to write scoring summary: ${message}` });
+    }
+
     writeEvent("done", {
       runDirectory,
       results,
       warnings,
+      summaryPath: summaryRelativePath,
     });
     res.end();
   } catch (err: any) {

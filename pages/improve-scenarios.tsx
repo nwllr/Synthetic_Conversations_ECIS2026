@@ -81,6 +81,7 @@ type IncreaseResponse = {
   runDirectory?: string;
   results?: ImprovedScenarioResult[];
   warnings?: string[];
+  summaryPath?: string;
 };
 
 type GroundTruthFilter = "edge_case" | "covered" | "not_covered" | "all";
@@ -133,6 +134,7 @@ const ImproveScenariosPage: React.FC = () => {
   const [improvementResults, setImprovementResults] = useState<ImprovedScenarioResult[]>([]);
   const [improvementWarnings, setImprovementWarnings] = useState<string[]>([]);
   const [improvementRunDir, setImprovementRunDir] = useState<string | null>(null);
+  const [improvementSummaryPath, setImprovementSummaryPath] = useState<string | null>(null);
 
   const matchEdgeCase = useCallback((entry: ScenarioSummary) => {
     const label = entry.groundTruth ?? entry.scenarioLabel;
@@ -206,6 +208,7 @@ const ImproveScenariosPage: React.FC = () => {
     setImprovementWarnings([]);
     setImprovementRunDir(null);
     setImprovementError(null);
+    setImprovementSummaryPath(null);
   }, [checkResults]);
 
   const currentRun = useMemo(() => runs.find((run) => run.runId === selectedRunId) ?? null, [runs, selectedRunId]);
@@ -387,6 +390,7 @@ const ImproveScenariosPage: React.FC = () => {
     setImprovementResults([]);
     setImprovementWarnings([]);
     setImprovementRunDir(null);
+    setImprovementSummaryPath(null);
 
     const updateResult = (filePath: string, updater: (current: ImprovedScenarioResult | undefined) => ImprovedScenarioResult) => {
       setImprovementResults((prev) => {
@@ -443,6 +447,7 @@ const ImproveScenariosPage: React.FC = () => {
           setImprovementRunDir(data?.runDirectory ?? null);
           setImprovementWarnings([]);
           setImprovementResults([]);
+           setImprovementSummaryPath(null);
           return;
         }
 
@@ -499,6 +504,7 @@ const ImproveScenariosPage: React.FC = () => {
           if (doneData?.runDirectory) {
             setImprovementRunDir(doneData.runDirectory);
           }
+          setImprovementSummaryPath(doneData?.summaryPath ?? null);
           return;
         }
 
@@ -872,14 +878,25 @@ const ImproveScenariosPage: React.FC = () => {
                 <p style={{ color: "#c00", marginTop: "1rem" }}>{improvementError}</p>
               )}
 
-              {improvementResults.length > 0 && (
-                <section style={{ marginTop: "2rem" }}>
-                  <h3 style={{ fontSize: "1.15rem", fontWeight: 600 }}>
-                    Improved scenarios {improvementRunDir ? `saved to ${improvementRunDir}` : ""}
-                  </h3>
-                  <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "0.75rem" }}>
-                    <thead style={{ background: "#f7f7f7" }}>
-                      <tr>
+          {improvementResults.length > 0 && (
+            <section style={{ marginTop: "2rem" }}>
+              <h3 style={{ fontSize: "1.15rem", fontWeight: 600 }}>
+                Improved scenarios {improvementRunDir ? `saved to ${improvementRunDir}` : ""}
+              </h3>
+              {(improvementRunDir || improvementSummaryPath) && (
+                <p style={{ marginTop: "0.5rem", color: "#555" }}>
+                  {improvementRunDir && (
+                    <span>Run directory: <code>{improvementRunDir}</code></span>
+                  )}
+                  {improvementRunDir && improvementSummaryPath && <span> · </span>}
+                  {improvementSummaryPath && (
+                    <span>Summary file: <code>{improvementSummaryPath}</code></span>
+                  )}
+                </p>
+              )}
+              <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "0.75rem" }}>
+                <thead style={{ background: "#f7f7f7" }}>
+                  <tr>
                         <th style={{ textAlign: "left", padding: "0.5rem" }}>Original file</th>
                         <th style={{ textAlign: "left", padding: "0.5rem" }}>New path</th>
                         <th style={{ textAlign: "left", padding: "0.5rem" }}>Decision</th>
