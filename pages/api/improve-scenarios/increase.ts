@@ -181,11 +181,35 @@ async function rewriteScenario(
   client: OpenAI,
   scenario: any,
   policyText: string,
-  model: string
+  model: string,
+  previousDifficulty?: DifficultyResult
 ): Promise<{ rewritten?: any; raw?: string; prompt: string; error?: string }> {
-  const prompt = `This AppleCare+ edge_case scenario is too easy to decide as not covered.
+  const coveredProb = previousDifficulty?.probabilities?.covered ?? null;
+  const notCoveredProb = previousDifficulty?.probabilities?.notCovered ?? null;
+
+  const dominantDecision = (() => {
+    if (previousDifficulty?.decision === "covered") return "covered" as const;
+    if (previousDifficulty?.decision === "not_covered") return "not covered" as const;
+    if (typeof coveredProb === "number" || typeof notCoveredProb === "number") {
+      const coveredValue = typeof coveredProb === "number" ? coveredProb : -Infinity;
+      const notCoveredValue = typeof notCoveredProb === "number" ? notCoveredProb : -Infinity;
+      return coveredValue >= notCoveredValue ? "covered" : "not covered";
+    }
+    return "not covered" as const;
+  })();
+
+  const counterDecision = dominantDecision === "covered" ? "not covered" : "covered";
+  const formatProbabilityValue = (value: number | null) =>
+    typeof value === "number" && Number.isFinite(value) ? value.toFixed(3) : "unknown";
+
+  const probabilitySummary =
+    coveredProb === null && notCoveredProb === null
+      ? ""
+      : `\n\nPrevious scoring probabilities — covered: ${formatProbabilityValue(coveredProb)}, not covered: ${formatProbabilityValue(notCoveredProb)}.`;
+
+  const prompt = `This AppleCare+ edge_case scenario is too easy to decide as ${dominantDecision}.
 Adjust the scenario so the coverage decision becomes more ambiguous by modifying only the relevant narrative details.
-Stay consistent with policy constraints but push the situation closer to the boundary.
+Stay consistent with policy constraints but push the situation closer to the boundary, nudging it toward a potential ${counterDecision} outcome.
 
 Return JSON with fields:
 - title: string
@@ -197,7 +221,7 @@ Scenario:
 ${formatJson(scenario)}
 
 Policy:
-${policyText}`;
+${policyText}${probabilitySummary}`;
 
   const callModel = async (useStructured: boolean) => {
     return client.chat.completions.create({
@@ -535,20 +559,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       for (let iteration = 1; iteration <= maxIterations; iteration++) {
         if (aborted) break;
 
-        const rewrite = await rewriteScenario(client, currentScenario, policyText, rewriteModel);
+        const previousDifficulty = attempts.length > 0 ? attempts[attempts.length - 1]?.difficulty : undefined;
+        const rewrite = await rewriteScenario(
+          client,
+          currentScenario,
+          policyText,
+          rewriteModel,
+          previousDifficulty
+        );
 
-      if (!rewrite.rewritten) {
-        const attempt: ScenarioAttempt = {
-          iteration,
-          error: rewrite.error ?? "Failed to rewrite scenario",
-          rawRewrite: rewrite.raw,
-          rewritePrompt: rewrite.prompt,
-          rewrittenScenario: currentScenario,
-        };
-        attempts.push(attempt);
-        writeEvent("attempt", { filePath, attempt });
-        continue;
-      }
+        if (!rewrite.rewritten) {
+          const attempt: ScenarioAttempt = {
+            iteration,
+            error: rewrite.error ?? "Failed to rewrite scenario",
+            rawRewrite: rewrite.raw,
+            rewritePrompt: rewrite.prompt,
+            rewrittenScenario: currentScenario,
+          };
+          attempts.push(attempt);
+          writeEvent("attempt", { filePath, attempt });
+          continue;
+        }
 
         const mergedScenario = {
           ...currentScenario,

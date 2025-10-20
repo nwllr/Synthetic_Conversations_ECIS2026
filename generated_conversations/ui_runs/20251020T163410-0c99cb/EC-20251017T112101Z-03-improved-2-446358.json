@@ -1,0 +1,173 @@
+{
+  "id": "EC-20251017T112101Z-03-improved-2-446358",
+  "created_at": "2025-10-20T16:36:03.057Z",
+  "model": "gpt-4.1-nano",
+  "temperature": 1,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20251017T112101Z-03",
+    "title": "Battery Capacity Depletion at 49% with Sporadic Shutdowns and Marginal Heating",
+    "description": "Customer’s Covered iPhone’s battery capacity has depleted 49% during the Plan Term, just below the 50% threshold in Section 3.1 for free repair or replacement. Customer reports intermittent shutdowns that occur sporadically under light usage conditions only, with short duration events. The device experiences minor temperature increases during charge cycles, but no unusual or prolonged heating is detected. The shutdowns and thermal behavior may suggest normal aging effects rather than a distinct defect in materials and workmanship.",
+    "claim_type": "battery_depletion_threshold_edge",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "no",
+      "amount": 0,
+      "currency": "USD",
+      "notes": "No service fee applies as battery degradation falls below 50% threshold for free coverage under 3.1."
+    },
+    "counts_toward_adh_limit": "no",
+    "policy_references": [
+      {
+        "section": "3.1",
+        "snippet": "If during the Plan Term you submit a valid claim notifying Apple that a defect in materials and workmanship has arisen in the Covered iPhone or the capacity of the Covered iPhone's battery has depleted fifty (50%) percent or more from its original specifications, Apple will either repair the defect at no charge or exchange the Covered iPhone..."
+      },
+      {
+        "section": "4.2(vii)",
+        "snippet": "The Plan does not apply to defects caused by normal wear and tear or which is otherwise due to normal aging of the product."
+      },
+      {
+        "section": "7(ii)",
+        "snippet": "You will provide information about the symptoms and causes of the issues with the Covered iPhone."
+      }
+    ],
+    "reasoning": "Because Section 3.1 requires ≥50% battery capacity depletion for coverage, and the degradation is reported at 48%, this case falls into an ambiguous zone. The intermittent shutdowns raise a question if a defect in workmanship exists independently of capacity metrics. However, Section 4.2(vii) excludes coverage for normal aging, creating tension. To resolve, Apple must evaluate detailed diagnostics per Section 7(ii) to decide if this is a defect or normal wear. As it is not a clear defect nor meets the numeric threshold, coverage determination requires judgment.",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (512 GB)",
+      "plan_agreement_number": "APLCARE-2025101799",
+      "serial_number": "F2N9W4P7M8Q3",
+      "phone_number": "+1-408-555-7760"
+    },
+    "metadata": {
+      "policy_anchor_id": "sec3-1-hardware-defect",
+      "policy_anchor_section": "3.1",
+      "policy_anchor_intent": "coverage_requirement",
+      "secondary_policy_sections": [
+        "4.2(vii)",
+        "7(ii)"
+      ]
+    },
+    "adjustments": "Reduced frequency and severity of shutdowns to sporadic and short duration under light use only; downgraded heating description from unusual heating to minor, non-prolonged temperature increases during charging.",
+    "risk_analysis": "By lessening the frequency and severity of shutdowns and reclassifying the heating as minor and typical, the symptoms more clearly align with normal wear and aging excluded under Section 4.2(vii). Remaining just below the 50% battery depletion threshold narrows the evidence for a defect, pushing the scenario closer to a likely not covered outcome and increasing ambiguity in coverage decision."
+  },
+  "persona": {
+    "age": "78",
+    "ancestry": "Scottish",
+    "big five scores": {
+      "Agreeableness": "High",
+      "Conscientiousness": "Extremely High",
+      "Extraversion": "High",
+      "Neuroticism": "Low",
+      "Openness": "High"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+    "defining quirks": "Enjoys knitting and often gifts her creations to friends and family",
+    "detailed job description": "Provided basic medical care and assisted with daily activities for patients in a nursing home",
+    "disability": "None",
+    "education": "1 or more years of college credit, no degree",
+    "employment status": "Not in labor force",
+    "family presence and age": "No family",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Cohabiting couple household, no children of the householder less than 18",
+    "ideology": "Conservative",
+    "income": "85100.0",
+    "industry category": "MED-Nursing Care Facilities (Skilled Nursing Facilities)",
+    "lifestyle": "Quiet and peaceful, enjoys simple pleasures",
+    "mannerisms": "Often hums old Scottish tunes",
+    "marital status": "Divorced",
+    "occupation category": "MED-Licensed Practical And Licensed Vocational Nurses",
+    "personal time": "Spends free time knitting, reading, or tending to her garden",
+    "place of birth": "New York/NY",
+    "political views": "Republican",
+    "race": "White alone",
+    "religion": "Catholic",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario title:\nBattery Capacity Depletion at 49% with Sporadic Shutdowns and Marginal Heating\n\nScenario description:\nCustomer’s Covered iPhone’s battery capacity has depleted 49% during the Plan Term, just below the 50% threshold in Section 3.1 for free repair or replacement. Customer reports intermittent shutdowns that occur sporadically under light usage conditions only, with short duration events. The device experiences minor temperature increases during charge cycles, but no unusual or prolonged heating is detected. The shutdowns and thermal behavior may suggest normal aging effects rather than a distinct defect in materials and workmanship.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-2025101799\",\n  \"serial_number\": \"F2N9W4P7M8Q3\",\n  \"phone_number\": \"+1-408-555-7760\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"78\",\n  \"ancestry\": \"Scottish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"High\",\n    \"Conscientiousness\": \"Extremely High\",\n    \"Extraversion\": \"High\",\n    \"Neuroticism\": \"Low\",\n    \"Openness\": \"High\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions\",\n  \"defining quirks\": \"Enjoys knitting and often gifts her creations to friends and family\",\n  \"detailed job description\": \"Provided basic medical care and assisted with daily activities for patients in a nursing home\",\n  \"disability\": \"None\",\n  \"education\": \"1 or more years of college credit, no degree\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"No family\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Cohabiting couple household, no children of the householder less than 18\",\n  \"ideology\": \"Conservative\",\n  \"income\": \"85100.0\",\n  \"industry category\": \"MED-Nursing Care Facilities (Skilled Nursing Facilities)\",\n  \"lifestyle\": \"Quiet and peaceful, enjoys simple pleasures\",\n  \"mannerisms\": \"Often hums old Scottish tunes\",\n  \"marital status\": \"Divorced\",\n  \"occupation category\": \"MED-Licensed Practical And Licensed Vocational Nurses\",\n  \"personal time\": \"Spends free time knitting, reading, or tending to her garden\",\n  \"place of birth\": \"New York/NY\",\n  \"political views\": \"Republican\",\n  \"race\": \"White alone\",\n  \"religion\": \"Catholic\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hello, I need to file a claim for my iPhone 14 Pro Max. It’s got some battery issues and occasional shutdowns.",
+      "raw_text": "Hello, I need to file a claim for my iPhone 14 Pro Max. It’s got some battery issues and occasional shutdowns."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Could you please start by providing your Plan Agreement Number or the serial number of your iPhone?",
+      "raw_text": "Thank you. Could you please start by providing your Plan Agreement Number or the serial number of your iPhone?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, the plan agreement number is APLCARE-2025101799 and the serial number of my phone is F2N9W4P7M8Q3.",
+      "raw_text": "Sure, the plan agreement number is APLCARE-2025101799 and the serial number of my phone is F2N9W4P7M8Q3."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing that information. Can you please describe the issue you're experiencing with your iPhone?",
+      "raw_text": "Thank you for providing that information. Can you please describe the issue you're experiencing with your iPhone?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Certainly. The battery seems to be losing capacity, it’s now at about 49%, just under the 50% mark. I also notice my phone sometimes shuts down on its own, even when it’s not being used heavily. It’s happening sporadically, and the phone does get a little warm during charging, but nothing unusual I think. It’s pretty frustrating, especially since I rely on it daily.",
+      "raw_text": "Certainly. The battery seems to be losing capacity, it’s now at about 49%, just under the 50% mark. I also notice my phone sometimes shuts down on its own, even when it’s not being used heavily. It’s happening sporadically, and the phone does get a little warm during charging, but nothing unusual I think. It’s pretty frustrating, especially since I rely on it daily."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the detailed description. Are you experiencing any specific error messages or performing any troubleshooting steps already?",
+      "raw_text": "Thank you for the detailed description. Are you experiencing any specific error messages or performing any troubleshooting steps already?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, I haven’t seen any error messages, and I haven’t tried any troubleshooting myself. I just noticed the battery percentage dropping and the unexpected shutdowns. I thought I should get it checked.",
+      "raw_text": "No, I haven’t seen any error messages, and I haven’t tried any troubleshooting myself. I just noticed the battery percentage dropping and the unexpected shutdowns. I thought I should get it checked."
+    },
+    {
+      "speaker": "bot",
+      "text": "Understood. To proceed, I need to confirm if your battery capacity has dropped to 50% or below. Since you've mentioned it's at about 49%, I will note that. May I also ask if your device has the latest iOS version installed?",
+      "raw_text": "Understood. To proceed, I need to confirm if your battery capacity has dropped to 50% or below. Since you've mentioned it's at about 49%, I will note that. May I also ask if your device has the latest iOS version installed?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, I believe I have the latest iOS installed. I keep my phone updated whenever new updates come out. I want to make sure everything is working smoothly.",
+      "raw_text": "Yes, I believe I have the latest iOS installed. I keep my phone updated whenever new updates come out. I want to make sure everything is working smoothly."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for confirming that. One more question: Are there any peripherals connected to your iPhone, such as chargers, cases, or external accessories?",
+      "raw_text": "Thank you for confirming that. One more question: Are there any peripherals connected to your iPhone, such as chargers, cases, or external accessories?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, nothing connected at the moment. I usually use it without any extra accessories, just the phone itself.",
+      "raw_text": "No, nothing connected at the moment. I usually use it without any extra accessories, just the phone itself."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. I will now process your claim. It will be reviewed, and you will be notified as soon as it is completed. Is there anything else I can assist you with before we finish?",
+      "raw_text": "Thank you for the information. I will now process your claim. It will be reviewed, and you will be notified as soon as it is completed. Is there anything else I can assist you with before we finish?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all. Thank you very much for your help. I appreciate it.",
+      "raw_text": "No, that's all. Thank you very much for your help. I appreciate it."
+    },
+    {
+      "speaker": "bot",
+      "text": "You're welcome. Your claim will now be processed. If you need any further assistance, feel free to contact us. Have a great day!",
+      "raw_text": "You're welcome. Your claim will now be processed. If you need any further assistance, feel free to contact us. Have a great day! <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

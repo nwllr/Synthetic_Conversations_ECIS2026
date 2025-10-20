@@ -1,0 +1,167 @@
+{
+  "id": "EC-20251017T112101Z-04-improved-2-fe6175",
+  "created_at": "2025-10-20T16:29:41.965Z",
+  "model": "gpt-4.1-nano",
+  "temperature": 1,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20251017T112101Z-04",
+    "title": "Third ADH Claim Close to Coverage Limit with Ambiguous Prior Claim Classification and Partial Battery Leakage",
+    "description": "Customer files a third claim indicating accidental damage from handling (ADH) within the Plan Term. The incident involves the device being dropped, causing screen damage and internal component issues. Notably, the battery exhibits slight electrolyte leakage but without significant swelling or functional impairment. Investigation shows the second claim was recorded as hardware service due to liquid contact, but the damage had features consistent with an ADH event, such as impact-related micro-fractures. This raises uncertainty whether the prior claim fully counted as an ADH Service Event or was primarily hardware service. The current claim’s battery condition sits near the borderline of ADH eligibility, blurring the limit of two covered ADH events.",
+    "claim_type": "adh_coverage_limit_boundary",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "no",
+      "amount": 0,
+      "currency": "USD",
+      "notes": "Service fee does not apply since coverage is no longer provided after two ADH Service Events."
+    },
+    "counts_toward_adh_limit": "no",
+    "policy_references": [
+      {
+        "section": "3.2",
+        "snippet": "ADH coverage will expire and all of Apple's obligations to you under this section 3.2 will be fulfilled before the end of the Plan Term when Apple, as a result of ADH claims, has provided to you two (2) Service Events."
+      },
+      {
+        "section": "3.2",
+        "snippet": "You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim."
+      },
+      {
+        "section": "9",
+        "snippet": "If you cancel this Plan within thirty (30) days of your Plan receipt, you will receive a full refund less the value of any service provided under the Plan."
+      }
+    ],
+    "reasoning": "The policy explicitly limits ADH coverage to two Service Events within the Plan Term (Section 3.2). Since the customer already exhausted these two ADH claims, this third damage incident falls outside the plan's coverage and thus does not require payment of the $49 service fee. Although the mechanical failure qualifies as an accidental damage event, the policy's numeric limit creates a coverage denial. However, the customer may still be eligible for hardware service claims under Section 3.1 if applicable. Customer will need to verify prior claim history and acknowledge no further ADH claims count or incur service fees.",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (512 GB)",
+      "plan_agreement_number": "APLCARE-8754210392",
+      "serial_number": "G6H9W3L1M4N7",
+      "phone_number": "+1-415-555-1427"
+    },
+    "metadata": {
+      "policy_anchor_id": "sec3-2-service-event-limit",
+      "policy_anchor_section": "3.2",
+      "policy_anchor_intent": "coverage_limit",
+      "secondary_policy_sections": [
+        "9"
+      ]
+    },
+    "adjustments": "Updated battery damage to include mild electrolyte leakage without swelling or functional failure; emphasized impact-related micro-fractures in the prior claim suggesting partial ADH characteristics; softened definitive service classification of the second claim towards ambiguous boundary between hardware service and ADH.",
+    "risk_analysis": "The inclusion of subtle battery electrolyte leakage in the current claim introduces a symptom less clearly covered under ADH, especially without swelling or functional loss, thus testing the boundary of covered damage. Simultaneously, highlighting micro-fractures from impact in the prior liquid damage claim blurs whether it entirely counted as an ADH Service Event. This ambiguity regarding claim classification and borderline battery damage nudges the coverage decision toward a debatable realm where coverage could be granted depending on interpretation of these nuanced details."
+  },
+  "persona": {
+    "age": "76",
+    "ancestry": "Irish",
+    "big five scores": {
+      "Agreeableness": "Extremely Low",
+      "Conscientiousness": "Extremely High",
+      "Extraversion": "Average",
+      "Neuroticism": "Average",
+      "Openness": "Extremely High"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Self-employed",
+    "defining quirks": "Has a vast collection of antique books",
+    "detailed job description": "Retired university professor in the field of Fine Arts",
+    "disability": "None",
+    "education": "Professional degree beyond a bachelor's degree",
+    "employment status": "Not in labor force",
+    "family presence and age": "No family",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Female householder, no spouse/partner present, living alone",
+    "ideology": "Liberal",
+    "income": "24000.0",
+    "industry category": "Education",
+    "lifestyle": "Quiet and solitary, with a focus on intellectual and creative pursuits",
+    "mannerisms": "Often lost in thought, tends to speak in a poetic manner",
+    "marital status": "Divorced",
+    "occupation category": "Retired Professor",
+    "personal time": "Spends free time reading, painting or visiting art galleries",
+    "place of birth": "Minnesota/MN",
+    "political views": "Democrat",
+    "race": "White alone",
+    "religion": "Catholic",
+    "sex": "Female",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario title:\nThird ADH Claim Close to Coverage Limit with Ambiguous Prior Claim Classification and Partial Battery Leakage\n\nScenario description:\nCustomer files a third claim indicating accidental damage from handling (ADH) within the Plan Term. The incident involves the device being dropped, causing screen damage and internal component issues. Notably, the battery exhibits slight electrolyte leakage but without significant swelling or functional impairment. Investigation shows the second claim was recorded as hardware service due to liquid contact, but the damage had features consistent with an ADH event, such as impact-related micro-fractures. This raises uncertainty whether the prior claim fully counted as an ADH Service Event or was primarily hardware service. The current claim’s battery condition sits near the borderline of ADH eligibility, blurring the limit of two covered ADH events.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-8754210392\",\n  \"serial_number\": \"G6H9W3L1M4N7\",\n  \"phone_number\": \"+1-415-555-1427\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"76\",\n  \"ancestry\": \"Irish\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Extremely Low\",\n    \"Conscientiousness\": \"Extremely High\",\n    \"Extraversion\": \"Average\",\n    \"Neuroticism\": \"Average\",\n    \"Openness\": \"Extremely High\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Self-employed\",\n  \"defining quirks\": \"Has a vast collection of antique books\",\n  \"detailed job description\": \"Retired university professor in the field of Fine Arts\",\n  \"disability\": \"None\",\n  \"education\": \"Professional degree beyond a bachelor's degree\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"No family\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Female householder, no spouse/partner present, living alone\",\n  \"ideology\": \"Liberal\",\n  \"income\": \"24000.0\",\n  \"industry category\": \"Education\",\n  \"lifestyle\": \"Quiet and solitary, with a focus on intellectual and creative pursuits\",\n  \"mannerisms\": \"Often lost in thought, tends to speak in a poetic manner\",\n  \"marital status\": \"Divorced\",\n  \"occupation category\": \"Retired Professor\",\n  \"personal time\": \"Spends free time reading, painting or visiting art galleries\",\n  \"place of birth\": \"Minnesota/MN\",\n  \"political views\": \"Democrat\",\n  \"race\": \"White alone\",\n  \"religion\": \"Catholic\",\n  \"sex\": \"Female\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hello, I need to report a problem with my iPhone 14 Pro Max. It's been dropped again, and now the screen's all cracked, plus there's some strange leakage in the battery. I'm not quite sure if this counts as my third claim, but I want to get it looked at.",
+      "raw_text": "Hello, I need to report a problem with my iPhone 14 Pro Max. It's been dropped again, and now the screen's all cracked, plus there's some strange leakage in the battery. I'm not quite sure if this counts as my third claim, but I want to get it looked at."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for sharing that information. To begin, could you please provide your Plan Agreement Number or the Serial Number of your iPhone 14 Pro Max?",
+      "raw_text": "Thank you for sharing that information. To begin, could you please provide your Plan Agreement Number or the Serial Number of your iPhone 14 Pro Max?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, the serial number is G6H9W3L1M4N7. I hope you can help me sort this out.",
+      "raw_text": "Sure, the serial number is G6H9W3L1M4N7. I hope you can help me sort this out."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you. Now, please describe the issue you're experiencing with your iPhone. You mentioned the screen is cracked and there's battery leakage—could you please confirm and describe any additional symptoms or problems?",
+      "raw_text": "Thank you. Now, please describe the issue you're experiencing with your iPhone. You mentioned the screen is cracked and there's battery leakage—could you please confirm and describe any additional symptoms or problems?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, the screen's cracked all over, and I noticed some electrolyte leakage in the battery. It’s not swollen much, but I can see a little corrosion. The phone still mostly works—sounds, buttons, even the camera—but I’m worried it might get worse. It’s been a bit of a burden, this device.",
+      "raw_text": "Yes, the screen's cracked all over, and I noticed some electrolyte leakage in the battery. It’s not swollen much, but I can see a little corrosion. The phone still mostly works—sounds, buttons, even the camera—but I’m worried it might get worse. It’s been a bit of a burden, this device."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the detailed description. Can you tell me the model of your iPhone and the iOS version it is currently running? Also, are there any peripherals attached or error messages you've received?",
+      "raw_text": "Thank you for the detailed description. Can you tell me the model of your iPhone and the iOS version it is currently running? Also, are there any peripherals attached or error messages you've received?"
+    },
+    {
+      "speaker": "customer",
+      "text": "It's an iPhone 14 Pro Max with 512GB. I haven't checked the iOS version recently, but it's up to date. No peripherals attached, and I haven't seen any error messages—just the damage and the battery leak.",
+      "raw_text": "It's an iPhone 14 Pro Max with 512GB. I haven't checked the iOS version recently, but it's up to date. No peripherals attached, and I haven't seen any error messages—just the damage and the battery leak."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. Since you mentioned the battery is leaking and there's visible corrosion, could you please tell me where and when the accident occurred, and give a detailed description of the event?",
+      "raw_text": "Thank you for the information. Since you mentioned the battery is leaking and there's visible corrosion, could you please tell me where and when the accident occurred, and give a detailed description of the event?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Oh, it happened about a week ago in my living room. I was just setting the phone down, and it slipped from my hand — hit the floor fairly hard. The impact cracked the screen, and I noticed the slight leakage in the battery shortly after. I’ve always handled my devices gently, but I guess even careful folks like me can have mishaps.",
+      "raw_text": "Oh, it happened about a week ago in my living room. I was just setting the phone down, and it slipped from my hand — hit the floor fairly hard. The impact cracked the screen, and I noticed the slight leakage in the battery shortly after. I’ve always handled my devices gently, but I guess even careful folks like me can have mishaps."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for providing the accident details. I will now proceed with processing your claim. It may take a moment. \n\nIs there anything else I can assist you with before I finish?",
+      "raw_text": "Thank you for providing the accident details. I will now proceed with processing your claim. It may take a moment. \n\nIs there anything else I can assist you with before I finish?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that’s all for now. Just hope this doesn’t complicate things too much. I rely on my phone for my work and hobbies, you see. Thanks for your help.",
+      "raw_text": "No, that’s all for now. Just hope this doesn’t complicate things too much. I rely on my phone for my work and hobbies, you see. Thanks for your help."
+    },
+    {
+      "speaker": "bot",
+      "text": "You're welcome. Your claim will be processed, and you'll be notified as soon as it is complete. If you need any further assistance, please don't hesitate to reach out. Have a great day!",
+      "raw_text": "You're welcome. Your claim will be processed, and you'll be notified as soon as it is complete. If you need any further assistance, please don't hesitate to reach out. Have a great day!"
+    },
+    {
+      "speaker": "customer",
+      "text": "Thank you. I appreciate your assistance. Have a good day as well.",
+      "raw_text": "Thank you. I appreciate your assistance. Have a good day as well. <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}
