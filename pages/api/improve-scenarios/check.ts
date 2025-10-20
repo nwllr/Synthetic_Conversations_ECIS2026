@@ -1,10 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import path from "path";
-import fs from "fs/promises";
 import OpenAI from "openai";
+import {
+  getPolicyText,
+  loadConversationFile,
+  buildTranscript,
+  normalizeToken,
+  computeProbability,
+  DifficultyResult,
+  isValidSelection,
+} from "../../../lib/improve-scenarios/common";
 
-const OUTPUT_ROOT = path.join(process.cwd(), "generated_conversations", "ui_runs");
-const POLICY_PATH = path.join(process.cwd(), "policy", "applecareplus.txt");
 const DEFAULT_MODEL = "gpt-4.1-mini";
 
 type DifficultyRequestBody = {
@@ -13,92 +18,11 @@ type DifficultyRequestBody = {
   model?: string;
 };
 
-type DifficultyResult = {
-  filePath: string;
-  conversationId?: string;
-  completion?: string;
-  decisionToken?: string;
-  decision?: "covered" | "not_covered" | "unknown";
-  logProbabilities: {
-    covered: number | null;
-    notCovered: number | null;
-  };
-  probabilities: {
-    covered: number | null;
-    notCovered: number | null;
-  };
-  error?: string;
-  prompt?: string;
-};
-
 type DifficultyResponseBody = {
   model: string;
   results: DifficultyResult[];
   warnings: string[];
 };
-
-let cachedPolicy: string | null = null;
-
-async function getPolicyText(): Promise<string> {
-  if (cachedPolicy !== null) return cachedPolicy;
-  try {
-    const text = await fs.readFile(POLICY_PATH, "utf-8");
-    cachedPolicy = text;
-    return text;
-  } catch (err: any) {
-    console.warn(`Failed to read policy file at ${POLICY_PATH}:`, err?.message ?? String(err));
-    cachedPolicy = "";
-    return "";
-  }
-}
-
-function isValidSelection(filePath: string): boolean {
-  if (!filePath) return false;
-  const normalized = filePath.replace(/\\/g, "/");
-  if (!normalized.startsWith("generated_conversations/ui_runs/")) return false;
-  const resolved = path.resolve(process.cwd(), normalized);
-  return resolved.startsWith(OUTPUT_ROOT + path.sep);
-}
-
-async function loadConversation(filePath: string): Promise<{ conversationId?: string; messages: any[] } | null> {
-  if (!isValidSelection(filePath)) return null;
-  const resolved = path.resolve(process.cwd(), filePath);
-  try {
-    const raw = await fs.readFile(resolved, "utf-8");
-    const parsed = JSON.parse(raw);
-    const conversationId = typeof parsed?.id === "string" ? parsed.id : undefined;
-    const messages = Array.isArray(parsed?.messages) ? parsed.messages : [];
-    return { conversationId, messages };
-  } catch (err) {
-    return null;
-  }
-}
-
-function buildTranscript(messages: any[]): string {
-  if (!Array.isArray(messages) || messages.length === 0) return "(no messages)";
-  return messages
-    .map((entry: any, index: number) => {
-      const speakerRaw = typeof entry?.speaker === "string" ? entry.speaker : "unknown";
-      const speaker = speakerRaw.toLowerCase() === "bot" ? "Agent" : speakerRaw.toLowerCase() === "customer" ? "Customer" : `Turn ${index + 1}`;
-      const text = typeof entry?.text === "string" ? entry.text : typeof entry?.raw_text === "string" ? entry.raw_text : "";
-      return `${speaker}: ${text}`;
-    })
-    .join("\n");
-}
-
-function normalizeToken(token: string): string {
-  return token
-    .replace(/[\s\u0120\u010A\u2581]+$/g, "")
-    .replace(/^[\s\u0120\u010A\u2581]+/g, "")
-    .trim();
-}
-
-function computeProbabilities(logprob: number | null) {
-  if (logprob === null || Number.isNaN(logprob)) return null;
-  const value = Math.exp(logprob);
-  if (!Number.isFinite(value)) return null;
-  return value;
-}
 
 async function evaluateConversation(
   client: OpenAI,
@@ -113,12 +37,12 @@ async function evaluateConversation(
     prompt: undefined,
   };
 
-  const loaded = await loadConversation(filePath);
+  const loaded = await loadConversationFile(filePath);
   if (!loaded) {
     return { ...fallbackResult, error: "Unable to load conversation" };
   }
 
-  const transcript = buildTranscript(loaded.messages);
+  const transcript = buildTranscript(Array.isArray(loaded.messages) ? loaded.messages : []);
   const prompt = `Policy Document:\n${policyText}\n\nConversation Transcript:\n${transcript}\n\nDecide coverage strictly using the policy. Output must start with only one uppercase letter without any leading whitespace: 'C' if covered, 'N' if not covered.`;
 
   try {
@@ -168,8 +92,8 @@ async function evaluateConversation(
         notCovered: notCoveredLogprob,
       },
       probabilities: {
-        covered: computeProbabilities(coveredLogprob),
-        notCovered: computeProbabilities(notCoveredLogprob),
+        covered: computeProbability(coveredLogprob),
+        notCovered: computeProbability(notCoveredLogprob),
       },
       prompt,
     };

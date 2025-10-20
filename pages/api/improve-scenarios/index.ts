@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
 import fs from "fs/promises";
-
-const OUTPUT_ROOT = path.join(process.cwd(), "generated_conversations", "ui_runs");
+import { OUTPUT_ROOT } from "../../../lib/improve-scenarios/common";
 
 type ScenarioSummary = {
   conversationId: string;
@@ -144,4 +143,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).json({ error: "Failed to load scenario runs" });
   }
 }
-

@@ -48,6 +48,41 @@ type DifficultyResponse = {
   warnings?: string[];
 };
 
+type ScenarioAttempt = {
+  iteration: number;
+  conversationPath?: string;
+  difficulty?: DifficultyResult;
+  rewrittenScenario?: any;
+  rawRewrite?: string;
+  rewritePrompt?: string;
+  simulationTranscript?: { speaker: string; text: string; raw_text: string }[];
+  error?: string;
+};
+
+type ImprovedScenarioResult = {
+  filePath: string;
+  originalConversationId?: string;
+  rewrittenScenario?: any;
+  rewrittenScenarioText?: string;
+  newConversationPath?: string;
+  difficulty?: DifficultyResult;
+  rawRewrite?: string;
+  rewritePrompt?: string;
+  simulationTranscript?: { speaker: string; text: string; raw_text: string }[];
+  attempts?: ScenarioAttempt[];
+  reachedThreshold?: boolean;
+  appliedIteration?: number;
+  confidenceThreshold?: number;
+  maxIterations?: number;
+  error?: string;
+};
+
+type IncreaseResponse = {
+  runDirectory?: string;
+  results?: ImprovedScenarioResult[];
+  warnings?: string[];
+};
+
 type GroundTruthFilter = "edge_case" | "covered" | "not_covered" | "all";
 
 const filterOptions: { value: GroundTruthFilter; label: string }[] = [
@@ -56,6 +91,9 @@ const filterOptions: { value: GroundTruthFilter; label: string }[] = [
   { value: "not_covered", label: "Not covered only" },
   { value: "all", label: "Show all" },
 ];
+
+const DEFAULT_CONFIDENCE_THRESHOLD_UI = 0.9;
+const DEFAULT_MAX_ITERATIONS_UI = 3;
 
 function matchesGroundTruth(entry: ScenarioSummary, filter: GroundTruthFilter): boolean {
   const truth = entry.groundTruth ?? entry.scenarioLabel ?? "";
@@ -81,11 +119,20 @@ const ImproveScenariosPage: React.FC = () => {
   const [selectedByRun, setSelectedByRun] = useState<Record<string, string[]>>({});
   const [apiKey, setApiKey] = useState<string>("");
   const [scoringModel, setScoringModel] = useState<string>("gpt-4.1-mini");
+  const [improvementModel, setImprovementModel] = useState<string>("gpt-4.1");
+  const [maxIterations, setMaxIterations] = useState<string>(String(DEFAULT_MAX_ITERATIONS_UI));
+  const [confidenceThreshold, setConfidenceThreshold] = useState<string>(String(DEFAULT_CONFIDENCE_THRESHOLD_UI));
   const [checking, setChecking] = useState<boolean>(false);
   const [checkError, setCheckError] = useState<string | null>(null);
   const [checkResults, setCheckResults] = useState<DifficultyResult[]>([]);
   const [checkWarnings, setCheckWarnings] = useState<string[]>([]);
   const [lastCheckedModel, setLastCheckedModel] = useState<string | null>(null);
+  const [improvementSelection, setImprovementSelection] = useState<string[]>([]);
+  const [improving, setImproving] = useState<boolean>(false);
+  const [improvementError, setImprovementError] = useState<string | null>(null);
+  const [improvementResults, setImprovementResults] = useState<ImprovedScenarioResult[]>([]);
+  const [improvementWarnings, setImprovementWarnings] = useState<string[]>([]);
+  const [improvementRunDir, setImprovementRunDir] = useState<string | null>(null);
 
   const matchEdgeCase = useCallback((entry: ScenarioSummary) => {
     const label = entry.groundTruth ?? entry.scenarioLabel;
@@ -151,6 +198,15 @@ const ImproveScenariosPage: React.FC = () => {
     setLastCheckedModel(null);
     setCheckError(null);
   }, [selectedRunId]);
+
+  useEffect(() => {
+    const defaults = checkResults.filter((result) => !result.error).map((result) => result.filePath);
+    setImprovementSelection(defaults);
+    setImprovementResults([]);
+    setImprovementWarnings([]);
+    setImprovementRunDir(null);
+    setImprovementError(null);
+  }, [checkResults]);
 
   const currentRun = useMemo(() => runs.find((run) => run.runId === selectedRunId) ?? null, [runs, selectedRunId]);
 
@@ -271,6 +327,228 @@ const ImproveScenariosPage: React.FC = () => {
     return (value * 100).toFixed(2) + "%";
   }, []);
 
+  const maxProbabilityValue = useCallback((difficulty?: DifficultyResult) => {
+    if (!difficulty) return null;
+    const covered = difficulty.probabilities?.covered;
+    const notCovered = difficulty.probabilities?.notCovered;
+    const values = [covered, notCovered].filter((value): value is number => typeof value === "number" && Number.isFinite(value));
+    if (values.length === 0) return null;
+    return Math.max(...values);
+  }, []);
+
+  const toggleImprovementSelection = useCallback((filePath: string) => {
+    setImprovementSelection((prev) => {
+      const set = new Set(prev);
+      if (set.has(filePath)) set.delete(filePath);
+      else set.add(filePath);
+      return Array.from(set);
+    });
+  }, []);
+
+  const selectAllImprovement = useCallback(() => {
+    setImprovementSelection(checkResults.filter((item) => !item.error).map((item) => item.filePath));
+  }, [checkResults]);
+
+  const clearAllImprovement = useCallback(() => {
+    setImprovementSelection([]);
+  }, []);
+
+  const allImprovementSelected = useMemo(() => {
+    const eligible = checkResults.filter((result) => !result.error).map((result) => result.filePath);
+    return eligible.length > 0 && eligible.every((path) => improvementSelection.includes(path));
+  }, [checkResults, improvementSelection]);
+
+  const handleToggleAllImprovement = useCallback(() => {
+    if (allImprovementSelected) {
+      clearAllImprovement();
+    } else {
+      selectAllImprovement();
+    }
+  }, [allImprovementSelected, clearAllImprovement, selectAllImprovement]);
+
+  const handleIncreaseDifficulty = useCallback(async () => {
+    if (improvementSelection.length === 0) {
+      setImprovementError("Select at least one scored scenario to improve.");
+      return;
+    }
+    if (!apiKey.trim()) {
+      setImprovementError("Provide an OpenAI API key.");
+      return;
+    }
+
+    const parsedIterations = Math.max(1, Math.floor(Number(maxIterations) || DEFAULT_MAX_ITERATIONS_UI));
+    const parsedThresholdRaw = Number(confidenceThreshold);
+    const parsedThreshold = Number.isFinite(parsedThresholdRaw)
+      ? Math.min(0.999, Math.max(0, parsedThresholdRaw))
+      : DEFAULT_CONFIDENCE_THRESHOLD_UI;
+
+    setImproving(true);
+    setImprovementError(null);
+    setImprovementResults([]);
+    setImprovementWarnings([]);
+    setImprovementRunDir(null);
+
+    const updateResult = (filePath: string, updater: (current: ImprovedScenarioResult | undefined) => ImprovedScenarioResult) => {
+      setImprovementResults((prev) => {
+        const index = prev.findIndex((item) => item.filePath === filePath);
+        const next = [...prev];
+        const updated = updater(index >= 0 ? next[index] : undefined);
+        if (index >= 0) {
+          next[index] = updated;
+        } else {
+          next.push(updated);
+        }
+        return next;
+      });
+    };
+
+    try {
+      const response = await fetch("/api/improve-scenarios/increase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          filePaths: improvementSelection,
+          apiKey: apiKey.trim(),
+          scoringModel,
+          rewriteModel: improvementModel,
+          maxIterations: parsedIterations,
+          confidenceThreshold: parsedThreshold,
+        }),
+      });
+      if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || `Request failed (${response.status})`);
+      }
+
+      if (!response.body) {
+        throw new Error("Streaming not supported by the server response.");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let pending = "";
+
+      const processLine = (line: string) => {
+        if (!line) return;
+        let parsed: any;
+        try {
+          parsed = JSON.parse(line);
+        } catch (err) {
+          throw err;
+        }
+        const { type, data } = parsed ?? {};
+        if (!type) return;
+
+        if (type === "start") {
+          setImprovementRunDir(data?.runDirectory ?? null);
+          setImprovementWarnings([]);
+          setImprovementResults([]);
+          return;
+        }
+
+        if (type === "warning") {
+          const message = typeof data?.message === "string" ? data.message : "";
+          if (message) {
+            setImprovementWarnings((prev) => [...prev, message]);
+          }
+          return;
+        }
+
+        if (type === "attempt") {
+          const filePath = data?.filePath as string | undefined;
+          const attempt = data?.attempt as ScenarioAttempt | undefined;
+          if (!filePath || !attempt) return;
+          updateResult(filePath, (current) => {
+            const base: ImprovedScenarioResult = current ?? {
+              filePath,
+              attempts: [],
+              reachedThreshold: false,
+              appliedIteration: 0,
+              confidenceThreshold: parsedThreshold,
+              maxIterations: parsedIterations,
+            };
+            const attempts = [...(base.attempts ?? [])];
+            const idx = attempts.findIndex((item) => item.iteration === attempt.iteration);
+            if (idx >= 0) {
+              attempts[idx] = attempt;
+            } else {
+              attempts.push(attempt);
+            }
+            attempts.sort((a, b) => a.iteration - b.iteration);
+            return { ...base, attempts };
+          });
+          return;
+        }
+
+        if (type === "scenario") {
+          const filePath = data?.filePath as string | undefined;
+          const result = data?.result as ImprovedScenarioResult | undefined;
+          if (!filePath || !result) return;
+          updateResult(filePath, () => ({ ...result }));
+          return;
+        }
+
+        if (type === "done") {
+          const doneData = data as IncreaseResponse;
+          if (Array.isArray(doneData?.results)) {
+            setImprovementResults(doneData.results);
+          }
+          if (Array.isArray(doneData?.warnings)) {
+            setImprovementWarnings(doneData.warnings);
+          }
+          if (doneData?.runDirectory) {
+            setImprovementRunDir(doneData.runDirectory);
+          }
+          return;
+        }
+
+        if (type === "error") {
+          const message = data?.message ?? "Unknown error";
+          setImprovementError(typeof message === "string" ? message : JSON.stringify(message));
+        }
+      };
+
+      while (true) {
+        const { value, done } = await reader.read();
+        const chunk = value ? decoder.decode(value, { stream: !done }) : "";
+        pending += chunk;
+
+        let lastNewline = pending.lastIndexOf("\n");
+        if (lastNewline >= 0) {
+          const consumable = pending.slice(0, lastNewline);
+          pending = pending.slice(lastNewline + 1);
+          const lines = consumable.split("\n");
+          for (const rawLine of lines) {
+            const trimmed = rawLine.trim();
+            if (!trimmed) continue;
+            try {
+              processLine(trimmed);
+            } catch (err) {
+              setImprovementError((err as Error)?.message ?? "Failed to parse progress update.");
+              return;
+            }
+          }
+        }
+
+        if (done) {
+          const remainder = pending.trim();
+          if (remainder) {
+            try {
+              processLine(remainder);
+            } catch (err) {
+              setImprovementError((err as Error)?.message ?? "Failed to parse final response chunk.");
+            }
+          }
+          break;
+        }
+      }
+    } catch (err: any) {
+      setImprovementError(err?.message ?? "Unknown error");
+    } finally {
+      setImproving(false);
+    }
+  }, [apiKey, improvementSelection, scoringModel, improvementModel, maxIterations, confidenceThreshold]);
+
   return (
     <main style={{ maxWidth: "960px", margin: "0 auto", padding: "2rem 1.5rem" }}>
       <header style={{ marginBottom: "1.5rem" }}>
@@ -345,6 +623,51 @@ const ImproveScenariosPage: React.FC = () => {
                 <option value="o4-mini" />
               </datalist>
               <small style={{ color: "#555", marginTop: "0.25rem" }}>Defaults to gpt-4.1-mini; override as needed.</small>
+            </label>
+
+            <label style={{ display: "flex", flexDirection: "column", minWidth: "220px", flex: "1 1 220px" }}>
+              <span style={{ fontWeight: 500, marginBottom: "0.25rem" }}>Improvement model</span>
+              <input
+                type="text"
+                value={improvementModel}
+                onChange={(event) => setImprovementModel(event.target.value)}
+                list="improvement-model-options"
+                style={{ padding: "0.5rem" }}
+              />
+              <datalist id="improvement-model-options">
+                <option value="gpt-4.1" />
+                <option value="gpt-4.1-turbo" />
+                <option value="o4-mini" />
+                <option value="o4" />
+              </datalist>
+              <small style={{ color: "#555", marginTop: "0.25rem" }}>Model used to rewrite scenarios (default gpt-4.1).</small>
+            </label>
+
+            <label style={{ display: "flex", flexDirection: "column", minWidth: "160px" }}>
+              <span style={{ fontWeight: 500, marginBottom: "0.25rem" }}>Max iterations</span>
+              <input
+                type="number"
+                min={1}
+                max={10}
+                value={maxIterations}
+                onChange={(event) => setMaxIterations(event.target.value)}
+                style={{ padding: "0.5rem" }}
+              />
+              <small style={{ color: "#555", marginTop: "0.25rem" }}>Set to 1 for single-pass improvement.</small>
+            </label>
+
+            <label style={{ display: "flex", flexDirection: "column", minWidth: "180px" }}>
+              <span style={{ fontWeight: 500, marginBottom: "0.25rem" }}>Confidence threshold</span>
+              <input
+                type="number"
+                min={0}
+                max={0.999}
+                step={0.01}
+                value={confidenceThreshold}
+                onChange={(event) => setConfidenceThreshold(event.target.value)}
+                style={{ padding: "0.5rem" }}
+              />
+              <small style={{ color: "#555", marginTop: "0.25rem" }}>Stop when max(P) ≤ threshold (default 0.9).</small>
             </label>
           </div>
 
@@ -441,6 +764,14 @@ const ImproveScenariosPage: React.FC = () => {
               <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "0.75rem" }}>
                 <thead style={{ background: "#f7f7f7" }}>
                   <tr>
+                    <th style={{ textAlign: "left", padding: "0.5rem", width: "48px" }}>
+                      <input
+                        type="checkbox"
+                        aria-label="Toggle improvement selection"
+                        checked={allImprovementSelected && improvementSelection.length > 0}
+                        onChange={handleToggleAllImprovement}
+                      />
+                    </th>
                     <th style={{ textAlign: "left", padding: "0.5rem", width: "160px" }}>Conversation ID</th>
                     <th style={{ textAlign: "left", padding: "0.5rem" }}>File</th>
                     <th style={{ textAlign: "left", padding: "0.5rem", width: "120px" }}>Decision</th>
@@ -453,6 +784,16 @@ const ImproveScenariosPage: React.FC = () => {
                 <tbody>
                   {checkResults.map((result) => (
                     <tr key={result.filePath} style={{ borderTop: "1px solid #eee" }}>
+                      <td style={{ padding: "0.5rem" }}>
+                        {!result.error && (
+                          <input
+                            type="checkbox"
+                            checked={improvementSelection.includes(result.filePath)}
+                            onChange={() => toggleImprovementSelection(result.filePath)}
+                            aria-label={`Select ${result.conversationId ?? result.filePath} for improvement`}
+                          />
+                        )}
+                      </td>
                       <td style={{ padding: "0.5rem" }}>{result.conversationId ?? "—"}</td>
                       <td style={{ padding: "0.5rem", fontSize: "0.9rem" }}>{result.filePath}</td>
                       <td style={{ padding: "0.5rem" }}>
@@ -476,6 +817,20 @@ const ImproveScenariosPage: React.FC = () => {
                   ))}
                 </tbody>
               </table>
+
+              <div style={{ marginTop: "0.75rem" }}>
+                <button
+                  type="button"
+                  onClick={handleIncreaseDifficulty}
+                  disabled={improving || improvementSelection.length === 0}
+                  style={{ padding: "0.4rem 0.9rem" }}
+                >
+                  {improving ? "Improving…" : "Increase edge case difficulty"}
+                </button>
+                <span style={{ marginLeft: "0.75rem", color: "#555" }}>
+                  Selected for improvement: {improvementSelection.length}
+                </span>
+              </div>
 
               {checkResults.some((result) => result.completion) && (
                 <details style={{ marginTop: "1rem" }}>
@@ -511,6 +866,192 @@ const ImproveScenariosPage: React.FC = () => {
                     ))}
                   </ul>
                 </details>
+              )}
+
+              {improvementError && (
+                <p style={{ color: "#c00", marginTop: "1rem" }}>{improvementError}</p>
+              )}
+
+              {improvementResults.length > 0 && (
+                <section style={{ marginTop: "2rem" }}>
+                  <h3 style={{ fontSize: "1.15rem", fontWeight: 600 }}>
+                    Improved scenarios {improvementRunDir ? `saved to ${improvementRunDir}` : ""}
+                  </h3>
+                  <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "0.75rem" }}>
+                    <thead style={{ background: "#f7f7f7" }}>
+                      <tr>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>Original file</th>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>New path</th>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>Decision</th>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>Max P</th>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>Goal (≤)</th>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>Reached?</th>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>Iteration</th>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>Log P (covered)</th>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>Log P (not covered)</th>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>P (covered)</th>
+                        <th style={{ textAlign: "left", padding: "0.5rem" }}>P (not covered)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {improvementResults.map((result) => (
+                        <tr key={`${result.filePath}-improved`} style={{ borderTop: "1px solid #eee" }}>
+                          <td style={{ padding: "0.5rem", fontSize: "0.9rem" }}>{result.filePath}</td>
+                          <td style={{ padding: "0.5rem", fontSize: "0.9rem" }}>{result.newConversationPath ?? "—"}</td>
+                          <td style={{ padding: "0.5rem" }}>
+                            {result.error
+                              ? <span style={{ color: "#c00" }}>Error</span>
+                              : result.difficulty?.decision === "covered"
+                              ? "Covered"
+                              : result.difficulty?.decision === "not_covered"
+                              ? "Not covered"
+                              : "Unknown"}
+                          </td>
+                          <td style={{ padding: "0.5rem" }}>{formatProbability(maxProbabilityValue(result.difficulty))}</td>
+                          <td style={{ padding: "0.5rem" }}>{formatProbability(result.confidenceThreshold ?? null)}</td>
+                          <td style={{ padding: "0.5rem" }}>{result.reachedThreshold ? "Yes" : "No"}</td>
+                          <td style={{ padding: "0.5rem" }}>{result.appliedIteration ?? (result.attempts?.length ?? "—")}</td>
+                          <td style={{ padding: "0.5rem" }}>{formatLogProbability(result.difficulty?.logProbabilities.covered ?? null)}</td>
+                          <td style={{ padding: "0.5rem" }}>{formatLogProbability(result.difficulty?.logProbabilities.notCovered ?? null)}</td>
+                          <td style={{ padding: "0.5rem" }}>{formatProbability(result.difficulty?.probabilities.covered ?? null)}</td>
+                          <td style={{ padding: "0.5rem" }}>{formatProbability(result.difficulty?.probabilities.notCovered ?? null)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  {improvementResults.some((result) => result.rewrittenScenarioText) && (
+                    <details style={{ marginTop: "1rem" }}>
+                      <summary style={{ cursor: "pointer" }}>Show rewritten scenarios</summary>
+                      <ul style={{ marginTop: "0.5rem" }}>
+                        {improvementResults.map((result) => (
+                          <li key={`${result.filePath}-scenario`} style={{ marginBottom: "0.75rem" }}>
+                            <div style={{ fontWeight: 500 }}>{result.filePath}</div>
+                            {result.rewrittenScenarioText && (
+                              <pre style={{ whiteSpace: "pre-wrap", background: "#f0f0f0", padding: "0.5rem", borderRadius: "4px" }}>
+                                {result.rewrittenScenarioText}
+                              </pre>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
+
+                  {improvementResults.some((result) => result.simulationTranscript) && (
+                    <details style={{ marginTop: "1rem" }}>
+                      <summary style={{ cursor: "pointer" }}>Show improved transcripts</summary>
+                      <ul style={{ marginTop: "0.5rem" }}>
+                        {improvementResults.map((result) => (
+                          <li key={`${result.filePath}-transcript`} style={{ marginBottom: "0.75rem" }}>
+                            <div style={{ fontWeight: 500 }}>{result.newConversationPath ?? result.filePath}</div>
+                            {result.simulationTranscript && (
+                              <pre style={{ whiteSpace: "pre-wrap", background: "#f7f7f7", padding: "0.5rem", borderRadius: "4px" }}>
+                                {result.simulationTranscript
+                                  .map((message) => `${message.speaker.toUpperCase()}: ${message.text}`)
+                                  .join("\n")}
+                              </pre>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
+
+                  {improvementResults.some((result) => result.rawRewrite) && (
+                    <details style={{ marginTop: "1rem" }}>
+                      <summary style={{ cursor: "pointer" }}>Show rewrite responses</summary>
+                      <ul style={{ marginTop: "0.5rem" }}>
+                        {improvementResults.map((result) => (
+                          <li key={`${result.filePath}-rewrite`} style={{ marginBottom: "0.75rem" }}>
+                            <div style={{ fontWeight: 500 }}>{result.filePath}</div>
+                            {result.rewritePrompt && (
+                              <details style={{ marginTop: "0.25rem" }}>
+                                <summary style={{ cursor: "pointer" }}>Prompt</summary>
+                                <pre style={{ whiteSpace: "pre-wrap", background: "#f0f0f0", padding: "0.5rem", borderRadius: "4px" }}>
+                                  {result.rewritePrompt}
+                                </pre>
+                              </details>
+                            )}
+                            {result.rawRewrite && (
+                              <pre style={{ whiteSpace: "pre-wrap", background: "#f7f7f7", padding: "0.5rem", borderRadius: "4px", marginTop: "0.5rem" }}>
+                                {result.rawRewrite}
+                              </pre>
+                            )}
+                            {result.error && (
+                              <div style={{ color: "#c00", marginTop: "0.25rem" }}>{result.error}</div>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
+
+                  {improvementResults.some((result) => result.attempts && result.attempts.length > 0) && (
+                    <details style={{ marginTop: "1rem" }}>
+                      <summary style={{ cursor: "pointer" }}>Show iteration history</summary>
+                      <ul style={{ marginTop: "0.5rem" }}>
+                        {improvementResults.map((result) => (
+                          <li key={`${result.filePath}-attempts`} style={{ marginBottom: "1rem" }}>
+                            <div style={{ fontWeight: 600 }}>{result.filePath}</div>
+                            {result.attempts?.map((attempt) => (
+                              <div key={`${result.filePath}-attempt-${attempt.iteration}`} style={{ marginTop: "0.5rem", padding: "0.5rem", border: "1px solid #ddd", borderRadius: "4px" }}>
+                                <div><strong>Iteration:</strong> {attempt.iteration}</div>
+                                <div><strong>Conversation:</strong> {attempt.conversationPath ?? "—"}</div>
+                                <div>
+                                  <strong>Max P:</strong> {formatProbability(maxProbabilityValue(attempt.difficulty))}
+                                  {" · "}
+                                  <strong>Decision:</strong> {attempt.difficulty?.decision ?? "unknown"}
+                                </div>
+                                {attempt.error && <div style={{ color: "#c00" }}>{attempt.error}</div>}
+                                {attempt.difficulty?.logProbabilities && (
+                                  <div style={{ fontSize: "0.9rem", marginTop: "0.25rem" }}>
+                                    LogP C: {formatLogProbability(attempt.difficulty.logProbabilities.covered ?? null)} · LogP N: {formatLogProbability(attempt.difficulty.logProbabilities.notCovered ?? null)}
+                                  </div>
+                                )}
+                                {attempt.simulationTranscript && (
+                                  <details style={{ marginTop: "0.5rem" }}>
+                                    <summary style={{ cursor: "pointer" }}>Transcript</summary>
+                                    <pre style={{ whiteSpace: "pre-wrap", background: "#f7f7f7", padding: "0.5rem", borderRadius: "4px" }}>
+                                      {attempt.simulationTranscript.map((message) => `${message.speaker.toUpperCase()}: ${message.text}`).join("\n")}
+                                    </pre>
+                                  </details>
+                                )}
+                                {attempt.rewritePrompt && (
+                                  <details style={{ marginTop: "0.5rem" }}>
+                                    <summary style={{ cursor: "pointer" }}>Rewrite prompt</summary>
+                                    <pre style={{ whiteSpace: "pre-wrap", background: "#f0f0f0", padding: "0.5rem", borderRadius: "4px" }}>
+                                      {attempt.rewritePrompt}
+                                    </pre>
+                                  </details>
+                                )}
+                                {attempt.rawRewrite && (
+                                  <details style={{ marginTop: "0.5rem" }}>
+                                    <summary style={{ cursor: "pointer" }}>Rewrite response</summary>
+                                    <pre style={{ whiteSpace: "pre-wrap", background: "#f7f7f7", padding: "0.5rem", borderRadius: "4px" }}>
+                                      {attempt.rawRewrite}
+                                    </pre>
+                                  </details>
+                                )}
+                              </div>
+                            ))}
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
+
+                  {improvementWarnings.length > 0 && (
+                    <div style={{ marginTop: "1rem" }}>
+                      <strong>Improvement warnings:</strong>
+                      <ul>
+                        {improvementWarnings.map((warning) => (
+                          <li key={warning}>{warning}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </section>
               )}
 
               {checkWarnings.length > 0 && (
