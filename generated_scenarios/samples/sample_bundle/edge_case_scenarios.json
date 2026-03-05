@@ -1,0 +1,179 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20251017T112101Z-01",
+      "title": "Claim for iPhone Reported Stolen but Later Recovered Incomplete",
+      "description": "Customer reported their iPhone stolen and filed a claim under AppleCare+. The device was later recovered but missing essential components, including the battery and screen assembly, making it incomplete upon return to Apple.",
+      "claim_type": "lost_or_stolen_edge_case",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "No ADH service fee applies as coverage excludes lost or stolen devices and incomplete returns."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "4.2(iv)",
+          "snippet": "The Plan does not apply to a Covered iPhone that has been lost or stolen; coverage only applies to a device that is returned to Apple in its entirety."
+        },
+        {
+          "section": "3.2",
+          "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an unexpected and unintentional external event on a device returned intact."
+        }
+      ],
+      "reasoning": "Section 4.2(iv) explicitly excludes coverage for devices reported lost or stolen even if later returned; moreover, the returned device must be complete. The missing components here mean the iPhone is not returned in its entirety. Thus, despite recovery, the claim is excluded. ADH coverage and associated $49 fee do not apply as the damage is not from accidental handling but from incomplete return after theft. The case requires verifying device completeness and claim history per Section 4.2(iv).",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-8745632100",
+        "serial_number": "F4R7D8C9K2M1",
+        "phone_number": "+1-415-555-2890"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec4-2-loss-theft",
+        "policy_anchor_section": "4.2(iv)",
+        "policy_anchor_intent": "exclusion",
+        "secondary_policy_sections": [
+          "3.2"
+        ]
+      }
+    },
+    {
+      "id": "EC-20251017T112101Z-02",
+      "title": "Screen Failure After Intentional Cosmetic Enhancement",
+      "description": "Customer reports that the iPhone screen stopped responding after a professional applied a tempered glass screen protector with strong adhesive that required partial removal and reinstallation. The device otherwise shows no signs of drops or liquid contact. The customer claims it was accidental damage from handling.",
+      "claim_type": "adh_coverage_judgment_call",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "likely",
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies upon approval of ADH claim."
+      },
+      "counts_toward_adh_limit": "if_approved",
+      "policy_references": [
+        {
+          "section": "3.2",
+          "snippet": "ADH coverage only applies to mechanical failure caused by an unexpected and unintentional external event from normal daily usage."
+        },
+        {
+          "section": "4.2(ii)(b)",
+          "snippet": "Coverage excludes damage caused by reckless, willful or intentional conduct associated with handling."
+        },
+        {
+          "section": "7(iii)",
+          "snippet": "The customer must provide information about symptoms and causes."
+        }
+      ],
+      "reasoning": "The claim hinges on interpreting whether damage caused by partial removal and reinstallation of an adhesive screen protector, which is intentional and possibly outside normal handling, qualifies as an unexpected and unintentional external event under Section 3.2. Section 4.2(ii)(b) excludes willful conduct damage, creating a tension that requires detailed customer explanation of the circumstances to resolve if this is accidental. If approved, the $49 ADH fee applies and the claim counts toward the two-event limit.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-5837291046",
+        "serial_number": "F3L9K5T7Q2W8",
+        "phone_number": "+1-415-555-3920"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec3-2-adh-definition",
+        "policy_anchor_section": "3.2",
+        "policy_anchor_intent": "coverage_requirement",
+        "secondary_policy_sections": [
+          "4.2(ii)(b)",
+          "7(iii)"
+        ]
+      }
+    },
+    {
+      "id": "EC-20251017T112101Z-03",
+      "title": "Battery Capacity Degradation Just Below 50 Percent Threshold",
+      "description": "Customer’s Covered iPhone’s battery capacity has depleted 48% from original specifications during the Plan Term, slightly below the 50% depletion threshold stipulated in Section 3.1 for free repair or replacement. The customer reports intermittent shutdowns, raising the question of whether this qualifies as a defect in materials and workmanship or purely battery aging.",
+      "claim_type": "battery_depletion_threshold_edge",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "No service fee applies as battery degradation falls below 50% threshold for free coverage under 3.1."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1",
+          "snippet": "If during the Plan Term you submit a valid claim notifying Apple that a defect in materials and workmanship has arisen in the Covered iPhone or the capacity of the Covered iPhone's battery has depleted fifty (50%) percent or more from its original specifications, Apple will either repair the defect at no charge or exchange the Covered iPhone..."
+        },
+        {
+          "section": "4.2(vii)",
+          "snippet": "The Plan does not apply to defects caused by normal wear and tear or which is otherwise due to normal aging of the product."
+        },
+        {
+          "section": "7(ii)",
+          "snippet": "You will provide information about the symptoms and causes of the issues with the Covered iPhone."
+        }
+      ],
+      "reasoning": "Because Section 3.1 requires ≥50% battery capacity depletion for coverage, and the degradation is reported at 48%, this case falls into an ambiguous zone. The intermittent shutdowns raise a question if a defect in workmanship exists independently of capacity metrics. However, Section 4.2(vii) excludes coverage for normal aging, creating tension. To resolve, Apple must evaluate detailed diagnostics per Section 7(ii) to decide if this is a defect or normal wear. As it is not a clear defect nor meets the numeric threshold, coverage determination requires judgment.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-2025101799",
+        "serial_number": "F2N9W4P7M8Q3",
+        "phone_number": "+1-408-555-7760"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec3-1-hardware-defect",
+        "policy_anchor_section": "3.1",
+        "policy_anchor_intent": "coverage_requirement",
+        "secondary_policy_sections": [
+          "4.2(vii)",
+          "7(ii)"
+        ]
+      }
+    },
+    {
+      "id": "EC-20251017T112101Z-04",
+      "title": "Third ADH Claim Filed After Exceeding Two-Service Event Limit",
+      "description": "Customer files a third accidental damage from handling (ADH) claim within the Plan Term after two prior ADH claims were already serviced under the AppleCare+ plan. The new damage is caused by a drop resulting in screen and internal component failure.",
+      "claim_type": "adh_coverage_limit_boundary",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Service fee does not apply since coverage is no longer provided after two ADH Service Events."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.2",
+          "snippet": "ADH coverage will expire and all of Apple's obligations to you under this section 3.2 will be fulfilled before the end of the Plan Term when Apple, as a result of ADH claims, has provided to you two (2) Service Events."
+        },
+        {
+          "section": "3.2",
+          "snippet": "You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim."
+        },
+        {
+          "section": "9",
+          "snippet": "If you cancel this Plan within thirty (30) days of your Plan receipt, you will receive a full refund less the value of any service provided under the Plan."
+        }
+      ],
+      "reasoning": "The policy explicitly limits ADH coverage to two Service Events within the Plan Term (Section 3.2). Since the customer already exhausted these two ADH claims, this third damage incident falls outside the plan's coverage and thus does not require payment of the $49 service fee. Although the mechanical failure qualifies as an accidental damage event, the policy's numeric limit creates a coverage denial. However, the customer may still be eligible for hardware service claims under Section 3.1 if applicable. Customer will need to verify prior claim history and acknowledge no further ADH claims count or incur service fees.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-8754210392",
+        "serial_number": "G6H9W3L1M4N7",
+        "phone_number": "+1-415-555-1427"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec3-2-service-event-limit",
+        "policy_anchor_section": "3.2",
+        "policy_anchor_intent": "coverage_limit",
+        "secondary_policy_sections": [
+          "9"
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

@@ -19,6 +19,8 @@ export type ChatCompletionParams = {
   top_p?: number;
   n?: number;
   stop?: string[] | string;
+  response_format?: any;
+  [key: string]: any;
 };
 
 /**

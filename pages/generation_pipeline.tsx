@@ -1521,7 +1521,8 @@ export default function GenerationPipelinePage() {
           Generate new scenarios and automatically simulate one conversation per scenario.
         </p>
         <p style={{ margin: "4px 0 0", color: "#64748b" }}>
-          Previous versions: <Link href="/python-generator">/python-generator</Link> and <Link href="/">/</Link>.
+          Use <Link href="/">/</Link> to choose a workflow. Scenario refinement is available at{" "}
+          <Link href="/improve-scenarios">/improve-scenarios</Link>.
         </p>
       </header>
 

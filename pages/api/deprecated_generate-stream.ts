@@ -3,8 +3,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs/promises";
 import { randomBytes } from "crypto";
 import { createChatCompletion } from "../../lib/openai";
-import { buildPrompt, TEMPERATURE_BY_DIFFICULTY, PromptOptions } from "../../lib/prompt-templates";
-import { parseAndValidateConversation, Conversation } from "../../types/schema";
+import { buildPrompt, TEMPERATURE_BY_DIFFICULTY, PromptOptions } from "../../lib/deprecated_prompt-templates";
+import { parseAndValidateConversation, Conversation } from "../../types/deprecated_schema";
 
 type CoverageDecisionStr = "covered" | "not_covered" | "edgecase";
 type DifficultyChoice = "easy" | "medium" | "hard" | "random";
@@ -181,9 +181,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const id = `conv_${String(i + 1).padStart(6, "0")}`;
 
-    const resolvedDifficulty = difficulty === "random" ? pick(DIFFICULTIES) : (difficulty as any);
-    const resolvedTone = tone === "random" ? pick(TONES) : (tone as any);
-    const resolvedLength = length === "random" ? pick(LENGTHS) : (length as any);
+    const resolvedDifficulty: Exclude<DifficultyChoice, "random"> =
+      difficulty === "random" ? pick(DIFFICULTIES) : difficulty;
+    const resolvedTone: Exclude<ToneChoice, "random"> = tone === "random" ? pick(TONES) : tone;
+    const resolvedLength: Exclude<LengthChoice, "random"> = length === "random" ? pick(LENGTHS) : length;
 
     let resolvedTurns: number;
     let resolvedTurnsBucket: Exclude<TurnsMode, "random">;
@@ -227,8 +228,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const rawText =
         // @ts-ignore
         completion?.choices?.[0]?.message?.content ??
-        // @ts-ignore
-        completion?.choices?.[0]?.text ??
         JSON.stringify(completion);
 
       const rawStr = typeof rawText === "string" ? rawText.trim() : String(rawText);
@@ -255,7 +254,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const repairedRaw =
           // @ts-ignore
           repair?.choices?.[0]?.message?.content ??
-          repair?.choices?.[0]?.text ??
           JSON.stringify(repair);
         const repairedStr = typeof repairedRaw === "string" ? repairedRaw.trim() : String(repairedRaw);
         const repairedJson = extractFirstJsonObject(repairedStr) ?? repairedStr;

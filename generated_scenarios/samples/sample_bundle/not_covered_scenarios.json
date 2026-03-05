@@ -1,0 +1,71 @@
+{
+  "scenarios": [
+    {
+      "id": "NC-20251017T112101Z-01",
+      "title": "Claim denied due to altered serial number",
+      "description": "The iPhone presented for service has a serial number that has been physically altered by the customer, rendering it invalid and inconsistent with Apple's records.",
+      "claim_type": "hardware_service",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(iii)",
+          "snippet": "The Plan does not apply to an iPhone with a serial number that has been altered, defaced, removed, or modified to alter its functionality or capability without the manufacturer's permission."
+        }
+      ],
+      "reasoning": "The claim is denied because the iPhone's serial number has been altered, which is explicitly excluded under section 4.2(iii). This voids coverage and no service fee applies. Apple's policy requires an unaltered serial number to establish eligibility.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (256 GB)",
+        "plan_agreement_number": "APLCARE-9876543210",
+        "serial_number": "X1Y2Z3-ALTERED",
+        "phone_number": "+1-415-555-2678"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec4-2-serial-number",
+        "policy_anchor_section": "4.2(iii)",
+        "policy_anchor_intent": "exclusion"
+      }
+    },
+    {
+      "id": "NC-20251017T112101Z-02",
+      "title": "Pre-existing hardware defect with late Plan purchase",
+      "description": "Customer reported a malfunctioning camera on their iPhone XS that was present before purchasing the AppleCare+ Plan a month later.",
+      "claim_type": "hardware_defect",
+      "ground_truth": "not_covered",
+      "service_fee": {
+        "applies": false,
+        "amount": 0,
+        "currency": "USD"
+      },
+      "counts_toward_adh_limit": false,
+      "policy_references": [
+        {
+          "section": "4.2(viii)",
+          "snippet": "The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased the Plan after you purchased the device."
+        }
+      ],
+      "reasoning": "The defect is a pre-existing condition identified prior to purchasing the AppleCare+ Plan, which is explicitly excluded from coverage per section 4.2(viii). As such, no service fee applies because the claim is denied on eligibility grounds.",
+      "customer_data": {
+        "device": "iPhone XS (256 GB)",
+        "plan_agreement_number": "APLCARE-8723649110",
+        "serial_number": "DX4HV5K9MF7R",
+        "phone_number": "+1-415-555-1234"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec4-2-preexisting-condition",
+        "policy_anchor_section": "4.2(viii)",
+        "policy_anchor_intent": "exclusion"
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

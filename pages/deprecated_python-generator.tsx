@@ -189,7 +189,7 @@ export default function PythonGeneratorPage() {
     };
 
     try {
-      const resp = await fetch("/api/python-generator", {
+      const resp = await fetch("/api/deprecated_python-generator", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -363,6 +363,9 @@ export default function PythonGeneratorPage() {
         <h1 style={{ margin: 0 }}>Python Conversation Generator</h1>
         <p style={{ margin: "8px 0 0", color: "#475569" }}>
           Trigger the existing Python script from a dedicated page. The original UI remains at <Link href="/">/</Link>.
+        </p>
+        <p style={{ margin: "8px 0 0", color: "#475569" }}>
+          Legacy/experimental page. Use <Link href="/generation_pipeline">/generation_pipeline</Link> as the canonical interface.
         </p>
       </header>
 

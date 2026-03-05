@@ -562,6 +562,9 @@ const ImproveScenariosPage: React.FC = () => {
         <p style={{ margin: 0 }}>
           Select edge case scenarios to refine. The default selection includes edge cases from the most recent UI run.
         </p>
+        <p style={{ marginTop: "0.5rem", color: "#475569" }}>
+          Legacy/experimental utility page. Use <Link href="/generation_pipeline">/generation_pipeline</Link> as the canonical interface.
+        </p>
         <p style={{ marginTop: "0.5rem" }}>
           <Link href="/generation_pipeline">Return to generation pipeline</Link>
         </p>
