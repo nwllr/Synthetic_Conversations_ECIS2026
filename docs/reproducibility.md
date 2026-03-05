@@ -14,12 +14,18 @@ Install dependencies:
 npm install
 ```
 
+If Python dependencies were not installed during `npm install`, run:
+
+```bash
+npm run setup:python
+```
+
 ## Deterministic Small Run (CLI)
 
 Use the canonical generation script with a fixed seed:
 
 ```bash
-python3 scripts/simulate_conversation.py \
+./.venv/bin/python scripts/simulate_conversation.py \
   --count 3 \
   --seed 42 \
   --model gpt-4.1-mini \
@@ -32,7 +38,7 @@ python3 scripts/simulate_conversation.py \
 ## Deterministic Scenario + Conversation Pipeline
 
 ```bash
-python3 scripts/simulate_conversation.py \
+./.venv/bin/python scripts/simulate_conversation.py \
   --generate-scenarios \
   --scenario-count-covered 1 \
   --scenario-count-not-covered 1 \

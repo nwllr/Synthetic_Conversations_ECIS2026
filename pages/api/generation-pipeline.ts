@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs/promises";
 import { spawn } from "child_process";
 import { randomBytes } from "crypto";
+import { resolvePythonRuntime, pythonSetupHint } from "../../lib/python-runtime";
 
 interface ScenarioCountsPayload {
   covered?: number;
@@ -161,7 +162,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   emitProgress();
 
-  const child = spawn("python3", args, {
+  const pythonRuntime = resolvePythonRuntime(process.cwd(), "openai");
+  const pythonExecutable = pythonRuntime.executable;
+  writeEvent(res, "log", { stream: "info", message: `Using Python runtime: ${pythonExecutable}` });
+
+  if (!pythonRuntime.hasRequiredModule) {
+    finish(
+      null,
+      `Python runtime '${pythonExecutable}' is missing required module '${pythonRuntime.requiredModule}'. ${pythonSetupHint()}`
+    );
+    return;
+  }
+
+  const child = spawn(pythonExecutable, args, {
     cwd: process.cwd(),
     env: {
       ...process.env,
@@ -309,9 +322,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const finish = async (exitCode: number | null, fatalMessage?: string) => {
     await Promise.allSettled(pendingReads);
-    if (fatalMessage) {
+    const failedExit = exitCode === null || exitCode !== 0;
+    const derivedFailureMessage =
+      fatalMessage ??
+      (failedExit
+        ? `Generation pipeline failed${exitCode === null ? "" : ` with exit code ${exitCode}`}. ${pythonSetupHint()}`
+        : undefined);
+
+    if (derivedFailureMessage) {
       writeEvent(res, "fatal", {
-        message: fatalMessage,
+        message: derivedFailureMessage,
         stdout: stdoutAll,
         stderr: stderrAll,
         runId,
@@ -349,7 +369,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   child.on("error", (err) => {
     console.error("Failed to spawn python process", err);
-    finish(child.exitCode, err?.message ?? "Failed to spawn python process");
+    finish(
+      child.exitCode,
+      `${err?.message ?? "Failed to spawn python process"}. ${pythonSetupHint()}`
+    );
   });
 
   req.on("close", () => {

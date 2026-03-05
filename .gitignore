@@ -2,5 +2,8 @@
 /.env
 /.next
 /node_modules
+.venv/
+__pycache__/
+*.pyc
 .DS_Store
 tsconfig.tsbuildinfo

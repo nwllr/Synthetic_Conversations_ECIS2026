@@ -1,0 +1,4 @@
+openai>=1.40.0,<2
+python-dotenv>=1.0.1,<2
+numpy>=1.26,<3
+umap-learn>=0.5.7,<1

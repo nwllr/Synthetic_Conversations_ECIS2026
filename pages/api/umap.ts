@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { spawn } from "child_process";
 import path from "path";
+import { resolvePythonRuntime, pythonSetupHint } from "../../lib/python-runtime";
 
 type UmapRequestPayload = {
   vectors: number[][];
@@ -52,7 +53,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 function runPythonUmap(payload: Record<string, unknown>): Promise<number[][]> {
   return new Promise((resolve, reject) => {
-    const child = spawn("python3", [SCRIPT_PATH], {
+    const pythonRuntime = resolvePythonRuntime(process.cwd(), "umap");
+    const pythonExecutable = pythonRuntime.executable;
+    if (!pythonRuntime.hasRequiredModule) {
+      reject(
+        new Error(
+          `Python runtime '${pythonExecutable}' is missing required module '${pythonRuntime.requiredModule}'. ${pythonSetupHint()}`
+        )
+      );
+      return;
+    }
+    const child = spawn(pythonExecutable, [SCRIPT_PATH], {
       cwd: process.cwd(),
       env: process.env,
     });
@@ -69,7 +80,7 @@ function runPythonUmap(payload: Record<string, unknown>): Promise<number[][]> {
     });
 
     child.on("error", (error) => {
-      reject(new Error(`Failed to launch python: ${error.message}`));
+      reject(new Error(`Failed to launch python runtime '${pythonExecutable}': ${error.message}. ${pythonSetupHint()}`));
     });
 
     child.on("close", (code) => {
@@ -83,7 +94,7 @@ function runPythonUmap(payload: Record<string, unknown>): Promise<number[][]> {
         } catch {
           // Keep original message
         }
-        reject(new Error(message));
+        reject(new Error(`${message}. ${pythonSetupHint()}`));
         return;
       }
       try {

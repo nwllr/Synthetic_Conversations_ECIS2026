@@ -1,0 +1,48 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20260305T155050Z-01",
+      "title": "Claim for sticky volume buttons after two years of heavy use",
+      "description": "Customer reports that the iPhone's volume buttons have become sticky and less responsive after two years of daily use, with no single accidental event or external damage. The device otherwise functions normally, but the customer finds the degraded button response impacts usability. They request hardware service under AppleCare+.",
+      "claim_type": "hardware_defect_vs_wear_and_tear",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "uncertain",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "If determined to be a defect in materials/workmanship, covered at no charge; if due to normal wear and tear, excluded."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "4.2(vii)",
+          "snippet": "The Plan does not apply to defects caused by normal wear and tear or that are otherwise due to normal aging of the product."
+        },
+        {
+          "section": "3.1",
+          "snippet": "If during the Plan Term, you submit a valid claim that a defect in materials and workmanship has arisen, Apple will repair at no charge."
+        }
+      ],
+      "reasoning": "The claim hinges on whether the sticky buttons result from a defect in materials/workmanship (covered under section 3.1) or from normal wear and tear/aging (excluded by section 4.2(vii)). Since the customer describes gradual degradation with no accidental event, Apple must make a judgment call based on inspection and usage history. This is an edge case because the policy does not explicitly define the boundary between 'defect' and 'wear and tear' for mechanical button failures after extended use.",
+      "customer_data": {
+        "device": "iPhone 13 mini (128 GB)",
+        "plan_agreement_number": "APLCARE-3124789650",
+        "serial_number": "G6Y2L8N9Q5R3",
+        "phone_number": "+1-415-555-0194"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec4-2-normal-wear",
+        "policy_anchor_section": "4.2(vii)",
+        "policy_anchor_intent": "exclusion",
+        "secondary_policy_sections": [
+          "3.1"
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1",
+    "temperature": 0.35,
+    "max_tokens": 2800
+  }
+}

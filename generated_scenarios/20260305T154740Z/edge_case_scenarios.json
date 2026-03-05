@@ -1,0 +1,97 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20260305T154740Z-01",
+      "title": "Claim for service during phone trade-in installation",
+      "description": "Customer submitted a claim for a malfunction discovered while their Covered iPhone was undergoing installation into a trade-in kiosk at an Apple Store. The device failure was identified during the installation process before personal use could resume.",
+      "claim_type": "service_during_installation",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Installation is excluded from coverage per policy; no ADH fee applies."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "4.2(i)",
+          "snippet": "The Plan does not apply to installation, removal, or disposal of the Covered iPhone, or to the provision of equipment while the Covered iPhone is being serviced."
+        },
+        {
+          "section": "3.1",
+          "snippet": "Hardware service covers defects in materials and workmanship during normal use."
+        },
+        {
+          "section": "7(iii)",
+          "snippet": "Customer must provide information about symptoms and causes of issues."
+        }
+      ],
+      "reasoning": "The claim arises during installation of the Covered iPhone into trade-in equipment, an activity classified as 'installation' excluded under Section 4.2(i). Although a hardware defect may exist, the policy explicitly excludes service coverage during installation or provision of equipment, raising a gray area on entitlement. Determining coverage requires verifying timing of defect manifestation relative to installation and usage start. No ADH service fee applies as this is not an accidental damage claim. Customer input about timing and conditions of failure is necessary for resolution.",
+      "customer_data": {
+        "device": "iPhone 14 Plus (128 GB)",
+        "plan_agreement_number": "APLCARE-9742058632",
+        "serial_number": "X9M2L3F7Q4N1",
+        "phone_number": "+1-415-555-0199"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec4-2-installation-exclusion",
+        "policy_anchor_section": "4.2(i)",
+        "policy_anchor_intent": "exclusion",
+        "secondary_policy_sections": [
+          "3.1",
+          "7(iii)"
+        ]
+      }
+    },
+    {
+      "id": "EC-20260305T154740Z-02",
+      "title": "Claim for a found stolen iPhone returned after extended loss",
+      "description": "Customer reports recovering a previously reported stolen Covered iPhone that was found intact after several months. They request hardware service under AppleCare+. The device is returned in its entirety but with altered lock and activation status.",
+      "claim_type": "lost_stolen_recovery",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "Service fee is irrelevant if coverage is denied based on lost or stolen exclusion."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "4.2(iv)",
+          "snippet": "The Plan does not apply to a Covered iPhone that has been lost or stolen; coverage only applies to a device that is returned to Apple in its entirety."
+        },
+        {
+          "section": "7(i)",
+          "snippet": "You will provide your Plan Agreement Number and a copy of your Plan’s original proof of purchase, if requested."
+        },
+        {
+          "section": "7(ii)",
+          "snippet": "You will provide information about the symptoms and causes of the issues with the Covered iPhone."
+        }
+      ],
+      "reasoning": "Policy Section 4.2(iv) excludes coverage for lost or stolen Covered iPhones. Although the device was returned in its entirety, the iPhone was officially reported stolen and out of the customer's possession for a prolonged period. The claim requires judgment on whether the recovery and return status equates to coverage eligibility. Additionally, verification of lock/activation status and the integrity of the serial number (Section 4.2(iii)) is needed to confirm no alterations. Customer must provide plan agreement number and proof of purchase to substantiate coverage start date. The edge case arises because the policy is strict on stolen devices but the device is now physically returned intact, creating ambiguity on service entitlement.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB) - Space Black",
+        "plan_agreement_number": "APLCARE-8756314920",
+        "serial_number": "F6N4T2W3L9Q7",
+        "phone_number": "+1-415-555-0199"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec4-2-loss-theft",
+        "policy_anchor_section": "4.2(iv)",
+        "policy_anchor_intent": "exclusion",
+        "secondary_policy_sections": [
+          "7(i)",
+          "7(ii)"
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}

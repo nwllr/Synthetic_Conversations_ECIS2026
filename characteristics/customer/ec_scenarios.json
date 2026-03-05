@@ -4,432 +4,52 @@
     "region": "US & Canada",
     "plan_term_months": 24
   },
-  "generated_on": "20251021",
+  "generated_on": "20260305",
   "generator": {
-    "model": "gpt-4.1-mini",
-    "temperature": 1.0,
+    "model": "gpt-4.1",
+    "temperature": 0.35,
     "max_tokens": 2800,
-    "attempted_count": 10,
-    "slug": "20251021T085347Z"
+    "attempted_count": 1,
+    "slug": "20260305T155050Z"
   },
   "categories": {
     "edge_case": [
       {
-        "id": "EC-20251021T085347Z-01",
-        "title": "Claim for device failure after deliberate but accidental drop onto harsh industrial floor",
-        "description": "Customer reports the iPhone 14 Pro was dropped intentionally while carrying but the drop was unintentional to be harsh on a concrete industrial floor at a worksite, leading to failure. The claim challenges whether this constitutes an accidental damage from handling under Section 3.2, given borderline intent and environmental context.",
-        "claim_type": "accidental_damage_from_handling_intent_ambiguity",
+        "id": "EC-20260305T155050Z-01",
+        "title": "Claim for sticky volume buttons after two years of heavy use",
+        "description": "Customer reports that the iPhone's volume buttons have become sticky and less responsive after two years of daily use, with no single accidental event or external damage. The device otherwise functions normally, but the customer finds the degraded button response impacts usability. They request hardware service under AppleCare+.",
+        "claim_type": "hardware_defect_vs_wear_and_tear",
         "ground_truth": "edge_case",
         "service_fee": {
-          "applies": "yes",
-          "amount": 49,
-          "currency": "USD",
-          "notes": "If approved as ADH, the service fee applies per Section 3.2."
-        },
-        "counts_toward_adh_limit": "if_approved",
-        "policy_references": [
-          {
-            "section": "3.2",
-            "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event."
-          },
-          {
-            "section": "4.2(ii)(a)",
-            "snippet": "The Plan does not apply to damage caused by abuse, misuse, or willful conduct."
-          },
-          {
-            "section": "4.2(ii)(c)",
-            "snippet": "The Plan does not apply to damage caused by operating the iPhone outside the permitted or intended uses described by the manufacturer."
-          }
-        ],
-        "reasoning": "The claim requires judgment to determine if the intentional act of carrying the device during a worksite activity that results in a drop onto a harsh concrete surface qualifies as an unintentional accident or as willful misuse or operation outside intended use. Section 3.2 emphasizes accidental, unintentional external events in normal daily usage, while Section 4.2(ii)(a) excludes willful conduct, and 4.2(ii)(c) excludes use outside permitted uses. The industrial environment conditions introduce tension regarding \"normal daily usage\". Additional customer explanation and context about intent and circumstances would be required to adjudicate.",
-        "customer_data": {
-          "device": "iPhone 14 Pro (512 GB)",
-          "plan_agreement_number": "APLCARE-5948723102",
-          "serial_number": "G7J9Q2MK5LP3",
-          "phone_number": "+1-415-555-7890"
-        },
-        "metadata": {
-          "policy_anchor_id": "sec3-2-adh-definition",
-          "policy_anchor_section": "3.2",
-          "policy_anchor_intent": "coverage_requirement",
-          "secondary_policy_sections": [
-            "4.2(ii)(a)",
-            "4.2(ii)(c)"
-          ]
-        }
-      },
-      {
-        "id": "EC-20251021T085347Z-02",
-        "title": "Claim for battery performance recovery after scheduled software update",
-        "description": "Customer reports reduced battery capacity below 50%, but also notes they performed routine iOS updates immediately prior to claim submission to optimize battery performance. The claim challenges whether this constitutes preventative maintenance excluded under Section 4.2(vi).",
-        "claim_type": "battery_degradation_after_optimization",
-        "ground_truth": "edge_case",
-        "service_fee": {
-          "applies": false,
+          "applies": "uncertain",
           "amount": 0,
           "currency": "USD",
-          "notes": "Service fees apply only to ADH claims; this is a battery capacity claim potentially impacted by maintenance exclusions."
-        },
-        "counts_toward_adh_limit": false,
-        "policy_references": [
-          {
-            "section": "3.1",
-            "snippet": "Apple will repair or exchange the iPhone if the battery capacity depletes 50% or more from original specifications."
-          },
-          {
-            "section": "4.2(vi)",
-            "snippet": "The Plan does not apply to preventative maintenance on the Covered iPhone."
-          },
-          {
-            "section": "7(iii)",
-            "snippet": "Customer must provide information about symptoms and causes of issues, including any steps taken prior."
-          }
-        ],
-        "reasoning": "The claim hinges on distinguishing natural battery degradation eligible for coverage per Section 3.1 from battery performance changes resulting directly from user-initiated preventative maintenance (iOS updates/optimizations) expressly excluded under Section 4.2(vi). Since the customer proactively optimized software, the loss might be viewed as related to maintenance rather than defect, creating a tension that requires information about battery diagnostics before and after the update to adjudicate coverage.",
-        "customer_data": {
-          "device": "iPhone 14 Pro Max (512 GB)",
-          "plan_agreement_number": "APLCARE-5793124680",
-          "serial_number": "F4M7N2P8Q6S1",
-          "phone_number": "+1-415-555-0293"
-        },
-        "metadata": {
-          "policy_anchor_id": "sec4-2-preventative-maintenance",
-          "policy_anchor_section": "4.2(vi)",
-          "policy_anchor_intent": "exclusion",
-          "secondary_policy_sections": [
-            "3.1",
-            "7(iii)"
-          ]
-        }
-      },
-      {
-        "id": "EC-20251021T085347Z-03",
-        "title": "Third ADH claim filed exceeding two Service Event limit",
-        "description": "Customer files a third claim for accidental damage from handling after having already received two prior ADH Service Events under the Plan. The claim involves a screen crack from a drop on carpet.",
-        "claim_type": "accidental_damage_from_handling_exceeding_limit",
-        "ground_truth": "edge_case",
-        "service_fee": {
-          "applies": "yes",
-          "amount": 49,
-          "currency": "USD",
-          "notes": "Service fee paid for claim but coverage may be denied since two prior ADH Service Events have already fulfilled Apple's ADH obligations."
+          "notes": "If determined to be a defect in materials/workmanship, covered at no charge; if due to normal wear and tear, excluded."
         },
         "counts_toward_adh_limit": "no",
         "policy_references": [
           {
-            "section": "3.2",
-            "snippet": "ADH coverage expires when Apple has provided two Service Events as a result of ADH claims."
-          },
-          {
-            "section": "3.2",
-            "snippet": "Apple will repair or exchange Covered iPhone for ADH claims subject to service fee."
-          }
-        ],
-        "reasoning": "The customer has reached the two Service Event coverage limit as specified in section 3.2, which means this third claim is technically not covered under ADH despite being valid accidental damage. The policy explicitly states Apple’s obligations under 3.2 end after two ADH Service Events are provided, even if the Plan Term is still active. Payment of the $49 service fee is standard for ADH claims but will not influence coverage beyond the limit. Additional information about prior claims (dates, serial numbers) and verification of claims history may be required to support final adjudication.",
-        "customer_data": {
-          "device": "iPhone 14 Pro Max (512 GB)",
-          "plan_agreement_number": "APLCARE-5298745621",
-          "serial_number": "DX3L42P7KH9W",
-          "phone_number": "+1-415-555-0199"
-        },
-        "metadata": {
-          "policy_anchor_id": "sec3-2-service-event-limit",
-          "policy_anchor_section": "3.2",
-          "policy_anchor_intent": "coverage_limit"
-        }
-      },
-      {
-        "id": "EC-20251021T085347Z-04",
-        "title": "Claim for iPhone reported stolen but later found damaged",
-        "description": "Customer reported their iPhone as stolen two months ago, thus suspending coverage. The device was recently recovered, but severely damaged. Customer requests AppleCare+ repair coverage for the damage upon return.",
-        "claim_type": "stolen_device_recovery_with_damage",
-        "ground_truth": "edge_case",
-        "service_fee": {
-          "applies": "yes",
-          "amount": 49,
-          "currency": "USD",
-          "notes": "Service fee applies if claim is accepted as ADH; if device was considered lost/stolen coverage is normally excluded."
-        },
-        "counts_toward_adh_limit": "potentially yes if claim approved",
-        "policy_references": [
-          {
-            "section": "4.2(iv)",
-            "snippet": "The Plan does not apply to a Covered iPhone that has been lost or stolen; coverage only applies to a device that is returned to Apple in its entirety."
-          },
-          {
-            "section": "3.2",
-            "snippet": "Apple will repair or exchange for ADH claims subject to a $49 service fee and limits on two service events."
-          },
-          {
-            "section": "7(iii)",
-            "snippet": "Customer must provide information about the symptoms, causes and circumstances of the device damage."
-          }
-        ],
-        "reasoning": "The policy explicitly excludes coverage for lost or stolen devices (4.2(iv)) but requires the device to be returned in its entirety. Since the device was recovered damaged, it is unclear if coverage applies. The claim hinges on whether Apple accepts the device as returned 'in its entirety' despite prior lost status, and if the damage qualifies as ADH per section 3.2. Customer inputs about recovery circumstances and proof of original loss notification are critical to resolve. If coverage applies, the usual $49 service fee and service event limits apply.",
-        "customer_data": {
-          "device": "iPhone 14 Pro Max (128 GB)",
-          "plan_agreement_number": "APLCARE-7854123690",
-          "serial_number": "G7Y2P4V9R6L1",
-          "phone_number": "+1-415-555-0198"
-        },
-        "metadata": {
-          "policy_anchor_id": "sec4-2-loss-theft",
-          "policy_anchor_section": "4.2(iv)",
-          "policy_anchor_intent": "exclusion",
-          "secondary_policy_sections": [
-            "3.2",
-            "7(iii)"
-          ]
-        }
-      },
-      {
-        "id": "EC-20251021T085347Z-05",
-        "title": "Claim for cracked screen after repeated intentional device drops",
-        "description": "Customer reports the iPhone screen cracked after intentionally dropping the device multiple times to test durability. The device was dropped on hard surfaces repeatedly over a short period prior to crack appearing.",
-        "claim_type": "accidental_damage_from_handling",
-        "ground_truth": "edge_case",
-        "service_fee": {
-          "applies": "yes",
-          "amount": 49,
-          "currency": "USD",
-          "notes": "Service fee applies per section 3.2 for ADH claims if approved."
-        },
-        "counts_toward_adh_limit": "potentially yes",
-        "policy_references": [
-          {
-            "section": "3.2",
-            "snippet": "ADH coverage only applies to an operational or mechanical failure caused by an accident from handling that is the result of an unexpected and unintentional external event."
-          },
-          {
-            "section": "3.2",
-            "snippet": "ADH coverage does not include protection against intentional conduct."
-          },
-          {
-            "section": "4.2(ii)(b)",
-            "snippet": "The Plan does not apply to damage caused by abuse, misuse, or willful conduct."
-          }
-        ],
-        "reasoning": "The claim’s eligibility depends on whether Apple views multiple intentional drops as 'accidental damage' or as excluded intentional conduct/abuse. Section 3.2 excludes intentional conduct, while accidental damage requires an unintentional event. Repeated intentional drops strain coverage and require customer explanation. The service fee of $49 applies if claim is accepted, and if approved, counts towards the two allowed ADH service events.",
-        "customer_data": {
-          "device": "iPhone 14 Pro Max (512 GB)",
-          "plan_agreement_number": "APLCARE-5817290463",
-          "serial_number": "F9T3V5N6E1Q2",
-          "phone_number": "+1-415-555-3298"
-        },
-        "metadata": {
-          "policy_anchor_id": "sec3-2-adh-exclusions",
-          "policy_anchor_section": "3.2",
-          "policy_anchor_intent": "exclusion",
-          "secondary_policy_sections": [
-            "4.2(ii)(b)"
-          ]
-        }
-      },
-      {
-        "id": "EC-20251021T085347Z-06",
-        "title": "Claim for damage after customer modified iPhone with non-Apple battery replacement",
-        "description": "Customer replaced the original battery of the iPhone 14 with a third-party battery and later experienced rapid shutdowns and overheating. They filed a claim under AppleCare+. The damage is suspected to be related to the unauthorized battery replacement.",
-        "claim_type": "unauthorized_modification_damage",
-        "ground_truth": "edge_case",
-        "service_fee": {
-          "applies": "no",
-          "amount": 0,
-          "currency": "USD",
-          "notes": "Service fee does not apply as the claim is excluded under policy; repair is likely denied or charged separately."
-        },
-        "counts_toward_adh_limit": "no",
-        "policy_references": [
-          {
-            "section": "4.2(ii)(a-c)",
-            "snippet": "The Plan does not apply to damage caused by a product that is not the Covered iPhone, by abuse, misuse... or by operating the Covered iPhone outside the permitted or intended uses described by the manufacturer."
-          },
-          {
-            "section": "4.2(iii)",
-            "snippet": "The Plan does not apply to an iPhone with a serial number that has been altered... or has been modified to alter its functionality or capability without the written permission of the manufacturer."
-          },
-          {
-            "section": "3.1 Hardware Service",
-            "snippet": "Apple will repair or exchange the Covered iPhone if a defect in materials and workmanship has arisen."
-          }
-        ],
-        "reasoning": "The claim involves damage caused by an unauthorized third-party battery replacement, which constitutes misuse and modification outside permitted uses as per section 4.2(ii)(a-c) and 4.2(iii). Since the battery is a critical component and replaced without Apple's permission, the damage cannot be covered. Although the malfunction is real, coverage is excluded. The customer would need to pay for any repair outside warranty or plan coverage. No service fee applies because the claim is denied and no accidental damage claim is valid.",
-        "customer_data": {
-          "device": "iPhone 14 (128 GB)",
-          "plan_agreement_number": "APLCARE-5427810923",
-          "serial_number": "X3Q7LD9V5T2F",
-          "phone_number": "+1-415-555-0198"
-        },
-        "metadata": {
-          "policy_anchor_id": "sec4-2-external-causes",
-          "policy_anchor_section": "4.2(ii)(a-c)",
-          "policy_anchor_intent": "exclusion",
-          "secondary_policy_sections": [
-            "4.2(iii)",
-            "3.1 Hardware Service"
-          ]
-        }
-      },
-      {
-        "id": "EC-20251021T085347Z-07",
-        "title": "ADH claim with incomplete accident details and partial service fee payment",
-        "description": "Customer submits an accidental damage from handling (ADH) claim for a cracked screen but provides only vague information about the time and place of the incident and pays only half of the $49 service fee initially.",
-        "claim_type": "adh_incomplete_information_and_partial_fee",
-        "ground_truth": "edge_case",
-        "service_fee": {
-          "applies": "yes",
-          "amount": 49,
-          "currency": "USD",
-          "notes": "Full $49 fee required; claim may be denied if full fee or complete accident info is not provided."
-        },
-        "counts_toward_adh_limit": "only_if_claim_approved",
-        "policy_references": [
-          {
-            "section": "3.2",
-            "snippet": "You will pay a $49 (U.S.) dollar service fee plus applicable tax for each ADH claim and may be asked to explain where and when the accident occurred; a claim will be denied if you fail to pay the service fee or provide the requested information."
-          }
-        ],
-        "reasoning": "The claim is ambiguous due to incomplete accident details and partial payment of the service fee. Section 3.2 requires both a full $49 service fee and a detailed explanation of the accident timing and location. The tension arises because the customer partially complied, requiring Apple to decide whether to approve after requesting additional information and payment or deny outright. The claim would only count toward the two ADH service event limit if ultimately approved under full compliance.",
-        "customer_data": {
-          "device": "iPhone 14",
-          "plan_agreement_number": "APLCARE-5928471302",
-          "serial_number": "X1Y2Z3W4V5U6",
-          "phone_number": "+1-415-555-0199"
-        },
-        "metadata": {
-          "policy_anchor_id": "sec3-2-service-fee",
-          "policy_anchor_section": "3.2",
-          "policy_anchor_intent": "claim_condition"
-        }
-      },
-      {
-        "id": "EC-20251021T085347Z-08",
-        "title": "Claim for malfunction on iPhone with partially altered serial number",
-        "description": "Customer reports that their iPhone 14 stopped charging properly. Upon service intake, it is discovered that the serial number label has been tampered with and partially obscured, likely during a prior unauthorized repair attempt. The iPhone functions normally except for the charging fault. The customer requests coverage under AppleCare+.",
-        "claim_type": "serial_number_alteration",
-        "ground_truth": "edge_case",
-        "service_fee": {
-          "applies": "no",
-          "amount": 0,
-          "currency": "USD",
-          "notes": "Service fee waiver is uncertain since altered serial number voids coverage; claim must be evaluated carefully."
-        },
-        "counts_toward_adh_limit": "no",
-        "policy_references": [
-          {
-            "section": "4.2(iii)",
-            "snippet": "The Plan does not apply to an iPhone with a serial number that has been altered, defaced, removed, or modified to alter its functionality or capability without the manufacturer's permission."
-          },
-          {
-            "section": "3.1 Hardware Service",
-            "snippet": "Apple will repair or exchange the iPhone for valid claims during the Plan Term."
-          },
-          {
-            "section": "7 Your Responsibilities",
-            "snippet": "You will provide the Covered iPhone serial number and other info as requested."
-          }
-        ],
-        "reasoning": "Although the malfunction is legitimate and would normally be covered under section 3.1, section 4.2(iii) excludes coverage for phones whose serial number label has been altered without Apple’s authorization. The partial alteration creates tension between coverage eligibility and actual device fault. To resolve this, Apple would need additional investigation to confirm the extent and intent of the tampering, and possibly require the customer to provide proof of legitimate repair history or to purchase a replacement device. Service fee does not apply since the claim is likely denied based on the serial number condition.",
-        "customer_data": {
-          "device": "iPhone 14 (128 GB, Midnight)",
-          "plan_agreement_number": "APLCARE-5823479201",
-          "serial_number": "C39H2X4*** (partially obscured)",
-          "phone_number": "+1-415-555-0199"
-        },
-        "metadata": {
-          "policy_anchor_id": "sec4-2-serial-number",
-          "policy_anchor_section": "4.2(iii)",
-          "policy_anchor_intent": "exclusion",
-          "secondary_policy_sections": [
-            "3.1 Hardware Service",
-            "7 Your Responsibilities"
-          ]
-        }
-      },
-      {
-        "id": "EC-20251021T085347Z-09",
-        "title": "Claim for functional issue on iPhone where AppleCare+ purchased weeks after device purchase",
-        "description": "Customer reports a hardware defect affecting the Covered iPhone’s functionality discovered shortly after purchasing AppleCare+ plan three weeks post original device purchase date.",
-        "claim_type": "pre_existing_condition_claim",
-        "ground_truth": "edge_case",
-        "service_fee": {
-          "applies": "no",
-          "amount": 0,
-          "currency": "USD",
-          "notes": "Service fee does not apply as Plan should exclude service for pre-existing conditions."
-        },
-        "counts_toward_adh_limit": "no",
-        "policy_references": [
-          {
-            "section": "4.2(viii)",
-            "snippet": "The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased the Plan after you purchased the device."
+            "section": "4.2(vii)",
+            "snippet": "The Plan does not apply to defects caused by normal wear and tear or that are otherwise due to normal aging of the product."
           },
           {
             "section": "3.1",
-            "snippet": "Apple will repair or exchange the Covered iPhone for defects in materials and workmanship during the Plan Term."
-          },
-          {
-            "section": "7(iii)",
-            "snippet": "You will provide information about the symptoms and causes of the issues with the Covered iPhone."
+            "snippet": "If during the Plan Term, you submit a valid claim that a defect in materials and workmanship has arisen, Apple will repair at no charge."
           }
         ],
-        "reasoning": "The claim requires judgment whether the reported defect predates the plan purchase, fitting the 'pre-existing condition' exclusion per Section 4.2(viii). The customer’s reported symptoms emerged shortly after AppleCare+ purchase, creating uncertainty about defect timing. Empirical evidence such as diagnostic check results and purchase timestamps are necessary to determine coverage eligibility. As such, while Section 3.1 covers hardware defects, Section 4.2(viii) excludes coverage for pre-existing conditions purchased after device acquisition. No service fee is charged when denying coverage under this clause and the claim does not count toward ADH limits.",
+        "reasoning": "The claim hinges on whether the sticky buttons result from a defect in materials/workmanship (covered under section 3.1) or from normal wear and tear/aging (excluded by section 4.2(vii)). Since the customer describes gradual degradation with no accidental event, Apple must make a judgment call based on inspection and usage history. This is an edge case because the policy does not explicitly define the boundary between 'defect' and 'wear and tear' for mechanical button failures after extended use.",
         "customer_data": {
-          "device": "iPhone 14 Pro Max (512 GB)",
-          "plan_agreement_number": "APLCARE-5912784630",
-          "serial_number": "DX7F9L2QPN5M",
-          "phone_number": "+1-415-555-3421"
+          "device": "iPhone 13 mini (128 GB)",
+          "plan_agreement_number": "APLCARE-3124789650",
+          "serial_number": "G6Y2L8N9Q5R3",
+          "phone_number": "+1-415-555-0194"
         },
         "metadata": {
-          "policy_anchor_id": "sec4-2-preexisting-condition",
-          "policy_anchor_section": "4.2(viii)",
+          "policy_anchor_id": "sec4-2-normal-wear",
+          "policy_anchor_section": "4.2(vii)",
           "policy_anchor_intent": "exclusion",
           "secondary_policy_sections": [
-            "3.1",
-            "7(iii)"
-          ]
-        }
-      },
-      {
-        "id": "EC-20251021T085347Z-10",
-        "title": "Dents around speakers causing intermittent audio issues",
-        "description": "Customer reports intermittent audio problems occurring after multiple small dents appeared near the phone's speaker grills. The dents do not visibly impair the phone’s structural integrity, and all other functions operate normally. The customer disputes that the dents are purely cosmetic, suggesting they may affect speaker performance.",
-        "claim_type": "functional_claim_with_cosmetic_damage",
-        "ground_truth": "edge_case",
-        "service_fee": {
-          "applies": "conditional",
-          "amount": 49,
-          "currency": "USD",
-          "notes": "Service fee applies if claim validated as accidental damage affecting functionality; denied if deemed cosmetic only."
-        },
-        "counts_toward_adh_limit": "if_approved",
-        "policy_references": [
-          {
-            "section": "4.2(v)",
-            "snippet": "The Plan does not apply to cosmetic damage to the Covered iPhone, including scratches and dents, when the functionality of the device is not otherwise affected."
-          },
-          {
-            "section": "3.2",
-            "snippet": "ADH coverage applies to operational or mechanical failure caused by an accident from handling that is unexpected and unintentional."
-          },
-          {
-            "section": "7(iii)",
-            "snippet": "You will provide information about the symptoms and causes of the issues with the Covered iPhone."
-          }
-        ],
-        "reasoning": "Section 4.2(v) excludes cosmetic dents unless functionality is impaired. Here, intermittent audio issues could indicate functional impairment caused by dent damage. However, the dents themselves could be cosmetic and unrelated. Therefore, further diagnostic information from Apple is required per section 7(iii) to determine if the damage triggers ADH coverage under 3.2. If functionality is confirmed impaired due to dents, service fee applies and claim counts toward ADH limits; otherwise, claim denied as cosmetic.",
-        "customer_data": {
-          "device": "iPhone 14 Pro Max (512 GB)",
-          "plan_agreement_number": "APLCARE-5957382014",
-          "serial_number": "F2M7Q4N8J6L0",
-          "phone_number": "+1-415-555-2928"
-        },
-        "metadata": {
-          "policy_anchor_id": "sec4-2-cosmetic-damage",
-          "policy_anchor_section": "4.2(v)",
-          "policy_anchor_intent": "exclusion",
-          "secondary_policy_sections": [
-            "3.2",
-            "7(iii)"
+            "3.1"
           ]
         }
       }

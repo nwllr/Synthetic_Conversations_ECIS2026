@@ -19,11 +19,6 @@ The canonical UI path is:
 
 - `/` (workflow chooser)
 - `/generation_pipeline`
-
-Legacy/experimental pages are still available:
-
-- `/`
-
 - `/improve-scenarios`
 
 ## What This Repository Contains
@@ -36,7 +31,7 @@ Legacy/experimental pages are still available:
   - `generated_scenarios/samples/`
   - `generated_conversations/samples/`
 
-## Quickstart
+## Quickstart (UI First)
 
 ### 1) Install
 
@@ -44,23 +39,34 @@ Legacy/experimental pages are still available:
 npm install
 ```
 
-### 2) Configure environment
-
-Set your OpenAI key in shell env or local env file:
-
-```bash
-export OPENAI_API_KEY=<your_key>
-```
-
-### 3) Run the app
+### 2) Run the app
 
 ```bash
 npm run dev
 ```
 
-Open `http://localhost:3000/` and choose a workflow.
+### 3) Use the UI
 
-### 4) Validate project health
+Open `http://localhost:3000/` and choose a workflow.
+You can paste your OpenAI API key directly into the UI, so no environment configuration is required for basic UI usage.
+
+If `/generation_pipeline` reports missing Python dependencies, run:
+
+```bash
+npm run setup:python
+```
+
+## Optional Setup and Validation
+
+### Configure environment key (optional)
+
+Set `OPENAI_API_KEY` if you do not want to paste the key in the UI each time, or if you run CLI commands:
+
+```bash
+export OPENAI_API_KEY=<your_key>
+```
+
+### Validate project health (optional)
 
 ```bash
 npm run lint
@@ -69,12 +75,12 @@ npm run smoke
 npm run build
 ```
 
-## Reproduce a Small Deterministic Run
+## Optional: Reproduce a Small Deterministic Run
 
 CLI example:
 
 ```bash
-python3 scripts/simulate_conversation.py \
+./.venv/bin/python scripts/simulate_conversation.py \
   --count 3 \
   --seed 42 \
   --model gpt-4.1-mini \
@@ -112,8 +118,8 @@ This repository includes policy/scenario/persona-related assets used in the rese
 ## Known Limitations / Non-Goals
 
 - This is a research artifact, not a production service.
-- DP6-style convergence stopping is not fully implemented.
-- Full paper-scale evaluation automation is not included in CI.
+- DP6-style convergence stopping is not implemented.
+
 
 See [docs/artifact-scope.md](docs/artifact-scope.md) and [docs/paper-context.md](docs/paper-context.md).
 
