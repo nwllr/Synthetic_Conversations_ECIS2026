@@ -112,6 +112,24 @@ This repository includes policy/scenario/persona-related assets used in the rese
 
 - Keep in mind non-code assets may carry separate usage constraints.
 
+### Attribution
+
+AppleCare+ policy reference used in this artifact:
+
+- Apple, "AppleCare+ Terms and Conditions / policy document", available at `https://images.apple.com/legal/sales-support/applecare/docs/applecareplus.pdf`
+
+Persona dataset / testbed inspiration for persona-related assets:
+
+```bibtex
+@inproceedings{castricato2025persona,
+  title={Persona: A reproducible testbed for pluralistic alignment},
+  author={Castricato, Louis and Lile, Nathan and Rafailov, Rafael and Fr{\"a}nken, Jan-Philipp and Finn, Chelsea},
+  booktitle={Proceedings of the 31st International Conference on Computational Linguistics},
+  pages={11348--11368},
+  year={2025}
+}
+```
+
 ## Known Limitations / Non-Goals
 
 - This is a research artifact, not a production service.
