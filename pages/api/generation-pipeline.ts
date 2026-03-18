@@ -320,7 +320,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   });
 
-  const finish = async (exitCode: number | null, fatalMessage?: string) => {
+  async function finish(exitCode: number | null, fatalMessage?: string) {
     await Promise.allSettled(pendingReads);
     const failedExit = exitCode === null || exitCode !== 0;
     const derivedFailureMessage =
@@ -361,7 +361,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       exitCode,
     });
     res.end();
-  };
+  }
 
   child.on("close", (code) => {
     finish(code);

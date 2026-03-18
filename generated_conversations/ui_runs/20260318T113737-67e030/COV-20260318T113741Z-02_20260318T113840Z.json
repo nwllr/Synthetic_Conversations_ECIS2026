@@ -1,0 +1,152 @@
+{
+  "id": "COV-20260318T113741Z-02_20260318T113840Z",
+  "created_at": "2026-03-18T11:38:40.785047+00:00",
+  "model": "gpt-4.1-mini",
+  "temperature": 1.0,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "covered",
+  "scenario": {
+    "id": "COV-20260318T113741Z-02",
+    "title": "Liquid damage from accidental spill during normal use",
+    "description": "Customer accidentally spilled water on their iPhone 13, causing the device to malfunction. Damage resulted from an unexpected and unintentional external event during normal daily usage within the plan term.",
+    "claim_type": "accidental_damage_from_handling",
+    "ground_truth": "covered",
+    "service_fee": {
+      "applies": true,
+      "amount": 49,
+      "currency": "USD",
+      "notes": "Service fee applies for ADH claims as per section 3.2."
+    },
+    "counts_toward_adh_limit": true,
+    "policy_references": [
+      {
+        "section": "3.2 Accidental Damage from Handling",
+        "snippet": "ADH coverage applies to failures caused by accidental damage from handling that result from unexpected and unintentional external events, such as liquid contact during normal use."
+      },
+      {
+        "section": "3.2(a)",
+        "snippet": "ADH coverage excludes damage from reckless, abusive, willful, or intentional conduct, which does not apply in this scenario."
+      }
+    ],
+    "reasoning": "The damage arose from an accidental, unintentional liquid spill during normal use, fitting the definition of ADH coverage under section 3.2. This excludes reckless or intentional conduct per section 3.2(a), which is not the case here. Therefore, coverage applies with a $49 service fee, and the claim counts toward the plan's two ADH event limit.",
+    "customer_data": {
+      "device": "iPhone 13 (128 GB)",
+      "plan_agreement_number": "APLCARE-8374659201",
+      "serial_number": "DX7Q90KLMN5V",
+      "phone_number": "+1-415-555-0172"
+    },
+    "metadata": {
+      "policy_anchor_id": "sec3-2-adh-exclusions",
+      "policy_anchor_section": "3.2",
+      "policy_anchor_intent": "exclusion",
+      "secondary_policy_sections": [
+        "3.2 Accidental Damage from Handling",
+        "3.2(a)"
+      ]
+    }
+  },
+  "persona": {
+    "age": "40",
+    "ancestry": "European",
+    "big five scores": {
+      "Agreeableness": "Average",
+      "Conscientiousness": "Average",
+      "Extraversion": "Average",
+      "Neuroticism": "Extremely High",
+      "Openness": "Average"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Federal government employee",
+    "defining quirks": "Tends to worry or be anxious",
+    "detailed job description": "Conducts investigations related to national security",
+    "disability": "None",
+    "education": "Master's degree",
+    "employment status": "Civilian employed, at work",
+    "family presence and age": "With related children under 5 years only",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Married couple household with children of the householder less than 18",
+    "ideology": "Conservative",
+    "income": "346520.0",
+    "industry category": "ADM-National Security And International Affairs",
+    "lifestyle": "Busy and possibly stressful",
+    "mannerisms": "Speaks with a New England accent",
+    "marital status": "Married",
+    "occupation category": "PRT-Private Detectives And Investigators",
+    "personal time": "Spends free time with family or working",
+    "place of birth": "Massachusetts/MA",
+    "political views": "Republican",
+    "race": "White alone",
+    "religion": "Catholic",
+    "sex": "Male",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario description:\nCustomer accidentally spilled water on their iPhone 13, causing the device to malfunction. Damage resulted from an unexpected and unintentional external event during normal daily usage within the plan term.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 13 (128 GB)\",\n  \"plan_agreement_number\": \"APLCARE-8374659201\",\n  \"serial_number\": \"DX7Q90KLMN5V\",\n  \"phone_number\": \"+1-415-555-0172\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"40\",\n  \"ancestry\": \"European\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Average\",\n    \"Conscientiousness\": \"Average\",\n    \"Extraversion\": \"Average\",\n    \"Neuroticism\": \"Extremely High\",\n    \"Openness\": \"Average\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Federal government employee\",\n  \"defining quirks\": \"Tends to worry or be anxious\",\n  \"detailed job description\": \"Conducts investigations related to national security\",\n  \"disability\": \"None\",\n  \"education\": \"Master's degree\",\n  \"employment status\": \"Civilian employed, at work\",\n  \"family presence and age\": \"With related children under 5 years only\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Married couple household with children of the householder less than 18\",\n  \"ideology\": \"Conservative\",\n  \"income\": \"346520.0\",\n  \"industry category\": \"ADM-National Security And International Affairs\",\n  \"lifestyle\": \"Busy and possibly stressful\",\n  \"mannerisms\": \"Speaks with a New England accent\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"PRT-Private Detectives And Investigators\",\n  \"personal time\": \"Spends free time with family or working\",\n  \"place of birth\": \"Massachusetts/MA\",\n  \"political views\": \"Republican\",\n  \"race\": \"White alone\",\n  \"religion\": \"Catholic\",\n  \"sex\": \"Male\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hi there, I, uh, accidentally spilled some water on my iPhone 13, and now it's not working right. I’m really worried it might be broken beyond repair. Can you help me file a claim for this?",
+      "raw_text": "Hi there, I, uh, accidentally spilled some water on my iPhone 13, and now it's not working right. I’m really worried it might be broken beyond repair. Can you help me file a claim for this?"
+    },
+    {
+      "speaker": "bot",
+      "text": "I’m here to assist you with that. First, could you please provide your Plan Agreement Number or the iPhone 13 serial number? This will help us validate your coverage.",
+      "raw_text": "I’m here to assist you with that. First, could you please provide your Plan Agreement Number or the iPhone 13 serial number? This will help us validate your coverage."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, the Plan Agreement Number is APLCARE-8374659201. The serial number is DX7Q90KLMN5V. I just hope this all gets sorted out quickly — I really can’t afford to be without my phone now.",
+      "raw_text": "Sure, the Plan Agreement Number is APLCARE-8374659201. The serial number is DX7Q90KLMN5V. I just hope this all gets sorted out quickly — I really can’t afford to be without my phone now."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the information. Could you please describe the specific issues your iPhone is experiencing since the water spill? For example, is the screen unresponsive, are there error messages, or any other symptoms?",
+      "raw_text": "Thank you for the information. Could you please describe the specific issues your iPhone is experiencing since the water spill? For example, is the screen unresponsive, are there error messages, or any other symptoms?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yeah, well, the screen sometimes freezes or doesn't respond when I touch it. And sometimes the phone just shuts off all of a sudden. I haven’t seen any specific error messages, but it’s definitely not acting normally. It’s been really stressful since I rely on it for work and family stuff.",
+      "raw_text": "Yeah, well, the screen sometimes freezes or doesn't respond when I touch it. And sometimes the phone just shuts off all of a sudden. I haven’t seen any specific error messages, but it’s definitely not acting normally. It’s been really stressful since I rely on it for work and family stuff."
+    },
+    {
+      "speaker": "bot",
+      "text": "I understand how important your phone is. Can you please confirm the iPhone 13 is still running iOS 16 or later? Also, have you tried any troubleshooting steps like restarting the phone or a force restart? Are there any accessories connected to the iPhone?",
+      "raw_text": "I understand how important your phone is. Can you please confirm the iPhone 13 is still running iOS 16 or later? Also, have you tried any troubleshooting steps like restarting the phone or a force restart? Are there any accessories connected to the iPhone?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, it’s running iOS 16, the latest update I installed recently. I did try restarting it a few times, even a force restart, but the problems keep coming back. No accessories are connected to it right now. I’m just worried the water damage has really messed it up.",
+      "raw_text": "Yes, it’s running iOS 16, the latest update I installed recently. I did try restarting it a few times, even a force restart, but the problems keep coming back. No accessories are connected to it right now. I’m just worried the water damage has really messed it up."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for confirming the details. To help with the claim for the accidental damage, could you please provide more details about when and where the water spill happened, and how the incident occurred?",
+      "raw_text": "Thank you for confirming the details. To help with the claim for the accidental damage, could you please provide more details about when and where the water spill happened, and how the incident occurred?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure, it happened just a couple of days ago at home. I was trying to grab a glass of water while holding the phone in the other hand, and somehow the glass tipped over and spilled right onto the phone. It was a quick accident—definitely unintentional and unexpected during normal use. I’ve been really on edge about it since then.",
+      "raw_text": "Sure, it happened just a couple of days ago at home. I was trying to grab a glass of water while holding the phone in the other hand, and somehow the glass tipped over and spilled right onto the phone. It was a quick accident—definitely unintentional and unexpected during normal use. I’ve been really on edge about it since then."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for sharing that. Your claim will now be processed based on the information provided. Is there anything else I can help you with today?",
+      "raw_text": "Thank you for sharing that. Your claim will now be processed based on the information provided. Is there anything else I can help you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all for now. I really appreciate your help getting this started—I just want to get my phone fixed as soon as possible. Thanks again.",
+      "raw_text": "No, that's all for now. I really appreciate your help getting this started—I just want to get my phone fixed as soon as possible. Thanks again. <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

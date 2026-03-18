@@ -8,14 +8,14 @@ This repository accompanies the paper:
 
 **"Generating Synthetic Multi-Turn Conversations for Scalable Functional Testing of Conversational AI Systems"**
 
-- Publication link: `https://doi.org/<to-be-updated>`
-- Paper draft text is available locally as `paper.txt`.
+- Currently under review at the European Conference on Information Systems (ECIS 2026) 
+- Publication link: `not_yet_available`
 
 This artifact focuses on the implementation and reproducibility workflow, not on reproducing every evaluation claim from the paper in CI.
 
-## Canonical Entry Point
+## Canonical Entry Points
 
-The canonical UI path is:
+The publication surface is limited to these UI routes:
 
 - `/` (workflow chooser)
 - `/generation_pipeline`
@@ -23,13 +23,11 @@ The canonical UI path is:
 
 ## What This Repository Contains
 
-- Next.js app with generation/evaluation UIs.
-- API routes for scenario and conversation generation pipelines.
-- Python generation pipeline (`scripts/simulate_conversation.py`).
-- Prompt and policy assets used in the research setting.
-- Curated sample outputs under:
-  - `generated_scenarios/samples/`
-  - `generated_conversations/samples/`
+- Next.js app for the canonical workflows above.
+- API routes required by those workflows.
+- Python CLI for scenario generation and conversation simulation: `scripts/simulate_conversation.py`.
+- Prompt, persona, and policy assets required by the UI and CLI.
+- Historical generated outputs under `generated_scenarios/` and `generated_conversations/`.
 
 ## Quickstart (UI First)
 
@@ -75,9 +73,11 @@ npm run smoke
 npm run build
 ```
 
-## Optional: Reproduce a Small Deterministic Run
+## CLI
 
-CLI example:
+The retained CLI entry point is `scripts/simulate_conversation.py`.
+
+Example deterministic run:
 
 ```bash
 ./.venv/bin/python scripts/simulate_conversation.py \
@@ -90,8 +90,6 @@ CLI example:
   --output-dir generated_conversations/ui_runs/repro_seed42
 ```
 
-For a detailed runbook, see [docs/reproducibility.md](docs/reproducibility.md).
-
 ## Architecture Overview
 
 1. Scenario generation (policy-guided, label-aware).
@@ -101,42 +99,36 @@ For a detailed runbook, see [docs/reproducibility.md](docs/reproducibility.md).
 
 Primary files:
 
+- `pages/index.tsx`
 - `pages/generation_pipeline.tsx`
+- `pages/improve-scenarios.tsx`
 - `pages/api/generation-pipeline.ts`
+- `pages/api/improve-scenarios/*`
 - `scripts/simulate_conversation.py`
-- `prompts/scenario_generation.py`
-
-See [docs/repo-map.md](docs/repo-map.md) for the full map.
 
 ## Data and Asset Provenance
 
 This repository includes policy/scenario/persona-related assets used in the research context.
 
 - Keep in mind non-code assets may carry separate usage constraints.
-- See [docs/attribution.md](docs/attribution.md) for details.
 
 ## Known Limitations / Non-Goals
 
 - This is a research artifact, not a production service.
 - DP6-style convergence stopping is not implemented.
 
-
-See [docs/artifact-scope.md](docs/artifact-scope.md) and [docs/paper-context.md](docs/paper-context.md).
-
 ## Citation
 
-If you use this artifact, cite both the paper and this software.
+If you use this artifact, please cite following paper.
 
 ```bibtex
 @software{synthetic_conversation_generator_2026,
-  title = {Synthetic Conversation Generator for Functional Testing},
-  author = {Research Team},
+  title = {Generating Synthetic Multi-Turn Conversations for Scalable Functional Testing of Conversational AI Systems},
+  author = {Niklas Weller, Shijing Cai, Syang Zhou},
   year = {2026},
-  url = {https://github.com/<org>/<repo>}
+  url = {not_yet_available}
 }
 ```
-
-Also see `CITATION.cff`.
 
 ## License
 

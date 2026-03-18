@@ -4,49 +4,49 @@
     "region": "US & Canada",
     "plan_term_months": 24
   },
-  "generated_on": "20251017",
+  "generated_on": "20260318",
   "generator": {
     "model": "gpt-4.1-mini",
     "temperature": 1.0,
     "max_tokens": 2800,
     "attempted_count": 2,
-    "slug": "20251017T112101Z"
+    "slug": "20260318T113741Z"
   },
   "categories": {
     "covered": [
       {
-        "id": "COV-20251017T112101Z-01",
-        "title": "Accidental Liquid Damage on iPhone 15 Pro",
-        "description": "The customer’s iPhone 15 Pro suffered liquid exposure when dropped into water, causing the device to stop functioning properly within the 24-month plan term.",
-        "claim_type": "accidental_damage_from_handling",
+        "id": "COV-20260318T113741Z-01",
+        "title": "Accidental screen damage repaired during plan term",
+        "description": "Customer’s iPhone 13 suffered a cracked screen caused by an accidental drop during normal daily use within the AppleCare+ plan term. The damage is functional and eligible for ADH coverage.",
+        "claim_type": "accidental_damage_handling",
         "ground_truth": "covered",
         "service_fee": {
           "applies": true,
           "amount": 49,
           "currency": "USD",
-          "notes": "Standard AppleCare+ service fee for ADH claims"
+          "notes": "Standard AppleCare+ ADH service fee applies per claim as specified in section 3.2."
         },
         "counts_toward_adh_limit": true,
         "policy_references": [
           {
             "section": "3.2 Accidental Damage from Handling",
-            "snippet": "Accidental damage from handling caused by an unexpected and unintentional external event (e.g., liquid contact) during normal daily usage is covered with a service fee."
+            "snippet": "ADH coverage applies to operational or mechanical failure caused by accidental damage from handling within the Plan Term, subject to a $49 service fee."
           },
           {
-            "section": "4.2(v)",
-            "snippet": "The Plan does not apply to cosmetic damage that does not affect functionality; however, functional failure due to liquid exposure is covered."
+            "section": "4.2(i)",
+            "snippet": "The Plan does not cover installation, removal, or disposal of the Covered iPhone, or provision of equipment while the Covered iPhone is serviced."
           }
         ],
-        "reasoning": "Since the damage was due to liquid exposure (an unexpected external event) causing functional failure within the plan term, coverage is granted per section 3.2. Cosmetic damage exclusions in section 4.2(v) do not apply because functionality is affected. The customer must pay the $49 service fee as specified.",
+        "reasoning": "The damage resulted from an unexpected external event (drop) and qualifies as ADH within the Plan Term, so coverage applies under Section 3.2. The claim does not pertain to installation, removal, or equipment provision excluded by Section 4.2(i). The $49 service fee applies as prescribed.",
         "customer_data": {
-          "device": "iPhone 15 Pro (512 GB)",
-          "plan_agreement_number": "APLCARE-8765432101",
-          "serial_number": "G7Y9W3L2Q5NM",
-          "phone_number": "+1-415-555-0198"
+          "device": "iPhone 13 (128 GB)",
+          "plan_agreement_number": "APLCARE-7788990011",
+          "serial_number": "D4R5E6F7G8H9",
+          "phone_number": "+1-415-555-0199"
         },
         "metadata": {
-          "policy_anchor_id": "sec4-2-cosmetic-damage",
-          "policy_anchor_section": "4.2(v)",
+          "policy_anchor_id": "sec4-2-installation-exclusion",
+          "policy_anchor_section": "4.2(i)",
           "policy_anchor_intent": "exclusion",
           "secondary_policy_sections": [
             "3.2 Accidental Damage from Handling"
@@ -54,41 +54,42 @@
         }
       },
       {
-        "id": "COV-20251017T112101Z-02",
-        "title": "Functional failure due to internal hardware defect on iPhone 13",
-        "description": "The iPhone 13 unexpectedly shuts down and will not power on despite sufficient battery charge. Device is within AppleCare+ coverage period and no evidence of accidental damage or external causes.",
-        "claim_type": "hardware_defect",
+        "id": "COV-20260318T113741Z-02",
+        "title": "Liquid damage from accidental spill during normal use",
+        "description": "Customer accidentally spilled water on their iPhone 13, causing the device to malfunction. Damage resulted from an unexpected and unintentional external event during normal daily usage within the plan term.",
+        "claim_type": "accidental_damage_from_handling",
         "ground_truth": "covered",
         "service_fee": {
-          "applies": false,
-          "amount": 0,
+          "applies": true,
+          "amount": 49,
           "currency": "USD",
-          "notes": "No service fee applies for hardware defects without accidental damage (Sec. 3.1)."
+          "notes": "Service fee applies for ADH claims as per section 3.2."
         },
-        "counts_toward_adh_limit": false,
+        "counts_toward_adh_limit": true,
         "policy_references": [
           {
-            "section": "3.1 Hardware Service",
-            "snippet": "If during the Plan Term, a defect in materials and workmanship arises, Apple will repair or replace the Covered iPhone at no charge."
+            "section": "3.2 Accidental Damage from Handling",
+            "snippet": "ADH coverage applies to failures caused by accidental damage from handling that result from unexpected and unintentional external events, such as liquid contact during normal use."
           },
           {
-            "section": "4.2(vii)",
-            "snippet": "The Plan does not apply to defects caused by normal wear and tear or normal aging of the product."
+            "section": "3.2(a)",
+            "snippet": "ADH coverage excludes damage from reckless, abusive, willful, or intentional conduct, which does not apply in this scenario."
           }
         ],
-        "reasoning": "The device failure is due to a defect in materials arising within the Plan Term and is not caused by normal wear and tear or aging (Section 4.2(vii)). Therefore, coverage applies per Section 3.1. No service fee applies as this is not an ADH claim.",
+        "reasoning": "The damage arose from an accidental, unintentional liquid spill during normal use, fitting the definition of ADH coverage under section 3.2. This excludes reckless or intentional conduct per section 3.2(a), which is not the case here. Therefore, coverage applies with a $49 service fee, and the claim counts toward the plan's two ADH event limit.",
         "customer_data": {
           "device": "iPhone 13 (128 GB)",
-          "plan_agreement_number": "APLCARE-8473629102",
-          "serial_number": "D4MWX0F2KX7J",
-          "phone_number": "+1-408-555-6243"
+          "plan_agreement_number": "APLCARE-8374659201",
+          "serial_number": "DX7Q90KLMN5V",
+          "phone_number": "+1-415-555-0172"
         },
         "metadata": {
-          "policy_anchor_id": "sec4-2-normal-wear",
-          "policy_anchor_section": "4.2(vii)",
+          "policy_anchor_id": "sec3-2-adh-exclusions",
+          "policy_anchor_section": "3.2",
           "policy_anchor_intent": "exclusion",
           "secondary_policy_sections": [
-            "3.1 Hardware Service"
+            "3.2 Accidental Damage from Handling",
+            "3.2(a)"
           ]
         }
       }

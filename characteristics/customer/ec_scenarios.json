@@ -4,52 +4,52 @@
     "region": "US & Canada",
     "plan_term_months": 24
   },
-  "generated_on": "20260305",
+  "generated_on": "20260318",
   "generator": {
-    "model": "gpt-4.1",
-    "temperature": 0.35,
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
     "max_tokens": 2800,
     "attempted_count": 1,
-    "slug": "20260305T155050Z"
+    "slug": "20260318T113741Z"
   },
   "categories": {
     "edge_case": [
       {
-        "id": "EC-20260305T155050Z-01",
-        "title": "Claim for sticky volume buttons after two years of heavy use",
-        "description": "Customer reports that the iPhone's volume buttons have become sticky and less responsive after two years of daily use, with no single accidental event or external damage. The device otherwise functions normally, but the customer finds the degraded button response impacts usability. They request hardware service under AppleCare+.",
-        "claim_type": "hardware_defect_vs_wear_and_tear",
+        "id": "EC-20260318T113741Z-01",
+        "title": "Battery capacity claim borderline at 49.5% degradation",
+        "description": "Customer submits a hardware service claim reporting the battery capacity has degraded to approximately 49.5% of original specifications, just below the 50% threshold defined in Section 3.1 for mandatory repair or replacement. The degradation is verified by diagnostics but the policy is silent about coverage below 50%.",
+        "claim_type": "battery_capacity_degradation_threshold",
         "ground_truth": "edge_case",
         "service_fee": {
-          "applies": "uncertain",
+          "applies": "no",
           "amount": 0,
           "currency": "USD",
-          "notes": "If determined to be a defect in materials/workmanship, covered at no charge; if due to normal wear and tear, excluded."
+          "notes": "No ADH fees apply; coverage hinges on capacity threshold in Section 3.1."
         },
         "counts_toward_adh_limit": "no",
         "policy_references": [
           {
-            "section": "4.2(vii)",
-            "snippet": "The Plan does not apply to defects caused by normal wear and tear or that are otherwise due to normal aging of the product."
+            "section": "3.1",
+            "snippet": "If capacity of the Covered iPhone’s battery has depleted fifty (50%) percent or more from its original specifications, Apple will repair or replace at no charge."
           },
           {
-            "section": "3.1",
-            "snippet": "If during the Plan Term, you submit a valid claim that a defect in materials and workmanship has arisen, Apple will repair at no charge."
+            "section": "4.2(vii)",
+            "snippet": "Plan does not apply to defects caused by normal wear and tear or normal aging of the product."
           }
         ],
-        "reasoning": "The claim hinges on whether the sticky buttons result from a defect in materials/workmanship (covered under section 3.1) or from normal wear and tear/aging (excluded by section 4.2(vii)). Since the customer describes gradual degradation with no accidental event, Apple must make a judgment call based on inspection and usage history. This is an edge case because the policy does not explicitly define the boundary between 'defect' and 'wear and tear' for mechanical button failures after extended use.",
+        "reasoning": "The claim rests on the literal interpretation of the 50% capacity depletion threshold in Section 3.1. Since the battery capacity is measured at 49.5%, this does not meet the threshold for mandatory coverage, yet the degradation is significant and borderline between defect coverage and normal aging. Section 4.2(vii) excludes normal wear and tear, which typically applies under the threshold. Customer inputs diagnostic reports and usage data to adjudicate eligibility.",
         "customer_data": {
-          "device": "iPhone 13 mini (128 GB)",
-          "plan_agreement_number": "APLCARE-3124789650",
-          "serial_number": "G6Y2L8N9Q5R3",
-          "phone_number": "+1-415-555-0194"
+          "device": "iPhone 14 Pro Max (512 GB)",
+          "plan_agreement_number": "APLCARE-9837462510",
+          "serial_number": "F17KQ4Y9Z2WP",
+          "phone_number": "+1-415-555-0199"
         },
         "metadata": {
-          "policy_anchor_id": "sec4-2-normal-wear",
-          "policy_anchor_section": "4.2(vii)",
-          "policy_anchor_intent": "exclusion",
+          "policy_anchor_id": "sec3-1-hardware-defect",
+          "policy_anchor_section": "3.1",
+          "policy_anchor_intent": "coverage_requirement",
           "secondary_policy_sections": [
-            "3.1"
+            "4.2(vii)"
           ]
         }
       }

@@ -1,0 +1,88 @@
+{
+  "scenarios": [
+    {
+      "id": "COV-20260318T113741Z-01",
+      "title": "Accidental screen damage repaired during plan term",
+      "description": "Customer’s iPhone 13 suffered a cracked screen caused by an accidental drop during normal daily use within the AppleCare+ plan term. The damage is functional and eligible for ADH coverage.",
+      "claim_type": "accidental_damage_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Standard AppleCare+ ADH service fee applies per claim as specified in section 3.2."
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage applies to operational or mechanical failure caused by accidental damage from handling within the Plan Term, subject to a $49 service fee."
+        },
+        {
+          "section": "4.2(i)",
+          "snippet": "The Plan does not cover installation, removal, or disposal of the Covered iPhone, or provision of equipment while the Covered iPhone is serviced."
+        }
+      ],
+      "reasoning": "The damage resulted from an unexpected external event (drop) and qualifies as ADH within the Plan Term, so coverage applies under Section 3.2. The claim does not pertain to installation, removal, or equipment provision excluded by Section 4.2(i). The $49 service fee applies as prescribed.",
+      "customer_data": {
+        "device": "iPhone 13 (128 GB)",
+        "plan_agreement_number": "APLCARE-7788990011",
+        "serial_number": "D4R5E6F7G8H9",
+        "phone_number": "+1-415-555-0199"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec4-2-installation-exclusion",
+        "policy_anchor_section": "4.2(i)",
+        "policy_anchor_intent": "exclusion",
+        "secondary_policy_sections": [
+          "3.2 Accidental Damage from Handling"
+        ]
+      }
+    },
+    {
+      "id": "COV-20260318T113741Z-02",
+      "title": "Liquid damage from accidental spill during normal use",
+      "description": "Customer accidentally spilled water on their iPhone 13, causing the device to malfunction. Damage resulted from an unexpected and unintentional external event during normal daily usage within the plan term.",
+      "claim_type": "accidental_damage_from_handling",
+      "ground_truth": "covered",
+      "service_fee": {
+        "applies": true,
+        "amount": 49,
+        "currency": "USD",
+        "notes": "Service fee applies for ADH claims as per section 3.2."
+      },
+      "counts_toward_adh_limit": true,
+      "policy_references": [
+        {
+          "section": "3.2 Accidental Damage from Handling",
+          "snippet": "ADH coverage applies to failures caused by accidental damage from handling that result from unexpected and unintentional external events, such as liquid contact during normal use."
+        },
+        {
+          "section": "3.2(a)",
+          "snippet": "ADH coverage excludes damage from reckless, abusive, willful, or intentional conduct, which does not apply in this scenario."
+        }
+      ],
+      "reasoning": "The damage arose from an accidental, unintentional liquid spill during normal use, fitting the definition of ADH coverage under section 3.2. This excludes reckless or intentional conduct per section 3.2(a), which is not the case here. Therefore, coverage applies with a $49 service fee, and the claim counts toward the plan's two ADH event limit.",
+      "customer_data": {
+        "device": "iPhone 13 (128 GB)",
+        "plan_agreement_number": "APLCARE-8374659201",
+        "serial_number": "DX7Q90KLMN5V",
+        "phone_number": "+1-415-555-0172"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec3-2-adh-exclusions",
+        "policy_anchor_section": "3.2",
+        "policy_anchor_intent": "exclusion",
+        "secondary_policy_sections": [
+          "3.2 Accidental Damage from Handling",
+          "3.2(a)"
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}
