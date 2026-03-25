@@ -31,7 +31,7 @@ const requiredPaths = [
   'prompts/scenario_generation.py',
   'prompts/scenario_fewshots.json',
   'generated_scenarios/samples/sample_bundle/metadata.json',
-  'generated_conversations/samples/sample_run/COV-20251017T112101Z-01_20251017T112228Z.json',
+  'generated_conversations/ui_runs/20251017T112100-f89961/COV-20251017T112101Z-01_20251017T112228Z.json',
 ];
 
 const missing = requiredPaths.filter((p) => !fs.existsSync(path.join(process.cwd(), p)));
