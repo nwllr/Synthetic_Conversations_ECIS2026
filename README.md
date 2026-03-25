@@ -13,9 +13,9 @@ This repository accompanies the paper:
 
 This artifact focuses on the implementation and reproducibility workflow, not on reproducing every evaluation claim from the paper in CI.
 
-## Canonical Entry Points
+## Entry Points
 
-The publication surface is limited to these UI routes:
+The following UI routes are supported:
 
 - `/` (workflow chooser)
 - `/generation_pipeline`
@@ -118,7 +118,7 @@ AppleCare+ policy reference used in this artifact:
 
 - Apple, "AppleCare+ Terms and Conditions / policy document", available at `https://images.apple.com/legal/sales-support/applecare/docs/applecareplus.pdf`
 
-Persona dataset / testbed inspiration for persona-related assets:
+Persona dataset used in generation pipeline:
 
 ```bibtex
 @inproceedings{castricato2025persona,
@@ -136,17 +136,17 @@ Persona dataset / testbed inspiration for persona-related assets:
 - DP6-style convergence stopping is not implemented.
 
 ## Citation
-
-If you use this artifact, please cite following paper.
+The bibtex citation will be added once the paper is published.
+<!-- If you use this artifact, please cite following paper.
 
 ```bibtex
-@software{synthetic_conversation_generator_2026,
+@inproceedings{synthetic_conversation_generator_2026,
   title = {Generating Synthetic Multi-Turn Conversations for Scalable Functional Testing of Conversational AI Systems},
   author = {Niklas Weller, Shijing Cai, Syang Zhou},
   year = {2026},
   url = {not_yet_available}
 }
-```
+``` -->
 
 ## License
 
