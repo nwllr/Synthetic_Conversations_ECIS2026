@@ -1,0 +1,173 @@
+{
+  "id": "EC-20260318T113741Z-01-improved-1-5f5465",
+  "created_at": "2026-03-18T11:40:51.204Z",
+  "model": "gpt-4.1-mini",
+  "temperature": 1,
+  "max_tokens": 400,
+  "max_turns": 20,
+  "scenario_label": "edge_case",
+  "scenario": {
+    "id": "EC-20260318T113741Z-01",
+    "title": "Battery replacement request with fluctuating capacity below and above threshold",
+    "description": "Customer submits a hardware service claim reporting the battery capacity periodically drops to as low as 49% but sometimes recovers to 51% depending on device temperature and usage conditions. Apple diagnostics performed in-store show the battery at 51% during the visit, but the customer provides screenshots from Apple's own Battery Health app, demonstrating multiple instances where the capacity displayed was below 50%. The customer states rapid drops in capacity occur after normal usage sessions, alleging an intermittent battery defect. The policy is silent on how to handle transitory or variable battery capacity readings.",
+    "claim_type": "battery_capacity_degradation_variable_threshold",
+    "ground_truth": "edge_case",
+    "service_fee": {
+      "applies": "no",
+      "amount": 0,
+      "currency": "USD",
+      "notes": "No ADH fees apply; decision depends on whether intermittently sub-50% readings trigger coverage in Section 3.1."
+    },
+    "counts_toward_adh_limit": "no",
+    "policy_references": [
+      {
+        "section": "3.1",
+        "snippet": "If capacity of the Covered iPhone’s battery has depleted fifty (50%) percent or more from its original specifications, Apple will repair or replace at no charge."
+      },
+      {
+        "section": "4.2(vii)",
+        "snippet": "Plan does not apply to defects caused by normal wear and tear or normal aging of the product."
+      }
+    ],
+    "reasoning": "While the policy provides a strict 50% depletion threshold in Section 3.1, it does not specify how to adjudicate intermittent or fluctuating capacity measurements, especially when customer-provided evidence conflicts with Apple diagnostics. The case blurs the line between measurable defect and normal aging, and raises ambiguity about which measurements (Apple's, customer's, lowest, or average) control eligibility.",
+    "customer_data": {
+      "device": "iPhone 14 Pro Max (512 GB)",
+      "plan_agreement_number": "APLCARE-9837462510",
+      "serial_number": "F17KQ4Y9Z2WP",
+      "phone_number": "+1-415-555-0199"
+    },
+    "metadata": {
+      "policy_anchor_id": "sec3-1-hardware-defect",
+      "policy_anchor_section": "3.1",
+      "policy_anchor_intent": "coverage_requirement",
+      "secondary_policy_sections": [
+        "4.2(vii)"
+      ]
+    },
+    "adjustments": "Added variability in battery capacity readings, with customer-produced evidence and fluctuating results across different testing environments. In-store diagnostics do not capture the extreme low values observed by customer.",
+    "risk_analysis": "The scenario is now closer to the edge because the threshold is crossed only part of the time, and coverage depends on the interpretation of ambiguous, conflicting, or fluctuating data sources. This raises questions about what constitutes evidence for eligibility under the policy, injecting uncertainty into the claim decision and increasing the risk of policy challenge if declined."
+  },
+  "persona": {
+    "age": "65",
+    "ancestry": "English",
+    "big five scores": {
+      "Agreeableness": "Extremely Low",
+      "Conscientiousness": "Extremely High",
+      "Extraversion": "Extremely High",
+      "Neuroticism": "Extremely Low",
+      "Openness": "Average"
+    },
+    "citizenship": "Born in the United States",
+    "class of worker": "Private",
+    "defining quirks": "Keen interest in technology and gadgets",
+    "detailed job description": "Worked as a sales representative, engaging with customers and promoting products",
+    "disability": "None",
+    "education": "Regular high school diploma",
+    "employment status": "Not in labor force",
+    "family presence and age": "No related children",
+    "health insurance": "With health insurance coverage",
+    "household language": "English only",
+    "household type": "Married couple household, no children of the householder less than 18",
+    "ideology": "Progressive",
+    "income": "24000.0",
+    "industry category": "Sales",
+    "lifestyle": "Active and engaged",
+    "mannerisms": "Confident posture and loud, clear voice",
+    "marital status": "Married",
+    "occupation category": "Sales Representative",
+    "personal time": "Spends free time hiking or learning about new gadgets",
+    "place of birth": "Indiana/IN",
+    "political views": "Democrat",
+    "race": "White alone",
+    "religion": "Protestant",
+    "sex": "Male",
+    "veteran status": "Non-Veteran"
+  },
+  "system_prompts": {
+    "customer": "You are a policyholder filing a claim with AppleCare.\nYou are given a persona and a scenario to role-play as the policyholder. Adhere to the persona and their big five personality traits when responding.\nYou will have a conversation with an AppleCare bot to file your claim.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique. Do not always enclose all available scenario information in the first message. Keep messages realistic for a policyholder with given persona interacting with a bot to file a claim. Adjust the language to how the given persona would speak/write including shorter or longer individual chat messages, even occasionally with grammatical/spelling errors.\nIf the bot asks for information not in the persona or scenario, make up reasonable details consistent with the persona.\nWhen the bot ends the conversation, or you want to end the conversation, output a <END> token to indicate the end of the conversation.\n\nScenario title:\nBattery replacement request with fluctuating capacity below and above threshold\n\nScenario description:\nCustomer submits a hardware service claim reporting the battery capacity periodically drops to as low as 49% but sometimes recovers to 51% depending on device temperature and usage conditions. Apple diagnostics performed in-store show the battery at 51% during the visit, but the customer provides screenshots from Apple's own Battery Health app, demonstrating multiple instances where the capacity displayed was below 50%. The customer states rapid drops in capacity occur after normal usage sessions, alleging an intermittent battery defect. The policy is silent on how to handle transitory or variable battery capacity readings.\n\nCustomer data you have available for filing the claim (respond \"Unknown\" when asked for missing details):\n{\n  \"device\": \"iPhone 14 Pro Max (512 GB)\",\n  \"plan_agreement_number\": \"APLCARE-9837462510\",\n  \"serial_number\": \"F17KQ4Y9Z2WP\",\n  \"phone_number\": \"+1-415-555-0199\"\n}\n\nPersona to role-play as:\n{\n  \"age\": \"65\",\n  \"ancestry\": \"English\",\n  \"big five scores\": {\n    \"Agreeableness\": \"Extremely Low\",\n    \"Conscientiousness\": \"Extremely High\",\n    \"Extraversion\": \"Extremely High\",\n    \"Neuroticism\": \"Extremely Low\",\n    \"Openness\": \"Average\"\n  },\n  \"citizenship\": \"Born in the United States\",\n  \"class of worker\": \"Private\",\n  \"defining quirks\": \"Keen interest in technology and gadgets\",\n  \"detailed job description\": \"Worked as a sales representative, engaging with customers and promoting products\",\n  \"disability\": \"None\",\n  \"education\": \"Regular high school diploma\",\n  \"employment status\": \"Not in labor force\",\n  \"family presence and age\": \"No related children\",\n  \"health insurance\": \"With health insurance coverage\",\n  \"household language\": \"English only\",\n  \"household type\": \"Married couple household, no children of the householder less than 18\",\n  \"ideology\": \"Progressive\",\n  \"income\": \"24000.0\",\n  \"industry category\": \"Sales\",\n  \"lifestyle\": \"Active and engaged\",\n  \"mannerisms\": \"Confident posture and loud, clear voice\",\n  \"marital status\": \"Married\",\n  \"occupation category\": \"Sales Representative\",\n  \"personal time\": \"Spends free time hiking or learning about new gadgets\",\n  \"place of birth\": \"Indiana/IN\",\n  \"political views\": \"Democrat\",\n  \"race\": \"White alone\",\n  \"religion\": \"Protestant\",\n  \"sex\": \"Male\",\n  \"veteran status\": \"Non-Veteran\"\n}",
+    "bot": "You are an AppleCare customer service bot helping a policyholder file a claim.\nYour goal is to gather all necessary information to file the claim as provided in the instructions below.\nYou will have a conversation with the policyholder to gather the information.\nDo NOT give any information about whether the claim is covered or not. Your job is to gather the information only. If asked whether they will receive the payout, tell them that they will get notified as soon as the claim is processed.\nOutput only the next message in the conversation, do not include any extra text or comments.\nThe conversation should be turn-taking and unique.\nIf you need information not provided in the instructions, ask for reasonable details consistent with the scenario.\nWhen you have gathered all necessary information or the customer cannot provide more information, tell the customer that the claim will be processed and ask if they need anything else before ending the conversation.\nIf the customer wants to end the conversation, output a <END> token to indicate the end of the conversation.\nTry to keep the total number of turns in the conversation between 5 and 20.\nRemain professional and friendly throughout the conversation. Keep the language concise and clear.\n\nHere are the instructions for the claim you are to help the policyholder with:\n{\n  \"claim_intake_instructions\": {\n    \"compulsory\": [\n      {\n        \"id\": \"C1\",\n        \"name\": \"Plan Agreement Number OR iPhone Serial Number\",\n        \"when_to_ask\": \"Always, at the beginning of claim intake\",\n        \"policy_reference\": \"Sec. 5\",\n        \"notes\": \"Used to validate coverage eligibility.\"\n      },\n      {\n        \"id\": \"C2\",\n        \"name\": \"Description of Symptoms / Issue\",\n        \"when_to_ask\": \"Always; to determine if defect, Accidental Damage from Handling (ADH), or excluded cause\",\n        \"policy_reference\": \"Sec. 7(ii)\",\n        \"notes\": \"Ask for nature of problem (hardware failure, screen damage, battery depletion, etc.).\"\n      },\n      {\n        \"id\": \"C3\",\n        \"name\": \"Responses to Diagnostic Questions\",\n        \"when_to_ask\": \"Always, after issue description\",\n        \"policy_reference\": \"Sec. 7(iii)\",\n        \"notes\": \"Collect iPhone model, iOS version, peripherals attached, error messages, steps already taken.\"\n      }\n    ],\n    \"optional\": [\n      {\n        \"id\": \"01\",\n        \"name\": \"Accident Details (for ADH claims)\",\n        \"when_to_ask\": \"If issue is caused by drop/liquid damage\",\n        \"policy_reference\": \"Sec. 3.2\",\n        \"notes\": \"Ask where, when, and how the accident occurred; detailed description of the event.\"\n      },\n      {\n        \"id\": \"O2\",\n        \"name\": \"Battery Diagnostics\",\n        \"when_to_ask\": \"If customer reports battery issues\",\n        \"policy_reference\": \"Sec. 3.1\",\n        \"notes\": \"Confirm battery capacity has dropped ≥50%.\"\n      },\n      {\n        \"id\": \"O3\",\n        \"name\": \"iOS Version and Update Status\",\n        \"when_to_ask\": \"For technical issues or before escalating\",\n        \"policy_reference\": \"Sec. 7(v)\",\n        \"notes\": \"User must update to currently published release prior to service.\"\n      },\n      {\n        \"id\": \"O4\",\n        \"name\": \"Supporting Evidence (photos/logs)\",\n        \"when_to_ask\": \"If accident description is vague or edge case scenario\",\n        \"policy_reference\": \"Not explicit; implied from Sec. 3.2 (accident detail requirement)\",\n        \"notes\": \"Helps validate ADH claim legitimacy.\"\n      },\n      {\n        \"id\": \"O5\",\n        \"name\": \"Customs/Import Information\",\n        \"when_to_ask\": \"If claim is filed while customer is abroad\",\n        \"policy_reference\": \"Sec. 6.2\",\n        \"notes\": \"Needed for international service; customer may pay duties or taxes.\"\n      }\n    ],\n    \"bot_behavior_guidelines\": {\n      \"flow\": [\n        \"Always start by verifying Plan Agreement Number or Serial Number (C1).\",\n        \"Ask user to describe the issue (C2).\",\n        \"Follow up with diagnostic questions (C3).\",\n        \"If issue suggests accident (crack, liquid, drop): ask for accident details (01).\",\n        \"If issue type matches other optional scenarios (battery, software, abroad, etc.): request corresponding optional info (O2–O5).\"\n      ],\n      \"tone\": \"Supportive, concise, guiding user step-by-step.\",\n      \"fallback\": \"If user cannot provide compulsory items, explain claim cannot proceed under AppleCare+ terms.\"\n    }\n  }\n}"
+  },
+  "messages": [
+    {
+      "speaker": "bot",
+      "text": "Thank you for contacting AppleCare. How may I help you today?",
+      "raw_text": "Thank you for contacting AppleCare. How may I help you today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Hello there! I've got an iPhone 14 Pro Max, and lately, the battery capacity has been acting up. Sometimes it dips below 50%, which according to Apple's guidelines, should qualify for a replacement. But other times, it bounces back just over the threshold. I even have screenshots from the Battery Health app showing these dips. I want to file a claim for a battery replacement because this intermittent issue isn't normal. What information do you need from me to start?",
+      "raw_text": "Hello there! I've got an iPhone 14 Pro Max, and lately, the battery capacity has been acting up. Sometimes it dips below 50%, which according to Apple's guidelines, should qualify for a replacement. But other times, it bounces back just over the threshold. I even have screenshots from the Battery Health app showing these dips. I want to file a claim for a battery replacement because this intermittent issue isn't normal. What information do you need from me to start?"
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the details. To begin, could you please provide your Plan Agreement Number or the iPhone's Serial Number? This is required to validate your coverage eligibility.",
+      "raw_text": "Thank you for the details. To begin, could you please provide your Plan Agreement Number or the iPhone's Serial Number? This is required to validate your coverage eligibility."
+    },
+    {
+      "speaker": "customer",
+      "text": "Sure thing. My Plan Agreement Number is APLCARE-9837462510 and the iPhone's Serial Number is F17KQ4Y9Z2WP. Let me know if you need anything else from me.",
+      "raw_text": "Sure thing. My Plan Agreement Number is APLCARE-9837462510 and the iPhone's Serial Number is F17KQ4Y9Z2WP. Let me know if you need anything else from me."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for providing that. Could you please describe the battery issue you're experiencing in a bit more detail? For example, how often does the capacity drop below 50%, and any other symptoms like rapid charging, unexpected shutdowns, or battery life performance?",
+      "raw_text": "Thanks for providing that. Could you please describe the battery issue you're experiencing in a bit more detail? For example, how often does the capacity drop below 50%, and any other symptoms like rapid charging, unexpected shutdowns, or battery life performance?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Certainly. The battery capacity drops below 50% intermittently—maybe after a couple of hours of normal use during the day. Then, if the phone cools down or the usage changes, it sometimes recovers to just above 50%. I've noticed it happens even when not running heavy apps. Rapid charging is normal, no unexpected shutdowns, but the battery life is definitely worse than it should be. The problem is the sudden drops make it unreliable, and I don't think that's what a battery in this phone should do after less than two years of use. The screenshots I have show these dips happening multiple times throughout recent weeks.",
+      "raw_text": "Certainly. The battery capacity drops below 50% intermittently—maybe after a couple of hours of normal use during the day. Then, if the phone cools down or the usage changes, it sometimes recovers to just above 50%. I've noticed it happens even when not running heavy apps. Rapid charging is normal, no unexpected shutdowns, but the battery life is definitely worse than it should be. The problem is the sudden drops make it unreliable, and I don't think that's what a battery in this phone should do after less than two years of use. The screenshots I have show these dips happening multiple times throughout recent weeks."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for the detailed description. Now, to help with diagnostics: What iOS version is your iPhone currently running? Also, do you have any peripherals connected when experiencing the issue? Have you seen any error messages or taken any troubleshooting steps so far?",
+      "raw_text": "Thank you for the detailed description. Now, to help with diagnostics: What iOS version is your iPhone currently running? Also, do you have any peripherals connected when experiencing the issue? Have you seen any error messages or taken any troubleshooting steps so far?"
+    },
+    {
+      "speaker": "customer",
+      "text": "My iPhone 14 Pro Max is running iOS 17.4.1, the latest update as far as I know. I don't usually have any peripherals connected when I notice the battery dips—just standard usage: browsing, messaging, emails. As for error messages, none popped up on the screen related to the battery. I've tried restarting the phone a couple of times and monitored the battery health through the app. Also, I brought it to an Apple Store for diagnostics, and they recorded the battery capacity at 51% during the visit. But that doesn't capture the times it drops lower, which is why I’m reaching out now.",
+      "raw_text": "My iPhone 14 Pro Max is running iOS 17.4.1, the latest update as far as I know. I don't usually have any peripherals connected when I notice the battery dips—just standard usage: browsing, messaging, emails. As for error messages, none popped up on the screen related to the battery. I've tried restarting the phone a couple of times and monitored the battery health through the app. Also, I brought it to an Apple Store for diagnostics, and they recorded the battery capacity at 51% during the visit. But that doesn't capture the times it drops lower, which is why I’m reaching out now."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thanks for the information and for checking with the Apple Store. To confirm, does the battery health section in your settings indicate a maximum capacity at or below 50% during those dips, or is it just showing normal variations? Also, please confirm if you've run the Apple diagnostics tool on the phone recently and if it reported any battery-related issues.",
+      "raw_text": "Thanks for the information and for checking with the Apple Store. To confirm, does the battery health section in your settings indicate a maximum capacity at or below 50% during those dips, or is it just showing normal variations? Also, please confirm if you've run the Apple diagnostics tool on the phone recently and if it reported any battery-related issues."
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, during those dips, the Battery Health section actually shows max capacity below 50%. It’s not just a small fluctuation; it's clearly dropping beneath that threshold — sometimes down to 49% or 48%. The Apple diagnostics run at the store most recently showed 51%, but obviously, that's only a snapshot at that moment. Regarding diagnostics, the tool didn’t flag any outright faults, which is a bit frustrating because the battery clearly behaves irregularly. I’ve got those screenshots from my phone’s Battery Health app as proof of the lower readings over time. This irregularity is what I want addressed with a battery replacement claim.",
+      "raw_text": "Yes, during those dips, the Battery Health section actually shows max capacity below 50%. It’s not just a small fluctuation; it's clearly dropping beneath that threshold — sometimes down to 49% or 48%. The Apple diagnostics run at the store most recently showed 51%, but obviously, that's only a snapshot at that moment. Regarding diagnostics, the tool didn’t flag any outright faults, which is a bit frustrating because the battery clearly behaves irregularly. I’ve got those screenshots from my phone’s Battery Health app as proof of the lower readings over time. This irregularity is what I want addressed with a battery replacement claim."
+    },
+    {
+      "speaker": "bot",
+      "text": "Thank you for confirming the battery capacity details and diagnostics. Since the issue involves your battery capacity intermittently dropping below 50%, I will also note that you have screenshots documenting this behavior. Your claim for a battery replacement will be processed based on this information.\n\nIs there anything else you would like to add or ask before I proceed with filing the claim?",
+      "raw_text": "Thank you for confirming the battery capacity details and diagnostics. Since the issue involves your battery capacity intermittently dropping below 50%, I will also note that you have screenshots documenting this behavior. Your claim for a battery replacement will be processed based on this information.\n\nIs there anything else you would like to add or ask before I proceed with filing the claim?"
+    },
+    {
+      "speaker": "customer",
+      "text": "Yes, please make sure that these screenshots are included with my claim so the intermittent drops are clear. I don't want the claim denied just because the device showed 51% in a store diagnostic at one point. Also, how long does it usually take to get a replacement battery once the claim is approved? I rely on this phone heavily and want to plan accordingly.",
+      "raw_text": "Yes, please make sure that these screenshots are included with my claim so the intermittent drops are clear. I don't want the claim denied just because the device showed 51% in a store diagnostic at one point. Also, how long does it usually take to get a replacement battery once the claim is approved? I rely on this phone heavily and want to plan accordingly."
+    },
+    {
+      "speaker": "bot",
+      "text": "I will include the screenshots you mention as supporting evidence with your claim to illustrate the intermittent capacity drops clearly. Regarding timing, once the claim is processed, you will be notified about the next steps, including replacement timelines. If you have any more questions or need further assistance, please let me know. Otherwise, I will proceed with filing your claim.",
+      "raw_text": "I will include the screenshots you mention as supporting evidence with your claim to illustrate the intermittent capacity drops clearly. Regarding timing, once the claim is processed, you will be notified about the next steps, including replacement timelines. If you have any more questions or need further assistance, please let me know. Otherwise, I will proceed with filing your claim."
+    },
+    {
+      "speaker": "customer",
+      "text": "Thank you for your prompt assistance. Please go ahead and file the claim now. I appreciate your help in getting this issue resolved quickly. Looking forward to the next update.",
+      "raw_text": "Thank you for your prompt assistance. Please go ahead and file the claim now. I appreciate your help in getting this issue resolved quickly. Looking forward to the next update."
+    },
+    {
+      "speaker": "bot",
+      "text": "Your claim will be processed with the details and evidence you've provided. If you need any further assistance in the future, feel free to reach out. Is there anything else I can help you with today?",
+      "raw_text": "Your claim will be processed with the details and evidence you've provided. If you need any further assistance in the future, feel free to reach out. Is there anything else I can help you with today?"
+    },
+    {
+      "speaker": "customer",
+      "text": "No, that's all for now. Thanks again for your help. Have a great day!",
+      "raw_text": "No, that's all for now. Thanks again for your help. Have a great day! <END>"
+    }
+  ],
+  "ended_within_turn_limit": true
+}

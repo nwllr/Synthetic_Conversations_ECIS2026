@@ -56,7 +56,7 @@ export default function HomePage() {
       </section>
 
       <section style={{ marginTop: 22, color: "#64748b", fontSize: 14 }}>
-        Legacy endpoints and pages are preserved with a <code>deprecated_</code> prefix for compatibility.
+        This publication branch keeps only the canonical workflow chooser and the two supported research workflows.
       </section>
     </main>
   );

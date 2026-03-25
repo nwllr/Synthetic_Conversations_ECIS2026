@@ -4,20 +4,20 @@
     "region": "US & Canada",
     "plan_term_months": 24
   },
-  "generated_on": "20251017",
+  "generated_on": "20260318",
   "generator": {
     "model": "gpt-4.1-mini",
     "temperature": 1.0,
     "max_tokens": 2800,
-    "attempted_count": 2,
-    "slug": "20251017T112101Z"
+    "attempted_count": 1,
+    "slug": "20260318T113741Z"
   },
   "categories": {
     "not_covered": [
       {
-        "id": "NC-20251017T112101Z-01",
-        "title": "Claim denied due to altered serial number",
-        "description": "The iPhone presented for service has a serial number that has been physically altered by the customer, rendering it invalid and inconsistent with Apple's records.",
+        "id": "NC-20260318T113741Z-01",
+        "title": "Battery capacity degradation due to normal aging",
+        "description": "The iPhone's battery capacity has depleted by approximately 45% due to two years of regular use without any accidental damage or defects.",
         "claim_type": "hardware_service",
         "ground_truth": "not_covered",
         "service_fee": {
@@ -28,52 +28,28 @@
         "counts_toward_adh_limit": false,
         "policy_references": [
           {
-            "section": "4.2(iii)",
-            "snippet": "The Plan does not apply to an iPhone with a serial number that has been altered, defaced, removed, or modified to alter its functionality or capability without the manufacturer's permission."
-          }
-        ],
-        "reasoning": "The claim is denied because the iPhone's serial number has been altered, which is explicitly excluded under section 4.2(iii). This voids coverage and no service fee applies. Apple's policy requires an unaltered serial number to establish eligibility.",
-        "customer_data": {
-          "device": "iPhone 14 Pro Max (256 GB)",
-          "plan_agreement_number": "APLCARE-9876543210",
-          "serial_number": "X1Y2Z3-ALTERED",
-          "phone_number": "+1-415-555-2678"
-        },
-        "metadata": {
-          "policy_anchor_id": "sec4-2-serial-number",
-          "policy_anchor_section": "4.2(iii)",
-          "policy_anchor_intent": "exclusion"
-        }
-      },
-      {
-        "id": "NC-20251017T112101Z-02",
-        "title": "Pre-existing hardware defect with late Plan purchase",
-        "description": "Customer reported a malfunctioning camera on their iPhone XS that was present before purchasing the AppleCare+ Plan a month later.",
-        "claim_type": "hardware_defect",
-        "ground_truth": "not_covered",
-        "service_fee": {
-          "applies": false,
-          "amount": 0,
-          "currency": "USD"
-        },
-        "counts_toward_adh_limit": false,
-        "policy_references": [
+            "section": "4.2(vii)",
+            "snippet": "The Plan does not apply to defects caused by normal wear and tear or that are otherwise due to normal aging of the product."
+          },
           {
-            "section": "4.2(viii)",
-            "snippet": "The Plan does not apply to a pre-existing condition on any Covered iPhone if you purchased the Plan after you purchased the device."
+            "section": "3.1",
+            "snippet": "Battery capacity coverage applies only when capacity has depleted fifty (50%) percent or more from its original specifications."
           }
         ],
-        "reasoning": "The defect is a pre-existing condition identified prior to purchasing the AppleCare+ Plan, which is explicitly excluded from coverage per section 4.2(viii). As such, no service fee applies because the claim is denied on eligibility grounds.",
+        "reasoning": "Battery degradation under 50% capacity loss is considered normal aging and wear, explicitly excluded under section 4.2(vii). Since the battery has only depleted 45%, this does not meet the minimum threshold for coverage under section 3.1, resulting in denial without a service fee.",
         "customer_data": {
-          "device": "iPhone XS (256 GB)",
-          "plan_agreement_number": "APLCARE-8723649110",
-          "serial_number": "DX4HV5K9MF7R",
-          "phone_number": "+1-415-555-1234"
+          "device": "iPhone 12 Pro Max (256 GB)",
+          "plan_agreement_number": "APLCARE-8745123098",
+          "serial_number": "DX9W5F7QM2LP",
+          "phone_number": "+1-415-555-2763"
         },
         "metadata": {
-          "policy_anchor_id": "sec4-2-preexisting-condition",
-          "policy_anchor_section": "4.2(viii)",
-          "policy_anchor_intent": "exclusion"
+          "policy_anchor_id": "sec4-2-normal-wear",
+          "policy_anchor_section": "4.2(vii)",
+          "policy_anchor_intent": "exclusion",
+          "secondary_policy_sections": [
+            "3.1"
+          ]
         }
       }
     ]

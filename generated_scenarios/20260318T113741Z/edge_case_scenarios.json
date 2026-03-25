@@ -1,0 +1,48 @@
+{
+  "scenarios": [
+    {
+      "id": "EC-20260318T113741Z-01",
+      "title": "Battery capacity claim borderline at 49.5% degradation",
+      "description": "Customer submits a hardware service claim reporting the battery capacity has degraded to approximately 49.5% of original specifications, just below the 50% threshold defined in Section 3.1 for mandatory repair or replacement. The degradation is verified by diagnostics but the policy is silent about coverage below 50%.",
+      "claim_type": "battery_capacity_degradation_threshold",
+      "ground_truth": "edge_case",
+      "service_fee": {
+        "applies": "no",
+        "amount": 0,
+        "currency": "USD",
+        "notes": "No ADH fees apply; coverage hinges on capacity threshold in Section 3.1."
+      },
+      "counts_toward_adh_limit": "no",
+      "policy_references": [
+        {
+          "section": "3.1",
+          "snippet": "If capacity of the Covered iPhone’s battery has depleted fifty (50%) percent or more from its original specifications, Apple will repair or replace at no charge."
+        },
+        {
+          "section": "4.2(vii)",
+          "snippet": "Plan does not apply to defects caused by normal wear and tear or normal aging of the product."
+        }
+      ],
+      "reasoning": "The claim rests on the literal interpretation of the 50% capacity depletion threshold in Section 3.1. Since the battery capacity is measured at 49.5%, this does not meet the threshold for mandatory coverage, yet the degradation is significant and borderline between defect coverage and normal aging. Section 4.2(vii) excludes normal wear and tear, which typically applies under the threshold. Customer inputs diagnostic reports and usage data to adjudicate eligibility.",
+      "customer_data": {
+        "device": "iPhone 14 Pro Max (512 GB)",
+        "plan_agreement_number": "APLCARE-9837462510",
+        "serial_number": "F17KQ4Y9Z2WP",
+        "phone_number": "+1-415-555-0199"
+      },
+      "metadata": {
+        "policy_anchor_id": "sec3-1-hardware-defect",
+        "policy_anchor_section": "3.1",
+        "policy_anchor_intent": "coverage_requirement",
+        "secondary_policy_sections": [
+          "4.2(vii)"
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "model": "gpt-4.1-mini",
+    "temperature": 1.0,
+    "max_tokens": 2800
+  }
+}
